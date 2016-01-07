@@ -14,6 +14,9 @@
 #define kUrlRegister                    @"register"
 #define kUrlForgotPassword              @"forgotpassword"
 #define kUrlSharePost                   @"sharepost"
+#define kUrlPostListing                 @"postlisting"
+#define kUrlJoinPost                    @"joinpost"
+#define kUrlUploadPhoto                 @"uploadphoto"
 
 @implementation WebService
 @synthesize manager;
@@ -145,7 +148,7 @@
 
 #pragma mark - end
 
-#pragma mark- Login Module
+#pragma mark- Login
 //Login
 - (void)userLogin:(NSString *)email password:(NSString *)password success:(void (^)(id))success failure:(void (^)(NSError *))failure {
     
@@ -170,7 +173,9 @@
      }];
     
 }
+#pragma mark- end
 
+#pragma mark- Register
 //Register
 -(void)registerUser:(NSString *)email password:(NSString *)password userName:(NSString*)userName image:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -196,7 +201,9 @@
      }];
     
 }
+#pragma mark- end
 
+#pragma mark- Forgot password
 //Forgot Password
 -(void)forgotPassword:(NSString *)email success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -221,7 +228,9 @@
      }];
     
 }
+#pragma mark- end
 
+#pragma mark- Share post
 //Share Post
 -(void)sharePost:(NSString *)post success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -247,4 +256,67 @@
      }];
 
 }
+#pragma mark- end
+
+#pragma mark- Post listing
+//Post Listing
+-(void)postListing:(void (^)(id data))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
+    
+    [self post:kUrlPostListing parameters:requestDict success:^(id responseObject)
+     {
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
+
+#pragma mark- Join post
+-(void)joinPost:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"postId":postID};
+    
+    [self post:kUrlJoinPost parameters:requestDict success:^(id responseObject)
+     {
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
+
+#pragma mark- Upload photo
+-(void)uploadPhoto:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"postId":postID};
+    
+   
+}
+#pragma mark- end
 @end

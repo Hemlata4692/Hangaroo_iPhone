@@ -15,6 +15,9 @@
 		B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5341C33D28700300EFF /* GlobalBackViewController.m */; };
 		B709C5371C33E92600300EFF /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = B709C5361C33E92600300EFF /* header.png */; };
 		B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */; };
+		B76B69F91C3E423C00A7254D /* PhotoPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B69F81C3E423C00A7254D /* PhotoPreviewViewController.m */; };
+		B76B69FE1C3E4A4600A7254D /* PostListingDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */; };
+		B76B6A081C3E952500A7254D /* MeTooUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B6A071C3E952500A7254D /* MeTooUserProfileViewController.m */; };
 		B785D5E31C3A703C007A4056 /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E21C3A703C007A4056 /* DiscoverViewController.m */; };
 		B785D5E61C3A7051007A4056 /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E51C3A7051007A4056 /* MyProfileViewController.m */; };
 		B785D5E91C3A706A007A4056 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E81C3A706A007A4056 /* ChatViewController.m */; };
@@ -57,6 +60,12 @@
 		B709C5361C33E92600300EFF /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		B74260E81C3BA127000B3453 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
 		B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
+		B76B69F71C3E423C00A7254D /* PhotoPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewViewController.h; sourceTree = "<group>"; };
+		B76B69F81C3E423C00A7254D /* PhotoPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewViewController.m; sourceTree = "<group>"; };
+		B76B69FC1C3E4A4600A7254D /* PostListingDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostListingDataModel.h; sourceTree = "<group>"; };
+		B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostListingDataModel.m; sourceTree = "<group>"; };
+		B76B6A061C3E952500A7254D /* MeTooUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeTooUserProfileViewController.h; sourceTree = "<group>"; };
+		B76B6A071C3E952500A7254D /* MeTooUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeTooUserProfileViewController.m; sourceTree = "<group>"; };
 		B785D5E11C3A703C007A4056 /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		B785D5E21C3A703C007A4056 /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		B785D5E41C3A7051007A4056 /* MyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
@@ -151,6 +160,41 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		B76B69F61C3E41DA00A7254D /* PhotoPreviewViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B76B69F71C3E423C00A7254D /* PhotoPreviewViewController.h */,
+				B76B69F81C3E423C00A7254D /* PhotoPreviewViewController.m */,
+			);
+			name = PhotoPreviewViewController;
+			sourceTree = "<group>";
+		};
+		B76B69FA1C3E4A2200A7254D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B76B69FB1C3E4A2D00A7254D /* PostListingModel */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		B76B69FB1C3E4A2D00A7254D /* PostListingModel */ = {
+			isa = PBXGroup;
+			children = (
+				B76B69FC1C3E4A4600A7254D /* PostListingDataModel.h */,
+				B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */,
+			);
+			name = PostListingModel;
+			sourceTree = "<group>";
+		};
+		B76B6A051C3E94FF00A7254D /* MeTooUserProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B76B6A061C3E952500A7254D /* MeTooUserProfileViewController.h */,
+				B76B6A071C3E952500A7254D /* MeTooUserProfileViewController.m */,
+			);
+			name = MeTooUserProfileViewController;
+			sourceTree = "<group>";
+		};
 		B785D5DA1C3A6F8A007A4056 /* UserModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +225,8 @@
 		B785D5DD1C3A6FF0007A4056 /* PostListingModule */ = {
 			isa = PBXGroup;
 			children = (
+				B76B6A051C3E94FF00A7254D /* MeTooUserProfileViewController */,
+				B76B69F61C3E41DA00A7254D /* PhotoPreviewViewController */,
 				B795B18D1C325B12007EB2E6 /* HomeViewController */,
 			);
 			name = PostListingModule;
@@ -239,6 +285,7 @@
 				B795B1B01C326103007EB2E6 /* Webservice */,
 				B795B1871C325A51007EB2E6 /* Views */,
 				B795B1981C325D21007EB2E6 /* Category */,
+				B76B69FA1C3E4A2200A7254D /* Models */,
 				B795B18F1C325CC4007EB2E6 /* HelperClasses */,
 				B795B1781C323CAF007EB2E6 /* Main.storyboard */,
 				B795B17B1C323CAF007EB2E6 /* Assets.xcassets */,
@@ -591,6 +638,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B76B6A081C3E952500A7254D /* MeTooUserProfileViewController.m in Sources */,
 				B795B1AF1C3260C5007EB2E6 /* MMMaterialDesignSpinner.m in Sources */,
 				B795B1B31C326123007EB2E6 /* WebService.m in Sources */,
 				B785D5E61C3A7051007A4056 /* MyProfileViewController.m in Sources */,
@@ -601,9 +649,11 @@
 				B795B1741C323CAF007EB2E6 /* AppDelegate.m in Sources */,
 				B785D5E31C3A703C007A4056 /* DiscoverViewController.m in Sources */,
 				B7063BB41C340B4D007C9E4D /* ForgotPasswordViewController.m in Sources */,
+				B76B69F91C3E423C00A7254D /* PhotoPreviewViewController.m in Sources */,
 				B795B19F1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.m in Sources */,
 				B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */,
 				B7063BB01C3407D0007C9E4D /* HomeViewController.m in Sources */,
+				B76B69FE1C3E4A4600A7254D /* PostListingDataModel.m in Sources */,
 				B795B1AB1C326077007EB2E6 /* UITextField+Validations.m in Sources */,
 				B795B1B71C32658E007EB2E6 /* BSKeyboardControls.m in Sources */,
 				B795B1A51C32605B007EB2E6 /* UITextField+Padding.m in Sources */,
