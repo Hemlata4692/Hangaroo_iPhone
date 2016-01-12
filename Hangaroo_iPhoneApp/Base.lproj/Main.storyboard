@@ -586,7 +586,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="196" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-mz-wey">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="196" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-mz-wey">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -641,7 +641,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="50" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2ni-ma-zby">
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="50" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2ni-ma-zby">
                                                     <rect key="frame" x="8" y="83" width="304" height="102"/>
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -669,7 +669,7 @@
                                                                     <imageView userInteractionEnabled="NO" tag="20" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bl2-OJ-1Qu">
                                                                         <rect key="frame" x="15" y="8" width="60" height="60"/>
                                                                         <animations/>
-                                                                        <color key="backgroundColor" red="0.99607843139999996" green="0.22352941179999999" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <animations/>
@@ -683,7 +683,7 @@
                                                         <outlet property="delegate" destination="kkH-YY-jah" id="nEN-Gi-hJH"/>
                                                     </connections>
                                                 </collectionView>
-                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="60" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TMs-y7-9aR">
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" tag="60" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TMs-y7-9aR">
                                                     <rect key="frame" x="8" y="192" width="304" height="106"/>
                                                     <animations/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -704,7 +704,7 @@
                                                                     <imageView userInteractionEnabled="NO" tag="30" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bA3-5t-dEh">
                                                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                                         <animations/>
-                                                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                     </imageView>
                                                                 </subviews>
                                                                 <animations/>
@@ -729,14 +729,28 @@
                                     <outlet property="delegate" destination="kkH-YY-jah" id="IFi-o8-mgH"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No post added yet" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E7t-6f-RNb">
+                                <rect key="frame" x="0.0" y="208" width="320" height="40"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="E7t-6f-RNb" secondAttribute="height" multiplier="8:1" id="PH0-PN-VR8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.4941176471" green="0.4941176471" blue="0.4941176471" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="E7t-6f-RNb" secondAttribute="trailing" id="GLN-rM-zaN"/>
+                            <constraint firstItem="E7t-6f-RNb" firstAttribute="centerY" secondItem="uPK-pR-BCK" secondAttribute="centerY" id="GTp-Dv-GPa"/>
                             <constraint firstItem="F7G-Dt-bkc" firstAttribute="top" secondItem="Lnw-mz-wey" secondAttribute="bottom" id="L76-nd-eD8"/>
                             <constraint firstItem="Lnw-mz-wey" firstAttribute="top" secondItem="8FX-3A-wJN" secondAttribute="bottom" id="Pxm-AO-6cb"/>
                             <constraint firstItem="Lnw-mz-wey" firstAttribute="leading" secondItem="uPK-pR-BCK" secondAttribute="leading" id="ZHs-sZ-wMQ"/>
                             <constraint firstAttribute="trailing" secondItem="Lnw-mz-wey" secondAttribute="trailing" id="bUn-9V-oeJ"/>
+                            <constraint firstItem="E7t-6f-RNb" firstAttribute="centerX" secondItem="uPK-pR-BCK" secondAttribute="centerX" id="qwf-eQ-l27"/>
+                            <constraint firstItem="E7t-6f-RNb" firstAttribute="leading" secondItem="uPK-pR-BCK" secondAttribute="leading" id="rTm-qc-cLW"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -770,6 +784,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="hotNewPostSegment" destination="1hq-lX-mui" id="k4L-dE-sxn"/>
+                        <outlet property="noResultFound" destination="E7t-6f-RNb" id="9Iv-9O-q6z"/>
                         <outlet property="postListingTableView" destination="Lnw-mz-wey" id="IJL-8L-aFe"/>
                     </connections>
                 </viewController>
@@ -817,7 +832,7 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.94509803920000002" green="0.0" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E8p-hh-qYH">
@@ -825,7 +840,7 @@
                                 <animations/>
                                 <color key="backgroundColor" red="0.4941176471" green="0.4941176471" blue="0.4941176471" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gHq-Ip-Szd">
@@ -845,7 +860,7 @@
                                         <animations/>
                                         <color key="backgroundColor" red="0.99607843139999996" green="0.22352941179999999" blue="0.58039215690000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tB7-qr-sJC">

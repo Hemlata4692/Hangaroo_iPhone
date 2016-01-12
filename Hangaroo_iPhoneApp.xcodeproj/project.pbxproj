@@ -15,9 +15,21 @@
 		B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5341C33D28700300EFF /* GlobalBackViewController.m */; };
 		B709C5371C33E92600300EFF /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = B709C5361C33E92600300EFF /* header.png */; };
 		B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */; };
+		B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44C1C43A341009601D2 /* user_thumbnail.png */; };
+		B747C44F1C43AE9A009601D2 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44E1C43AE9A009601D2 /* picture.png */; };
+		B747C4511C43B22A009601D2 /* me_too.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C4501C43B22A009601D2 /* me_too.png */; };
+		B7636C241C44F43A0009F01D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C231C44F43A0009F01D /* libGoogleAnalyticsServices.a */; };
+		B7636C261C44F45B0009F01D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C251C44F45B0009F01D /* libz.tbd */; };
+		B7636C281C44F4680009F01D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C271C44F4680009F01D /* libsqlite3.tbd */; };
+		B7636C2A1C44F47E0009F01D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C291C44F47E0009F01D /* SystemConfiguration.framework */; };
+		B7636C2C1C44F4870009F01D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C2B1C44F4870009F01D /* CoreData.framework */; };
+		B7636C2E1C44F48D0009F01D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C2D1C44F48D0009F01D /* CoreLocation.framework */; };
+		B7636C311C4531D90009F01D /* MyCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7636C301C4531D90009F01D /* MyCollectionView.m */; };
 		B76B69F91C3E423C00A7254D /* PhotoPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B69F81C3E423C00A7254D /* PhotoPreviewViewController.m */; };
 		B76B69FE1C3E4A4600A7254D /* PostListingDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */; };
 		B76B6A081C3E952500A7254D /* MeTooUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B6A071C3E952500A7254D /* MeTooUserProfileViewController.m */; };
+		B77D2FE51C3F73C80067BA6C /* JoinedUserDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */; };
+		B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */; };
 		B785D5E31C3A703C007A4056 /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E21C3A703C007A4056 /* DiscoverViewController.m */; };
 		B785D5E61C3A7051007A4056 /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E51C3A7051007A4056 /* MyProfileViewController.m */; };
 		B785D5E91C3A706A007A4056 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E81C3A706A007A4056 /* ChatViewController.m */; };
@@ -60,12 +72,37 @@
 		B709C5361C33E92600300EFF /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		B74260E81C3BA127000B3453 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
 		B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
+		B747C44C1C43A341009601D2 /* user_thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_thumbnail.png; sourceTree = "<group>"; };
+		B747C44E1C43AE9A009601D2 /* picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picture.png; sourceTree = "<group>"; };
+		B747C4501C43B22A009601D2 /* me_too.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_too.png; sourceTree = "<group>"; };
+		B7636C191C44F1170009F01D /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
+		B7636C1A1C44F1170009F01D /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
+		B7636C1B1C44F1170009F01D /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
+		B7636C1C1C44F1170009F01D /* GAIEcommerceProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProduct.h; sourceTree = "<group>"; };
+		B7636C1D1C44F1170009F01D /* GAIEcommerceProductAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceProductAction.h; sourceTree = "<group>"; };
+		B7636C1E1C44F1170009F01D /* GAIEcommercePromotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommercePromotion.h; sourceTree = "<group>"; };
+		B7636C1F1C44F1170009F01D /* GAIFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIFields.h; sourceTree = "<group>"; };
+		B7636C201C44F1170009F01D /* GAILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAILogger.h; sourceTree = "<group>"; };
+		B7636C211C44F1170009F01D /* GAITrackedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITrackedViewController.h; sourceTree = "<group>"; };
+		B7636C221C44F1170009F01D /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAITracker.h; sourceTree = "<group>"; };
+		B7636C231C44F43A0009F01D /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
+		B7636C251C44F45B0009F01D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		B7636C271C44F4680009F01D /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		B7636C291C44F47E0009F01D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		B7636C2B1C44F4870009F01D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B7636C2D1C44F48D0009F01D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		B7636C2F1C4531D90009F01D /* MyCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionView.h; sourceTree = "<group>"; };
+		B7636C301C4531D90009F01D /* MyCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionView.m; sourceTree = "<group>"; };
 		B76B69F71C3E423C00A7254D /* PhotoPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewViewController.h; sourceTree = "<group>"; };
 		B76B69F81C3E423C00A7254D /* PhotoPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewViewController.m; sourceTree = "<group>"; };
 		B76B69FC1C3E4A4600A7254D /* PostListingDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostListingDataModel.h; sourceTree = "<group>"; };
 		B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostListingDataModel.m; sourceTree = "<group>"; };
 		B76B6A061C3E952500A7254D /* MeTooUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeTooUserProfileViewController.h; sourceTree = "<group>"; };
 		B76B6A071C3E952500A7254D /* MeTooUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeTooUserProfileViewController.m; sourceTree = "<group>"; };
+		B77D2FE31C3F73C80067BA6C /* JoinedUserDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoinedUserDataModel.h; sourceTree = "<group>"; };
+		B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoinedUserDataModel.m; sourceTree = "<group>"; };
+		B77D2FE61C3F73E00067BA6C /* PostImageDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostImageDataModel.h; sourceTree = "<group>"; };
+		B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostImageDataModel.m; sourceTree = "<group>"; };
 		B785D5E11C3A703C007A4056 /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		B785D5E21C3A703C007A4056 /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		B785D5E41C3A7051007A4056 /* MyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
@@ -119,7 +156,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7636C2E1C44F48D0009F01D /* CoreLocation.framework in Frameworks */,
+				B7636C2C1C44F4870009F01D /* CoreData.framework in Frameworks */,
+				B7636C2A1C44F47E0009F01D /* SystemConfiguration.framework in Frameworks */,
+				B7636C281C44F4680009F01D /* libsqlite3.tbd in Frameworks */,
+				B7636C261C44F45B0009F01D /* libz.tbd in Frameworks */,
 				255D60E0E8FEB27965FC875E /* libPods.a in Frameworks */,
+				B7636C241C44F43A0009F01D /* libGoogleAnalyticsServices.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +172,12 @@
 		4D22CE9F7CC0CAD473CF4254 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B7636C2D1C44F48D0009F01D /* CoreLocation.framework */,
+				B7636C2B1C44F4870009F01D /* CoreData.framework */,
+				B7636C291C44F47E0009F01D /* SystemConfiguration.framework */,
+				B7636C271C44F4680009F01D /* libsqlite3.tbd */,
+				B7636C251C44F45B0009F01D /* libz.tbd */,
+				B7636C231C44F43A0009F01D /* libGoogleAnalyticsServices.a */,
 				745AFAF7FA6AA4B85D386B8E /* libPods.a */,
 			);
 			name = Frameworks;
@@ -155,9 +204,29 @@
 		B709C5381C33E92900300EFF /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B747C4501C43B22A009601D2 /* me_too.png */,
+				B747C44E1C43AE9A009601D2 /* picture.png */,
+				B747C44C1C43A341009601D2 /* user_thumbnail.png */,
 				B709C5361C33E92600300EFF /* header.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		B7636C181C44F0E40009F01D /* GoogleAnalytics */ = {
+			isa = PBXGroup;
+			children = (
+				B7636C191C44F1170009F01D /* GAI.h */,
+				B7636C1A1C44F1170009F01D /* GAIDictionaryBuilder.h */,
+				B7636C1B1C44F1170009F01D /* GAIEcommerceFields.h */,
+				B7636C1C1C44F1170009F01D /* GAIEcommerceProduct.h */,
+				B7636C1D1C44F1170009F01D /* GAIEcommerceProductAction.h */,
+				B7636C1E1C44F1170009F01D /* GAIEcommercePromotion.h */,
+				B7636C1F1C44F1170009F01D /* GAIFields.h */,
+				B7636C201C44F1170009F01D /* GAILogger.h */,
+				B7636C211C44F1170009F01D /* GAITrackedViewController.h */,
+				B7636C221C44F1170009F01D /* GAITracker.h */,
+			);
+			name = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
 		B76B69F61C3E41DA00A7254D /* PhotoPreviewViewController */ = {
@@ -182,6 +251,10 @@
 			children = (
 				B76B69FC1C3E4A4600A7254D /* PostListingDataModel.h */,
 				B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */,
+				B77D2FE31C3F73C80067BA6C /* JoinedUserDataModel.h */,
+				B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */,
+				B77D2FE61C3F73E00067BA6C /* PostImageDataModel.h */,
+				B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */,
 			);
 			name = PostListingModel;
 			sourceTree = "<group>";
@@ -360,6 +433,8 @@
 			children = (
 				B7063BAE1C3407D0007C9E4D /* HomeViewController.h */,
 				B7063BAF1C3407D0007C9E4D /* HomeViewController.m */,
+				B7636C2F1C4531D90009F01D /* MyCollectionView.h */,
+				B7636C301C4531D90009F01D /* MyCollectionView.m */,
 			);
 			name = HomeViewController;
 			sourceTree = "<group>";
@@ -376,6 +451,7 @@
 		B795B18F1C325CC4007EB2E6 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B7636C181C44F0E40009F01D /* GoogleAnalytics */,
 				B7F5481B1C33F3D5002A06E7 /* DefaultManager */,
 				B795B1C91C32A5B5007EB2E6 /* PageControl */,
 				B795B1AC1C3260BD007EB2E6 /* MMMaterialDesignSpinner */,
@@ -573,11 +649,14 @@
 			files = (
 				B795B1C31C329893007EB2E6 /* Roboto-Medium.ttf in Resources */,
 				B795B1C11C329893007EB2E6 /* Roboto-Italic.ttf in Resources */,
+				B747C44F1C43AE9A009601D2 /* picture.png in Resources */,
 				B795B17C1C323CAF007EB2E6 /* Assets.xcassets in Resources */,
+				B747C4511C43B22A009601D2 /* me_too.png in Resources */,
 				B795B1C01C329893007EB2E6 /* Roboto-Bold.ttf in Resources */,
 				B795B1C21C329893007EB2E6 /* Roboto-Light.ttf in Resources */,
 				B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */,
 				B709C5371C33E92600300EFF /* header.png in Resources */,
+				B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */,
 				B795B17A1C323CAF007EB2E6 /* Main.storyboard in Resources */,
 				B795B1BF1C329893007EB2E6 /* Roboto-Black.ttf in Resources */,
 			);
@@ -649,9 +728,11 @@
 				B795B1741C323CAF007EB2E6 /* AppDelegate.m in Sources */,
 				B785D5E31C3A703C007A4056 /* DiscoverViewController.m in Sources */,
 				B7063BB41C340B4D007C9E4D /* ForgotPasswordViewController.m in Sources */,
+				B77D2FE51C3F73C80067BA6C /* JoinedUserDataModel.m in Sources */,
 				B76B69F91C3E423C00A7254D /* PhotoPreviewViewController.m in Sources */,
 				B795B19F1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.m in Sources */,
 				B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */,
+				B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */,
 				B7063BB01C3407D0007C9E4D /* HomeViewController.m in Sources */,
 				B76B69FE1C3E4A4600A7254D /* PostListingDataModel.m in Sources */,
 				B795B1AB1C326077007EB2E6 /* UITextField+Validations.m in Sources */,
@@ -664,6 +745,7 @@
 				B709C5311C33A6BD00300EFF /* SignUpViewController.m in Sources */,
 				B7F5481E1C33F3E2002A06E7 /* UserDefaultManager.m in Sources */,
 				B795B1A81C326063007EB2E6 /* UIView+RoundedCorner.m in Sources */,
+				B7636C311C4531D90009F01D /* MyCollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,6 +858,10 @@
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.hangaroo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";
@@ -794,6 +880,10 @@
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.hangaroo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";

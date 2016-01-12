@@ -8,6 +8,7 @@
 
 #import "SharePostViewController.h"
 #import "UIPlaceHolderTextView.h"
+#import "HomeViewController.h"
 
 @interface SharePostViewController ()
 
@@ -23,7 +24,8 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-     
+    // Set the screen name for automatic screenview tracking.
+    self.screenName = @"Sharepost screen";
    
     [postTextView setPlaceholder:@" Do it for the hangaroo!"];
     [postTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:18.0]];
@@ -97,8 +99,12 @@
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
-                                    [alertController dismissViewControllerAnimated:YES completion:nil];
                                        postTextView.text=@"";
+                                    //[alertController dismissViewControllerAnimated:YES completion:nil];
+                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                                                              HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+                                                                              [self.navigationController pushViewController:homeView animated:YES];
+                                       
                                    }];
         
         [alertController addAction:okAction];

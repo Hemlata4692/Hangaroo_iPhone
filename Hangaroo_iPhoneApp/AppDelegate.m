@@ -10,6 +10,7 @@
 #import "MMMaterialDesignSpinner.h"
 #import "HomeViewController.h"
 #import "TutorialViewController.h"
+#import "GAI.h"
 
 @interface AppDelegate ()
 {
@@ -20,7 +21,7 @@
 @end
 
 @implementation AppDelegate
-
+id<GAITracker> tracker;
 #pragma mark - Global indicator view
 - (void)ShowIndicator
 {
@@ -58,6 +59,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
    
+    // Optional: automatically send uncaught exceptions to Google Analytics.
+    [GAI sharedInstance].trackUncaughtExceptions = YES;
+    
+    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
+    [GAI sharedInstance].dispatchInterval = 5;
+    
+    // Optional: set Logger to VERBOSE for debug information.
+    [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
+    
+    // Initialize tracker. Replace with your tracking ID.
+    tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-72052944-1"];
+   
+    
     // [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0]];

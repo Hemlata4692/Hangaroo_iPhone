@@ -11,9 +11,14 @@
 @implementation PostListingDataModel
 @synthesize postedDay;
 @synthesize postID;
-@synthesize postStatus;
-@synthesize joinedUser;
-@synthesize friendsJoined;
+@synthesize postContent;
+@synthesize joinedUserCount;
+@synthesize friendsJoinedCount;
 @synthesize uploadedPhotoArray;
 @synthesize joinedUserArray;
+@synthesize isJoined;
+@synthesize creatorOfPost;
+@synthesize creatorOfPostName;
+@synthesize creatorOfPostUserId;
+@synthesize message;
 @end
