@@ -10,6 +10,9 @@
 #import "UITextField+Validations.h"
 #import "LoginViewController.h"
 #import "TutorialViewController.h"
+#import "GAI.h"
+#import "GAIDictionaryBuilder.h"
+
 
 @interface SignUpViewController ()<UITextFieldDelegate,BSKeyboardControlsDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -33,13 +36,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    // Set the screen name for automatic screenview tracking.
+    self.screenName = @"SignUp screen";
     //Adding textfield to array
     textFieldArray = @[userNameField,passwordField,userEmailField];
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:textFieldArray]];
     [self.keyboardControls setDelegate:self];
     profileImageView.layer.cornerRadius=50.0f;
     profileImageView.clipsToBounds=YES;
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

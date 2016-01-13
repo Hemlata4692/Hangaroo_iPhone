@@ -39,4 +39,13 @@
 
 //Share post method
 -(void)sharePost:(NSString *)post success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+
+//Post listing method
+-(void)postListing:(void (^)(id data))success failure:(void (^)(NSError *error))failure;
+
+//Join post method
+-(void)joinPost:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+
+//Upload photo method
+-(void)uploadPhoto:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 @end

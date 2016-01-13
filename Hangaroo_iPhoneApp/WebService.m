@@ -9,11 +9,17 @@
 #import "WebService.h"
 #import "NullValueChecker.h"
 #import "TutorialViewController.h"
+#import "PostImageDataModel.h"
+#import "PostListingDataModel.h"
+#import "JoinedUserDataModel.h"
 
 #define kUrlLogin                       @"login"
 #define kUrlRegister                    @"register"
 #define kUrlForgotPassword              @"forgotpassword"
 #define kUrlSharePost                   @"sharepost"
+#define kUrlPostListing                 @"postlisting"
+#define kUrlJoinPost                    @"joinpost"
+#define kUrlUploadPhoto                 @"uploadphoto"
 
 @implementation WebService
 @synthesize manager;
@@ -48,10 +54,10 @@
     manager.securityPolicy.allowInvalidCertificates = YES;
     
     [manager POST:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //[myDelegate StopIndicator];
+        [myDelegate StopIndicator];
         success(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //[myDelegate StopIndicator];
+        [myDelegate StopIndicator];
         failure(error);
         
     }];
@@ -145,7 +151,7 @@
 
 #pragma mark - end
 
-#pragma mark- Login Module
+#pragma mark- Login
 //Login
 - (void)userLogin:(NSString *)email password:(NSString *)password success:(void (^)(id))success failure:(void (^)(NSError *))failure {
     
@@ -170,7 +176,9 @@
      }];
     
 }
+#pragma mark- end
 
+#pragma mark- Register
 //Register
 -(void)registerUser:(NSString *)email password:(NSString *)password userName:(NSString*)userName image:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -196,7 +204,9 @@
      }];
     
 }
+#pragma mark- end
 
+#pragma mark- Forgot password
 //Forgot Password
 -(void)forgotPassword:(NSString *)email success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -221,7 +231,9 @@
      }];
     
 }
+#pragma mark- end
 
+#pragma mark- Share post
 //Share Post
 -(void)sharePost:(NSString *)post success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -247,4 +259,126 @@
      }];
 
 }
+#pragma mark- end
+
+#pragma mark- Post listing
+//Post Listing
+-(void)postListing:(void (^)(id data))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
+    
+    [self post:kUrlPostListing parameters:requestDict success:^(id responseObject)
+     {
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             id array =[responseObject objectForKey:@"post_listing"];
+             if (([array isKindOfClass:[NSArray class]]))
+             {
+                 NSArray * postListingArray = [responseObject objectForKey:@"post_listing"];
+                 NSMutableArray *dataArray = [NSMutableArray new];
+                 
+                 
+                 for (int i =0; i<postListingArray.count; i++)
+                 {
+                     PostListingDataModel *postListData = [[PostListingDataModel alloc]init];
+                     NSDictionary * postListDict =[postListingArray objectAtIndex:i];
+                     postListData.joinedUserArray = [[NSMutableArray alloc]init];
+                      postListData.uploadedPhotoArray = [[NSMutableArray alloc]init];
+                     postListData.postContent =[postListDict objectForKey:@"post_content"];
+                     postListData.postedDay =[postListDict objectForKey:@"posted"];
+                     postListData.postID =[postListDict objectForKey:@"post_id"];
+                     postListData.creatorOfPost=[postListDict objectForKey:@"createOfPost"];
+                     postListData.friendsJoinedCount =[postListDict objectForKey:@"friends_joined"];
+                     postListData.joinedUserCount=[postListDict objectForKey:@"joined_users_count"];
+                     postListData.isJoined = [postListDict objectForKey:@"is_joined"];
+                     postListData.creatorOfPostName = [postListDict objectForKey:@"PostCreatorName"];
+                     postListData.creatorOfPostUserId=[postListDict objectForKey:@"user_id"];
+                     NSArray *joinedArray=[postListDict objectForKey:@"joined_users"];
+                   
+                     for (int j =0; j<joinedArray.count; j++)
+                     {
+                          JoinedUserDataModel * joinedUserList = [[JoinedUserDataModel alloc]init];
+                            NSDictionary * joinedUserDict =[joinedArray objectAtIndex:j];
+                        
+                         joinedUserList.joinedUserName = [joinedUserDict objectForKey:@"username"];
+                         joinedUserList.joinedUserImage =[joinedUserDict objectForKey:@"image_url"];
+                         joinedUserList.joinedUserId=[joinedUserDict objectForKey:@"id"];
+                         
+                         [postListData.joinedUserArray addObject:joinedUserList];
+                         
+                     }
+                     
+                     NSArray *postImagesArray=[postListDict objectForKey:@"post_images"];
+                     for (int k =0; k<postImagesArray.count; k++)
+                     {
+                         NSDictionary * postImagesDict =[postImagesArray objectAtIndex:k];
+                         PostImageDataModel * postImagesList = [[PostImageDataModel alloc]init];
+                         postImagesList.postImageUrl = [postImagesDict objectForKey:@"image"];
+                         
+                         [postListData.uploadedPhotoArray addObject:postImagesList];
+                         
+                     }
+
+                     [dataArray addObject:postListData];
+                 }
+                 success(dataArray);
+             }
+             else
+             {
+                 PostListingDataModel *postListData = [[PostListingDataModel alloc]init];
+                 postListData.message =[responseObject objectForKey:@"message"];
+                 success(postListData);
+             }
+            success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     }
+       failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
+
+#pragma mark- Join post
+-(void)joinPost:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"post_id":postID};
+    
+    [self post:kUrlJoinPost parameters:requestDict success:^(id responseObject)
+     {
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
+
+#pragma mark- Upload photo
+-(void)uploadPhoto:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+ //   NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"postId":postID};
+    
+   
+}
+#pragma mark- end
 @end

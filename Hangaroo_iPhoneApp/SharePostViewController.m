@@ -8,6 +8,7 @@
 
 #import "SharePostViewController.h"
 #import "UIPlaceHolderTextView.h"
+#import "HomeViewController.h"
 
 @interface SharePostViewController ()
 
@@ -23,12 +24,12 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-     
-   // [postTextView setReturnKeyType: UIReturnKeyDone];
+    // Set the screen name for automatic screenview tracking.
+    self.screenName = @"Sharepost screen";
+   
     [postTextView setPlaceholder:@" Do it for the hangaroo!"];
     [postTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:18.0]];
-   // [postTextView setTextContainerInset:UIEdgeInsetsMake(5, 3, 0,0)];
-    //[postTextView setTextAlignment:NSTextAlignmentLeft];
+ 
     seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);
     postTextView.layer.borderWidth=1.0f;
     postTextView.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor grayColor]);
@@ -76,6 +77,7 @@
 #pragma mark - IBActions
 - (IBAction)sharePostButtonAction:(id)sender
 {
+    [postTextView resignFirstResponder];
     [myDelegate ShowIndicator];
     [self performSelector:@selector(sharePost) withObject:nil afterDelay:.1];
 }
@@ -97,8 +99,12 @@
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
-                                    [alertController dismissViewControllerAnimated:YES completion:nil];
                                        postTextView.text=@"";
+                                    //[alertController dismissViewControllerAnimated:YES completion:nil];
+                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                                                              HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+                                                                              [self.navigationController pushViewController:homeView animated:YES];
+                                       
                                    }];
         
         [alertController addAction:okAction];

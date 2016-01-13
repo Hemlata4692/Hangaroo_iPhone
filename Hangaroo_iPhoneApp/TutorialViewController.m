@@ -30,6 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
  
+    // Set the screen name for automatic screenview tracking.
+    self.screenName = @"Tutorial screen";
     //Adding images to array
     tutorialImages=[[NSMutableArray alloc]initWithObjects:[UIImage imageNamed:@"image1.png"],[UIImage imageNamed:@"image2.png"],[UIImage imageNamed:@"image3.png"],[UIImage imageNamed:@"image4.png"],[UIImage imageNamed:@"image5.png"], nil];
     
@@ -199,7 +201,6 @@
 {
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     SignUpViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"SignUpViewController"];
-      [[self navigationController] setNavigationBarHidden:NO];
     [self.navigationController pushViewController:loginView animated:YES];
 }
 

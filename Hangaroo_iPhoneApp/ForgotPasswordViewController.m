@@ -21,7 +21,10 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.title=@"Forgot password";
+    // Set the screen name for automatic screenview tracking.
+    self.screenName = @"Forgot password screen";
+    
+    self.title=@"Forgot password";
     // Do any additional setup after loading the view.
 }
 
