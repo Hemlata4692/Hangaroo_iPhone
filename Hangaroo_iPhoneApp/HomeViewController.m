@@ -28,8 +28,6 @@
     UIRefreshControl *refreshControl;
     bool collectionToday;
     bool collectionYesterday;
-    int collectionData;
-    int rowIndex, sectionIndex;
     NSString *postId;
 }
 @property (weak, nonatomic) IBOutlet UISegmentedControl *hotNewPostSegment;
@@ -69,7 +67,7 @@
     flag=true;
     noResultFound.hidden=YES;
     posted=@"Today";
-    rowIndex=0;
+   
     // Pull To Refresh
     refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 10, 10)];
     [self.postListingTableView addSubview:refreshControl];
@@ -146,7 +144,6 @@
     [[WebService sharedManager]postListing:^(id dataArray) {
         
         [myDelegate StopIndicator];
-        NSLog(@"%@",dataArray);
         if ([dataArray isKindOfClass:[NSArray class]])
         {
             if ([dataArray count]==0) {
@@ -158,7 +155,7 @@
                 postListingArray = [dataArray mutableCopy];
                 
                 [self filterData];
-                            }
+            }
             
         }
     }
@@ -188,7 +185,7 @@
         else if ([posListData.postedDay isEqualToString:@"yesterday"] )
         {
             [yesterdayPostData addObject:posListData];
-           
+            
         }
         
     }
@@ -203,7 +200,7 @@
         flag=false;
     }
     [postListingTableView reloadData];
-
+    
     
 }
 
@@ -294,11 +291,12 @@
         textRect.origin.y = 19;
         if ([[todayPostData objectAtIndex:indexPath.row]uploadedPhotoArray].count==0 )
         {
-            NSLog(@"row no. is %d",indexPath.row);
             return 180+textRect.size.height;
         }
         else
+        {
             return 286+textRect.size.height;
+        }
         
     }
     else
@@ -314,29 +312,13 @@
         textRect.origin.y = 19;
         if ([[yesterdayPostData objectAtIndex:indexPath.row]uploadedPhotoArray].count==0 )
         {
-            //  NSLog(@"row no. is %d",indexPath.row);
             return 180+textRect.size.height;
         }
         else
+        {
             return 286+textRect.size.height;
+        }
     }
-    
-    //    CGSize size = CGSizeMake(235,999);
-    //    CGRect textRect = [postListData.postContent
-    //                       boundingRectWithSize:size
-    //                       options:NSStringDrawingUsesLineFragmentOrigin
-    //                       attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Regular" size:15.0]}
-    //                       context:nil];
-    //    textRect.origin.x = 8;
-    //    textRect.origin.y = 19;
-    //    if ([[postListingArray objectAtIndex:indexPath.row]uploadedPhotoArray].count==0 )
-    //    {
-    //        NSLog(@"row no. is %d",indexPath.row);
-    //        return 180+textRect.size.height;
-    //    }
-    //    else
-    //        return 286+textRect.size.height;
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -356,8 +338,8 @@
     UIButton *cameraButton=(UIButton *)[cell viewWithTag:10];
     UIImageView *tickIcon=(UIImageView *)[cell viewWithTag:3];
     UIImageView *cameraIcon=(UIImageView *)[cell viewWithTag:4];
-    UICollectionView*  meTooCollectionView=(UICollectionView *)[cell viewWithTag:50];
-    UICollectionView*  photoCollectionView=(UICollectionView *)[cell viewWithTag:60];
+    MyCollectionView*  meTooCollectionView=(MyCollectionView *)[cell viewWithTag:50];
+    MyCollectionView*  photoCollectionView=(MyCollectionView *)[cell viewWithTag:60];
     postLabel.translatesAutoresizingMaskIntoConstraints=YES;
     followedUserLabel.translatesAutoresizingMaskIntoConstraints=YES;
     seperatorLabel.translatesAutoresizingMaskIntoConstraints=YES;
@@ -366,10 +348,7 @@
     cameraButton.translatesAutoresizingMaskIntoConstraints=YES;
     meTooCollectionView.translatesAutoresizingMaskIntoConstraints=YES;
     photoCollectionView.translatesAutoresizingMaskIntoConstraints=YES;
-    [joinedUserInfoTodayArray removeAllObjects];
-    [joinedUserInfoArray removeAllObjects];
-    [postPhotoArray removeAllObjects];
-    [postPhotoTodayArray removeAllObjects];
+    
     if (indexPath.section==0) {
         postLabel.text=[[todayPostData objectAtIndex:indexPath.row] postContent];
     }
@@ -377,7 +356,11 @@
     {
         postLabel.text=[[yesterdayPostData objectAtIndex:indexPath.row] postContent];
     }
-    
+    // setting collection view cell size according to iPhone screens
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout*)photoCollectionView.collectionViewLayout;
+    CGFloat availableWidthForCells = CGRectGetWidth(self.view.frame) - flowLayout.sectionInset.left - flowLayout.sectionInset.right - flowLayout.minimumInteritemSpacing * (kCellsPerRow-1)-10;
+    CGFloat cellWidth = (availableWidthForCells / kCellsPerRow)-10;
+    flowLayout.itemSize = CGSizeMake(cellWidth, flowLayout.itemSize.height);
     
     CGSize size = CGSizeMake(235,999);
     CGRect textRect = [postLabel.text
@@ -401,7 +384,11 @@
     photoCollectionView.frame =CGRectMake(8, meTooCollectionView.frame.origin.y+meTooCollectionView.frame.size.height, postListingTableView.frame.size.width-16, photoCollectionView.frame.size.height);
     
     [cameraButton addTarget:self action:@selector(openCameraAction:) forControlEvents:UIControlEventTouchUpInside];
-    
+    meTooCollectionView.collectionTag = (int)indexPath.row;
+    photoCollectionView.collectionTag = (int)indexPath.row;
+  
+    meTooCollectionView.sectionTag = (int)indexPath.section;
+    photoCollectionView.sectionTag = (int)indexPath.section;
     if (indexPath.section==0)
     {
         if ([[todayPostData objectAtIndex:indexPath.row]uploadedPhotoArray].count==0)
@@ -417,11 +404,11 @@
         
         if ([[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]intValue] ==0)
         {
-             followedUserLabel.text=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] joinedUserCount]];
+            followedUserLabel.text=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] joinedUserCount]];
         }
         else
         {
-        followedUserLabel.text=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] joinedUserCount],[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
+            followedUserLabel.text=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] joinedUserCount],[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
         }
         
         if ([[[todayPostData objectAtIndex:indexPath.row] isJoined] isEqualToString:@"No"]) {
@@ -436,15 +423,10 @@
             tickIcon.hidden=NO;
         }
         
-        NSLog(@"testing crash in me too cell");
-        rowIndex = indexPath.row;
-        sectionIndex = indexPath.section;
+       
         collectionToday=true;
         collectionYesterday=false;
-     //   [joinedUserInfoTodayArray addObject:[[todayPostData objectAtIndex:indexPath.row]joinedUserArray]];
-        joinedUserInfoTodayArray=[[[todayPostData objectAtIndex:indexPath.row]joinedUserArray] mutableCopy];
-        postPhotoTodayArray=[[[todayPostData objectAtIndex:indexPath.row]uploadedPhotoArray] mutableCopy];
-        
+       
         
     }
     else
@@ -468,7 +450,7 @@
         {
             followedUserLabel.text=[NSString stringWithFormat:@"%@+%@ felt the same way",[[yesterdayPostData objectAtIndex:indexPath.row] joinedUserCount],[[yesterdayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
         }
-
+        
         
         if ([[[yesterdayPostData objectAtIndex:indexPath.row] isJoined] isEqualToString:@"No"]) {
             cameraButton.hidden=YES;
@@ -481,23 +463,15 @@
             cameraIcon.hidden=NO;
             tickIcon.hidden=NO;
         }
-        collectionToday=false;
+         collectionToday=false;
         collectionYesterday=true;
-        NSLog(@"testing crash in me too cell table cell");
-        joinedUserInfoArray=[[[yesterdayPostData objectAtIndex:indexPath.row]joinedUserArray] mutableCopy];
-        postPhotoArray=[[[yesterdayPostData objectAtIndex:indexPath.row]uploadedPhotoArray] mutableCopy];
-        
     }
     
-    // setting collection view cell size according to iPhone screens
-    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout*)photoCollectionView.collectionViewLayout;
-    CGFloat availableWidthForCells = CGRectGetWidth(self.view.frame) - flowLayout.sectionInset.left - flowLayout.sectionInset.right - flowLayout.minimumInteritemSpacing * (kCellsPerRow-1)-10;
-    CGFloat cellWidth = (availableWidthForCells / kCellsPerRow)-10;
-    flowLayout.itemSize = CGSizeMake(cellWidth, flowLayout.itemSize.height);
-    
+
     [meTooCollectionView reloadData];
     [photoCollectionView reloadData];
-
+    
+    
     
     return cell;
     
@@ -508,25 +482,22 @@
 #pragma mark- Cell collection view delegate
 
 
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
-    
-    
-    NSIndexPath *index=[NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
-    NSLog(@"index and row index and section of table cell is %@ %d %d",index,rowIndex,sectionIndex);
+- (NSInteger)collectionView:(MyCollectionView *)view numberOfItemsInSection:(NSInteger)section {
 
-    // UITableViewCell * cell = (UITableViewCell *)[postListingTableView cellForRowAtIndexPath:index];
-    if (collectionToday)
+    NSLog(@"cell tag %d %d",view.collectionTag, view.sectionTag);
+    
+    if (view.sectionTag==0)
     {
         if (view.tag==50)
         {
-            
-            return joinedUserInfoTodayArray.count;
+           
+            return [[todayPostData objectAtIndex:view.collectionTag]joinedUserArray].count;
             
         }
         else
         {
-            
-            return postPhotoTodayArray.count;
+          
+            return [[todayPostData objectAtIndex:view.collectionTag]uploadedPhotoArray].count;
         }
         
     }
@@ -534,18 +505,20 @@
     {
         if (view.tag==50)
         {
-            return joinedUserInfoArray.count;
+         
+            return [[yesterdayPostData objectAtIndex:view.collectionTag]joinedUserArray].count;
         }
         else
         {
-            return postPhotoArray.count;
+           
+            return [[yesterdayPostData objectAtIndex:view.collectionTag]uploadedPhotoArray].count;
         }
         
     }
     
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(MyCollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (cv.tag==50) {
@@ -556,7 +529,7 @@
         UIImageView *userImage=(UIImageView *)[meTooCell viewWithTag:20];
         
         userImage.translatesAutoresizingMaskIntoConstraints=YES;
-        userImage.frame=CGRectMake(15, 8, meTooCell.frame.size.width-30,  userImage.frame.size.height);
+        userImage.frame=CGRectMake(8, 6, userImage.frame.size.width,  userImage.frame.size.height);
         userImage.layer.cornerRadius=userImage.frame.size.height/2;
         userImage.clipsToBounds=YES;
         
@@ -565,58 +538,210 @@
         nameLabel.frame=CGRectMake(4, userImage.frame.origin.y+userImage.frame.size.height, nameLabel.frame.size.width,  nameLabel.frame.size.height);
         nameLabel.textAlignment=NSTextAlignmentCenter;
         
-        if (collectionToday)
+        if (cv.sectionTag==0)
         {
-            //            if ([[[todayPostData objectAtIndex:indexPath.row] isJoined] isEqualToString:@"No"])
-            //            {
-            //                if (indexPath.item==0)
-            //                {
-            //                    nameLabel.text=@"";
-            //                    userImage.image=[UIImage imageNamed:@"me_too.png"];
-            //                    nameLabel.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
-            //                }
-            //                else
-            //                {
-            //                    nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
-            //                }
-            //            }
-           // [[joinedUserInfoTodayArray objectAtIndex:indexPath.item] objectAtIndex:indexPath.item];
-            nameLabel.text=[[joinedUserInfoTodayArray objectAtIndex:indexPath.item] joinedUserName];
-            // nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
-            //            [todayPostData objectAtIndex:indexPath.row]joinedUserArray]
-            __weak UIImageView *weakRef = userImage;
-            NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[joinedUserInfoTodayArray objectAtIndex:indexPath.item] joinedUserImage ]]
-                                                          cachePolicy:NSURLRequestReturnCacheDataElseLoad
-                                                      timeoutInterval:60];
-            
-            [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                weakRef.contentMode = UIViewContentModeScaleAspectFill;
-                weakRef.clipsToBounds = YES;
-                weakRef.image = image;
-            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                
-            }];
+            if ([[[todayPostData objectAtIndex:cv.collectionTag] isJoined] isEqualToString:@"No"])
+            {
+                if (indexPath.item==0)
+                {
+                    nameLabel.text=@"";
+                    userImage.image=[UIImage imageNamed:@"me_too.png"];
+                    
+                }
+                else
+                {
+                    nameLabel.text=[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+                      nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                    __weak UIImageView *weakRef = userImage;
+                    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
+                                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                              timeoutInterval:60];
+                    
+                    [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                        weakRef.clipsToBounds = YES;
+                        weakRef.image = image;
+                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                        
+                    }];
+                }
+            }
+            else
+            {
+                if ([[[todayPostData objectAtIndex:cv.collectionTag] creatorOfPostUserId]intValue]==[[UserDefaultManager getValue:@"userId"]intValue])
+                {
+                    if (indexPath.item==0)
+                    {
+                        nameLabel.text=@"Me";
+                        nameLabel.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
+                        __weak UIImageView *weakRef = userImage;
+                        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
+                                                                      cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                                  timeoutInterval:60];
+                        
+                        [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                            weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                            weakRef.clipsToBounds = YES;
+                            weakRef.image = image;
+                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                            
+                        }];
+                        
+                    }
+                    else
+                    {
+                        nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                        nameLabel.text=[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+                        
+                        __weak UIImageView *weakRef = userImage;
+                        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
+                                                                      cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                                  timeoutInterval:60];
+                        
+                        [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                            weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                            weakRef.clipsToBounds = YES;
+                            weakRef.image = image;
+                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                            
+                        }];
+                        
+                    }
+                }
+                else
+                {
+                    if (indexPath.item==0)
+                    {
+                        
+                        nameLabel.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
+                    }
+                    else
+                    {
+                        nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                    }
+                    
+                    nameLabel.text=[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+                    
+                    __weak UIImageView *weakRef = userImage;
+                    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
+                                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                              timeoutInterval:60];
+                    
+                    [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                        weakRef.clipsToBounds = YES;
+                        weakRef.image = image;
+                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                        
+                    }];
+                    
+                }
+            }
         }
         
         
-        else if (collectionYesterday)
+        else if (cv.sectionTag==1)
         {
-            
-            NSLog(@"testing crash in me too cell tag 50 yesterday");
-            nameLabel.text=[[joinedUserInfoArray objectAtIndex:indexPath.item]joinedUserName];
-            nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
-            __weak UIImageView *weakRef = userImage;
-            NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[joinedUserInfoArray objectAtIndex:indexPath.item]joinedUserImage ]]
-                                                          cachePolicy:NSURLRequestReturnCacheDataElseLoad
-                                                      timeoutInterval:60];
-            
-            [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                weakRef.contentMode = UIViewContentModeScaleAspectFill;
-                weakRef.clipsToBounds = YES;
-                weakRef.image = image;
-            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            if ([[[yesterdayPostData objectAtIndex:cv.collectionTag] isJoined] isEqualToString:@"No"])
+            {
+                if (indexPath.item==0)
+                {
+                    nameLabel.text=@"";
+                    userImage.image=[UIImage imageNamed:@"me_too.png"];
+                    
+                }
+                else
+                {
+                    nameLabel.text=[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+                      nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                    __weak UIImageView *weakRef = userImage;
+                    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
+                                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                              timeoutInterval:60];
+                    
+                    [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                        weakRef.clipsToBounds = YES;
+                        weakRef.image = image;
+                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                        
+                    }];
+                    
+                }
+            }
+            else
+            {
                 
-            }];
+                if ([[[yesterdayPostData objectAtIndex:cv.collectionTag] creatorOfPostUserId]intValue]==[[UserDefaultManager getValue:@"userId"]intValue])
+                {
+                    if (indexPath.item==0)
+                    {
+                        nameLabel.text=@"Me";
+                        nameLabel.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
+                        __weak UIImageView *weakRef = userImage;
+                        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
+                                                                      cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                                  timeoutInterval:60];
+                        
+                        [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                            weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                            weakRef.clipsToBounds = YES;
+                            weakRef.image = image;
+                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                            
+                        }];
+                        
+                    }
+                    else
+                    {
+                        nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                        nameLabel.text=[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+                        
+                        __weak UIImageView *weakRef = userImage;
+                        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
+                                                                      cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                                  timeoutInterval:60];
+                        
+                        [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                            weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                            weakRef.clipsToBounds = YES;
+                            weakRef.image = image;
+                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                            
+                        }];
+                        
+                    }
+                }
+                else
+                {
+                    if (indexPath.item==0)
+                    {
+                        
+                        nameLabel.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
+                    }
+                    else
+                    {
+                        nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                    }
+                    
+                    nameLabel.text=[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+                    
+                    __weak UIImageView *weakRef = userImage;
+                    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
+                                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                              timeoutInterval:60];
+                    
+                    [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                        weakRef.clipsToBounds = YES;
+                        weakRef.image = image;
+                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                        
+                    }];
+                    
+                }
+                
+            }
             
         }
         return meTooCell;
@@ -636,11 +761,10 @@
         postPhoto.translatesAutoresizingMaskIntoConstraints=YES;
         postPhoto.frame=CGRectMake(0, 0, photoCell.frame.size.width,  postPhoto.frame.size.height);
         
-        if ( collectionToday)
+        if ( cv.sectionTag==0)
         {
-            NSLog(@"testing crash in me too cell photo cell");
             __weak UIImageView *weakRef = postPhoto;
-            NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[postPhotoTodayArray objectAtIndex:indexPath.item]postImageUrl ]]
+            NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]uploadedPhotoArray] objectAtIndex:indexPath.item] postImageUrl]]
                                                           cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                       timeoutInterval:60];
             
@@ -653,10 +777,10 @@
             }];
             
         }
-        else if (collectionYesterday)
+        else if (cv.sectionTag==1)
         {
             __weak UIImageView *weakRef = postPhoto;
-            NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[postPhotoArray objectAtIndex:indexPath.item]postImageUrl ]]
+            NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[yesterdayPostData objectAtIndex:cv.collectionTag]uploadedPhotoArray] objectAtIndex:indexPath.item] postImageUrl]]
                                                           cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                       timeoutInterval:60];
             
@@ -673,13 +797,13 @@
     }
 }
 
-- (void)collectionView:(UICollectionView *)collectionView
+- (void)collectionView:(MyCollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (collectionView.tag==50)
     {
         
-        if (collectionToday)
+        if (collectionView.sectionTag==0)
         {
             if (indexPath.item==0 && [[[todayPostData objectAtIndex:indexPath.row]isJoined]isEqualToString:@"No"]) {
                 postId=[[todayPostData objectAtIndex:indexPath.row]postID];
@@ -698,8 +822,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
             
             
         }
-        
-        NSLog(@"selected index %ld",(long)indexPath.item);
     }
     else
     {
@@ -713,28 +835,8 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [[WebService sharedManager]joinPost:postId success: ^(id responseObject) {
         
-        //        [myDelegate StopIndicator];
         [myDelegate ShowIndicator];
         [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
-        //        UIAlertController *alertController = [UIAlertController
-        //                                              alertControllerWithTitle:@"Alert"
-        //                                              message:[responseObject objectForKey:@"message"]
-        //                                              preferredStyle:UIAlertControllerStyleAlert];
-        //
-        //        UIAlertAction *okAction = [UIAlertAction
-        //                                   actionWithTitle:@"OK"
-        //                                   style:UIAlertActionStyleDefault
-        //                                   handler:^(UIAlertAction *action)
-        //                                   {
-        //                                      [alertController dismissViewControllerAnimated:YES completion:nil];
-        //                                       [self getPostListing];
-        //
-        //                                   }];
-        //
-        //        [alertController addAction:okAction];
-        //        [self presentViewController:alertController animated:YES completion:nil];
-        
-        
         
     }
                                 failure:^(NSError *error)

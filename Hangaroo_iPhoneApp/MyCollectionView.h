@@ -10,4 +10,5 @@
 
 @interface MyCollectionView : UICollectionView
 @property int collectionTag;
+@property int sectionTag;
 @end
