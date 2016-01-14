@@ -16,10 +16,10 @@
 //#define BASE_URL                              @""
 
 //clients link
-#define BASE_URL                              @"http://52.74.174.129/admin/api/"
+//#define BASE_URL                              @"http://52.74.174.129/admin/api/"
 
 //testing link
-//#define BASE_URL                              @"http://ranosys.net/client/hangaroo/admin/api/"
+#define BASE_URL                              @"http://ranosys.net/client/hangaroo/admin/api/"
 
 @interface WebService : NSObject
 

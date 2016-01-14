@@ -93,7 +93,8 @@
     
     // this one is key
     self.requestOptions.synchronous = true;
-
+    [myDelegate ShowIndicator];
+ [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,8 +107,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    [myDelegate ShowIndicator];
-    [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
+//    [myDelegate ShowIndicator];
+//    [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
 }
 
 #pragma mark - end
@@ -179,8 +180,8 @@
     }
                                    failure:^(NSError *error)
      {
-//         noResultFound.hidden=NO;
-//         postListingTableView.hidden=YES;
+         noResultFound.hidden=NO;
+         postListingTableView.hidden=YES;
      }] ;
     
 }
@@ -951,9 +952,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         [postImagesArray addObject:postImage];
        
     }
-    
+   
     
     [self dismissViewControllerAnimated:YES completion:NULL];
+     [myDelegate StopIndicator];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
     photoView.postImagesDataArray=[postImagesArray mutableCopy];

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PhotoPreviewViewController : UIViewController
+@interface PhotoPreviewViewController : GlobalBackViewController
 @property(nonatomic,retain) NSMutableArray * postImagesDataArray;
 @end

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hangaroo_iPhoneApp/HomeViewController.m"
-            timestampString = "474455297.059031"
+            timestampString = "474463741.805998"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "674"
-            endingLineNumber = "674"
+            startingLineNumber = "675"
+            endingLineNumber = "675"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hangaroo_iPhoneApp/HomeViewController.m"
-            timestampString = "474455297.059031"
+            timestampString = "474463741.805998"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "833"
-            endingLineNumber = "833"
+            startingLineNumber = "834"
+            endingLineNumber = "834"
             landmarkName = "-collectionView:didSelectItemAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -109,38 +109,6 @@
             timestampString = "474447269.986798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
-            landmarkName = "-postListing:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/WebService.m"
-            timestampString = "474447269.986798"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "285"
-            endingLineNumber = "285"
-            landmarkName = "-postListing:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/WebService.m"
-            timestampString = "474447269.986798"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "346"
             endingLineNumber = "346"
             landmarkName = "-postListing:failure:"
@@ -173,38 +141,6 @@
             timestampString = "474447269.986798"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
-            landmarkName = "-isStatusOK:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/WebService.m"
-            timestampString = "474447269.986798"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "-isStatusOK:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/WebService.m"
-            timestampString = "474447269.986798"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "123"
             endingLineNumber = "123"
             landmarkName = "-isStatusOK:"
@@ -218,12 +154,12 @@
                   moduleName = "Hangaroo_iPhoneApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/WebService.m"
-                  timestampString = "474455381.662654"
+                  timestampString = "474472194.914783"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "123"
                   endingLineNumber = "123"
-                  offsetFromSymbolStart = "524">
+                  offsetFromSymbolStart = "557">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -233,12 +169,12 @@
                   moduleName = "Hangaroo_iPhoneApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/WebService.m"
-                  timestampString = "474455381.662903"
+                  timestampString = "474472194.915162"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "123"
                   endingLineNumber = "123"
-                  offsetFromSymbolStart = "32">
+                  offsetFromSymbolStart = "12">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -362,12 +298,12 @@
                   moduleName = "Hangaroo_iPhoneApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/SharePostViewController.m"
-                  timestampString = "474455381.669252"
+                  timestampString = "474472194.924406"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "113"
                   endingLineNumber = "113"
-                  offsetFromSymbolStart = "212">
+                  offsetFromSymbolStart = "211">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -377,12 +313,12 @@
                   moduleName = "Hangaroo_iPhoneApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/SharePostViewController.m"
-                  timestampString = "474455381.669499"
+                  timestampString = "474472194.924676"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
                   endingLineNumber = "0"
-                  offsetFromSymbolStart = "24">
+                  offsetFromSymbolStart = "16">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -392,12 +328,12 @@
                   moduleName = "Hangaroo_iPhoneApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/SharePostViewController.m"
-                  timestampString = "474455381.669739"
+                  timestampString = "474472194.924951"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
                   endingLineNumber = "0"
-                  offsetFromSymbolStart = "20">
+                  offsetFromSymbolStart = "16">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -408,44 +344,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/WebService.m"
-            timestampString = "474454560.309712"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
-            landmarkName = "-postListing:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/WebService.m"
-            timestampString = "474455315.972598"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "335"
-            endingLineNumber = "335"
-            landmarkName = "-postListing:failure:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Hangaroo_iPhoneApp/HomeViewController.m"
-            timestampString = "474455337.828072"
+            timestampString = "474469195.293746"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
             landmarkName = "-getPostListing"
             landmarkType = "5">
          </BreakpointContent>

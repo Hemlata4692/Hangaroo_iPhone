@@ -281,7 +281,7 @@
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
          
          if([self isStatusOK:responseObject])
-         {
+         {   NSLog(@"postlisting User Response%@", responseObject);
              id array =[responseObject objectForKey:@"post_listing"];
              if (([array isKindOfClass:[NSArray class]]))
              {
@@ -344,7 +344,7 @@
          } else
          {
              [myDelegate StopIndicator];
-             failure(nil);
+             failure(responseObject);
          }
      }
        failure:^(NSError *error)

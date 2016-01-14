@@ -310,9 +310,9 @@
 		B785D5DD1C3A6FF0007A4056 /* PostListingModule */ = {
 			isa = PBXGroup;
 			children = (
-				B76B6A051C3E94FF00A7254D /* MeTooUserProfileViewController */,
-				B76B69F61C3E41DA00A7254D /* PhotoPreviewViewController */,
 				B795B18D1C325B12007EB2E6 /* HomeViewController */,
+				B76B69F61C3E41DA00A7254D /* PhotoPreviewViewController */,
+				B76B6A051C3E94FF00A7254D /* MeTooUserProfileViewController */,
 			);
 			name = PostListingModule;
 			sourceTree = "<group>";
