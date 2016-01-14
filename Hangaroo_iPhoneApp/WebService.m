@@ -59,7 +59,11 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [myDelegate StopIndicator];
         failure(error);
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        });
+
     }];
 }
 
@@ -86,6 +90,12 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [myDelegate StopIndicator];
         failure(error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        });
+       
+
     }];
 }
 

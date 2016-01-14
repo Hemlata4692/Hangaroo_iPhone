@@ -13,10 +13,8 @@
 #import "JoinedUserDataModel.h"
 #import "PostImageDataModel.h"
 #import <UIImageView+AFNetworking.h>
-#import "GAI.h"
-#import "GAIDictionaryBuilder.h"
-#import "GAITrackedViewController.h"
 #import "MyCollectionView.h"
+#import "PhotoPreviewViewController.h"
 
 #define kCellsPerRow 3
 
@@ -29,6 +27,7 @@
     bool collectionToday;
     bool collectionYesterday;
     NSString *postId;
+
 }
 @property (weak, nonatomic) IBOutlet UISegmentedControl *hotNewPostSegment;
 
@@ -42,10 +41,11 @@
 @property(nonatomic,retain) NSMutableArray * joinedUserInfoTodayArray;
 @property (weak, nonatomic) IBOutlet UILabel *noResultFound;
 @property(nonatomic,retain) NSMutableArray * postPhotoTodayArray;
+@property(nonatomic,retain) NSMutableArray * postImagesArray;
 @end
 
 @implementation HomeViewController
-@synthesize postListingTableView,todayPostData,yesterdayPostData,joinedUserInfoArray,postPhotoArray,postPhotoTodayArray,joinedUserInfoTodayArray,noResultFound;
+@synthesize postListingTableView,todayPostData,yesterdayPostData,joinedUserInfoArray,postPhotoArray,postPhotoTodayArray,joinedUserInfoTodayArray,noResultFound,postImagesArray;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad
@@ -64,10 +64,11 @@
     postPhotoArray=[[NSMutableArray alloc]init];
     joinedUserInfoTodayArray=[[NSMutableArray alloc]init];
     postPhotoTodayArray=[[NSMutableArray alloc]init];
+    postImagesArray=[[NSMutableArray alloc]init];
     flag=true;
     noResultFound.hidden=YES;
     posted=@"Today";
-   
+    
     // Pull To Refresh
     refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 10, 10)];
     [self.postListingTableView addSubview:refreshControl];
@@ -76,6 +77,7 @@
     refreshControl.attributedTitle = refreshString;
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     self.postListingTableView.alwaysBounceVertical = YES;
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,8 +163,8 @@
     }
                                    failure:^(NSError *error)
      {
-         noResultFound.hidden=NO;
-         postListingTableView.hidden=YES;
+         //         noResultFound.hidden=NO;
+         //         postListingTableView.hidden=YES;
      }] ;
     
 }
@@ -210,14 +212,23 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (flag)
-    {
-        return 2;
+    if (postListingArray.count>0) {
+        
+        if (flag)
+        {
+            return 2;
+        }
+        else
+        {
+            return 1;
+        }
+        
     }
     else
     {
-        return 1;
+        return 0;
     }
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -386,7 +397,7 @@
     [cameraButton addTarget:self action:@selector(openCameraAction:) forControlEvents:UIControlEventTouchUpInside];
     meTooCollectionView.collectionTag = (int)indexPath.row;
     photoCollectionView.collectionTag = (int)indexPath.row;
-  
+    
     meTooCollectionView.sectionTag = (int)indexPath.section;
     photoCollectionView.sectionTag = (int)indexPath.section;
     if (indexPath.section==0)
@@ -423,10 +434,10 @@
             tickIcon.hidden=NO;
         }
         
-       
+        
         collectionToday=true;
         collectionYesterday=false;
-       
+        
         
     }
     else
@@ -463,11 +474,11 @@
             cameraIcon.hidden=NO;
             tickIcon.hidden=NO;
         }
-         collectionToday=false;
+        collectionToday=false;
         collectionYesterday=true;
     }
     
-
+    
     [meTooCollectionView reloadData];
     [photoCollectionView reloadData];
     
@@ -483,20 +494,20 @@
 
 
 - (NSInteger)collectionView:(MyCollectionView *)view numberOfItemsInSection:(NSInteger)section {
-
+    
     NSLog(@"cell tag %d %d",view.collectionTag, view.sectionTag);
     
     if (view.sectionTag==0)
     {
         if (view.tag==50)
         {
-           
+            
             return [[todayPostData objectAtIndex:view.collectionTag]joinedUserArray].count;
             
         }
         else
         {
-          
+            
             return [[todayPostData objectAtIndex:view.collectionTag]uploadedPhotoArray].count;
         }
         
@@ -505,12 +516,12 @@
     {
         if (view.tag==50)
         {
-         
+            
             return [[yesterdayPostData objectAtIndex:view.collectionTag]joinedUserArray].count;
         }
         else
         {
-           
+            
             return [[yesterdayPostData objectAtIndex:view.collectionTag]uploadedPhotoArray].count;
         }
         
@@ -551,7 +562,7 @@
                 else
                 {
                     nameLabel.text=[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
-                      nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                    nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
                     __weak UIImageView *weakRef = userImage;
                     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
                                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -653,7 +664,7 @@
                 else
                 {
                     nameLabel.text=[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
-                      nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                    nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
                     __weak UIImageView *weakRef = userImage;
                     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
                                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -855,13 +866,13 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)openCameraAction:(UIButton *)sender
 {
-    //    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-    //                                                             delegate:self
-    //                                                    cancelButtonTitle:@"Cancel"
-    //                                               destructiveButtonTitle:nil
-    //                                                    otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
+    //        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+    //                                                                 delegate:self
+    //                                                        cancelButtonTitle:@"Cancel"
+    //                                                   destructiveButtonTitle:nil
+    //                                                        otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
     //
-    //    [actionSheet showInView:self.view];
+    //        [actionSheet showInView:self.view];
     
 }
 #pragma mark - end
@@ -900,34 +911,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     }
     if ([buttonTitle isEqualToString:@"Choose from Gallery"])
     {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.allowsEditing = YES;
-        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
-        [self presentViewController:picker animated:YES completion:NULL];
-        
+       // [self presentViewController:imagePickerController animated:YES completion:NULL];
     }
 }
 #pragma mark - end
 
-#pragma mark - Image Picker Controller delegate methods
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)info
-{
-    
-    
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-    
-}
-#pragma mark - end
 
 @end

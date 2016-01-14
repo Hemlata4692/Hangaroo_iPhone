@@ -9,6 +9,7 @@
 #import "SharePostViewController.h"
 #import "UIPlaceHolderTextView.h"
 #import "HomeViewController.h"
+#import "UIView+Toast.h"
 
 @interface SharePostViewController ()
 
@@ -26,14 +27,14 @@
     [super viewDidLoad];
     // Set the screen name for automatic screenview tracking.
     self.screenName = @"Sharepost screen";
-   
+    
     [postTextView setPlaceholder:@" Do it for the hangaroo!"];
     [postTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:18.0]];
- 
+    
     seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);
     postTextView.layer.borderWidth=1.0f;
     postTextView.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor grayColor]);
- }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -52,9 +53,10 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-   
+    
     if(textView.text.length>=140 && range.length == 0)
     {
+        [self.view makeToast:@"You have reachecd 140 characters limit."];
         [textView resignFirstResponder];
         return NO;
         
@@ -63,12 +65,12 @@
         [textView resignFirstResponder];
         return NO;
     }
-
+    
     else
     {
         return YES;
     }
-
+    
     return YES;
 }
 
@@ -100,10 +102,9 @@
                                    handler:^(UIAlertAction *action)
                                    {
                                        postTextView.text=@"";
-                                    //[alertController dismissViewControllerAnimated:YES completion:nil];
-                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                                                                              HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
-                                                                              [self.navigationController pushViewController:homeView animated:YES];
+                                       [alertController dismissViewControllerAnimated:YES completion:nil];
+                                       [self.tabBarController setSelectedIndex:0];
+                                       
                                        
                                    }];
         
@@ -115,7 +116,7 @@
         
     }] ;
     
-
+    
 }
 #pragma mark - end
 @end

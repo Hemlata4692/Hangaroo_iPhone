@@ -1064,7 +1064,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jmk-FZ-Kcs" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="" image="Chat" selectedImage="Chat_selected" id="sdo-Vy-tss"/>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="" image="Chat" selectedImage="Chat_selected" id="sdo-Vy-tss"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
@@ -1205,7 +1205,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="37Y-e6-TvO" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <tabBarItem key="tabBarItem" title="" image="Discover" selectedImage="Discover_selected" id="wm1-Q8-ukW"/>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="" image="Discover" selectedImage="Discover_selected" id="wm1-Q8-ukW"/>
                     <toolbarItems/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>

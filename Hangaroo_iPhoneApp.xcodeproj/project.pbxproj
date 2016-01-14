@@ -18,6 +18,7 @@
 		B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44C1C43A341009601D2 /* user_thumbnail.png */; };
 		B747C44F1C43AE9A009601D2 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44E1C43AE9A009601D2 /* picture.png */; };
 		B747C4511C43B22A009601D2 /* me_too.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C4501C43B22A009601D2 /* me_too.png */; };
+		B7605C691C47A4DF0078C6B1 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = B7605C681C47A4DF0078C6B1 /* UIView+Toast.m */; };
 		B7636C241C44F43A0009F01D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C231C44F43A0009F01D /* libGoogleAnalyticsServices.a */; };
 		B7636C261C44F45B0009F01D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C251C44F45B0009F01D /* libz.tbd */; };
 		B7636C281C44F4680009F01D /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C271C44F4680009F01D /* libsqlite3.tbd */; };
@@ -75,6 +76,8 @@
 		B747C44C1C43A341009601D2 /* user_thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_thumbnail.png; sourceTree = "<group>"; };
 		B747C44E1C43AE9A009601D2 /* picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picture.png; sourceTree = "<group>"; };
 		B747C4501C43B22A009601D2 /* me_too.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_too.png; sourceTree = "<group>"; };
+		B7605C671C47A4DF0078C6B1 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
+		B7605C681C47A4DF0078C6B1 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		B7636C191C44F1170009F01D /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		B7636C1A1C44F1170009F01D /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		B7636C1B1C44F1170009F01D /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
@@ -210,6 +213,15 @@
 				B709C5361C33E92600300EFF /* header.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		B7605C661C47A4CA0078C6B1 /* ToastFile */ = {
+			isa = PBXGroup;
+			children = (
+				B7605C671C47A4DF0078C6B1 /* UIView+Toast.h */,
+				B7605C681C47A4DF0078C6B1 /* UIView+Toast.m */,
+			);
+			name = ToastFile;
 			sourceTree = "<group>";
 		};
 		B7636C181C44F0E40009F01D /* GoogleAnalytics */ = {
@@ -451,6 +463,7 @@
 		B795B18F1C325CC4007EB2E6 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B7605C661C47A4CA0078C6B1 /* ToastFile */,
 				B7636C181C44F0E40009F01D /* GoogleAnalytics */,
 				B7F5481B1C33F3D5002A06E7 /* DefaultManager */,
 				B795B1C91C32A5B5007EB2E6 /* PageControl */,
@@ -735,6 +748,7 @@
 				B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */,
 				B7063BB01C3407D0007C9E4D /* HomeViewController.m in Sources */,
 				B76B69FE1C3E4A4600A7254D /* PostListingDataModel.m in Sources */,
+				B7605C691C47A4DF0078C6B1 /* UIView+Toast.m in Sources */,
 				B795B1AB1C326077007EB2E6 /* UITextField+Validations.m in Sources */,
 				B795B1B71C32658E007EB2E6 /* BSKeyboardControls.m in Sources */,
 				B795B1A51C32605B007EB2E6 /* UITextField+Padding.m in Sources */,
