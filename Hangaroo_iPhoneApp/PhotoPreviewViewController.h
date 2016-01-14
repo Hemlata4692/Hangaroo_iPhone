@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface PhotoPreviewViewController : UIViewController
-
+@property(nonatomic,retain) NSMutableArray * postImagesDataArray;
 @end

@@ -13,9 +13,10 @@
 @end
 
 @implementation PhotoPreviewViewController
-
+@synthesize postImagesDataArray;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
 }
 

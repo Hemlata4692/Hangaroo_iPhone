@@ -13,14 +13,14 @@
 #import "JoinedUserDataModel.h"
 #import "PostImageDataModel.h"
 #import <UIImageView+AFNetworking.h>
-#import "GAI.h"
-#import "GAIDictionaryBuilder.h"
-#import "GAITrackedViewController.h"
 #import "MyCollectionView.h"
+#import <QBImagePickerController/QBImagePickerController.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "PhotoPreviewViewController.h"
 
 #define kCellsPerRow 3
 
-@interface HomeViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface HomeViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,QBImagePickerControllerDelegate>
 {
     NSMutableArray *postListingArray;
     NSString *posted;
@@ -29,6 +29,7 @@
     bool collectionToday;
     bool collectionYesterday;
     NSString *postId;
+    QBImagePickerController *imagePickerController;
 }
 @property (weak, nonatomic) IBOutlet UISegmentedControl *hotNewPostSegment;
 
@@ -42,10 +43,12 @@
 @property(nonatomic,retain) NSMutableArray * joinedUserInfoTodayArray;
 @property (weak, nonatomic) IBOutlet UILabel *noResultFound;
 @property(nonatomic,retain) NSMutableArray * postPhotoTodayArray;
+@property(nonatomic,retain) NSMutableArray * postImagesArray;
+@property (nonatomic, strong) PHImageRequestOptions *requestOptions;
 @end
 
 @implementation HomeViewController
-@synthesize postListingTableView,todayPostData,yesterdayPostData,joinedUserInfoArray,postPhotoArray,postPhotoTodayArray,joinedUserInfoTodayArray,noResultFound;
+@synthesize postListingTableView,todayPostData,yesterdayPostData,joinedUserInfoArray,postPhotoArray,postPhotoTodayArray,joinedUserInfoTodayArray,noResultFound,postImagesArray;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad
@@ -64,6 +67,7 @@
     postPhotoArray=[[NSMutableArray alloc]init];
     joinedUserInfoTodayArray=[[NSMutableArray alloc]init];
     postPhotoTodayArray=[[NSMutableArray alloc]init];
+    postImagesArray=[[NSMutableArray alloc]init];
     flag=true;
     noResultFound.hidden=YES;
     posted=@"Today";
@@ -76,6 +80,20 @@
     refreshControl.attributedTitle = refreshString;
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     self.postListingTableView.alwaysBounceVertical = YES;
+    
+   imagePickerController = [[QBImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsMultipleSelection=YES;
+    
+        imagePickerController.minimumNumberOfSelection = 1;
+        imagePickerController.maximumNumberOfSelection = 10;
+    self.requestOptions = [[PHImageRequestOptions alloc] init];
+    self.requestOptions.resizeMode   = PHImageRequestOptionsResizeModeExact;
+    self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    
+    // this one is key
+    self.requestOptions.synchronous = true;
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,8 +179,8 @@
     }
                                    failure:^(NSError *error)
      {
-         noResultFound.hidden=NO;
-         postListingTableView.hidden=YES;
+//         noResultFound.hidden=NO;
+//         postListingTableView.hidden=YES;
      }] ;
     
 }
@@ -210,14 +228,23 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if (flag)
-    {
-        return 2;
+    if (postListingArray.count>0) {
+        
+            if (flag)
+            {
+                return 2;
+            }
+            else
+            {
+                return 1;
+            }
+
     }
     else
     {
-        return 1;
+        return 0;
     }
+     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -855,13 +882,13 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)openCameraAction:(UIButton *)sender
 {
-    //    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-    //                                                             delegate:self
-    //                                                    cancelButtonTitle:@"Cancel"
-    //                                               destructiveButtonTitle:nil
-    //                                                    otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
-    //
-    //    [actionSheet showInView:self.view];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                                 delegate:self
+                                                        cancelButtonTitle:@"Cancel"
+                                                   destructiveButtonTitle:nil
+                                                        otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
+    
+        [actionSheet showInView:self.view];
     
 }
 #pragma mark - end
@@ -900,34 +927,43 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     }
     if ([buttonTitle isEqualToString:@"Choose from Gallery"])
     {
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        picker.delegate = self;
-        picker.allowsEditing = YES;
-        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
-        [self presentViewController:picker animated:YES completion:NULL];
-        
+        [self presentViewController:imagePickerController animated:YES completion:NULL];
     }
 }
 #pragma mark - end
 
 #pragma mark - Image Picker Controller delegate methods
+#pragma mark - QBImagePickerControllerDelegate
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)info
-{
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets {
+    for (PHAsset *asset in assets) {
+        // Do something with the asset
+        PHImageManager *manager = [PHImageManager defaultManager];
+         __block UIImage *postImage;
+        [manager requestImageForAsset:asset
+                           targetSize:PHImageManagerMaximumSize
+                          contentMode:PHImageContentModeDefault
+                              options:self.requestOptions
+                        resultHandler:^void(UIImage *image, NSDictionary *info) {
+                            postImage = image;
+                        }];
+        
+        [postImagesArray addObject:postImage];
+       
+    }
     
     
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
+    photoView.postImagesDataArray=[postImagesArray mutableCopy];
+    [self.navigationController pushViewController:photoView animated:YES];
 }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    
-    [picker dismissViewControllerAnimated:YES completion:NULL];
-    
+- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
+
 #pragma mark - end
 
 @end

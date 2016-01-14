@@ -9,6 +9,7 @@
 #import "SharePostViewController.h"
 #import "UIPlaceHolderTextView.h"
 #import "HomeViewController.h"
+#import "UIView+Toast.h"
 
 @interface SharePostViewController ()
 
@@ -55,6 +56,7 @@
    
     if(textView.text.length>=140 && range.length == 0)
     {
+        [self.view makeToast:@"You have reachecd 140 characters limit."];
         [textView resignFirstResponder];
         return NO;
         
@@ -101,9 +103,12 @@
                                    {
                                        postTextView.text=@"";
                                     //[alertController dismissViewControllerAnimated:YES completion:nil];
-                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                                                                              HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
-                                                                              [self.navigationController pushViewController:homeView animated:YES];
+//                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//                                                                              HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+//                                                                              [self.navigationController pushViewController:homeView animated:YES];
+
+                                       [self.tabBarController setSelectedIndex:0];
+
                                        
                                    }];
         
