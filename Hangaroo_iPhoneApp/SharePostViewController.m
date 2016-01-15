@@ -56,7 +56,7 @@
    
     if(textView.text.length>=140 && range.length == 0)
     {
-        [self.view makeToast:@"You have reachecd 140 characters limit."];
+        [self.view makeToast:@"You have reached 140 characters limit."];
         [textView resignFirstResponder];
         return NO;
         

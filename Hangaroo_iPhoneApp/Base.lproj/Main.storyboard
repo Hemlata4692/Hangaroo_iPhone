@@ -13,9 +13,9 @@
             <string>Roboto-Light</string>
             <string>Roboto-Light</string>
             <string>Roboto-Light</string>
+            <string>Roboto-Light</string>
         </mutableArray>
         <mutableArray key="Roboto-Regular.ttf">
-            <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
@@ -629,7 +629,7 @@
                                                     <rect key="frame" x="275" y="10" width="37" height="37"/>
                                                     <animations/>
                                                 </imageView>
-                                                <button opaque="NO" tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cei-Fa-8WG">
+                                                <button opaque="NO" tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cei-Fa-8WG" customClass="MyButton">
                                                     <rect key="frame" x="265" y="14" width="49" height="30"/>
                                                     <animations/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -804,54 +804,45 @@
                         <viewControllerLayoutGuide type="bottom" id="UO5-Dr-b9O"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="GjU-ji-SBR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IZZ-SI-yOr">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="IZZ-SI-yOr" secondAttribute="height" multiplier="64:91" constant="-79.472527472527531" id="eaf-qo-KlR"/>
+                                    <constraint firstAttribute="width" secondItem="IZZ-SI-yOr" secondAttribute="height" multiplier="64:91" id="LED-Vc-0nL"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOG-DL-P7B">
-                                <rect key="frame" x="6" y="13" width="44" height="44"/>
-                                <animations/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="44" id="Sec-mF-joN"/>
-                                    <constraint firstAttribute="height" constant="44" id="Vbc-Ck-6AK"/>
-                                </constraints>
-                                <state key="normal" image="close_white"/>
-                                <connections>
-                                    <action selector="cancelButtonAction:" destination="CC1-vc-XqD" eventType="touchUpInside" id="Neg-1l-vcb"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5TA-Hx-zAc">
-                                <rect key="frame" x="254" y="25" width="46" height="30"/>
-                                <animations/>
-                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
-                                <state key="normal" title="Done">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="uploadImagesButtonAction:" destination="CC1-vc-XqD" eventType="touchUpInside" id="g19-bm-zJa"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="IZZ-SI-yOr" firstAttribute="top" secondItem="my2-a5-tqH" secondAttribute="bottom" constant="-20" id="Ab5-1S-tqb"/>
-                            <constraint firstItem="SOG-DL-P7B" firstAttribute="top" secondItem="GjU-ji-SBR" secondAttribute="top" constant="13" id="Lx8-LH-tcO"/>
-                            <constraint firstItem="SOG-DL-P7B" firstAttribute="leading" secondItem="GjU-ji-SBR" secondAttribute="leading" constant="6" id="SEH-ws-6TQ"/>
-                            <constraint firstItem="IZZ-SI-yOr" firstAttribute="leading" secondItem="GjU-ji-SBR" secondAttribute="leading" id="ZFM-Ad-fc5"/>
-                            <constraint firstAttribute="trailing" secondItem="IZZ-SI-yOr" secondAttribute="trailing" id="mcw-Ge-gSP"/>
-                            <constraint firstItem="UO5-Dr-b9O" firstAttribute="top" secondItem="IZZ-SI-yOr" secondAttribute="bottom" id="n1u-YD-SLQ"/>
+                            <constraint firstAttribute="trailing" secondItem="IZZ-SI-yOr" secondAttribute="trailing" id="K6l-z8-YLZ"/>
+                            <constraint firstItem="IZZ-SI-yOr" firstAttribute="leading" secondItem="GjU-ji-SBR" secondAttribute="leading" id="Lx1-5r-vJK"/>
+                            <constraint firstItem="IZZ-SI-yOr" firstAttribute="top" secondItem="my2-a5-tqH" secondAttribute="bottom" id="ZKA-zn-WSm"/>
+                            <constraint firstItem="UO5-Dr-b9O" firstAttribute="top" secondItem="IZZ-SI-yOr" secondAttribute="bottom" id="t5Y-Kb-z5H"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
+                    <navigationItem key="navigationItem" id="phR-IN-QdP">
+                        <barButtonItem key="rightBarButtonItem" id="aXk-7C-h6K">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ooE-lO-Bpu">
+                                <rect key="frame" x="264" y="7" width="40" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="14"/>
+                                <state key="normal" title="DONE">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="uploadImagesButtonAction:" destination="CC1-vc-XqD" eventType="touchUpInside" id="x7d-M8-7Xe"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="previewImageView" destination="IZZ-SI-yOr" id="idd-Kn-Gp2"/>
@@ -1386,7 +1377,6 @@
         <image name="camera" width="37" height="37"/>
         <image name="chat" width="45" height="45"/>
         <image name="close_red" width="17" height="17"/>
-        <image name="close_white" width="22" height="22"/>
         <image name="edu" width="21" height="21"/>
         <image name="image1" width="240" height="400"/>
         <image name="password" width="21" height="21"/>

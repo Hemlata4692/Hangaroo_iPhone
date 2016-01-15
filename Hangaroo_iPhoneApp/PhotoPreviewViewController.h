@@ -11,4 +11,5 @@
 @interface PhotoPreviewViewController : GlobalBackViewController
 @property(nonatomic,retain) NSMutableArray * postImagesDataArray;
 @property(nonatomic,retain) UIImage * postImage;
+@property(nonatomic,retain) NSString * postID;
 @end

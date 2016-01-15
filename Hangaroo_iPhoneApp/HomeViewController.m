@@ -17,6 +17,7 @@
 #import <QBImagePickerController/QBImagePickerController.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "PhotoPreviewViewController.h"
+#import "MyButton.h"
 
 #define kCellsPerRow 3
 
@@ -26,10 +27,11 @@
     NSString *posted;
     bool flag;
     UIRefreshControl *refreshControl;
-    bool collectionToday;
-    bool collectionYesterday;
+    bool pickerSelection;
     NSString *postId;
     QBImagePickerController *imagePickerController;
+    int btnTag;
+    int tableSection;
 }
 @property (weak, nonatomic) IBOutlet UISegmentedControl *hotNewPostSegment;
 
@@ -71,7 +73,7 @@
     flag=true;
     noResultFound.hidden=YES;
     posted=@"Today";
-   
+    pickerSelection=false;
     // Pull To Refresh
     refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 10, 10)];
     [self.postListingTableView addSubview:refreshControl];
@@ -107,10 +109,14 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    flag=true;
-    [myDelegate ShowIndicator];
-    [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
-}
+    self.tabBarController.tabBar.hidden=NO;
+    posted=@"Today";
+    if (!pickerSelection) {
+        [myDelegate ShowIndicator];
+        [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
+
+    }
+   }
 
 #pragma mark - end
 
@@ -151,6 +157,7 @@
 //Pull to refresh implementation on my submission data
 - (void)refreshTable
 {
+    //posted=@"Today";
     [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
     [refreshControl endRefreshing];
     [self.postListingTableView reloadData];
@@ -161,6 +168,7 @@
 #pragma mark - Webservice - Post listing
 -(void)getPostListing
 {
+     flag=true;
     [[WebService sharedManager]postListing:^(id dataArray) {
         
         [myDelegate StopIndicator];
@@ -364,7 +372,7 @@
     UILabel *postLabel=(UILabel *)[cell viewWithTag:1];
     UILabel *followedUserLabel=(UILabel *)[cell viewWithTag:2];
     UILabel *seperatorLabel=(UILabel *)[cell viewWithTag:7];
-    UIButton *cameraButton=(UIButton *)[cell viewWithTag:10];
+    MyButton *cameraButton=(MyButton *)[cell viewWithTag:10];
     UIImageView *tickIcon=(UIImageView *)[cell viewWithTag:3];
     UIImageView *cameraIcon=(UIImageView *)[cell viewWithTag:4];
     MyCollectionView*  meTooCollectionView=(MyCollectionView *)[cell viewWithTag:50];
@@ -384,6 +392,7 @@
     else
     {
         postLabel.text=[[yesterdayPostData objectAtIndex:indexPath.row] postContent];
+        
     }
     // setting collection view cell size according to iPhone screens
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout*)photoCollectionView.collectionViewLayout;
@@ -408,6 +417,8 @@
     tickIcon.frame =CGRectMake(postListingTableView.frame.size.width-18, -1, tickIcon.frame.size.width, tickIcon.frame.size.height);
     cameraIcon.frame =CGRectMake(postListingTableView.frame.size.width-(cameraIcon.frame.size.width+5), cameraIcon.frame.origin.y, cameraIcon.frame.size.width, cameraIcon.frame.size.height);
     cameraButton.frame =CGRectMake(postListingTableView.frame.size.width-(cameraButton.frame.size.width+5), cameraButton.frame.origin.y, cameraButton.frame.size.width, cameraButton.frame.size.height);
+    cameraButton.Tag=(int)indexPath.row;
+    cameraButton.sectionTag=(int)indexPath.section;
     
     meTooCollectionView.frame =CGRectMake(8, followedUserLabel.frame.origin.y+followedUserLabel.frame.size.height+12, postListingTableView.frame.size.width-16, meTooCollectionView.frame.size.height);
     
@@ -453,11 +464,6 @@
             tickIcon.hidden=NO;
         }
         
-       
-        collectionToday=true;
-        collectionYesterday=false;
-       
-        
     }
     else
     {
@@ -493,8 +499,6 @@
             cameraIcon.hidden=NO;
             tickIcon.hidden=NO;
         }
-         collectionToday=false;
-        collectionYesterday=true;
     }
     
 
@@ -883,8 +887,20 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     [postListingTableView reloadData];
 }
 
--(void)openCameraAction:(UIButton *)sender
+-(void)openCameraAction:(MyButton *)sender
 {
+    //btnTag=[sender tag];
+  //  NSIndexPath *index=[NSIndexPath indexPathWithIndex:[sender tag]];
+ //   NSLog(@"row and section id %ld %d",(long)[sender tag], tableSection);
+    
+    if (sender.sectionTag==0) {
+        
+        postId=[[todayPostData objectAtIndex:sender.Tag]postID];
+    }
+    else
+    {
+        postId=[[yesterdayPostData objectAtIndex:sender.Tag]postID];
+    }
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                                  delegate:self
                                                         cancelButtonTitle:@"Cancel"
@@ -892,6 +908,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                                                         otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
     
         [actionSheet showInView:self.view];
+    
     
 }
 #pragma mark - end
@@ -947,15 +964,18 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *image=[info valueForKey:UIImagePickerControllerOriginalImage];
+    pickerSelection=true;
     [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
         photoView.postImage=image;
-    self.tabBarController.hidesBottomBarWhenPushed=YES;
-    UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:photoView];
-    [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-        
-    }];
+    photoView.postID=postId;
+    //self.tabBarController.hidesBottomBarWhenPushed=YES;
+    [self.navigationController pushViewController:photoView animated:YES];
+//    UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:photoView];
+//    [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+//        
+//    }];
 
     
 }
@@ -971,7 +991,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    
+   // [myDelegate StopIndicator];
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }

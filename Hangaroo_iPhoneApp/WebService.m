@@ -98,6 +98,36 @@
     }];
 }
 
+- (void)postImageArray:(NSString *)path parameters:(NSDictionary *)parameters image:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure {
+    path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    //  NSLog(@"path: %@, %@", path, parameters);
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:@"parse-application-id-removed" forHTTPHeaderField:@"X-Parse-Application-Id"];
+    [manager.requestSerializer setValue:@"parse-rest-api-key-removed" forHTTPHeaderField:@"X-Parse-REST-API-Key"];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    manager.securityPolicy.allowInvalidCertificates = YES;
+    
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
+    [manager POST:path parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        //[formData appendPartWithFormData:imageData name:@"image.png"];
+        [formData appendPartWithFileData:imageData name:@"files[]" fileName:@"files.jpg" mimeType:@"image/jpeg"];
+        
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [myDelegate StopIndicator];
+        success(responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [myDelegate StopIndicator];
+        failure(error);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        });
+    }];
+}
+
+
 - (BOOL)isStatusOK:(id)responseObject {
     NSNumber *number = responseObject[@"isSuccess"];
     NSString *msg;
@@ -383,10 +413,28 @@
 #pragma mark- end
 
 #pragma mark- Upload photo
--(void)uploadPhoto:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure
+-(void)uploadPhoto:(NSString *)postID image:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
- //   NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"postId":postID};
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"post_id":postID};
     
+    [self postImageArray:kUrlUploadPhoto parameters:requestDict image:image success:^(id responseObject)
+     {
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         NSLog(@"Register User Response%@", responseObject);
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
    
 }
 #pragma mark- end

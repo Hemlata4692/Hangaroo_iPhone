@@ -20,68 +20,71 @@
 @end
 
 @implementation PhotoPreviewViewController
-@synthesize postImagesDataArray,previewImageView,caption,postImage;
+@synthesize postImagesDataArray,previewImageView,caption,postImage,postID;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-     self.title=@"Preview photo";
+    self.title=@"Preview photo";
+ 
     previewImageView.image=postImage;
     [previewImageView setUserInteractionEnabled:YES];
+  
     UITapGestureRecognizer *imageViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTapped)];
     imageViewTap.delegate = self;
-    imageViewTap.numberOfTapsRequired=2;
     
-//    UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageLeft:)];
-//    swipeImageLeft.delegate=self;
-//    UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageRight:)];
-//    swipeImageRight.delegate=self;
-    
-      UIPanGestureRecognizer *drag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(captionDrag:)];
-    
+    //    UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageLeft:)];
+    //    swipeImageLeft.delegate=self;
+    //    UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageRight:)];
+    //    swipeImageRight.delegate=self;
     // Setting the swipe direction.
-//    [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
-//    [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
-  // Drag Gesture for Caption
+    //    [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+    //    [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
+  
+    // Adding the swipe gesture on image view
+    //    [previewImageView addGestureRecognizer:swipeImageLeft];
+    //    [previewImageView addGestureRecognizer:swipeImageRight];
+
+      // Drag Gesture for Caption
+    UIPanGestureRecognizer *drag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(captionDrag:)];
+    
+  
     [previewImageView addGestureRecognizer:drag];
     [previewImageView addGestureRecognizer:imageViewTap];
-
-    // Adding the swipe gesture on image view
-//    [previewImageView addGestureRecognizer:swipeImageLeft];
-//    [previewImageView addGestureRecognizer:swipeImageRight];
-    imageIndex=0;
+    
+       imageIndex=0;
     
     
     //[self swipeImages];
-   // previewImageView.image=[postImagesDataArray objectAtIndex:0];
-  
+    // previewImageView.image=[postImagesDataArray objectAtIndex:0];
     
-    [self initCaption:previewImageView.frame];
-
+    
+    [self initCaption:self.view.frame];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    [[self navigationController] setNavigationBarHidden:YES];
-    
+    //  [[self navigationController] setNavigationBarHidden:YES];
+    //  self.tabBarController.tabBar.hidden=YES;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-- (void)statusHide
-{
-    [UIView animateWithDuration:0.1 animations:^() {
-        [self setNeedsStatusBarAppearanceUpdate];
-    }completion:^(BOOL finished){}];
-}
+//-(BOOL)prefersStatusBarHidden
+//{
+//    return YES;
+//}
+//- (void)statusHide
+//{
+//    [UIView animateWithDuration:0.1 animations:^() {
+//        [self setNeedsStatusBarAppearanceUpdate];
+//    }completion:^(BOOL finished){}];
+//}
 #pragma mark - end
 
 #pragma mark - Add tagline
@@ -89,7 +92,7 @@
     
     // Caption
     caption = [[UITextField alloc] initWithFrame:CGRectMake(0,
-                                                            previewImageView.frame.size.height/2,
+                                                            120,
                                                             frame.size.width,
                                                             32)];
     caption.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
@@ -101,14 +104,14 @@
     caption.alpha = 0;
     caption.tintColor = [UIColor whiteColor];
     caption.delegate = self;
-//    UIToolbar *toolbar = [[UIToolbar alloc] init];
-//    toolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
-//    UIBarButtonItem *button1 = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(sendAction)];
-//    
-//    UIBarButtonItem *button2=[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction)];
-//    
-//    [toolbar setItems:[[NSArray alloc] initWithObjects:button1,button2, nil]];
-//    [self.view addSubview:toolbar];
+    //    UIToolbar *toolbar = [[UIToolbar alloc] init];
+    //    toolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
+    //    UIBarButtonItem *button1 = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(sendAction)];
+    //
+    //    UIBarButtonItem *button2=[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction)];
+    //
+    //    [toolbar setItems:[[NSArray alloc] initWithObjects:button1,button2, nil]];
+    //    [self.view addSubview:toolbar];
     [previewImageView addSubview:caption];
     
 }
@@ -206,7 +209,7 @@ replacementString:(NSString *)string{
     else
     {
         imageIndex--;
-           }
+    }
 }
 //Swipe images in right direction
 -(void) swipeBannerImageRight: (UISwipeGestureRecognizer *)sender
@@ -222,7 +225,7 @@ replacementString:(NSString *)string{
     else
     {
         imageIndex++;
-      
+        
     }
 }
 
@@ -230,26 +233,40 @@ replacementString:(NSString *)string{
 
 - (IBAction)uploadImagesButtonAction:(id)sender
 {
-      UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    MeTooUserProfileViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
-    UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:loginView];
-    [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-        
-    }];
-
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(uploadPhoto) withObject:nil afterDelay:.1];
+    
 }
-- (IBAction)cancelButtonAction:(id)sender
-{
-    for (UIViewController *controller in self.navigationController.viewControllers)
-    {
-        if ([controller isKindOfClass:[HomeViewController class]])
-        {
-            [self.navigationController popToViewController:controller animated:YES];
-            
-            break;
-        }
-    }
 
+-(void)uploadPhoto
+{
+    
+    UIGraphicsBeginImageContextWithOptions(previewImageView.frame.size, YES, 0.0);
+    
+    for (UIView * view in [previewImageView subviews]){
+        [view removeFromSuperview];
+    }
+    
+    [previewImageView addSubview:caption];
+    [previewImageView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    //
+    UIImage * newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    NSLog(@"post id is %@",postID);
+    [[WebService sharedManager]uploadPhoto:postID image:newImage success: ^(id responseObject) {
+        
+        [myDelegate StopIndicator];
+        NSLog(@"post id is %@",responseObject);
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+        [self.navigationController pushViewController:homeView animated:YES];
+        
+    }
+                                   failure:^(NSError *error)
+     {
+         
+     }] ;
+    
 }
 
 @end

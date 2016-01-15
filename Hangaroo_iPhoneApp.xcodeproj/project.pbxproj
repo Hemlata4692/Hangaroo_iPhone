@@ -14,6 +14,9 @@
 		B709C5311C33A6BD00300EFF /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5301C33A6BD00300EFF /* SignUpViewController.m */; };
 		B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5341C33D28700300EFF /* GlobalBackViewController.m */; };
 		B709C5371C33E92600300EFF /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = B709C5361C33E92600300EFF /* header.png */; };
+		B70AFA7D1C490C0B0091D570 /* button_done.png in Resources */ = {isa = PBXBuildFile; fileRef = B70AFA7B1C490C0B0091D570 /* button_done.png */; };
+		B70AFA7E1C490C0B0091D570 /* button_done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B70AFA7C1C490C0B0091D570 /* button_done@2x.png */; };
+		B70AFA811C492D3F0091D570 /* MyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B70AFA801C492D3F0091D570 /* MyButton.m */; };
 		B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */; };
 		B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44C1C43A341009601D2 /* user_thumbnail.png */; };
 		B747C44F1C43AE9A009601D2 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44E1C43AE9A009601D2 /* picture.png */; };
@@ -71,6 +74,10 @@
 		B709C5331C33D28700300EFF /* GlobalBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalBackViewController.h; sourceTree = "<group>"; };
 		B709C5341C33D28700300EFF /* GlobalBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalBackViewController.m; sourceTree = "<group>"; };
 		B709C5361C33E92600300EFF /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
+		B70AFA7B1C490C0B0091D570 /* button_done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_done.png; sourceTree = "<group>"; };
+		B70AFA7C1C490C0B0091D570 /* button_done@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_done@2x.png"; sourceTree = "<group>"; };
+		B70AFA7F1C492D3F0091D570 /* MyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyButton.h; sourceTree = "<group>"; };
+		B70AFA801C492D3F0091D570 /* MyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyButton.m; sourceTree = "<group>"; };
 		B74260E81C3BA127000B3453 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
 		B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
 		B747C44C1C43A341009601D2 /* user_thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_thumbnail.png; sourceTree = "<group>"; };
@@ -207,12 +214,23 @@
 		B709C5381C33E92900300EFF /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B70AFA7B1C490C0B0091D570 /* button_done.png */,
+				B70AFA7C1C490C0B0091D570 /* button_done@2x.png */,
 				B747C4501C43B22A009601D2 /* me_too.png */,
 				B747C44E1C43AE9A009601D2 /* picture.png */,
 				B747C44C1C43A341009601D2 /* user_thumbnail.png */,
 				B709C5361C33E92600300EFF /* header.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		B70AFA821C492D420091D570 /* MyButton */ = {
+			isa = PBXGroup;
+			children = (
+				B70AFA7F1C492D3F0091D570 /* MyButton.h */,
+				B70AFA801C492D3F0091D570 /* MyButton.m */,
+			);
+			name = MyButton;
 			sourceTree = "<group>";
 		};
 		B7605C621C476D540078C6B1 /* ToastFile */ = {
@@ -463,6 +481,7 @@
 		B795B18F1C325CC4007EB2E6 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B70AFA821C492D420091D570 /* MyButton */,
 				B7605C621C476D540078C6B1 /* ToastFile */,
 				B7636C181C44F0E40009F01D /* GoogleAnalytics */,
 				B7F5481B1C33F3D5002A06E7 /* DefaultManager */,
@@ -663,8 +682,10 @@
 				B795B1C31C329893007EB2E6 /* Roboto-Medium.ttf in Resources */,
 				B795B1C11C329893007EB2E6 /* Roboto-Italic.ttf in Resources */,
 				B747C44F1C43AE9A009601D2 /* picture.png in Resources */,
+				B70AFA7D1C490C0B0091D570 /* button_done.png in Resources */,
 				B795B17C1C323CAF007EB2E6 /* Assets.xcassets in Resources */,
 				B747C4511C43B22A009601D2 /* me_too.png in Resources */,
+				B70AFA7E1C490C0B0091D570 /* button_done@2x.png in Resources */,
 				B795B1C01C329893007EB2E6 /* Roboto-Bold.ttf in Resources */,
 				B795B1C21C329893007EB2E6 /* Roboto-Light.ttf in Resources */,
 				B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */,
@@ -745,6 +766,7 @@
 				B76B69F91C3E423C00A7254D /* PhotoPreviewViewController.m in Sources */,
 				B795B19F1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.m in Sources */,
 				B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */,
+				B70AFA811C492D3F0091D570 /* MyButton.m in Sources */,
 				B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */,
 				B7063BB01C3407D0007C9E4D /* HomeViewController.m in Sources */,
 				B76B69FE1C3E4A4600A7254D /* PostListingDataModel.m in Sources */,
