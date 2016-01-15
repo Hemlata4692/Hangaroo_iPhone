@@ -149,13 +149,12 @@
     {
         
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        TutorialViewController * objReveal = [storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
-        myDelegate.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        [myDelegate.window setRootViewController:objReveal];
-        [myDelegate.window setBackgroundColor:[UIColor whiteColor]];
-        [myDelegate.window makeKeyAndVisible];
+        
+        myDelegate.navigationController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavController"];
+        
+        myDelegate.window.rootViewController = myDelegate.navigationController;
         [UserDefaultManager removeValue:@"userId"];
-        [UserDefaultManager removeValue:@"userName"];
+        [UserDefaultManager removeValue:@"username"];
     }
 }
 
@@ -228,6 +227,7 @@
          
          if([self isStatusOK:responseObject])
          {
+              NSLog(@"Forgot Response%@", responseObject);
              success(responseObject);
          } else
          {
@@ -256,6 +256,7 @@
          
          if([self isStatusOK:responseObject])
          {
+              NSLog(@"Share post Response%@", responseObject);
              success(responseObject);
          } else
          {
@@ -286,6 +287,7 @@
              id array =[responseObject objectForKey:@"post_listing"];
              if (([array isKindOfClass:[NSArray class]]))
              {
+                  NSLog(@"postlisting User Response%@", responseObject);
                  NSArray * postListingArray = [responseObject objectForKey:@"post_listing"];
                  NSMutableArray *dataArray = [NSMutableArray new];
                  
@@ -345,7 +347,7 @@
          } else
          {
              [myDelegate StopIndicator];
-             failure(nil);
+              failure(responseObject);
          }
      }
        failure:^(NSError *error)

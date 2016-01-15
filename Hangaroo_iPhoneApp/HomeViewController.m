@@ -77,6 +77,7 @@
     refreshControl.attributedTitle = refreshString;
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     self.postListingTableView.alwaysBounceVertical = YES;
+   
     
 }
 
@@ -106,7 +107,7 @@
     UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
     UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
     UITabBarItem *tabBarItem5 = [tabBar.items objectAtIndex:4];
-    
+    tabBar.clipsToBounds = YES;
     [tabBarItem1 setImage:[[UIImage imageNamed:@"Home.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [tabBarItem1 setSelectedImage:[[UIImage imageNamed:@"Home_selected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     
@@ -116,8 +117,8 @@
     [tabBarItem2 setSelectedImage:[[UIImage imageNamed:@"Chat_selected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     tabBarItem2.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     
-    [tabBarItem3 setImage:[[UIImage imageNamed:@"SharePost.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    [tabBarItem3 setSelectedImage:[[UIImage imageNamed:@"SharePost_selected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [tabBarItem3 setImage:[[UIImage imageNamed:@"center.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [tabBarItem3 setSelectedImage:[[UIImage imageNamed:@"centre.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     tabBarItem3.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     
     [tabBarItem4 setImage:[[UIImage imageNamed:@"Discover.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
@@ -163,8 +164,8 @@
     }
                                    failure:^(NSError *error)
      {
-         //         noResultFound.hidden=NO;
-         //         postListingTableView.hidden=YES;
+                  noResultFound.hidden=NO;
+                  postListingTableView.hidden=YES;
      }] ;
     
 }
@@ -292,7 +293,7 @@
     
     if (indexPath.section==0) {
         postListData=[todayPostData objectAtIndex:indexPath.row];
-        CGSize size = CGSizeMake(235,999);
+        CGSize size = CGSizeMake(postListingTableView.frame.size.width-70,999);
         CGRect textRect = [postListData.postContent
                            boundingRectWithSize:size
                            options:NSStringDrawingUsesLineFragmentOrigin
@@ -313,7 +314,7 @@
     else
     {
         postListData=[yesterdayPostData objectAtIndex:indexPath.row];
-        CGSize size = CGSizeMake(235,999);
+        CGSize size = CGSizeMake(postListingTableView.frame.size.width-70,999);
         CGRect textRect = [postListData.postContent
                            boundingRectWithSize:size
                            options:NSStringDrawingUsesLineFragmentOrigin
@@ -373,7 +374,8 @@
     CGFloat cellWidth = (availableWidthForCells / kCellsPerRow)-10;
     flowLayout.itemSize = CGSizeMake(cellWidth, flowLayout.itemSize.height);
     
-    CGSize size = CGSizeMake(235,999);
+    
+    CGSize size = CGSizeMake(postListingTableView.frame.size.width-70,999);
     CGRect textRect = [postLabel.text
                        boundingRectWithSize:size
                        options:NSStringDrawingUsesLineFragmentOrigin
@@ -383,8 +385,10 @@
     textRect.origin.x = postLabel.frame.origin.x;
     textRect.origin.y = 19;
     postLabel.frame = textRect;
-    
-    postLabel.frame =CGRectMake(8, postLabel.frame.origin.y, postListingTableView.frame.size.width-70, postLabel.frame.size.height);
+//    postLabel.numberOfLines=0;
+//    [postLabel sizeToFit];
+   
+    postLabel.frame =CGRectMake(8, postLabel.frame.origin.y, postListingTableView.frame.size.width-70, textRect.size.height);
     followedUserLabel.frame =CGRectMake(8, postLabel.frame.origin.y+postLabel.frame.size.height+7, postListingTableView.frame.size.width-70, followedUserLabel.frame.size.height);
     tickIcon.frame =CGRectMake(postListingTableView.frame.size.width-18, -1, tickIcon.frame.size.width, tickIcon.frame.size.height);
     cameraIcon.frame =CGRectMake(postListingTableView.frame.size.width-(cameraIcon.frame.size.width+5), cameraIcon.frame.origin.y, cameraIcon.frame.size.width, cameraIcon.frame.size.height);
@@ -536,19 +540,19 @@
         
         UICollectionViewCell *meTooCell = [cv dequeueReusableCellWithReuseIdentifier:@"meTooCell" forIndexPath:indexPath];
         meTooCell.translatesAutoresizingMaskIntoConstraints=YES;
-        
+       
         UIImageView *userImage=(UIImageView *)[meTooCell viewWithTag:20];
         
         userImage.translatesAutoresizingMaskIntoConstraints=YES;
-        userImage.frame=CGRectMake(8, 6, userImage.frame.size.width,  userImage.frame.size.height);
+        userImage.frame=CGRectMake(5, 1, meTooCell.frame.size.width-10, userImage.frame.size.height);
         userImage.layer.cornerRadius=userImage.frame.size.height/2;
         userImage.clipsToBounds=YES;
         
         UILabel *nameLabel=(UILabel *)[meTooCell viewWithTag:21];
         nameLabel.translatesAutoresizingMaskIntoConstraints=YES;
-        nameLabel.frame=CGRectMake(4, userImage.frame.origin.y+userImage.frame.size.height, nameLabel.frame.size.width,  nameLabel.frame.size.height);
+        nameLabel.frame=CGRectMake(3, userImage.frame.origin.y+userImage.frame.size.height, nameLabel.frame.size.width,  nameLabel.frame.size.height);
         nameLabel.textAlignment=NSTextAlignmentCenter;
-        
+      
         if (cv.sectionTag==0)
         {
             if ([[[todayPostData objectAtIndex:cv.collectionTag] isJoined] isEqualToString:@"No"])
@@ -816,7 +820,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         
         if (collectionView.sectionTag==0)
         {
-            if (indexPath.item==0 && [[[todayPostData objectAtIndex:indexPath.row]isJoined]isEqualToString:@"No"]) {
+            if (indexPath.item==0 && [[[todayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
                 postId=[[todayPostData objectAtIndex:indexPath.row]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
@@ -825,7 +829,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         }
         else
         {
-            if (indexPath.item==0 && [[[yesterdayPostData objectAtIndex:indexPath.row]isJoined]isEqualToString:@"No"]) {
+            if (indexPath.item==0 && [[[yesterdayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
                 postId=[[yesterdayPostData objectAtIndex:indexPath.row]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
