@@ -148,13 +148,12 @@
     {
         
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        TutorialViewController * objReveal = [storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
-        myDelegate.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-        [myDelegate.window setRootViewController:objReveal];
-        [myDelegate.window setBackgroundColor:[UIColor whiteColor]];
-        [myDelegate.window makeKeyAndVisible];
+        
+        myDelegate.navigationController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavController"];
+        
+        myDelegate.window.rootViewController = myDelegate.navigationController;
         [UserDefaultManager removeValue:@"userId"];
-        [UserDefaultManager removeValue:@"userName"];
+        [UserDefaultManager removeValue:@"username"];
     }
 }
 
@@ -224,7 +223,7 @@
     [self post:kUrlForgotPassword parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
-         
+          NSLog(@"forgot User Response%@", responseObject);
          if([self isStatusOK:responseObject])
          {
              success(responseObject);
@@ -252,7 +251,7 @@
     [self post:kUrlSharePost parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
-         
+          NSLog(@"share User Response%@", responseObject);
          if([self isStatusOK:responseObject])
          {
              success(responseObject);
@@ -279,9 +278,9 @@
     [self post:kUrlPostListing parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
-         
+          NSLog(@"postlisting User Response%@", responseObject);
          if([self isStatusOK:responseObject])
-         {   NSLog(@"postlisting User Response%@", responseObject);
+         {
              id array =[responseObject objectForKey:@"post_listing"];
              if (([array isKindOfClass:[NSArray class]]))
              {
@@ -363,6 +362,7 @@
     
     [self post:kUrlJoinPost parameters:requestDict success:^(id responseObject)
      {
+          NSLog(@"me too User Response%@", responseObject);
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
          
          if([self isStatusOK:responseObject])

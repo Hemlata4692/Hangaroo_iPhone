@@ -7,6 +7,8 @@
 //
 
 #import "PhotoPreviewViewController.h"
+#import "MeTooUserProfileViewController.h"
+#import "HomeViewController.h"
 
 @interface PhotoPreviewViewController ()<UIGestureRecognizerDelegate,UITextFieldDelegate>
 {
@@ -18,41 +20,41 @@
 @end
 
 @implementation PhotoPreviewViewController
-@synthesize postImagesDataArray,previewImageView,caption;
+@synthesize postImagesDataArray,previewImageView,caption,postImage;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
      self.title=@"Preview photo";
-    
+    previewImageView.image=postImage;
     [previewImageView setUserInteractionEnabled:YES];
     UITapGestureRecognizer *imageViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTapped)];
     imageViewTap.delegate = self;
     imageViewTap.numberOfTapsRequired=2;
     
-    UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageLeft:)];
-    swipeImageLeft.delegate=self;
-    UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageRight:)];
-    swipeImageRight.delegate=self;
+//    UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageLeft:)];
+//    swipeImageLeft.delegate=self;
+//    UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageRight:)];
+//    swipeImageRight.delegate=self;
     
       UIPanGestureRecognizer *drag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(captionDrag:)];
     
     // Setting the swipe direction.
-    [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
-    [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
+//    [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+//    [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
   // Drag Gesture for Caption
     [previewImageView addGestureRecognizer:drag];
     [previewImageView addGestureRecognizer:imageViewTap];
 
     // Adding the swipe gesture on image view
-    [previewImageView addGestureRecognizer:swipeImageLeft];
-    [previewImageView addGestureRecognizer:swipeImageRight];
+//    [previewImageView addGestureRecognizer:swipeImageLeft];
+//    [previewImageView addGestureRecognizer:swipeImageRight];
     imageIndex=0;
     
     
     //[self swipeImages];
-    previewImageView.image=[postImagesDataArray objectAtIndex:0];
+   // previewImageView.image=[postImagesDataArray objectAtIndex:0];
   
     
     [self initCaption:previewImageView.frame];
@@ -62,15 +64,24 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-  
+    [[self navigationController] setNavigationBarHidden:YES];
+    
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+- (void)statusHide
+{
+    [UIView animateWithDuration:0.1 animations:^() {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }completion:^(BOOL finished){}];
+}
 #pragma mark - end
 
 #pragma mark - Add tagline
@@ -217,7 +228,28 @@ replacementString:(NSString *)string{
 
 #pragma mark - end
 
-- (IBAction)uploadImagesButtonAction:(id)sender {
+- (IBAction)uploadImagesButtonAction:(id)sender
+{
+      UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MeTooUserProfileViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
+    UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:loginView];
+    [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+        
+    }];
+
+}
+- (IBAction)cancelButtonAction:(id)sender
+{
+    for (UIViewController *controller in self.navigationController.viewControllers)
+    {
+        if ([controller isKindOfClass:[HomeViewController class]])
+        {
+            [self.navigationController popToViewController:controller animated:YES];
+            
+            break;
+        }
+    }
+
 }
 
 @end

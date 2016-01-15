@@ -19,9 +19,26 @@
     // Do any additional setup after loading the view.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [[self navigationController] setNavigationBarHidden:YES];
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+- (void)statusHide
+{
+    [UIView animateWithDuration:0.1 animations:^() {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }completion:^(BOOL finished){}];
 }
 
 /*

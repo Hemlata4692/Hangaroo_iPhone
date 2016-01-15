@@ -165,23 +165,23 @@
 {
     if (imageIndex==0)
     {
-        headingLabel.text=@"Get connected with people from campus.";
+        headingLabel.text=@"Get connected with people from campus";
     }
     else  if (imageIndex==1)
     {
-        headingLabel.text=@"Find you Joey.";
+        headingLabel.text=@"Find your Joey";
     }
     else  if (imageIndex==3)
     {
-        headingLabel.text=@"Share moments with Hangaroo.";
+        headingLabel.text=@"Share moments with Hangaroo";
     }
     else  if (imageIndex==2)
     {
-        headingLabel.text=@"Chat with the people you have discovered.";
+        headingLabel.text=@"Chat with the people you have discovered";
     }
     else  if (imageIndex==4)
     {
-        headingLabel.text=@"Do it for the Hangaroo.";
+        headingLabel.text=@"Do it for the Hangaroo";
     }
 }
 

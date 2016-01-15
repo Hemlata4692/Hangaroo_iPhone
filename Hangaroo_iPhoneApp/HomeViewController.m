@@ -93,8 +93,8 @@
     
     // this one is key
     self.requestOptions.synchronous = true;
-    [myDelegate ShowIndicator];
- [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
+//    [myDelegate ShowIndicator];
+// [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
 }
 
 - (void)didReceiveMemoryWarning
@@ -107,8 +107,9 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-//    [myDelegate ShowIndicator];
-//    [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
+    flag=true;
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
 }
 
 #pragma mark - end
@@ -123,7 +124,7 @@
     UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
     UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
     UITabBarItem *tabBarItem5 = [tabBar.items objectAtIndex:4];
-    
+    tabBar.clipsToBounds=YES;
     [tabBarItem1 setImage:[[UIImage imageNamed:@"Home.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [tabBarItem1 setSelectedImage:[[UIImage imageNamed:@"Home_selected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     
@@ -134,7 +135,7 @@
     tabBarItem2.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     
     [tabBarItem3 setImage:[[UIImage imageNamed:@"SharePost.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    [tabBarItem3 setSelectedImage:[[UIImage imageNamed:@"SharePost_selected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [tabBarItem3 setSelectedImage:[[UIImage imageNamed:@"SharePost.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     tabBarItem3.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     
     [tabBarItem4 setImage:[[UIImage imageNamed:@"Discover.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
@@ -180,8 +181,8 @@
     }
                                    failure:^(NSError *error)
      {
-         noResultFound.hidden=NO;
-         postListingTableView.hidden=YES;
+//         noResultFound.hidden=NO;
+//         postListingTableView.hidden=YES;
      }] ;
     
 }
@@ -309,7 +310,7 @@
     
     if (indexPath.section==0) {
         postListData=[todayPostData objectAtIndex:indexPath.row];
-        CGSize size = CGSizeMake(235,999);
+        CGSize size = CGSizeMake(postListingTableView.frame.size.width-70,999);
         CGRect textRect = [postListData.postContent
                            boundingRectWithSize:size
                            options:NSStringDrawingUsesLineFragmentOrigin
@@ -330,7 +331,7 @@
     else
     {
         postListData=[yesterdayPostData objectAtIndex:indexPath.row];
-        CGSize size = CGSizeMake(235,999);
+        CGSize size = CGSizeMake(postListingTableView.frame.size.width-70,999);
         CGRect textRect = [postListData.postContent
                            boundingRectWithSize:size
                            options:NSStringDrawingUsesLineFragmentOrigin
@@ -390,7 +391,7 @@
     CGFloat cellWidth = (availableWidthForCells / kCellsPerRow)-10;
     flowLayout.itemSize = CGSizeMake(cellWidth, flowLayout.itemSize.height);
     
-    CGSize size = CGSizeMake(235,999);
+    CGSize size = CGSizeMake(postListingTableView.frame.size.width-70,999);
     CGRect textRect = [postLabel.text
                        boundingRectWithSize:size
                        options:NSStringDrawingUsesLineFragmentOrigin
@@ -402,8 +403,7 @@
     postLabel.frame = textRect;
     
     postLabel.frame =CGRectMake(8, postLabel.frame.origin.y, postListingTableView.frame.size.width-70, postLabel.frame.size.height);
-//    postLabel.backgroundColor=[UIColor redColor];
-//    followedUserLabel.backgroundColor=[UIColor purpleColor];
+
     followedUserLabel.frame =CGRectMake(8, postLabel.frame.origin.y+postLabel.frame.size.height+7, postListingTableView.frame.size.width-70, followedUserLabel.frame.size.height);
     tickIcon.frame =CGRectMake(postListingTableView.frame.size.width-18, -1, tickIcon.frame.size.width, tickIcon.frame.size.height);
     cameraIcon.frame =CGRectMake(postListingTableView.frame.size.width-(cameraIcon.frame.size.width+5), cameraIcon.frame.origin.y, cameraIcon.frame.size.width, cameraIcon.frame.size.height);
@@ -559,13 +559,13 @@
         UIImageView *userImage=(UIImageView *)[meTooCell viewWithTag:20];
         
         userImage.translatesAutoresizingMaskIntoConstraints=YES;
-        userImage.frame=CGRectMake(8, 6, userImage.frame.size.width,  userImage.frame.size.height);
+        userImage.frame=CGRectMake(5, 1, userImage.frame.size.width,  userImage.frame.size.height);
         userImage.layer.cornerRadius=userImage.frame.size.height/2;
         userImage.clipsToBounds=YES;
         
         UILabel *nameLabel=(UILabel *)[meTooCell viewWithTag:21];
         nameLabel.translatesAutoresizingMaskIntoConstraints=YES;
-        nameLabel.frame=CGRectMake(4, userImage.frame.origin.y+userImage.frame.size.height, nameLabel.frame.size.width,  nameLabel.frame.size.height);
+        nameLabel.frame=CGRectMake(3, userImage.frame.origin.y+userImage.frame.size.height, nameLabel.frame.size.width,  nameLabel.frame.size.height);
         nameLabel.textAlignment=NSTextAlignmentCenter;
         
         if (cv.sectionTag==0)
@@ -930,44 +930,84 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     }
     if ([buttonTitle isEqualToString:@"Choose from Gallery"])
     {
-        [self presentViewController:imagePickerController animated:YES completion:NULL];
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        
+        picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        
+        [self presentViewController:picker animated:YES completion:NULL];
+       // [self presentViewController:imagePickerController animated:YES completion:NULL];
     }
 }
 #pragma mark - end
 
 #pragma mark - Image Picker Controller delegate methods
-#pragma mark - QBImagePickerControllerDelegate
 
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets {
-    for (PHAsset *asset in assets) {
-        // Do something with the asset
-        PHImageManager *manager = [PHImageManager defaultManager];
-         __block UIImage *postImage;
-        [manager requestImageForAsset:asset
-                           targetSize:PHImageManagerMaximumSize
-                          contentMode:PHImageContentModeDefault
-                              options:self.requestOptions
-                        resultHandler:^void(UIImage *image, NSDictionary *info) {
-                            postImage = image;
-                        }];
-        
-        [postImagesArray addObject:postImage];
-       
-    }
-   
-    
-    [self dismissViewControllerAnimated:YES completion:NULL];
-     [myDelegate StopIndicator];
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *image=[info valueForKey:UIImagePickerControllerOriginalImage];
+    [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
-    photoView.postImagesDataArray=[postImagesArray mutableCopy];
-    [self.navigationController pushViewController:photoView animated:YES];
+        PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
+        photoView.postImage=image;
+    self.tabBarController.hidesBottomBarWhenPushed=YES;
+    UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:photoView];
+    [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+        
+    }];
+
+    
+}
+- (void)dismissImagePickerController
+{
+    if (self.presentedViewController) {
+        [self dismissViewControllerAnimated:YES completion:NULL];
+    } else {
+        [self.navigationController popToViewController:self animated:YES];
+    }
 }
 
-- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    
 }
 
-#pragma mark - end
+//#pragma mark - QBImagePickerControllerDelegate
+//
+//- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets {
+//    for (PHAsset *asset in assets) {
+//        // Do something with the asset
+//        PHImageManager *manager = [PHImageManager defaultManager];
+//         __block UIImage *postImage;
+//        [manager requestImageForAsset:asset
+//                           targetSize:PHImageManagerMaximumSize
+//                          contentMode:PHImageContentModeDefault
+//                              options:self.requestOptions
+//                        resultHandler:^void(UIImage *image, NSDictionary *info) {
+//                            postImage = image;
+//                        }];
+//        
+//        [postImagesArray addObject:postImage];
+//       
+//    }
+//   
+//    
+//    [self dismissViewControllerAnimated:YES completion:NULL];
+//     [myDelegate StopIndicator];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
+//    photoView.postImagesDataArray=[postImagesArray mutableCopy];
+//    [self.navigationController pushViewController:photoView animated:YES];
+//}
+//
+//- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
+//    [self dismissViewControllerAnimated:YES completion:NULL];
+//}
+//
+//#pragma mark - end
 
 @end
