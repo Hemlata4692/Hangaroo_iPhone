@@ -402,6 +402,8 @@
     postLabel.frame = textRect;
     
     postLabel.frame =CGRectMake(8, postLabel.frame.origin.y, postListingTableView.frame.size.width-70, postLabel.frame.size.height);
+//    postLabel.backgroundColor=[UIColor redColor];
+//    followedUserLabel.backgroundColor=[UIColor purpleColor];
     followedUserLabel.frame =CGRectMake(8, postLabel.frame.origin.y+postLabel.frame.size.height+7, postListingTableView.frame.size.width-70, followedUserLabel.frame.size.height);
     tickIcon.frame =CGRectMake(postListingTableView.frame.size.width-18, -1, tickIcon.frame.size.width, tickIcon.frame.size.height);
     cameraIcon.frame =CGRectMake(postListingTableView.frame.size.width-(cameraIcon.frame.size.width+5), cameraIcon.frame.origin.y, cameraIcon.frame.size.width, cameraIcon.frame.size.height);
@@ -833,7 +835,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         
         if (collectionView.sectionTag==0)
         {
-            if (indexPath.item==0 && [[[todayPostData objectAtIndex:indexPath.row]isJoined]isEqualToString:@"No"]) {
+            if (indexPath.item==0 && [[[todayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
                 postId=[[todayPostData objectAtIndex:indexPath.row]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
@@ -842,7 +844,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         }
         else
         {
-            if (indexPath.item==0 && [[[yesterdayPostData objectAtIndex:indexPath.row]isJoined]isEqualToString:@"No"]) {
+            if (indexPath.item==0 && [[[yesterdayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
                 postId=[[yesterdayPostData objectAtIndex:indexPath.row]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];

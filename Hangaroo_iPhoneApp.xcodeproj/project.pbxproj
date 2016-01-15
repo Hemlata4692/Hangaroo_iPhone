@@ -633,7 +633,7 @@
 				TargetAttributes = {
 					B795B16B1C323CAF007EB2E6 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = T7GN63HCDX;
+						DevelopmentTeam = 6S3AL87NGN;
 					};
 				};
 			};
@@ -794,8 +794,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -817,7 +817,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";
+				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -839,8 +839,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -855,7 +855,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";
+				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -867,7 +867,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -876,9 +876,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.hangaroo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.Hangaroo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";
+				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
 			};
 			name = Debug;
 		};
@@ -888,8 +888,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -898,9 +898,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.hangaroo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.Hangaroo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";
+				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
 			};
 			name = Release;
 		};
