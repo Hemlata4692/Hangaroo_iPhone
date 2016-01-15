@@ -24,8 +24,7 @@
     NSString *posted;
     bool flag;
     UIRefreshControl *refreshControl;
-    bool collectionToday;
-    bool collectionYesterday;
+    bool pickerSelection;
     NSString *postId;
 
 }
@@ -68,7 +67,7 @@
     flag=true;
     noResultFound.hidden=YES;
     posted=@"Today";
-    
+    pickerSelection=false;
     // Pull To Refresh
     refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 10, 10)];
     [self.postListingTableView addSubview:refreshControl];
@@ -91,6 +90,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+     posted=@"Today";
     [myDelegate ShowIndicator];
     [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
 }
@@ -117,8 +117,8 @@
     [tabBarItem2 setSelectedImage:[[UIImage imageNamed:@"Chat_selected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     tabBarItem2.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     
-    [tabBarItem3 setImage:[[UIImage imageNamed:@"center.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    [tabBarItem3 setSelectedImage:[[UIImage imageNamed:@"centre.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [tabBarItem3 setImage:[[UIImage imageNamed:@"SharePost.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [tabBarItem3 setSelectedImage:[[UIImage imageNamed:@"SharePost.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     tabBarItem3.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     
     [tabBarItem4 setImage:[[UIImage imageNamed:@"Discover.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
@@ -144,6 +144,7 @@
 #pragma mark - Webservice - Post listing
 -(void)getPostListing
 {
+    flag=true;
     [[WebService sharedManager]postListing:^(id dataArray) {
         
         [myDelegate StopIndicator];
@@ -164,8 +165,8 @@
     }
                                    failure:^(NSError *error)
      {
-                  noResultFound.hidden=NO;
-                  postListingTableView.hidden=YES;
+//                  noResultFound.hidden=NO;
+//                  postListingTableView.hidden=YES;
      }] ;
     
 }
@@ -381,6 +382,7 @@
                        options:NSStringDrawingUsesLineFragmentOrigin
                        attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Regular" size:15.0]}
                        context:nil];
+    postLabel.textAlignment=NSTextAlignmentJustified;
     postLabel.numberOfLines = 0;
     textRect.origin.x = postLabel.frame.origin.x;
     textRect.origin.y = 19;
@@ -438,11 +440,6 @@
             tickIcon.hidden=NO;
         }
         
-        
-        collectionToday=true;
-        collectionYesterday=false;
-        
-        
     }
     else
     {
@@ -478,8 +475,7 @@
             cameraIcon.hidden=NO;
             tickIcon.hidden=NO;
         }
-        collectionToday=false;
-        collectionYesterday=true;
+
     }
     
     
