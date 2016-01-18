@@ -170,6 +170,7 @@
 #pragma mark - IBActions
 - (IBAction)selectImageButtonAction:(id)sender
 {
+    [self.keyboardControls.activeField resignFirstResponder];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"

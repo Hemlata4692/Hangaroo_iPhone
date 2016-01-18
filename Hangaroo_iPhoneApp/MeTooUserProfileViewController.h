@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface MeTooUserProfileViewController : UIViewController
-
+@property(nonatomic,retain) NSString * userProfileImageUrl;
+@property(nonatomic,retain) NSString * postID;
+@property(nonatomic,retain) NSString * post;
+@property(nonatomic,retain) NSString * userName;
+@property(nonatomic,retain) NSString * followedUser;
 @end

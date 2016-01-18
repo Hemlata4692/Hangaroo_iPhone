@@ -18,6 +18,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "PhotoPreviewViewController.h"
 #import "MyButton.h"
+#import "MeTooUserProfileViewController.h"
 
 #define kCellsPerRow 3
 
@@ -110,6 +111,7 @@
 {
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden=NO;
+    [[self navigationController] setNavigationBarHidden:NO];
     posted=@"Today";
     if (!pickerSelection) {
         [myDelegate ShowIndicator];
@@ -157,7 +159,7 @@
 //Pull to refresh implementation on my submission data
 - (void)refreshTable
 {
-    //posted=@"Today";
+    
     [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
     [refreshControl endRefreshing];
     [self.postListingTableView reloadData];
@@ -169,6 +171,7 @@
 -(void)getPostListing
 {
      flag=true;
+    [postListingArray removeAllObjects];
     [[WebService sharedManager]postListing:^(id dataArray) {
         
         [myDelegate StopIndicator];
@@ -189,6 +192,7 @@
     }
                                    failure:^(NSError *error)
      {
+         [postListingArray removeAllObjects];
 //         noResultFound.hidden=NO;
 //         postListingTableView.hidden=YES;
      }] ;
@@ -840,19 +844,66 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         if (collectionView.sectionTag==0)
         {
             if (indexPath.item==0 && [[[todayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
-                postId=[[todayPostData objectAtIndex:indexPath.row]postID];
+                postId=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
+            }
+            else
+            {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                MeTooUserProfileViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
+                viewPost.postID=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
+                viewPost.post=[[todayPostData objectAtIndex:collectionView.collectionTag]postContent];
+               
+                 viewPost.userName=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+                viewPost.userProfileImageUrl=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
+                if ([[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
+                {
+                    viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]];
+                }
+                else
+                {
+                    viewPost.followedUser=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount],[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
+                }
+                UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
+                [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+                    
+                }];
+               // [self.navigationController pushViewController:viewPost animated:YES];
             }
             
         }
         else
         {
             if (indexPath.item==0 && [[[yesterdayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
-                postId=[[yesterdayPostData objectAtIndex:indexPath.row]postID];
+                postId=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
             }
+            else
+            {
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                MeTooUserProfileViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
+                viewPost.postID=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
+                viewPost.post=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postContent];
+                
+                viewPost.userName=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+                viewPost.userProfileImageUrl=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
+                if ([[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
+                {
+                    viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[yesterdayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]];
+                }
+                else
+                {
+                    viewPost.followedUser=[NSString stringWithFormat:@"%@+%@ felt the same way",[[yesterdayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount],[[yesterdayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]];
+                }
+                UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
+                [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+                    
+                }];
+                // [self.navigationController pushViewController:viewPost animated:YES];
+            }
+
             
             
         }

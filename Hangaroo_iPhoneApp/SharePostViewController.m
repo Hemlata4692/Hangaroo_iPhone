@@ -34,6 +34,8 @@
     seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);
     postTextView.layer.borderWidth=1.0f;
     postTextView.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor grayColor]);
+    //[postTextView canPerformAction:@selector(paste:) withSender:postTextView];
+    
  }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +75,17 @@
 
     return YES;
 }
+- (void)textViewDidChange:(UITextView *)textView
+{ if (textView.text.length >= 140)
+{ textView.text = [textView.text substringToIndex:140];
+}
+}
 
+//- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+//{
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{ [[UIMenuController sharedMenuController] setMenuVisible:NO animated:NO]; }];
+//    return [super canPerformAction:action withSender:sender];
+//}
 #pragma mark - end
 
 #pragma mark - IBActions

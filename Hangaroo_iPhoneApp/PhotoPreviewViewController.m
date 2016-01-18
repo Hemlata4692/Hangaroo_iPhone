@@ -104,14 +104,6 @@
     caption.alpha = 0;
     caption.tintColor = [UIColor whiteColor];
     caption.delegate = self;
-    //    UIToolbar *toolbar = [[UIToolbar alloc] init];
-    //    toolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
-    //    UIBarButtonItem *button1 = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleDone target:self action:@selector(sendAction)];
-    //
-    //    UIBarButtonItem *button2=[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(cancelAction)];
-    //
-    //    [toolbar setItems:[[NSArray alloc] initWithObjects:button1,button2, nil]];
-    //    [self.view addSubview:toolbar];
     [previewImageView addSubview:caption];
     
 }
@@ -231,13 +223,16 @@ replacementString:(NSString *)string{
 
 #pragma mark - end
 
+#pragma mark - IBActions
 - (IBAction)uploadImagesButtonAction:(id)sender
 {
     [myDelegate ShowIndicator];
     [self performSelector:@selector(uploadPhoto) withObject:nil afterDelay:.1];
     
 }
+#pragma mark - end
 
+#pragma mark - Webservice
 -(void)uploadPhoto
 {
     
@@ -268,5 +263,5 @@ replacementString:(NSString *)string{
      }] ;
     
 }
-
+#pragma mark - end
 @end
