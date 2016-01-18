@@ -1096,11 +1096,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jpC-pn-DV9" customClass="UIPlaceHolderTextView">
-                                <rect key="frame" x="0.0" y="15" width="320" height="40"/>
+                                <rect key="frame" x="0.0" y="15" width="320" height="201"/>
                                 <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="jpC-pn-DV9" secondAttribute="height" multiplier="8:1" id="uhx-js-1fp"/>
+                                    <constraint firstAttribute="width" secondItem="jpC-pn-DV9" secondAttribute="height" multiplier="8:1" constant="-1288" id="uhx-js-1fp"/>
                                 </constraints>
                                 <color key="textColor" red="0.47058823529411764" green="0.47058823529411764" blue="0.47058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
@@ -1282,7 +1282,7 @@
         <image name="Home_selected" width="28" height="28"/>
         <image name="Profile" width="28" height="28"/>
         <image name="Profile_selected" width="28" height="28"/>
-        <image name="SharePost" width="55" height="55"/>
+        <image name="SharePost" width="55" height="50"/>
         <image name="bullets" width="10" height="10"/>
         <image name="camera" width="37" height="37"/>
         <image name="chat" width="45" height="45"/>

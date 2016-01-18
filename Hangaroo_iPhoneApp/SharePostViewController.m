@@ -73,7 +73,13 @@
     
     return YES;
 }
-
+- (void)textViewDidChange:(UITextView *)textView
+{
+    if (textView.text.length >= 140)
+    {
+        textView.text = [textView.text substringToIndex:140];
+    }
+}
 #pragma mark - end
 
 #pragma mark - IBActions

@@ -170,6 +170,7 @@
 #pragma mark - IBActions
 - (IBAction)selectImageButtonAction:(id)sender
 {
+     [self.keyboardControls.activeField resignFirstResponder];
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"
@@ -208,7 +209,7 @@
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
-                                      // [alertController dismissViewControllerAnimated:YES completion:nil];
+                        
                                        for (UIViewController *controller in self.navigationController.viewControllers)
                                        {
                                            if ([controller isKindOfClass:[TutorialViewController class]])
@@ -219,10 +220,6 @@
                                            }
                                        }
 
-                                       
-//                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//                                       LoginViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-//                                       [self.navigationController pushViewController:homeView animated:YES];
                                    }];
         
         [alertController addAction:okAction];

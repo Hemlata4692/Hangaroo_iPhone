@@ -142,37 +142,30 @@
 	[self setNeedsDisplay];
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    if (!heightConstraint)
-    {
-        heightConstraint =  [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:100];
-        [self addConstraint:heightConstraint];
-    }
-    CGRect lRect = [self contentSizeRect];
-    
-    CGSize descriptionSize = lRect.size;
-    heightConstraint.constant = descriptionSize.height;
-    height.size.height=descriptionSize.height;
-}
-- (CGRect)contentSizeRect
-{
-    NSTextContainer* textContainer = [self textContainer];
-    NSLayoutManager* layoutManager = [self layoutManager];
-    [layoutManager ensureLayoutForTextContainer: textContainer];
-    CGRect lRect = CGRectMake(0, 0,320, 500);
-    lRect.size = self.contentSize;
-    lRect.size.height = lRect.size.height + 5;
-    
-    return lRect;
-}
-//-(void)addBorder:(UITextView *)textView rect:(CGRect)rect
+//- (void)layoutSubviews
 //{
-//    UIView *bottomBorder=[[UIView alloc]initWithFrame:CGRectMake(textView.frame.origin.x, textView.frame.origin.y+height.size.height,rect.size.width , 1)];
-//    bottomBorder.backgroundColor=[UIColor blackColor];
-//    [textView addSubview:bottomBorder];
+//    [super layoutSubviews];
+//    
+//    if (!heightConstraint)
+//    {
+//        heightConstraint =  [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:100];
+//        [self addConstraint:heightConstraint];
+//    }
+//    CGRect lRect = [self contentSizeRect];
+//    
+//    CGSize descriptionSize = lRect.size;
+//    heightConstraint.constant = descriptionSize.height;
+//    height.size.height=descriptionSize.height;
 //}
-
+//- (CGRect)contentSizeRect
+//{
+//    NSTextContainer* textContainer = [self textContainer];
+//    NSLayoutManager* layoutManager = [self layoutManager];
+//    [layoutManager ensureLayoutForTextContainer: textContainer];
+//    CGRect lRect = CGRectMake(0, 0,320, 500);
+//    lRect.size = self.contentSize;
+//    lRect.size.height = lRect.size.height + 5;
+//    
+//    return lRect;
+//}
 @end

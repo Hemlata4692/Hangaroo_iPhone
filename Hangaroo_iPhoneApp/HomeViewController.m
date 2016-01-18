@@ -14,7 +14,9 @@
 #import "PostImageDataModel.h"
 #import <UIImageView+AFNetworking.h>
 #import "MyCollectionView.h"
+#import <AssetsLibrary/AssetsLibrary.h>
 #import "PhotoPreviewViewController.h"
+#import "MeTooUserProfileViewController.h"
 
 #define kCellsPerRow 3
 
@@ -27,6 +29,8 @@
     bool pickerSelection;
     NSString *postId;
 
+    int btnTag;
+    int tableSection;
 }
 @property (weak, nonatomic) IBOutlet UISegmentedControl *hotNewPostSegment;
 
@@ -76,7 +80,6 @@
     refreshControl.attributedTitle = refreshString;
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     self.postListingTableView.alwaysBounceVertical = YES;
-   
     
 }
 
@@ -90,9 +93,14 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-     posted=@"Today";
-    [myDelegate ShowIndicator];
-    [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
+    self.tabBarController.tabBar.hidden=NO;
+    [[self navigationController] setNavigationBarHidden:NO];
+    posted=@"Today";
+    if (!pickerSelection) {
+        [myDelegate ShowIndicator];
+        [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
+        
+    }
 }
 
 #pragma mark - end
@@ -107,7 +115,7 @@
     UITabBarItem *tabBarItem3 = [tabBar.items objectAtIndex:2];
     UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
     UITabBarItem *tabBarItem5 = [tabBar.items objectAtIndex:4];
-    tabBar.clipsToBounds = YES;
+    tabBar.clipsToBounds=YES;
     [tabBarItem1 setImage:[[UIImage imageNamed:@"Home.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [tabBarItem1 setSelectedImage:[[UIImage imageNamed:@"Home_selected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     
@@ -134,8 +142,9 @@
 //Pull to refresh implementation on my submission data
 - (void)refreshTable
 {
+    
     [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
-    [refreshControl endRefreshing];
+    
     [self.postListingTableView reloadData];
     
 }
@@ -145,8 +154,9 @@
 -(void)getPostListing
 {
     flag=true;
+    [postListingArray removeAllObjects];
     [[WebService sharedManager]postListing:^(id dataArray) {
-        
+        [refreshControl endRefreshing];
         [myDelegate StopIndicator];
         if ([dataArray isKindOfClass:[NSArray class]])
         {
@@ -165,8 +175,8 @@
     }
                                    failure:^(NSError *error)
      {
-//                  noResultFound.hidden=NO;
-//                  postListingTableView.hidden=YES;
+         [postListingArray removeAllObjects];
+    
      }] ;
     
 }
@@ -368,6 +378,7 @@
     else
     {
         postLabel.text=[[yesterdayPostData objectAtIndex:indexPath.row] postContent];
+        
     }
     // setting collection view cell size according to iPhone screens
     UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout*)photoCollectionView.collectionViewLayout;
@@ -375,27 +386,24 @@
     CGFloat cellWidth = (availableWidthForCells / kCellsPerRow)-10;
     flowLayout.itemSize = CGSizeMake(cellWidth, flowLayout.itemSize.height);
     
-    
     CGSize size = CGSizeMake(postListingTableView.frame.size.width-70,999);
     CGRect textRect = [postLabel.text
                        boundingRectWithSize:size
                        options:NSStringDrawingUsesLineFragmentOrigin
                        attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Regular" size:15.0]}
                        context:nil];
-    postLabel.textAlignment=NSTextAlignmentJustified;
     postLabel.numberOfLines = 0;
     textRect.origin.x = postLabel.frame.origin.x;
     textRect.origin.y = 19;
     postLabel.frame = textRect;
-//    postLabel.numberOfLines=0;
-//    [postLabel sizeToFit];
-   
-    postLabel.frame =CGRectMake(8, postLabel.frame.origin.y, postListingTableView.frame.size.width-70, textRect.size.height);
+    
+    postLabel.frame =CGRectMake(8, postLabel.frame.origin.y, postListingTableView.frame.size.width-70, postLabel.frame.size.height);
+    
     followedUserLabel.frame =CGRectMake(8, postLabel.frame.origin.y+postLabel.frame.size.height+7, postListingTableView.frame.size.width-70, followedUserLabel.frame.size.height);
     tickIcon.frame =CGRectMake(postListingTableView.frame.size.width-18, -1, tickIcon.frame.size.width, tickIcon.frame.size.height);
     cameraIcon.frame =CGRectMake(postListingTableView.frame.size.width-(cameraIcon.frame.size.width+5), cameraIcon.frame.origin.y, cameraIcon.frame.size.width, cameraIcon.frame.size.height);
     cameraButton.frame =CGRectMake(postListingTableView.frame.size.width-(cameraButton.frame.size.width+5), cameraButton.frame.origin.y, cameraButton.frame.size.width, cameraButton.frame.size.height);
-    
+   
     meTooCollectionView.frame =CGRectMake(8, followedUserLabel.frame.origin.y+followedUserLabel.frame.size.height+12, postListingTableView.frame.size.width-16, meTooCollectionView.frame.size.height);
     
     photoCollectionView.frame =CGRectMake(8, meTooCollectionView.frame.origin.y+meTooCollectionView.frame.size.height, postListingTableView.frame.size.width-16, photoCollectionView.frame.size.height);
@@ -475,7 +483,6 @@
             cameraIcon.hidden=NO;
             tickIcon.hidden=NO;
         }
-
     }
     
     
@@ -536,11 +543,11 @@
         
         UICollectionViewCell *meTooCell = [cv dequeueReusableCellWithReuseIdentifier:@"meTooCell" forIndexPath:indexPath];
         meTooCell.translatesAutoresizingMaskIntoConstraints=YES;
-       
+        
         UIImageView *userImage=(UIImageView *)[meTooCell viewWithTag:20];
         
         userImage.translatesAutoresizingMaskIntoConstraints=YES;
-        userImage.frame=CGRectMake(5, 1, meTooCell.frame.size.width-10, userImage.frame.size.height);
+        userImage.frame=CGRectMake(5, 1, userImage.frame.size.width,  userImage.frame.size.height);
         userImage.layer.cornerRadius=userImage.frame.size.height/2;
         userImage.clipsToBounds=YES;
         
@@ -548,7 +555,7 @@
         nameLabel.translatesAutoresizingMaskIntoConstraints=YES;
         nameLabel.frame=CGRectMake(3, userImage.frame.origin.y+userImage.frame.size.height, nameLabel.frame.size.width,  nameLabel.frame.size.height);
         nameLabel.textAlignment=NSTextAlignmentCenter;
-      
+        
         if (cv.sectionTag==0)
         {
             if ([[[todayPostData objectAtIndex:cv.collectionTag] isJoined] isEqualToString:@"No"])
@@ -817,20 +824,18 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         if (collectionView.sectionTag==0)
         {
             if (indexPath.item==0 && [[[todayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
-                postId=[[todayPostData objectAtIndex:indexPath.row]postID];
+                postId=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
             }
-            
         }
         else
         {
             if (indexPath.item==0 && [[[yesterdayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
-                postId=[[yesterdayPostData objectAtIndex:indexPath.row]postID];
+                postId=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
             }
-            
             
         }
     }
@@ -866,53 +871,8 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)openCameraAction:(UIButton *)sender
 {
-    //        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-    //                                                                 delegate:self
-    //                                                        cancelButtonTitle:@"Cancel"
-    //                                                   destructiveButtonTitle:nil
-    //                                                        otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
-    //
-    //        [actionSheet showInView:self.view];
     
-}
-#pragma mark - end
-
-#pragma mark - Action sheet delegate
--(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
     
-    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    
-    if (buttonIndex==0)
-    {
-        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            
-            UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                                  message:@"Device has no camera."
-                                                                 delegate:nil
-                                                        cancelButtonTitle:@"OK"
-                                                        otherButtonTitles: nil];
-            
-            [myAlertView show];
-            
-        }
-        else
-            
-        {
-            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.delegate = self;
-            picker.allowsEditing = YES;
-            
-            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            
-            [self presentViewController:picker animated:YES completion:NULL];
-        }
-        
-    }
-    if ([buttonTitle isEqualToString:@"Choose from Gallery"])
-    {
-       // [self presentViewController:imagePickerController animated:YES completion:NULL];
-    }
 }
 #pragma mark - end
 
