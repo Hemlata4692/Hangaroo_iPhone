@@ -16,11 +16,12 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *seperator;
 @property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *postTextView;
+@property (weak, nonatomic) IBOutlet UIButton *sharePostBtn;
 
 @end
 
 @implementation SharePostViewController
-@synthesize postTextView,seperator;
+@synthesize postTextView,seperator,sharePostBtn;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
@@ -35,6 +36,7 @@
     postTextView.layer.borderWidth=1.0f;
     postTextView.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor grayColor]);
     //[postTextView canPerformAction:@selector(paste:) withSender:postTextView];
+    sharePostBtn.enabled=NO;
     
  }
 
@@ -76,9 +78,20 @@
     return YES;
 }
 - (void)textViewDidChange:(UITextView *)textView
-{ if (textView.text.length >= 140)
-{ textView.text = [textView.text substringToIndex:140];
-}
+{
+    if (textView.text.length >= 140)
+    {
+        textView.text = [textView.text substringToIndex:140];
+         sharePostBtn.enabled=YES;
+    }
+    else if (textView.text.length==1) {
+        sharePostBtn.enabled=YES;
+       
+    }
+    else if (textView.text.length==0) {
+        sharePostBtn.enabled=NO;
+        
+    }
 }
 
 //- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
@@ -92,6 +105,7 @@
 - (IBAction)sharePostButtonAction:(id)sender
 {
     [postTextView resignFirstResponder];
+   
     [myDelegate ShowIndicator];
     [self performSelector:@selector(sharePost) withObject:nil afterDelay:.1];
 }

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewPostImagesViewController : UIViewController
-
+@property(nonatomic,retain) NSString * postID;
+@property int  selectedIndex;
 @end

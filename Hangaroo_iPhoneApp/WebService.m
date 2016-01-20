@@ -12,6 +12,7 @@
 #import "PostImageDataModel.h"
 #import "PostListingDataModel.h"
 #import "JoinedUserDataModel.h"
+#import "PhotoListingModel.h"
 
 #define kUrlLogin                       @"login"
 #define kUrlRegister                    @"register"
@@ -20,6 +21,7 @@
 #define kUrlPostListing                 @"postlisting"
 #define kUrlJoinPost                    @"joinpost"
 #define kUrlUploadPhoto                 @"uploadphoto"
+#define kUrlPhotoListing                @"photolisting"
 
 @implementation WebService
 @synthesize manager;
@@ -194,7 +196,7 @@
 - (void)userLogin:(NSString *)email password:(NSString *)password success:(void (^)(id))success failure:(void (^)(NSError *))failure {
     
     NSDictionary *requestDict = @{@"username":email,@"password":password};
-    
+    NSLog(@"login request%@", requestDict);
     [self post:kUrlLogin parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
@@ -221,7 +223,7 @@
 -(void)registerUser:(NSString *)email password:(NSString *)password userName:(NSString*)userName image:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"email_id":email,@"password":password,@"username":userName};
-    
+    NSLog(@"register user request%@", requestDict);
     [self postImage:kUrlRegister parameters:requestDict image:image success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
@@ -249,7 +251,7 @@
 -(void)forgotPassword:(NSString *)email success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"email_id":email};
-    
+    NSLog(@"forgot password request%@", requestDict);
     [self post:kUrlForgotPassword parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
@@ -277,7 +279,7 @@
 {
  //{user_id:"20" post_content:"i had a bad day"}
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"post_content":post};
-    
+    NSLog(@"share post request%@", requestDict);
     [self post:kUrlSharePost parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
@@ -304,7 +306,7 @@
 -(void)postListing:(void (^)(id data))success failure:(void (^)(NSError *error))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
-    
+    NSLog(@"post listing request%@", requestDict);
     [self post:kUrlPostListing parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
@@ -369,7 +371,6 @@
                  postListData.message =[responseObject objectForKey:@"message"];
                  success(postListData);
              }
-            success(responseObject);
          } else
          {
              [myDelegate StopIndicator];
@@ -389,10 +390,10 @@
 -(void)joinPost:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"post_id":postID};
-    
+    NSLog(@"join post  request%@", requestDict);
     [self post:kUrlJoinPost parameters:requestDict success:^(id responseObject)
      {
-          NSLog(@"me too User Response%@", responseObject);
+          NSLog(@"join post Response%@", responseObject);
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
          
          if([self isStatusOK:responseObject])
@@ -416,7 +417,7 @@
 -(void)uploadPhoto:(NSString *)postID image:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"post_id":postID};
-    
+    NSLog(@"me too User request%@", requestDict);
     [self postImageArray:kUrlUploadPhoto parameters:requestDict image:image success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
@@ -438,4 +439,55 @@
    
 }
 #pragma mark- end
+
+#pragma mark- Photo Listing
+-(void)photoListing:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+   
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"post_id":postID};
+     NSLog(@"photo listing User request%@", requestDict);
+    [self post:kUrlPhotoListing parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"photo listing User Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             id array =[responseObject objectForKey:@"photoListing"];
+             if (([array isKindOfClass:[NSArray class]]))
+             {
+                 NSArray * photoListingArray = [responseObject objectForKey:@"photoListing"];
+                 NSMutableArray *dataArray = [NSMutableArray new];
+                 
+                 
+                 for (int i =0; i<photoListingArray.count; i++)
+                 {
+                     PhotoListingModel *photoListData = [[PhotoListingModel alloc]init];
+                     NSDictionary * photoListDict =[photoListingArray objectAtIndex:i];
+                     photoListData.likeCount =[photoListDict objectForKey:@"like_count"];
+                     photoListData.postImageUrl =[photoListDict objectForKey:@"post_image"];
+                     photoListData.uploadedImageTime =[photoListDict objectForKey:@"uploaded_time"];
+                     photoListData.userImageUrl=[photoListDict objectForKey:@"user_image_url"];
+                     
+                     [dataArray addObject:photoListData];
+                 }
+                 success(dataArray);
+             }
+
+             
+         }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(responseObject);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+}
+#pragma mark- end
+
 @end

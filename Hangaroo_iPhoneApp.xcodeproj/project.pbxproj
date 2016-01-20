@@ -60,6 +60,8 @@
 		B795B1C31C329893007EB2E6 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B795B1BD1C329893007EB2E6 /* Roboto-Medium.ttf */; };
 		B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B795B1BE1C329893007EB2E6 /* Roboto-Regular.ttf */; };
 		B795B1CC1C32A5C5007EB2E6 /* FXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B795B1CB1C32A5C5007EB2E6 /* FXPageControl.m */; };
+		B7EFD4821C4F9CAB00B8D8D5 /* CategorySliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EFD4811C4F9CAB00B8D8D5 /* CategorySliderView.m */; };
+		B7EFD4861C4FA6D200B8D8D5 /* PhotoListingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EFD4851C4FA6D200B8D8D5 /* PhotoListingModel.m */; };
 		B7F5481E1C33F3E2002A06E7 /* UserDefaultManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F5481D1C33F3E2002A06E7 /* UserDefaultManager.m */; };
 /* End PBXBuildFile section */
 
@@ -160,6 +162,10 @@
 		B795B1BE1C329893007EB2E6 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		B795B1CA1C32A5C5007EB2E6 /* FXPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXPageControl.h; sourceTree = "<group>"; };
 		B795B1CB1C32A5C5007EB2E6 /* FXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXPageControl.m; sourceTree = "<group>"; };
+		B7EFD4801C4F9CAB00B8D8D5 /* CategorySliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySliderView.h; sourceTree = "<group>"; };
+		B7EFD4811C4F9CAB00B8D8D5 /* CategorySliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySliderView.m; sourceTree = "<group>"; };
+		B7EFD4841C4FA6D200B8D8D5 /* PhotoListingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoListingModel.h; sourceTree = "<group>"; };
+		B7EFD4851C4FA6D200B8D8D5 /* PhotoListingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoListingModel.m; sourceTree = "<group>"; };
 		B7F5481C1C33F3E2002A06E7 /* UserDefaultManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaultManager.h; sourceTree = "<group>"; };
 		B7F5481D1C33F3E2002A06E7 /* UserDefaultManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaultManager.m; sourceTree = "<group>"; };
 		CD645D081123C64550453711 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -286,6 +292,7 @@
 		B76B69FA1C3E4A2200A7254D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B7EFD4831C4FA6A500B8D8D5 /* PhotoListingModel */,
 				B76B69FB1C3E4A2D00A7254D /* PostListingModel */,
 			);
 			name = Models;
@@ -497,6 +504,7 @@
 		B795B18F1C325CC4007EB2E6 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B7EFD47F1C4F9C9500B8D8D5 /* ImageSlider */,
 				B70AFA821C492D420091D570 /* MyButton */,
 				B7605C621C476D540078C6B1 /* ToastFile */,
 				B7636C181C44F0E40009F01D /* GoogleAnalytics */,
@@ -614,6 +622,24 @@
 				B795B1CB1C32A5C5007EB2E6 /* FXPageControl.m */,
 			);
 			name = PageControl;
+			sourceTree = "<group>";
+		};
+		B7EFD47F1C4F9C9500B8D8D5 /* ImageSlider */ = {
+			isa = PBXGroup;
+			children = (
+				B7EFD4801C4F9CAB00B8D8D5 /* CategorySliderView.h */,
+				B7EFD4811C4F9CAB00B8D8D5 /* CategorySliderView.m */,
+			);
+			name = ImageSlider;
+			sourceTree = "<group>";
+		};
+		B7EFD4831C4FA6A500B8D8D5 /* PhotoListingModel */ = {
+			isa = PBXGroup;
+			children = (
+				B7EFD4841C4FA6D200B8D8D5 /* PhotoListingModel.h */,
+				B7EFD4851C4FA6D200B8D8D5 /* PhotoListingModel.m */,
+			);
+			name = PhotoListingModel;
 			sourceTree = "<group>";
 		};
 		B7F5481B1C33F3D5002A06E7 /* DefaultManager */ = {
@@ -768,6 +794,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7EFD4821C4F9CAB00B8D8D5 /* CategorySliderView.m in Sources */,
 				B76B6A081C3E952500A7254D /* MeTooUserProfileViewController.m in Sources */,
 				B795B1AF1C3260C5007EB2E6 /* MMMaterialDesignSpinner.m in Sources */,
 				B795B1B31C326123007EB2E6 /* WebService.m in Sources */,
@@ -792,6 +819,7 @@
 				B795B1B71C32658E007EB2E6 /* BSKeyboardControls.m in Sources */,
 				B795B1A51C32605B007EB2E6 /* UITextField+Padding.m in Sources */,
 				B785D5EC1C3A7214007A4056 /* SharePostViewController.m in Sources */,
+				B7EFD4861C4FA6D200B8D8D5 /* PhotoListingModel.m in Sources */,
 				B795B1931C325CEA007EB2E6 /* NullValueChecker.m in Sources */,
 				B795B1711C323CAF007EB2E6 /* main.m in Sources */,
 				B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */,

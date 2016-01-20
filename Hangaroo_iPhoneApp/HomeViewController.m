@@ -19,6 +19,7 @@
 #import "PhotoPreviewViewController.h"
 #import "MyButton.h"
 #import "MeTooUserProfileViewController.h"
+#import "ViewPostImagesViewController.h"
 
 #define kCellsPerRow 3
 
@@ -171,6 +172,7 @@
 -(void)getPostListing
 {
      flag=true;
+    
     [postListingArray removeAllObjects];
     [[WebService sharedManager]postListing:^(id dataArray) {
         
@@ -910,7 +912,36 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     }
     else
     {
-        
+        if (collectionView.sectionTag==0)
+        {
+           
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                ViewPostImagesViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"ViewPostImagesViewController"];
+              viewPost.postID=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
+            viewPost.selectedIndex=(int)indexPath.row;
+                UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
+                [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+                    
+                }];
+                // [self.navigationController pushViewController:viewPost animated:YES];
+          
+            
+        }
+        else
+        {
+           
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            ViewPostImagesViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"ViewPostImagesViewController"];
+              viewPost.postID=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
+            viewPost.selectedIndex=(int)indexPath.row;
+            UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
+            [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+                
+            }];
+                // [self.navigationController pushViewController:viewPost animated:YES];
+            
+        }
+
         NSLog(@"selected index %ld",(long)indexPath.item);
     }
 }
@@ -940,10 +971,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)openCameraAction:(MyButton *)sender
 {
-    //btnTag=[sender tag];
-  //  NSIndexPath *index=[NSIndexPath indexPathWithIndex:[sender tag]];
- //   NSLog(@"row and section id %ld %d",(long)[sender tag], tableSection);
-    
+       
     if (sender.sectionTag==0) {
         
         postId=[[todayPostData objectAtIndex:sender.Tag]postID];

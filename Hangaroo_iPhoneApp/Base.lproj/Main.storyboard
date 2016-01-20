@@ -37,6 +37,7 @@
             <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
             <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
         </mutableArray>
     </customFonts>
     <scenes>
@@ -1046,15 +1047,102 @@
                     <view key="view" contentMode="scaleToFill" id="fbb-cN-DT0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AXv-C5-84O">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="AXv-C5-84O" secondAttribute="height" multiplier="40:71" id="tck-9c-OTw"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1T-q0-rha">
+                                <rect key="frame" x="9" y="14" width="40" height="40"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="KV0-VT-j57"/>
+                                    <constraint firstAttribute="height" constant="40" id="eaq-mv-Par"/>
+                                </constraints>
+                                <state key="normal" image="close_red"/>
+                                <connections>
+                                    <action selector="closeButtonAction:" destination="PvT-LS-cuO" eventType="touchUpInside" id="jER-69-C44"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4th-e4-LQ7">
+                                <rect key="frame" x="87" y="518" width="147" height="41"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m5B-iB-Z98">
+                                        <rect key="frame" x="0.0" y="0.0" width="41" height="41"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="m5B-iB-Z98" secondAttribute="height" multiplier="1:1" id="sze-xC-pG1"/>
+                                        </constraints>
+                                        <state key="normal" image="close_white"/>
+                                        <connections>
+                                            <action selector="dislikePhotoButtonAction:" destination="PvT-LS-cuO" eventType="touchUpInside" id="SWi-jV-mNV"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="254" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MmO-XO-wk5">
+                                        <rect key="frame" x="50" y="0.0" width="44" height="41"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="MmO-XO-wk5" secondAttribute="height" multiplier="44:41" id="yAt-C5-RQR"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t7R-cg-be4">
+                                        <rect key="frame" x="106" y="0.0" width="41" height="41"/>
+                                        <animations/>
+                                        <state key="normal" image="heart"/>
+                                        <connections>
+                                            <action selector="likePhotoButtonAction:" destination="PvT-LS-cuO" eventType="touchUpInside" id="bfG-VC-i0c"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="t7R-cg-be4" firstAttribute="width" secondItem="m5B-iB-Z98" secondAttribute="width" id="7FB-FO-pTG"/>
+                                    <constraint firstItem="m5B-iB-Z98" firstAttribute="top" secondItem="4th-e4-LQ7" secondAttribute="top" id="C6b-ku-cOO"/>
+                                    <constraint firstAttribute="bottom" secondItem="MmO-XO-wk5" secondAttribute="bottom" id="SDO-rW-pJ2"/>
+                                    <constraint firstItem="MmO-XO-wk5" firstAttribute="top" secondItem="4th-e4-LQ7" secondAttribute="top" id="XOH-cs-Sv6"/>
+                                    <constraint firstItem="t7R-cg-be4" firstAttribute="height" secondItem="m5B-iB-Z98" secondAttribute="height" id="hL9-ms-EqR"/>
+                                    <constraint firstAttribute="width" secondItem="4th-e4-LQ7" secondAttribute="height" multiplier="147:41" id="keL-n1-2pc"/>
+                                    <constraint firstAttribute="bottom" secondItem="t7R-cg-be4" secondAttribute="bottom" id="l5O-W7-Y1V"/>
+                                    <constraint firstItem="t7R-cg-be4" firstAttribute="top" secondItem="4th-e4-LQ7" secondAttribute="top" id="n66-Dd-atr"/>
+                                    <constraint firstAttribute="trailing" secondItem="t7R-cg-be4" secondAttribute="trailing" id="tAb-uB-vOn"/>
+                                    <constraint firstAttribute="bottom" secondItem="m5B-iB-Z98" secondAttribute="bottom" id="tjS-en-LGn"/>
+                                    <constraint firstItem="m5B-iB-Z98" firstAttribute="leading" secondItem="4th-e4-LQ7" secondAttribute="leading" id="u3u-5a-ApF"/>
+                                    <constraint firstItem="t7R-cg-be4" firstAttribute="leading" secondItem="MmO-XO-wk5" secondAttribute="trailing" constant="12" id="vxe-xx-SoS"/>
+                                    <constraint firstItem="MmO-XO-wk5" firstAttribute="leading" secondItem="m5B-iB-Z98" secondAttribute="trailing" constant="9" id="ytw-x9-jl8"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="l1T-q0-rha" firstAttribute="top" secondItem="fbb-cN-DT0" secondAttribute="top" constant="14" id="0iY-9L-hcs"/>
+                            <constraint firstAttribute="trailing" secondItem="AXv-C5-84O" secondAttribute="trailing" id="0iq-5h-Ko9"/>
+                            <constraint firstItem="AXv-C5-84O" firstAttribute="top" secondItem="fbb-cN-DT0" secondAttribute="top" id="5IW-qV-KQt"/>
+                            <constraint firstItem="1iB-go-ImZ" firstAttribute="top" secondItem="4th-e4-LQ7" secondAttribute="bottom" constant="9" id="PEj-T2-chQ"/>
+                            <constraint firstItem="4th-e4-LQ7" firstAttribute="centerX" secondItem="fbb-cN-DT0" secondAttribute="centerX" id="mVr-Qm-DfT"/>
+                            <constraint firstItem="l1T-q0-rha" firstAttribute="leading" secondItem="fbb-cN-DT0" secondAttribute="leading" constant="9" id="mYZ-az-13J"/>
+                            <constraint firstItem="1iB-go-ImZ" firstAttribute="top" secondItem="AXv-C5-84O" secondAttribute="bottom" id="oBP-P9-a5O"/>
+                            <constraint firstItem="AXv-C5-84O" firstAttribute="leading" secondItem="fbb-cN-DT0" secondAttribute="leading" id="sKc-ah-7zF"/>
+                        </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="likeCount" destination="MmO-XO-wk5" id="WrS-bV-Yw3"/>
+                        <outlet property="photoImageView" destination="AXv-C5-84O" id="tgP-vK-af4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z1b-gp-pAL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="649" y="555"/>
+            <point key="canvasLocation" x="679" y="554"/>
         </scene>
         <!--Forgot Password View Controller-->
         <scene sceneID="9PW-hP-CRn">
@@ -1299,6 +1387,7 @@
                     <connections>
                         <outlet property="postTextView" destination="jpC-pn-DV9" id="col-Ud-7Eg"/>
                         <outlet property="seperator" destination="lNn-U2-3Fa" id="EFn-up-tuu"/>
+                        <outlet property="sharePostBtn" destination="seQ-Ay-u2G" id="hjZ-23-2Ut"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xEP-uT-j17" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1440,7 +1529,9 @@
         <image name="camera" width="37" height="37"/>
         <image name="chat" width="45" height="45"/>
         <image name="close_red" width="17" height="17"/>
+        <image name="close_white" width="22" height="22"/>
         <image name="edu" width="21" height="21"/>
+        <image name="heart" width="27" height="27"/>
         <image name="image1" width="240" height="400"/>
         <image name="password" width="21" height="21"/>
         <image name="plus_icon" width="22" height="22"/>
