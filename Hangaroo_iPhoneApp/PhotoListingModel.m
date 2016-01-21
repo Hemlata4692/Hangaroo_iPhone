@@ -10,7 +10,7 @@
 
 @implementation PhotoListingModel
 @synthesize likeCount;
-@synthesize postImageUrl;
+@synthesize postImagesUrl;
 @synthesize uploadedImageTime;
 @synthesize userImageUrl;
 @end

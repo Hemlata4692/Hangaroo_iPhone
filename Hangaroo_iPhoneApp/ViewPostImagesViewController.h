@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewPostImagesViewController : UIViewController
+@interface ViewPostImagesViewController : GAITrackedViewController
 @property(nonatomic,retain) NSString * postID;
 @property int  selectedIndex;
 @end

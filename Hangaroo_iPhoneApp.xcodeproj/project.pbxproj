@@ -22,6 +22,12 @@
 		B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44C1C43A341009601D2 /* user_thumbnail.png */; };
 		B747C44F1C43AE9A009601D2 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44E1C43AE9A009601D2 /* picture.png */; };
 		B747C4511C43B22A009601D2 /* me_too.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C4501C43B22A009601D2 /* me_too.png */; };
+		B75450251C50F5ED00C9814D /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75450241C50F5ED00C9814D /* SettingViewController.m */; };
+		B754502E1C510CFC00C9814D /* EditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B754502D1C510CFC00C9814D /* EditProfileViewController.m */; };
+		B75450311C510D0700C9814D /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75450301C510D0700C9814D /* ChangePasswordViewController.m */; };
+		B75450341C510D1400C9814D /* AddInterestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75450331C510D1400C9814D /* AddInterestViewController.m */; };
+		B75450371C510D2600C9814D /* SocialMediaAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75450361C510D2600C9814D /* SocialMediaAccountViewController.m */; };
+		B754503A1C510D3400C9814D /* ShareFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75450391C510D3400C9814D /* ShareFeedbackViewController.m */; };
 		B7605C651C476D620078C6B1 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = B7605C641C476D620078C6B1 /* UIView+Toast.m */; };
 		B7636C241C44F43A0009F01D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C231C44F43A0009F01D /* libGoogleAnalyticsServices.a */; };
 		B7636C261C44F45B0009F01D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C251C44F45B0009F01D /* libz.tbd */; };
@@ -89,6 +95,18 @@
 		B747C44C1C43A341009601D2 /* user_thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_thumbnail.png; sourceTree = "<group>"; };
 		B747C44E1C43AE9A009601D2 /* picture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picture.png; sourceTree = "<group>"; };
 		B747C4501C43B22A009601D2 /* me_too.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_too.png; sourceTree = "<group>"; };
+		B75450231C50F5ED00C9814D /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		B75450241C50F5ED00C9814D /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		B754502C1C510CFC00C9814D /* EditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditProfileViewController.h; sourceTree = "<group>"; };
+		B754502D1C510CFC00C9814D /* EditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditProfileViewController.m; sourceTree = "<group>"; };
+		B754502F1C510D0700C9814D /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		B75450301C510D0700C9814D /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		B75450321C510D1400C9814D /* AddInterestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddInterestViewController.h; sourceTree = "<group>"; };
+		B75450331C510D1400C9814D /* AddInterestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddInterestViewController.m; sourceTree = "<group>"; };
+		B75450351C510D2600C9814D /* SocialMediaAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocialMediaAccountViewController.h; sourceTree = "<group>"; };
+		B75450361C510D2600C9814D /* SocialMediaAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialMediaAccountViewController.m; sourceTree = "<group>"; };
+		B75450381C510D3400C9814D /* ShareFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareFeedbackViewController.h; sourceTree = "<group>"; };
+		B75450391C510D3400C9814D /* ShareFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareFeedbackViewController.m; sourceTree = "<group>"; };
 		B7605C631C476D620078C6B1 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		B7605C641C476D620078C6B1 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		B7636C191C44F1170009F01D /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
@@ -252,6 +270,73 @@
 				B70AFA801C492D3F0091D570 /* MyButton.m */,
 			);
 			name = MyButton;
+			sourceTree = "<group>";
+		};
+		B75450221C50F5CA00C9814D /* SetingsModule */ = {
+			isa = PBXGroup;
+			children = (
+				B754502B1C510CE500C9814D /* ShareFeedbackViewController */,
+				B754502A1C510CC400C9814D /* SocialMediaAccoutViewController */,
+				B75450291C510CB800C9814D /* AddInterestViewController */,
+				B75450281C510CA400C9814D /* ChangePasswordViewController */,
+				B75450271C510C9500C9814D /* EditProfileViewController */,
+				B75450261C510C8300C9814D /* SettingsViewController */,
+			);
+			name = SetingsModule;
+			sourceTree = "<group>";
+		};
+		B75450261C510C8300C9814D /* SettingsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B75450231C50F5ED00C9814D /* SettingViewController.h */,
+				B75450241C50F5ED00C9814D /* SettingViewController.m */,
+			);
+			name = SettingsViewController;
+			sourceTree = "<group>";
+		};
+		B75450271C510C9500C9814D /* EditProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B754502C1C510CFC00C9814D /* EditProfileViewController.h */,
+				B754502D1C510CFC00C9814D /* EditProfileViewController.m */,
+			);
+			name = EditProfileViewController;
+			sourceTree = "<group>";
+		};
+		B75450281C510CA400C9814D /* ChangePasswordViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B754502F1C510D0700C9814D /* ChangePasswordViewController.h */,
+				B75450301C510D0700C9814D /* ChangePasswordViewController.m */,
+			);
+			name = ChangePasswordViewController;
+			sourceTree = "<group>";
+		};
+		B75450291C510CB800C9814D /* AddInterestViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B75450321C510D1400C9814D /* AddInterestViewController.h */,
+				B75450331C510D1400C9814D /* AddInterestViewController.m */,
+			);
+			name = AddInterestViewController;
+			sourceTree = "<group>";
+		};
+		B754502A1C510CC400C9814D /* SocialMediaAccoutViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B75450351C510D2600C9814D /* SocialMediaAccountViewController.h */,
+				B75450361C510D2600C9814D /* SocialMediaAccountViewController.m */,
+			);
+			name = SocialMediaAccoutViewController;
+			sourceTree = "<group>";
+		};
+		B754502B1C510CE500C9814D /* ShareFeedbackViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B75450381C510D3400C9814D /* ShareFeedbackViewController.h */,
+				B75450391C510D3400C9814D /* ShareFeedbackViewController.m */,
+			);
+			name = ShareFeedbackViewController;
 			sourceTree = "<group>";
 		};
 		B7605C621C476D540078C6B1 /* ToastFile */ = {
@@ -449,6 +534,7 @@
 				B7050D311C4D0F3C00E95FCA /* ViewPostImagesModule */,
 				B785D5E01C3A7020007A4056 /* DiscoverModule */,
 				B785D5DF1C3A7009007A4056 /* ProfileModule */,
+				B75450221C50F5CA00C9814D /* SetingsModule */,
 				B785D5DE1C3A7001007A4056 /* ChatModule */,
 			);
 			name = Views;
@@ -812,12 +898,16 @@
 				B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */,
 				B70AFA811C492D3F0091D570 /* MyButton.m in Sources */,
 				B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */,
+				B75450371C510D2600C9814D /* SocialMediaAccountViewController.m in Sources */,
+				B75450341C510D1400C9814D /* AddInterestViewController.m in Sources */,
 				B7063BB01C3407D0007C9E4D /* HomeViewController.m in Sources */,
 				B76B69FE1C3E4A4600A7254D /* PostListingDataModel.m in Sources */,
 				B7605C651C476D620078C6B1 /* UIView+Toast.m in Sources */,
+				B754503A1C510D3400C9814D /* ShareFeedbackViewController.m in Sources */,
 				B795B1AB1C326077007EB2E6 /* UITextField+Validations.m in Sources */,
 				B795B1B71C32658E007EB2E6 /* BSKeyboardControls.m in Sources */,
 				B795B1A51C32605B007EB2E6 /* UITextField+Padding.m in Sources */,
+				B75450251C50F5ED00C9814D /* SettingViewController.m in Sources */,
 				B785D5EC1C3A7214007A4056 /* SharePostViewController.m in Sources */,
 				B7EFD4861C4FA6D200B8D8D5 /* PhotoListingModel.m in Sources */,
 				B795B1931C325CEA007EB2E6 /* NullValueChecker.m in Sources */,
@@ -825,8 +915,10 @@
 				B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */,
 				B709C5311C33A6BD00300EFF /* SignUpViewController.m in Sources */,
 				B7F5481E1C33F3E2002A06E7 /* UserDefaultManager.m in Sources */,
+				B754502E1C510CFC00C9814D /* EditProfileViewController.m in Sources */,
 				B7050D341C4D0F6600E95FCA /* ViewPostImagesViewController.m in Sources */,
 				B795B1A81C326063007EB2E6 /* UIView+RoundedCorner.m in Sources */,
+				B75450311C510D0700C9814D /* ChangePasswordViewController.m in Sources */,
 				B7636C311C4531D90009F01D /* MyCollectionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

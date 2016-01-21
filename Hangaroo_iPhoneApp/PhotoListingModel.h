@@ -10,7 +10,7 @@
 
 @interface PhotoListingModel : NSObject
 @property(nonatomic,retain)NSString * likeCount;
-@property(nonatomic,retain)NSString * postImageUrl;
+@property(nonatomic,retain)NSString * postImagesUrl;
 @property(nonatomic,retain)NSString * uploadedImageTime;
 @property(nonatomic,retain)NSString * userImageUrl;
 @end

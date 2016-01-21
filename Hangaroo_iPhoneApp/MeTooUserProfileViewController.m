@@ -9,6 +9,7 @@
 #import "MeTooUserProfileViewController.h"
 #import "UIView+RoundedCorner.h"
 #import <UIImageView+AFNetworking.h>
+#import "SettingViewController.h"
 
 @interface MeTooUserProfileViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *postLabel;
@@ -88,7 +89,11 @@
 }
 - (IBAction)chatButtonAction:(id)sender {
 }
-- (IBAction)seeOutbutonAction:(id)sender {
+- (IBAction)seeOutbutonAction:(id)sender
+{
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SettingViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"SettingViewController"];
+    [self.navigationController pushViewController:loginView animated:YES];
 }
 #pragma mark - end
 

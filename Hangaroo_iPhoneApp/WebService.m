@@ -465,7 +465,7 @@
                      PhotoListingModel *photoListData = [[PhotoListingModel alloc]init];
                      NSDictionary * photoListDict =[photoListingArray objectAtIndex:i];
                      photoListData.likeCount =[photoListDict objectForKey:@"like_count"];
-                     photoListData.postImageUrl =[photoListDict objectForKey:@"post_image"];
+                     photoListData.postImagesUrl =[photoListDict objectForKey:@"post_image"];
                      photoListData.uploadedImageTime =[photoListDict objectForKey:@"uploaded_time"];
                      photoListData.userImageUrl=[photoListDict objectForKey:@"user_image_url"];
                      

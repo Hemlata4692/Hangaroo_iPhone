@@ -52,10 +52,9 @@
     if ((self = [super initWithFrame:frame])) {
         self.clipsToBounds = YES;
         countvalue = -1;
-        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, self.frame.size.width, self.frame.size.height)];
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         [self.scrollView setDelegate:self];
-        [self.scrollView setShowsHorizontalScrollIndicator:NO];
-        [self.scrollView setShowsVerticalScrollIndicator:NO];
+        self.scrollView.scrollEnabled=NO;
 //        self.scrollView.pagingEnabled = YES;
         [self addSubview:self.scrollView];
         [self.scrollView setBackgroundColor:[UIColor clearColor]];
@@ -65,8 +64,7 @@
         self.categoryViews = [[NSMutableArray alloc] init];
         self.andLabelView = [[NSMutableArray alloc] init];
         self.categoryViewPadding = 20;
-        self.shouldAutoScrollSlider = YES;
-        self.shouldAutoSelectScrolledCategory = YES;
+      
         
         for (UIImageView *v in categoryViews) {
             [self addCategotyView:v];
@@ -95,15 +93,7 @@
      countvalue++;
     UIImageView *v = [self.categoryViews objectAtIndex:countvalue];
    
-    //    if (self.sliderDirection == SliderDirectionHorizontal)
-    //        [self.scrollView setContentOffset:CGPointMake(v.center.x - [self width]/2, self.scrollView.contentOffset.y) animated:animated];
-    //    else if (self.sliderDirection == SliderDirectionVertical)
-    //        [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, v.center.y - [self height]/2) animated:animated];
-    //
-    
-//    if (self.shouldAutoSelectScrolledCategory)
-//        if (self.categorySelectedBlock)
-        self.categorySelectedBlock (v, countvalue);
+          self.categorySelectedBlock (v, countvalue);
    
 }
 
@@ -123,8 +113,8 @@
         
         UILabel *seplabel;
         if (self.categoryViews.count< arrayCount-1) {
-            seplabel=[[UILabel alloc]initWithFrame:CGRectMake(w+1, view.frame.size.height/2+10, 100, 1)];
-            seplabel.backgroundColor=[UIColor blackColor];
+            seplabel=[[UILabel alloc]initWithFrame:CGRectMake(w+1, view.frame.size.height/2+8, 120, 1)];
+            seplabel.backgroundColor=[UIColor whiteColor];
             [self.scrollView addSubview:seplabel];
         }
         
@@ -150,12 +140,12 @@
 }
 
 
-- (void)addCategotyLabel:(UIView *)view {
+- (void)addCategotyLabel:(UILabel *)view {
     
     if (self.sliderDirection == SliderDirectionHorizontal) {
         float w = 0;
         if (self.andLabelView.count > 0) {
-            UIView *lastView = [self.andLabelView lastObject];
+            UILabel *lastView = [self.andLabelView lastObject];
             w = lastView.frame.origin.x+lastView.frame.size.width+self.categoryViewPadding;
         }
         else {
@@ -163,7 +153,7 @@
         }
         
         [self.scrollView addSubview:view];
-        [view setFrame:CGRectMake(w, 55, view.frame.size.width, view.frame.size.height)];
+        [view setFrame:CGRectMake(w+10, view.frame.origin.y, view.frame.size.width, view.frame.size.height)];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(categoryViewTapped:)];
         [tap setNumberOfTapsRequired:1];
@@ -254,11 +244,6 @@
 - (void)slideItemAtIndex:(NSInteger)index animated:(BOOL)animated {
     UIImageView *v = [self.categoryViews objectAtIndex:index];
     
-//    if (self.sliderDirection == SliderDirectionHorizontal)
-//        [self.scrollView setContentOffset:CGPointMake(v.center.x - [self width]/2, self.scrollView.contentOffset.y) animated:animated];
-//    else if (self.sliderDirection == SliderDirectionVertical)
-//        [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, v.center.y - [self height]/2) animated:animated];
-//    
     if (self.shouldAutoSelectScrolledCategory)
         if (self.categorySelectedBlock)
             self.categorySelectedBlock (v, index);

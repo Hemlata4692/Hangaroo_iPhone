@@ -11,7 +11,7 @@
 #import "PhotoListingModel.h"
 #import <UIImageView+AFNetworking.h>
 
-#define CategorySliderHeight 100
+#define CategorySliderHeight 120
 
 @interface ViewPostImagesViewController ()<UIGestureRecognizerDelegate>
 {
@@ -22,7 +22,10 @@
     CategorySliderView* imageSliderView;
     NSMutableArray* imageArray,*labelArray;
     int indexValue,value;
+    NSMutableArray *postImagesArray;
+    int imageIndex;
 }
+@property (weak, nonatomic) IBOutlet UIButton *closeButton;
 @property (weak, nonatomic) IBOutlet UILabel *likeCount;
 @property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
 @property (nonatomic, strong) CategorySliderView *sliderView;
@@ -30,7 +33,7 @@
 
 @implementation ViewPostImagesViewController
 @synthesize postID,selectedIndex;
-@synthesize photoImageView,sliderView,likeCount;
+@synthesize photoImageView,sliderView,likeCount,closeButton;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
@@ -39,8 +42,11 @@
     photoListingDataArray=[[NSMutableArray alloc]init];
     imageArray=[[NSMutableArray alloc]init];
     labelArray=[[NSMutableArray alloc]init];
-
-   
+    postImagesArray=[[NSMutableArray alloc]init];
+    photoImageView.userInteractionEnabled=YES;
+    currentIndex = 0;
+    value=0;
+    imageIndex=selectedIndex;
     [myDelegate ShowIndicator];
     [self performSelector:@selector(getPhotoListing) withObject:nil afterDelay:0.1];
     
@@ -82,36 +88,178 @@
 }
 
 #pragma mark - end
+#pragma mark - Swipe Images
+-(void)swipeImages
+{
+    __weak UIImageView *weakRef = photoImageView;
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[postImagesArray objectAtIndex:selectedIndex]]
+                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                              timeoutInterval:60];
+    
+    [photoImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@""] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        weakRef.contentMode = UIViewContentModeScaleAspectFit;
+        weakRef.clipsToBounds = YES;
+        weakRef.image = image;
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        
+    }];
+    
+}
+
+
+//Adding left animation to banner images
+- (void)addLeftAnimationPresentToView:(UIView *)viewTobeAnimatedLeft
+{
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.30;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [transition setValue:@"IntroSwipeIn" forKey:@"IntroAnimation"];
+    transition.fillMode=kCAFillModeForwards;
+    transition.type = kCATransitionPush;
+    transition.subtype =kCATransitionFromRight;
+    [viewTobeAnimatedLeft.layer addAnimation:transition forKey:nil];
+    
+}
+//Adding right animation to banner images
+- (void)addRightAnimationPresentToView:(UIView *)viewTobeAnimatedRight
+{
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.30;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [transition setValue:@"IntroSwipeIn" forKey:@"IntroAnimation"];
+    transition.fillMode=kCAFillModeForwards;
+    transition.type = kCATransitionPush;
+    transition.subtype =kCATransitionFromLeft;
+    [viewTobeAnimatedRight.layer addAnimation:transition forKey:nil];
+}
+//Swipe images in left direction
+-(void) swipeImagesLeft:(UISwipeGestureRecognizer *)sender
+{
+    imageIndex++;
+    if (imageIndex<postImagesArray.count)
+    {
+        __weak UIImageView *weakRef = photoImageView;
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[postImagesArray objectAtIndex:imageIndex]]
+                                                      cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                  timeoutInterval:60];
+        
+        [photoImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@""] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            weakRef.contentMode = UIViewContentModeScaleAspectFit;
+            weakRef.clipsToBounds = YES;
+            weakRef.image = image;
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            
+        }];
+        [imageSliderView customSlide:currentIndex categorySelection:^(UIImageView *imageview, NSInteger categoryIndex)
+         {
+             if (lastImageView != nil) {
+                 lastImageView.frame=CGRectMake(imageview.frame.origin.x-((categoryIndex - lastIndex)*70), 0, 50, 50);
+                 lastImageView.layer.cornerRadius=25.0f;
+                 lastImageView.clipsToBounds=YES;
+             }
+             
+             
+             imageview.frame=CGRectMake(imageview.frame.origin.x, imageview.frame.origin.y, 60, 60);
+             imageview.layer.cornerRadius=30.0f;
+             imageview.clipsToBounds=YES;
+             
+             lastImageView = imageview;
+             lastIndex = (int)categoryIndex;
+             NSLog(@" cateogry selected at index %ld", (long)categoryIndex);
+             currentIndex++;
+         }];
+
+        UIImageView *moveImageView = photoImageView;
+        [self addLeftAnimationPresentToView:moveImageView];
+        
+    }
+    else
+    {
+        imageIndex--;
+    }
+}
+//Swipe images in right direction
+-(void) swipeImagesRight:(UISwipeGestureRecognizer *)sender
+{
+    imageIndex--;
+    if (imageIndex<postImagesArray.count)
+    {
+        __weak UIImageView *weakRef = photoImageView;
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[postImagesArray objectAtIndex:imageIndex]]
+                                                      cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                  timeoutInterval:60];
+        
+        [photoImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@""] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            weakRef.contentMode = UIViewContentModeScaleAspectFit;
+            weakRef.clipsToBounds = YES;
+            weakRef.image = image;
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            
+        }];
+        [imageSliderView customSlide:currentIndex categorySelection:^(UIImageView *imageview, NSInteger categoryIndex)
+         {
+             if (lastImageView != nil) {
+                 lastImageView.frame=CGRectMake(imageview.frame.origin.x-((categoryIndex - lastIndex)*70), 0, 60, 60);
+                 lastImageView.layer.cornerRadius=30.0f;
+                 lastImageView.clipsToBounds=YES;
+             }
+             
+             
+             imageview.frame=CGRectMake(imageview.frame.origin.x, imageview.frame.origin.y, 70, 70);
+             imageview.layer.cornerRadius=35.0f;
+             imageview.clipsToBounds=YES;
+             
+             lastImageView = imageview;
+             lastIndex = (int)categoryIndex;
+             NSLog(@" cateogry selected at index %ld", (long)categoryIndex);
+             currentIndex++;
+         }];
+
+        UIImageView *moveImageView = photoImageView;
+        [self addRightAnimationPresentToView:moveImageView];
+        
+    }
+    
+    else
+    {
+        imageIndex++;
+        
+    }
+}
+
+#pragma mark - end
+
+
+
 -(void)setImageScroller
 {
-    currentIndex = 0;
-    value=0;
+    
     imageSliderView = [CategorySliderView alloc];
    
-    indexValue =selectedIndex;
+   // indexValue =selectedIndex;
     for(int i=0;i<photoListingDataArray.count;i++)
     {
         [imageArray addObject:[self imagewithImage:[[photoListingDataArray objectAtIndex:i]userImageUrl]]];
         [labelArray addObject:[self labelWithText:[[photoListingDataArray objectAtIndex:i]uploadedImageTime]]];
     }
-    if (indexValue == 0) {
-        currentIndex = indexValue;
+    if (selectedIndex == 0) {
+        currentIndex = selectedIndex;
     }
     else{
-        currentIndex = indexValue -1;
+        currentIndex = selectedIndex -1;
     }
     
     self.sliderView = [imageSliderView initWithSliderHeight:CategorySliderHeight index:(int)indexValue andCategoryViews:imageArray andLabelView:labelArray categorySelectionBlock:^(UIImageView *imageview, NSInteger categoryIndex)
                        {
                            if (lastImageView != nil) {
-                               lastImageView.frame=CGRectMake(imageview.frame.origin.x-((categoryIndex - lastIndex)*70), 5, 50, 50);
-                               lastImageView.layer.cornerRadius=25.0f;
+                               lastImageView.frame=CGRectMake(imageview.frame.origin.x-((categoryIndex - lastIndex)*70), 5, 60, 60);
+                               lastImageView.layer.cornerRadius=30.0f;
                                lastImageView.clipsToBounds=YES;
                            }
                            
                            
-                           imageview.frame=CGRectMake(imageview.frame.origin.x, imageview.frame.origin.y, 60, 60);
-                           imageview.layer.cornerRadius=30.0f;
+                           imageview.frame=CGRectMake(imageview.frame.origin.x, imageview.frame.origin.y, 70, 70);
+                           imageview.layer.cornerRadius=35.0f;
                            imageview.clipsToBounds=YES;
                            
                            lastImageView = imageview;
@@ -121,23 +269,31 @@
                        }];
     
     
-    self.sliderView.backgroundColor=[UIColor yellowColor];
-    [self.sliderView setY:100];
-    [self.sliderView moveY:20 duration:0.5 complation:nil];
+   // self.sliderView.backgroundColor=[UIColor yellowColor];
+    [self.sliderView setY:0];
+    [self.sliderView moveY:40 duration:0.1 complation:nil];
     [self.view addSubview:self.sliderView];
+   
 
 }
 - (UIImageView *)imagewithImage:(NSString *)imageUrl {
     
-    UIImageView *userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    if (value==indexValue-1) {
-        userImageView.frame=CGRectMake(0, 0, 60, 60);
-        userImageView.layer.cornerRadius=30.0f;
+    UIImageView *userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
+    userImageView.layer.borderWidth=2.0f;
+    userImageView.layer.borderColor=[UIColor whiteColor].CGColor;
+    if (value==0) {
+        userImageView.frame=CGRectMake(0, 0, 70, 70);
+        userImageView.layer.cornerRadius=35.0f;
+        userImageView.clipsToBounds=YES;
+    }
+    else if (value==selectedIndex-1) {
+        userImageView.frame=CGRectMake(0, 0, 70, 70);
+        userImageView.layer.cornerRadius=35.0f;
         userImageView.clipsToBounds=YES;
     }
     else
     {
-        userImageView.layer.cornerRadius=25;
+        userImageView.layer.cornerRadius=30.0f;
         userImageView.clipsToBounds=YES;
     }
     __weak UIImageView *weakRef = userImageView;
@@ -160,13 +316,15 @@
 
 
 - (UILabel *)labelWithText:(NSString *)text {
-    float w = [text sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]}].width;
+    float w = [text sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Regular" size:14.0]}].width;
     
-    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, w, 20)];
-    [lbl setFont:[UIFont systemFontOfSize:15]];
-    [lbl setText:text];
-    [lbl setTextAlignment:NSTextAlignmentCenter];
-    return lbl;
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, w, 20)];
+    [timeLabel setFont:[UIFont fontWithName:@"Roboto-Regular" size:14.0]];
+    [timeLabel setBackgroundColor:[UIColor blueColor]];
+    [timeLabel setTextColor:[UIColor whiteColor]];
+    [timeLabel setText:text];
+    [timeLabel setTextAlignment:NSTextAlignmentCenter];
+    return timeLabel;
 }
 
 #pragma mark - Webservice
@@ -176,7 +334,13 @@
         
         [myDelegate StopIndicator];
         photoListingDataArray=[dataArray mutableCopy];
+        for(int i=0;i<photoListingDataArray.count;i++)
+        {
+            [postImagesArray addObject:[[photoListingDataArray objectAtIndex:i]postImagesUrl]];
+        }
+
         [self setImageScroller];
+        [self swipeImages];
         
     }
                                      failure:^(NSError *error)
