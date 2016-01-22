@@ -22,7 +22,7 @@
 #define kUrlJoinPost                    @"joinpost"
 #define kUrlUploadPhoto                 @"uploadphoto"
 #define kUrlPhotoListing                @"photolisting"
-
+#define kUrlLikeDislike                 @"likedislike"
 @implementation WebService
 @synthesize manager;
 
@@ -464,7 +464,7 @@
                  {
                      PhotoListingModel *photoListData = [[PhotoListingModel alloc]init];
                      NSDictionary * photoListDict =[photoListingArray objectAtIndex:i];
-                     photoListData.likeCount =[photoListDict objectForKey:@"like_count"];
+                     photoListData.likeCountData =[photoListDict objectForKey:@"like_count"];
                      photoListData.postImagesUrl =[photoListDict objectForKey:@"post_image"];
                      photoListData.uploadedImageTime =[photoListDict objectForKey:@"uploaded_time"];
                      photoListData.userImageUrl=[photoListDict objectForKey:@"user_image_url"];
@@ -490,4 +490,31 @@
 }
 #pragma mark- end
 
+#pragma mark- Like Dislike
+//{user_id:"20", imageName:"image url", isLike:"T/F"}
+-(void)likDislikePhoto:(NSString *)imageUrl likeDislike:(NSString *)likeDislike success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"imageName":imageUrl,@"isLike":likeDislike};
+    NSLog(@"like dislike  request%@", requestDict);
+    [self post:kUrlLikeDislike parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"like dislike Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
 @end

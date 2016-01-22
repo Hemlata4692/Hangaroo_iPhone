@@ -9,7 +9,7 @@
 #import "PhotoListingModel.h"
 
 @implementation PhotoListingModel
-@synthesize likeCount;
+@synthesize likeCountData;
 @synthesize postImagesUrl;
 @synthesize uploadedImageTime;
 @synthesize userImageUrl;

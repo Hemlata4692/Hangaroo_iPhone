@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface PhotoListingModel : NSObject
-@property(nonatomic,retain)NSString * likeCount;
+@property(nonatomic,retain)NSString * likeCountData;
 @property(nonatomic,retain)NSString * postImagesUrl;
 @property(nonatomic,retain)NSString * uploadedImageTime;
 @property(nonatomic,retain)NSString * userImageUrl;

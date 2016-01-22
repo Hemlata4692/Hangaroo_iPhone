@@ -28,12 +28,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *closeButton;
 @property (weak, nonatomic) IBOutlet UILabel *likeCount;
 @property (weak, nonatomic) IBOutlet UIImageView *photoImageView;
+@property(nonatomic,retain) NSString * likeDislikeString;
 @property (nonatomic, strong) CategorySliderView *sliderView;
 @end
 
 @implementation ViewPostImagesViewController
 @synthesize postID,selectedIndex;
-@synthesize photoImageView,sliderView,likeCount,closeButton;
+@synthesize photoImageView,sliderView,likeCount,closeButton,likeDislikeString;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
@@ -92,7 +93,7 @@
 -(void)swipeImages
 {
     __weak UIImageView *weakRef = photoImageView;
-    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[postImagesArray objectAtIndex:selectedIndex]]
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[postImagesArray objectAtIndex:imageIndex]]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
     
@@ -103,7 +104,7 @@
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
     }];
-    
+    likeCount.text=[[photoListingDataArray objectAtIndex:imageIndex]likeCountData];
 }
 
 
@@ -171,6 +172,7 @@
 
         UIImageView *moveImageView = photoImageView;
         [self addLeftAnimationPresentToView:moveImageView];
+        likeCount.text=[[photoListingDataArray objectAtIndex:imageIndex]likeCountData];
         
     }
     else
@@ -217,6 +219,7 @@
 
         UIImageView *moveImageView = photoImageView;
         [self addRightAnimationPresentToView:moveImageView];
+        likeCount.text=[[photoListingDataArray objectAtIndex:imageIndex]likeCountData];
         
     }
     
@@ -327,7 +330,7 @@
     return timeLabel;
 }
 
-#pragma mark - Webservice
+#pragma mark - Webservice PhotoListing
 -(void)getPhotoListing
 {
     [[WebService sharedManager] photoListing:postID success: ^(id dataArray) {
@@ -351,15 +354,57 @@
 }
 #pragma mark - end
 
+#pragma mark - Webservice LikeDislike
+-(void)likeDislike
+{
+    [[WebService sharedManager] likDislikePhoto:[postImagesArray objectAtIndex:imageIndex] likeDislike:likeDislikeString  success: ^(id responseObject) {
+        
+        [myDelegate StopIndicator];
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"Alert"
+                                              message:[responseObject objectForKey:@"message"]
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:@"OK"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       [alertController dismissViewControllerAnimated:YES completion:nil];
+                                       
+                                   }];
+        
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+            }
+                                     failure:^(NSError *error)
+     {
+         
+     }] ;
+    
+    
+}
+#pragma mark - end
+
+
 #pragma mark - IBActions
 - (IBAction)closeButtonAction:(id)sender
 {
       [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)dislikePhotoButtonAction:(id)sender {
+- (IBAction)dislikePhotoButtonAction:(id)sender
+{
+    likeDislikeString=@"false";
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(likeDislike) withObject:nil afterDelay:0.1];
+
 }
-- (IBAction)likePhotoButtonAction:(id)sender {
+- (IBAction)likePhotoButtonAction:(id)sender
+{
+    likeDislikeString=@"true";
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(likeDislike) withObject:nil afterDelay:0.1];
 }
 #pragma mark - end
 
