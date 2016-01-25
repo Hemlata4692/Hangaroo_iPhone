@@ -16,16 +16,17 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *previewImageView;
+@property (weak, nonatomic) IBOutlet UIButton *closeBtn;
 @property UITextField *caption;
 @end
 
 @implementation PhotoPreviewViewController
-@synthesize postImagesDataArray,previewImageView,caption,postImage,postID;
+@synthesize postImagesDataArray,previewImageView,caption,postImage,postID,closeBtn;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+     self.screenName = @"Photo preview screen";
     self.title=@"Preview photo";
  
     previewImageView.image=postImage;
@@ -61,30 +62,33 @@
     
     
     [self initCaption:self.view.frame];
+    closeBtn.layer.shadowColor = [UIColor blackColor].CGColor;
+    closeBtn.layer.shadowOffset = CGSizeMake(5, 5);
+    closeBtn.layer.shadowRadius = 5;
+    closeBtn.layer.shadowOpacity = 0.8;
     
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    //  [[self navigationController] setNavigationBarHidden:YES];
-    //  self.tabBarController.tabBar.hidden=YES;
+    [[self navigationController] setNavigationBarHidden:YES];
+    
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-//-(BOOL)prefersStatusBarHidden
-//{
-//    return YES;
-//}
-//- (void)statusHide
-//{
-//    [UIView animateWithDuration:0.1 animations:^() {
-//        [self setNeedsStatusBarAppearanceUpdate];
-//    }completion:^(BOOL finished){}];
-//}
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+- (void)statusHide
+{
+    [UIView animateWithDuration:0.1 animations:^() {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }completion:^(BOOL finished){}];
+}
 #pragma mark - end
 
 #pragma mark - Add tagline
@@ -94,7 +98,7 @@
     caption = [[UITextField alloc] initWithFrame:CGRectMake(0,
                                                             120,
                                                             frame.size.width,
-                                                            32)];
+                                                            30)];
     caption.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
     caption.textAlignment = NSTextAlignmentCenter;
     caption.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -126,12 +130,20 @@
     
     CGPoint translation = [gestureRecognizer locationInView:previewImageView];
     
-    if(translation.y < caption.frame.size.height/2){
-        caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  caption.frame.size.height/2);
-    } else if(previewImageView.frame.size.height < translation.y + caption.frame.size.height/2){
-        caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  previewImageView.frame.size.height - caption.frame.size.height/2);
-    } else {
-        caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  translation.y);
+    if (translation.y>130 && translation.y<self.view.frame.size.height-50) {
+        if(translation.y < caption.frame.size.height/2)
+        {
+            caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  caption.frame.size.height/2);
+        }
+        else if(previewImageView.frame.size.height < translation.y + caption.frame.size.height/2)
+        {
+            caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  previewImageView.frame.size.height - caption.frame.size.height/2);
+        }
+        else
+        {
+            caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  translation.y);
+        }
+
     }
     
 }
@@ -229,6 +241,10 @@ replacementString:(NSString *)string{
     [myDelegate ShowIndicator];
     [self performSelector:@selector(uploadPhoto) withObject:nil afterDelay:.1];
     
+}
+- (IBAction)closeButtonAction:(id)sender
+{
+     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark - end
 

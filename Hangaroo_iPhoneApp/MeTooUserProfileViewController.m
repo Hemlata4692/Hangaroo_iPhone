@@ -31,6 +31,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+     self.screenName = @"Me too user profile screen";
     [mainContainerView setCornerRadius:3.0f];
     
     [self displayData];

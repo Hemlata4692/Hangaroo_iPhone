@@ -23,6 +23,10 @@
 #define kUrlUploadPhoto                 @"uploadphoto"
 #define kUrlPhotoListing                @"photolisting"
 #define kUrlLikeDislike                 @"likedislike"
+#define kUrlEditProfilePhoto            @"edituserimage"
+#define kUrlAddInterest                 @"userinterest"
+#define kUrlShareFeedback               @"sharefeedback"
+#define kUrlChangePassword              @"changepass"
 @implementation WebService
 @synthesize manager;
 
@@ -491,7 +495,7 @@
 #pragma mark- end
 
 #pragma mark- Like Dislike
-//{user_id:"20", imageName:"image url", isLike:"T/F"}
+
 -(void)likDislikePhoto:(NSString *)imageUrl likeDislike:(NSString *)likeDislike success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"imageName":imageUrl,@"isLike":likeDislike};
@@ -517,4 +521,116 @@
 
 }
 #pragma mark- end
+
+#pragma mark- Edit Profile Photo
+-(void)editProfilePhoto:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
+    NSLog(@"edit profile photo request%@", requestDict);
+    [self postImage:kUrlEditProfilePhoto parameters:requestDict image:image success:^(id responseObject)
+     {
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         NSLog(@"Edit profile photo Response%@", responseObject);
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
+
+#pragma mark- Add User Interest
+-(void)addUserInterest:(NSString *)userInterest success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"interest":userInterest};
+    NSLog(@"Add user interst request%@", requestDict);
+    [self post:kUrlAddInterest parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"Add user interst Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+
+}
+#pragma mark- end
+
+#pragma mark- Share Feedback
+-(void)shareFeedback:(NSString *)subject content:(NSString *)content success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"subject":subject,@"content":content};
+    NSLog(@"share feedback request%@", requestDict);
+    [self post:kUrlShareFeedback parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"share feedback Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+
+}
+#pragma mark- end
+
+#pragma mark- Change Password
+-(void)changePassword:(NSString *)oldPassword newPassword:(NSString *)newPassword success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"oldPassword":oldPassword,@"newPassword":newPassword};
+    NSLog(@"change password request%@", requestDict);
+    [self post:kUrlChangePassword parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"change password Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+
+}
+#pragma mark- end
+
 @end

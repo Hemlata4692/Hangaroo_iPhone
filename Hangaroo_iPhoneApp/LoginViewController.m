@@ -151,6 +151,7 @@
          NSDictionary *responseDict = (NSDictionary *)responseObject;
         [UserDefaultManager setValue:[responseDict objectForKey:@"userId"] key:@"userId"];
         [UserDefaultManager setValue:[responseDict objectForKey:@"username"] key:@"userName"];
+        [UserDefaultManager setValue:[responseDict objectForKey:@"userImage"] key:@"userImage"];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
         [myDelegate.window setRootViewController:homeView];

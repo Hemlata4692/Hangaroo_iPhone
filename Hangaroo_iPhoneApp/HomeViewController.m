@@ -1050,11 +1050,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         photoView.postImage=image;
     photoView.postID=postId;
     //self.tabBarController.hidesBottomBarWhenPushed=YES;
-    [self.navigationController pushViewController:photoView animated:YES];
-//    UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:photoView];
-//    [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-//        
-//    }];
+  //  [self.navigationController pushViewController:photoView animated:YES];
+    UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:photoView];
+    [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+        
+    }];
 
     
 }

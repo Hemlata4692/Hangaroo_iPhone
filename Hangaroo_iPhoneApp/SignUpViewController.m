@@ -220,10 +220,6 @@
                                            }
                                        }
 
-                                       
-//                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//                                       LoginViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-//                                       [self.navigationController pushViewController:homeView animated:YES];
                                    }];
         
         [alertController addAction:okAction];

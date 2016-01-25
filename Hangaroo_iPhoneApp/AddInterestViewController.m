@@ -9,6 +9,7 @@
 #import "AddInterestViewController.h"
 #import "UIPlaceHolderTextView.h"
 #import "UIView+Toast.h"
+#import "SettingViewController.h"
 
 @interface AddInterestViewController ()
 
@@ -24,7 +25,7 @@
     // Do any additional setup after loading the view.
     self.screenName = @"Add Interest screen";
     
-    [interestTextView setPlaceholder:@" Add your interest"];
+    [interestTextView setPlaceholder:@"  Add your interest"];
     [interestTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:14.0]];
 
 }
@@ -80,6 +81,54 @@
         //sharePostBtn.enabled=NO;
         
     }
+}
+#pragma mark - end
+#pragma mark - Webservice
+-(void)saveUserInterest
+{
+    [[WebService sharedManager]addUserInterest:interestTextView.text success: ^(id responseObject) {
+        
+        [myDelegate StopIndicator];
+        
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"Alert"
+                                              message:[responseObject objectForKey:@"message"]
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:@"OK"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       
+                                       for (UIViewController *controller in self.navigationController.viewControllers)
+                                       {
+                                           if ([controller isKindOfClass:[SettingViewController class]])
+                                           {
+                                               [self.navigationController popToViewController:controller animated:YES];
+                                               
+                                               break;
+                                           }
+                                       }
+                                       
+                                   }];
+        
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+    }
+                                       failure:^(NSError *error)
+     {
+         
+     }] ;
+
+}
+#pragma mark - end
+#pragma mark - IBActions
+- (IBAction)saveButtonAction:(id)sender
+{
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(saveUserInterest) withObject:nil afterDelay:.1];
 }
 #pragma mark - end
 @end

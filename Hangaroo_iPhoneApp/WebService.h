@@ -16,10 +16,10 @@
 //#define BASE_URL                              @""
 
 //clients link
-#define BASE_URL                              @"http://52.74.174.129/admin/api/"
+//#define BASE_URL                                @"http://52.74.174.129/admin/api/"
 
 //testing link
-//#define BASE_URL                              @"http://ranosys.net/client/hangaroo/admin/api/"
+#define BASE_URL                              @"http://ranosys.net/client/hangaroo/admin/api/"
 
 @interface WebService : NSObject
 
@@ -57,4 +57,19 @@
 //Like dislike
 -(void)likDislikePhoto:(NSString *)imageUrl likeDislike:(NSString *)likeDislike success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //end
+
+//Edit profile photo
+-(void)editProfilePhoto:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+//end
+
+//Add interest
+-(void)addUserInterest:(NSString *)userInterest success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+//end
+
+//Share feedback
+-(void)shareFeedback:(NSString *)subject content:(NSString *)content success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+//end
+
+//Change password
+-(void)changePassword:(NSString *)oldPassword newPassword:(NSString *)newPassword success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 @end

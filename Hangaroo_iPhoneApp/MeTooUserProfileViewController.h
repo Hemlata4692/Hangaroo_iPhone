@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MeTooUserProfileViewController : UIViewController
+@interface MeTooUserProfileViewController : GAITrackedViewController
 @property(nonatomic,retain) NSString * userProfileImageUrl;
 @property(nonatomic,retain) NSString * postID;
 @property(nonatomic,retain) NSString * post;

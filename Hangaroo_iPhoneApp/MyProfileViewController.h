@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyProfileViewController : UIViewController
+@interface MyProfileViewController : GAITrackedViewController
 
 @end

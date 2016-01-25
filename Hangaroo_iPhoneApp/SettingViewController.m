@@ -29,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+     self.screenName = @"Settings screen";
     settingsDataArray=[[NSMutableArray alloc]initWithObjects:@"Change Password",@"Share Feedback",@"Find the Roo",@"Log Out", nil];
     editUserInfoArray=[[NSMutableArray alloc]initWithObjects:@"Edit Profile Photo",@"Interest",@"Social Media Accounts", nil];
 }
@@ -118,6 +119,7 @@
        settingsLabel.hidden=YES;
        arrowImage.hidden=YES;
        logOutLabel.hidden=NO;
+       
     }
        
     
@@ -175,6 +177,8 @@
         myDelegate.window.rootViewController = myDelegate.navigationController;
         [UserDefaultManager removeValue:@"userId"];
         [UserDefaultManager removeValue:@"username"];
+        [UserDefaultManager removeValue:@"userImage"];
+        
     }
     
 }

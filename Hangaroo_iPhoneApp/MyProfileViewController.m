@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+     self.screenName = @"Profile screen";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     myDelegate.navigationController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavController"];
@@ -24,6 +25,7 @@
     myDelegate.window.rootViewController = myDelegate.navigationController;
     [UserDefaultManager removeValue:@"userId"];
     [UserDefaultManager removeValue:@"username"];
+     [UserDefaultManager removeValue:@"userImage"];
 }
 
 - (void)didReceiveMemoryWarning {

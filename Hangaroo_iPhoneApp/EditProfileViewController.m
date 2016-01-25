@@ -7,31 +7,173 @@
 //
 
 #import "EditProfileViewController.h"
+#import <UIImageView+AFNetworking.h>
+#import "SettingViewController.h"
 
-@interface EditProfileViewController ()
+@interface EditProfileViewController ()<UIGestureRecognizerDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *infoLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *userProfileImageView;
 
 @end
 
 @implementation EditProfileViewController
+@synthesize infoLabel,userProfileImageView;
 
+#pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+     self.screenName = @"Edit profile photo screen";
+    self.title=@"Edit profile photo";
+    
+    __weak UIImageView *weakRef = userProfileImageView;
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]
+                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                              timeoutInterval:60];
+    
+    [userProfileImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+        weakRef.clipsToBounds = YES;
+        weakRef.image = image;
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        
+    }];
+
+    
+    UITapGestureRecognizer *imageViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTapped)];
+    imageViewTap.delegate = self;
+    
+      [userProfileImageView addGestureRecognizer:imageViewTap];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - end
+#pragma mark - Change profile image action
+- (void) imageViewTapped
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
+    
+    [actionSheet showInView:self.view];
 }
-*/
+#pragma mark - end
+#pragma mark - Action sheet delegate
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    
+    NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+    
+    if (buttonIndex==0)
+    {
+        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            
+            UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                  message:@"Device has no camera."
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles: nil];
+            
+            [myAlertView show];
+            
+        }
+        else
+            
+        {
+            UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+            picker.delegate = self;
+            picker.allowsEditing = YES;
+            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            
+            [self presentViewController:picker animated:YES completion:NULL];
+        }
+        
+    }
+    if ([buttonTitle isEqualToString:@"Choose from Gallery"])
+    {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        
+        [self presentViewController:picker animated:YES completion:NULL];
+        
+    }
+}
+#pragma mark - end
 
+#pragma mark - Image Picker Controller delegate methods
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)info
+{
+    userProfileImageView.image = image;
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+    
+}
+#pragma mark - end
+
+#pragma mark - Webservice
+
+-(void) editProfilePhoto
+{
+    [[WebService sharedManager]editProfilePhoto:userProfileImageView.image success: ^(id responseObject) {
+        
+        [myDelegate StopIndicator];
+        
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"Alert"
+                                              message:[responseObject objectForKey:@"message"]
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:@"OK"
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       
+                                       for (UIViewController *controller in self.navigationController.viewControllers)
+                                       {
+                                           if ([controller isKindOfClass:[SettingViewController class]])
+                                           {
+                                               [self.navigationController popToViewController:controller animated:YES];
+                                               
+                                               break;
+                                           }
+                                       }
+                                       
+                                   }];
+        
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+    }
+                                        failure:^(NSError *error)
+     {
+         
+     }] ;
+}
+#pragma mark - end
+
+#pragma mark - IBActions
+- (IBAction)saveButtonAction:(id)sender
+{
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(editProfilePhoto) withObject:nil afterDelay:.1];
+
+}
+#pragma mark - end
 @end

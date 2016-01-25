@@ -275,12 +275,12 @@
 		B75450221C50F5CA00C9814D /* SetingsModule */ = {
 			isa = PBXGroup;
 			children = (
+				B75450261C510C8300C9814D /* SettingsViewController */,
 				B754502B1C510CE500C9814D /* ShareFeedbackViewController */,
 				B754502A1C510CC400C9814D /* SocialMediaAccoutViewController */,
 				B75450291C510CB800C9814D /* AddInterestViewController */,
 				B75450281C510CA400C9814D /* ChangePasswordViewController */,
 				B75450271C510C9500C9814D /* EditProfileViewController */,
-				B75450261C510C8300C9814D /* SettingsViewController */,
 			);
 			name = SetingsModule;
 			sourceTree = "<group>";
@@ -1027,7 +1027,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1048,7 +1048,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;

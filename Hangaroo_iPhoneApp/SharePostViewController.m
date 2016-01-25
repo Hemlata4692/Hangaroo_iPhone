@@ -48,7 +48,7 @@
 {
     [super viewWillAppear:YES];
     self.navigationItem.title=@"Share Post";
-    
+     sharePostBtn.enabled=NO;
 }
 
 #pragma mark - end

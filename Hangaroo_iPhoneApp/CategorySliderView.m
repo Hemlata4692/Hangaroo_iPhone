@@ -69,7 +69,7 @@
         for (UIImageView *v in categoryViews) {
             [self addCategotyView:v];
         }
-        for (UIView *l in andLabelView) {
+        for (UILabel *l in andLabelView) {
             [self addCategotyLabel:l];
         }
         [self.scrollView setContentOffset:CGPointMake( self.scrollView.contentOffset.x+(indexValue*55), self.scrollView.contentOffset.y) animated:YES];
