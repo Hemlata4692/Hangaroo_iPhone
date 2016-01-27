@@ -21,6 +21,7 @@
 @end
 
 @implementation AppDelegate
+@synthesize deviceToken;
 id<GAITracker> tracker;
 #pragma mark - Global indicator view
 - (void)ShowIndicator
@@ -70,7 +71,7 @@ id<GAITracker> tracker;
     
     // Initialize tracker. Replace with your tracking ID.
     tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-72052944-1"];
-   
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
     // [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"header.png"] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
@@ -94,8 +95,14 @@ id<GAITracker> tracker;
         [self.navigationController setViewControllers: [NSArray arrayWithObject: infoView]
                                              animated: YES];
     }
-
-
+    application.applicationIconBadgeNumber = 0;
+    NSDictionary *remoteNotifiInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
+    //Accept push notification when app is not open
+    if (remoteNotifiInfo)
+    {
+        [self application:application didReceiveRemoteNotification:remoteNotifiInfo];
+    }
+    
     return YES;
 }
 
@@ -120,5 +127,79 @@ id<GAITracker> tracker;
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+#pragma mark - end
+#pragma mark - Push notification methods
+
+-(void)registerDeviceForNotification
+{
+    if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)])
+    {
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+    else
+    {
+        
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge) categories:nil]];
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+}
+
+
+//-(NSString *)getNotificationMessage : (NSDictionary *)userInfo
+//{
+//    NSLog(@"Notification info %@",userInfo);
+////    [[NSUserDefaults standardUserDefaults]setInteger:[[userInfo objectForKey:@"PendingConfirmation"]intValue] forKey:@"PendingConfirmation"];
+////    [[NSUserDefaults standardUserDefaults]synchronize];
+////    bookingId =[userInfo objectForKey:@"BookingId"];
+////    NSDictionary *tempDict=[userInfo objectForKey:@"aps"];
+////    return [tempDict objectForKey:@"alert"];
+//}
+
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken1
+{
+    NSString *token = [[deviceToken1 description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
+    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+     NSLog(@"Notification token device ...............................////// info %@",token);
+    self.deviceToken = token;
+    
+    [[WebService sharedManager] registerDeviceForPushNotification:token deviceType:@"ios"  success:^(id responseObject) {
+        
+        //[myDelegate StopIndicator];
+        
+    } failure:^(NSError *error) {
+        
+    }] ;
+    
+    
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"UserId"]!=nil)
+    {
+        [UIApplication sharedApplication].applicationIconBadgeNumber=0;
+      //  [self getNotificationMessage:userInfo];
+        NSLog(@"Notification info %@",userInfo);
+    }
+    else
+    {
+        return;
+    }
+}
+
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err
+{
+    NSString *str = [NSString stringWithFormat: @"Error: %@", err];
+    NSLog(@"did failtoRegister and testing : %@",str);
+    
+}
+-(void)unregisterDeviceForNotification
+{
+    [[UIApplication sharedApplication]  unregisterForRemoteNotifications];
+}
+
 #pragma mark - end
 @end

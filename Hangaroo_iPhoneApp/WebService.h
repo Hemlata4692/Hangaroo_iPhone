@@ -70,6 +70,18 @@
 -(void)shareFeedback:(NSString *)subject content:(NSString *)content success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //end
 
+//Add social account
+-(void)socialAccounts:(NSString *)facebook twitter:(NSString *)twitter instagram:(NSString *)instagram success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+//end
+
 //Change password
 -(void)changePassword:(NSString *)oldPassword newPassword:(NSString *)newPassword success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+//end
+
+//Tap to see out
+-(void)seeOutNotification:(NSString *)joinedUserId success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+//end
+//Register device for push notification
+-(void)registerDeviceForPushNotification:(NSString *)deviceId deviceType:(NSString *)deviceType success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+//end
 @end

@@ -13,5 +13,6 @@
 @property(nonatomic,retain) NSString * postID;
 @property(nonatomic,retain) NSString * post;
 @property(nonatomic,retain) NSString * userName;
+@property(nonatomic,retain) NSString * joineUserId;
 @property(nonatomic,retain) NSString * followedUser;
 @end

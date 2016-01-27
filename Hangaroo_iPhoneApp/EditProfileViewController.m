@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //have to clear cache
      self.screenName = @"Edit profile photo screen";
     self.title=@"Edit profile photo";
     

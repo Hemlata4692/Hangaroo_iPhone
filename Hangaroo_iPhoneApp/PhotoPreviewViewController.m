@@ -28,45 +28,24 @@
     [super viewDidLoad];
      self.screenName = @"Photo preview screen";
     self.title=@"Preview photo";
- 
+     imageIndex=0;
     previewImageView.image=postImage;
     [previewImageView setUserInteractionEnabled:YES];
   
     UITapGestureRecognizer *imageViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTapped)];
     imageViewTap.delegate = self;
-    
-    //    UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageLeft:)];
-    //    swipeImageLeft.delegate=self;
-    //    UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageRight:)];
-    //    swipeImageRight.delegate=self;
-    // Setting the swipe direction.
-    //    [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
-    //    [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
-  
-    // Adding the swipe gesture on image view
-    //    [previewImageView addGestureRecognizer:swipeImageLeft];
-    //    [previewImageView addGestureRecognizer:swipeImageRight];
-
       // Drag Gesture for Caption
     UIPanGestureRecognizer *drag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(captionDrag:)];
-    
-  
     [previewImageView addGestureRecognizer:drag];
     [previewImageView addGestureRecognizer:imageViewTap];
     
-       imageIndex=0;
-    
-    
-    //[self swipeImages];
-    // previewImageView.image=[postImagesDataArray objectAtIndex:0];
-    
-    
     [self initCaption:self.view.frame];
+ 
     closeBtn.layer.shadowColor = [UIColor blackColor].CGColor;
     closeBtn.layer.shadowOffset = CGSizeMake(5, 5);
     closeBtn.layer.shadowRadius = 5;
     closeBtn.layer.shadowOpacity = 0.8;
-    
+   [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -89,6 +68,12 @@
         [self setNeedsStatusBarAppearanceUpdate];
     }completion:^(BOOL finished){}];
 }
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+}
+
 #pragma mark - end
 
 #pragma mark - Add tagline
@@ -96,7 +81,7 @@
     
     // Caption
     caption = [[UITextField alloc] initWithFrame:CGRectMake(0,
-                                                            120,
+                                                            150,
                                                             frame.size.width,
                                                             30)];
     caption.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
@@ -130,7 +115,7 @@
     
     CGPoint translation = [gestureRecognizer locationInView:previewImageView];
     
-    if (translation.y>130 && translation.y<self.view.frame.size.height-50) {
+    if (translation.y>150 && translation.y<self.view.frame.size.height-50) {
         if(translation.y < caption.frame.size.height/2)
         {
             caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  caption.frame.size.height/2);
@@ -167,13 +152,6 @@ replacementString:(NSString *)string{
 #pragma mark - end
 
 #pragma mark - Swipe Images
-//-(void)swipeImages
-//{
-//    previewImageView.image=[postImagesDataArray objectAtIndex:0];
-////    pageControl.numberOfPages = [tutorialImages count];
-//}
-
-
 //Adding left animation to banner images
 - (void)addLeftAnimationPresentToView:(UIView *)viewTobeAnimatedLeft
 {
@@ -268,9 +246,7 @@ replacementString:(NSString *)string{
         
         [myDelegate StopIndicator];
         NSLog(@"post id is %@",responseObject);
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
-        [self.navigationController pushViewController:homeView animated:YES];
+       [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         
     }
                                    failure:^(NSError *error)

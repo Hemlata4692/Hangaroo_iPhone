@@ -27,6 +27,13 @@
 #define kUrlAddInterest                 @"userinterest"
 #define kUrlShareFeedback               @"sharefeedback"
 #define kUrlChangePassword              @"changepass"
+#define kUrlRegisterDevice              @"registerdevice"
+#define kUrlTapToSeeOut                 @"seeout"
+#define kUrlSocialAccounts              @"socialaccounts"
+
+
+
+
 @implementation WebService
 @synthesize manager;
 
@@ -633,4 +640,85 @@
 }
 #pragma mark- end
 
+#pragma mark- Register Device
+-(void)registerDeviceForPushNotification:(NSString *)deviceId deviceType:(NSString *)deviceType success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"deviceId":deviceId,@"deviceType":deviceType};
+    NSLog(@"Register device  request%@", requestDict);
+    [self post:kUrlRegisterDevice parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"Register device Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
+
+#pragma mark- See Out Notification
+-(void)seeOutNotification:(NSString *)joinedUserId success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"joined_userid":joinedUserId};
+    NSLog(@"Tap to see out request%@", requestDict);
+    [self post:kUrlTapToSeeOut parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"Tap to see out Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
+
+#pragma mark- Social Accounts
+//Add social account
+-(void)socialAccounts:(NSString *)facebook twitter:(NSString *)twitter instagram:(NSString *)instagram success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"fb_username":facebook,@"twitter_username":twitter,@"insta_username":instagram};
+    NSLog(@"socialAccounts request%@", requestDict);
+    [self post:kUrlSocialAccounts parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"socialAccounts Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
 @end

@@ -15,6 +15,8 @@
 //Indicator
 - (void)ShowIndicator;
 - (void)StopIndicator;
-
+-(void)unregisterDeviceForNotification;
+-(void)registerDeviceForNotification;
+@property(nonatomic,retain)NSString * deviceToken;
 @end
 

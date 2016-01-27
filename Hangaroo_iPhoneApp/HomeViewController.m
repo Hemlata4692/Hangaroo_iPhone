@@ -111,7 +111,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    self.tabBarController.tabBar.hidden=NO;
+    //self.tabBarController.tabBar.hidden=NO;
     [[self navigationController] setNavigationBarHidden:NO];
     posted=@"Today";
     if (!pickerSelection) {
@@ -573,6 +573,14 @@
         userImage.layer.cornerRadius=userImage.frame.size.height/2;
         userImage.clipsToBounds=YES;
         
+        UIImageView *meeToo=(UIImageView *)[meTooCell viewWithTag:90];
+        
+        meeToo.translatesAutoresizingMaskIntoConstraints=YES;
+        meeToo.frame=CGRectMake(5, 1, meeToo.frame.size.width,  meeToo.frame.size.height);
+        meeToo.layer.cornerRadius=meeToo.frame.size.height/2;
+        meeToo.clipsToBounds=YES;
+        meeToo.image=[UIImage imageNamed:@"me_too.png"];
+        
         UILabel *nameLabel=(UILabel *)[meTooCell viewWithTag:21];
         nameLabel.translatesAutoresizingMaskIntoConstraints=YES;
         nameLabel.frame=CGRectMake(3, userImage.frame.origin.y+userImage.frame.size.height, nameLabel.frame.size.width,  nameLabel.frame.size.height);
@@ -584,14 +592,28 @@
             {
                 if (indexPath.item==0)
                 {
+                    // meeToo.hidden=NO;
                     nameLabel.text=@"";
-                    userImage.image=[UIImage imageNamed:@"me_too.png"];
+                    __weak UIImageView *weakRef = userImage;
+                    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:0] joinedUserImage]]
+                                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                              timeoutInterval:60];
+                    
+                    [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                        weakRef.clipsToBounds = YES;
+                        weakRef.image = image;
+                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                        
+                    }];
+                    
                     
                 }
                 else
                 {
+                    meeToo.hidden=YES;
                     nameLabel.text=[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
-                      nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                    nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
                     __weak UIImageView *weakRef = userImage;
                     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
                                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -608,6 +630,7 @@
             }
             else
             {
+                meeToo.hidden=YES;
                 if ([[[todayPostData objectAtIndex:cv.collectionTag] creatorOfPostUserId]intValue]==[[UserDefaultManager getValue:@"userId"]intValue])
                 {
                     if (indexPath.item==0)
@@ -686,14 +709,29 @@
             {
                 if (indexPath.item==0)
                 {
+                    
+                    
                     nameLabel.text=@"";
-                    userImage.image=[UIImage imageNamed:@"me_too.png"];
+                    __weak UIImageView *weakRef = userImage;
+                    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:0] joinedUserImage]]
+                                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                              timeoutInterval:60];
+                    
+                    [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+                        weakRef.clipsToBounds = YES;
+                        weakRef.image = image;
+                    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                        
+                    }];
+                    
                     
                 }
                 else
                 {
+                    meeToo.hidden=YES;
                     nameLabel.text=[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
-                      nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
+                    nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
                     __weak UIImageView *weakRef = userImage;
                     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage]]
                                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -711,7 +749,7 @@
             }
             else
             {
-                
+                meeToo.hidden=YES;
                 if ([[[yesterdayPostData objectAtIndex:cv.collectionTag] creatorOfPostUserId]intValue]==[[UserDefaultManager getValue:@"userId"]intValue])
                 {
                     if (indexPath.item==0)
@@ -856,7 +894,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 MeTooUserProfileViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
                 viewPost.postID=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
                 viewPost.post=[[todayPostData objectAtIndex:collectionView.collectionTag]postContent];
-               
+               viewPost.joineUserId=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserId];
                  viewPost.userName=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
                 viewPost.userProfileImageUrl=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
                 if ([[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
@@ -888,10 +926,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 MeTooUserProfileViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
                 viewPost.postID=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
                 viewPost.post=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postContent];
-                
+                viewPost.joineUserId=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserId];
                 viewPost.userName=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
                 viewPost.userProfileImageUrl=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
-                if ([[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
+                if ([[[yesterdayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[yesterdayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]];
                 }
@@ -1053,7 +1091,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
   //  [self.navigationController pushViewController:photoView animated:YES];
     UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:photoView];
     [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-        
+         pickerSelection=false;
     }];
 
     
@@ -1074,39 +1112,5 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }
-
-//#pragma mark - QBImagePickerControllerDelegate
-//
-//- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets {
-//    for (PHAsset *asset in assets) {
-//        // Do something with the asset
-//        PHImageManager *manager = [PHImageManager defaultManager];
-//         __block UIImage *postImage;
-//        [manager requestImageForAsset:asset
-//                           targetSize:PHImageManagerMaximumSize
-//                          contentMode:PHImageContentModeDefault
-//                              options:self.requestOptions
-//                        resultHandler:^void(UIImage *image, NSDictionary *info) {
-//                            postImage = image;
-//                        }];
-//        
-//        [postImagesArray addObject:postImage];
-//       
-//    }
-//   
-//    
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//     [myDelegate StopIndicator];
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
-//    photoView.postImagesDataArray=[postImagesArray mutableCopy];
-//    [self.navigationController pushViewController:photoView animated:YES];
-//}
-//
-//- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController {
-//    [self dismissViewControllerAnimated:YES completion:NULL];
-//}
-//
-//#pragma mark - end
 
 @end

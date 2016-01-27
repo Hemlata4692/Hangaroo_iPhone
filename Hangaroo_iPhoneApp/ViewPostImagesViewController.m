@@ -52,7 +52,7 @@
     postImagesArray=[[NSMutableArray alloc]init];
     photoImageView.userInteractionEnabled=YES;
   
-   
+   [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self addShadow];
     
     [myDelegate ShowIndicator];
@@ -85,15 +85,15 @@
     likeCount.shadowColor = [UIColor blackColor];
     likeCount.shadowOffset = CGSizeMake(0.0, 1.5);
     
-    likeButton.layer.shadowColor = [UIColor blackColor].CGColor;
-    likeButton.layer.shadowOffset = CGSizeMake(1, 1);
-    likeButton.layer.shadowRadius = 5;
-    likeButton.layer.shadowOpacity = 1.0;
-    
-    dislikeButton.layer.shadowColor = [UIColor blackColor].CGColor;
-    dislikeButton.layer.shadowOffset = CGSizeMake(5, 5);
-    dislikeButton.layer.shadowRadius = 5;
-    dislikeButton.layer.shadowOpacity = 0.8;
+//    likeButton.layer.shadowColor = [UIColor blackColor].CGColor;
+//    likeButton.layer.shadowOffset = CGSizeMake(1, 1);
+//    likeButton.layer.shadowRadius = 5;
+//    likeButton.layer.shadowOpacity = 1.0;
+//    
+//    dislikeButton.layer.shadowColor = [UIColor blackColor].CGColor;
+//    dislikeButton.layer.shadowOffset = CGSizeMake(5, 5);
+//    dislikeButton.layer.shadowRadius = 5;
+//    dislikeButton.layer.shadowOpacity = 0.8;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -109,6 +109,11 @@
     [UIView animateWithDuration:0.1 animations:^() {
         [self setNeedsStatusBarAppearanceUpdate];
     }completion:^(BOOL finished){}];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 #pragma mark - end

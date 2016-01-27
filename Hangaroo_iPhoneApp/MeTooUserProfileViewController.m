@@ -23,7 +23,7 @@
 
 @implementation MeTooUserProfileViewController
 @synthesize postLabel,followedUserLabel,userNameLabel,postedPostId;
-@synthesize userImageView,mainContainerView,tapToSeeOutBtn;
+@synthesize userImageView,mainContainerView,tapToSeeOutBtn,joineUserId;
 @synthesize userName,userProfileImageUrl,post,postID,followedUser;
 
 #pragma mark - View life cycle
@@ -33,7 +33,7 @@
     // Do any additional setup after loading the view.
      self.screenName = @"Me too user profile screen";
     [mainContainerView setCornerRadius:3.0f];
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self displayData];
 }
 
@@ -57,6 +57,11 @@
     [UIView animateWithDuration:0.1 animations:^() {
         [self setNeedsStatusBarAppearanceUpdate];
     }completion:^(BOOL finished){}];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+     [super viewWillDisappear:YES];
+      [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 #pragma mark - end
 
@@ -88,14 +93,31 @@
 {
      [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
-- (IBAction)chatButtonAction:(id)sender {
-}
-- (IBAction)seeOutbutonAction:(id)sender
+- (IBAction)chatButtonAction:(id)sender
 {
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     SettingViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"SettingViewController"];
     [self.navigationController pushViewController:loginView animated:YES];
 }
+- (IBAction)seeOutbutonAction:(id)sender
+{
+    //    [myDelegate ShowIndicator];
+     [self performSelector:@selector(seeOutUser) withObject:nil afterDelay:0.1];
+}
 #pragma mark - end
+-(void)seeOutUser
+{
+    NSLog(@"user id %@",joineUserId);
+    [[WebService sharedManager] seeOutNotification:joineUserId success:^(id responseObject) {
+        
+        [myDelegate StopIndicator];
+        
+        
+        
+    } failure:^(NSError *error) {
+        
+    }] ;
+
+}
 
 @end
