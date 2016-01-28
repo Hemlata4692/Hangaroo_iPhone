@@ -57,12 +57,24 @@
     objc_setAssociatedObject(self, @selector(af_imageRequestOperation), imageRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
+
 @end
 
 #pragma mark -
 
 @implementation UIImageView (AFNetworking)
 @dynamic imageResponseSerializer;
+
+- (void)clearImageCacheForURL:(NSURL *)url {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    //NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
+    
+    UIImage *cachedImage = [[[self class] sharedImageCache] cachedImageForRequest:request];
+    if (cachedImage) {
+        [[[self class] sharedImageCache] clearCachedRequest:request];
+    }
+}
 
 + (id <AFImageCache>)sharedImageCache {
     static AFImageCache *_af_defaultImageCache = nil;
@@ -207,6 +219,11 @@ static inline NSString * AFImageCacheKeyFromURLRequest(NSURLRequest *request) {
 {
     if (image && request) {
         [self setObject:image forKey:AFImageCacheKeyFromURLRequest(request)];
+    }
+}
+- (void)clearCachedRequest:(NSURLRequest *)request {
+    if (request) {
+        [self removeObjectForKey:AFImageCacheKeyFromURLRequest(request)];
     }
 }
 

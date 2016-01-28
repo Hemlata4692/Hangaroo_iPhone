@@ -35,6 +35,7 @@
 		B7636C2C1C44F4870009F01D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C2B1C44F4870009F01D /* CoreData.framework */; };
 		B7636C2E1C44F48D0009F01D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C2D1C44F48D0009F01D /* CoreLocation.framework */; };
 		B7636C311C4531D90009F01D /* MyCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7636C301C4531D90009F01D /* MyCollectionView.m */; };
+		B76605091C5A11F3006CCECA /* LoadWebPagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76605081C5A11F3006CCECA /* LoadWebPagesViewController.m */; };
 		B76B69F91C3E423C00A7254D /* PhotoPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B69F81C3E423C00A7254D /* PhotoPreviewViewController.m */; };
 		B76B69FE1C3E4A4600A7254D /* PostListingDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */; };
 		B76B6A081C3E952500A7254D /* MeTooUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B6A071C3E952500A7254D /* MeTooUserProfileViewController.m */; };
@@ -126,6 +127,8 @@
 		B7636C2D1C44F48D0009F01D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B7636C2F1C4531D90009F01D /* MyCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectionView.h; sourceTree = "<group>"; };
 		B7636C301C4531D90009F01D /* MyCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectionView.m; sourceTree = "<group>"; };
+		B76605071C5A11F3006CCECA /* LoadWebPagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadWebPagesViewController.h; sourceTree = "<group>"; };
+		B76605081C5A11F3006CCECA /* LoadWebPagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadWebPagesViewController.m; sourceTree = "<group>"; };
 		B76B69F71C3E423C00A7254D /* PhotoPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewViewController.h; sourceTree = "<group>"; };
 		B76B69F81C3E423C00A7254D /* PhotoPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewViewController.m; sourceTree = "<group>"; };
 		B76B69FC1C3E4A4600A7254D /* PostListingDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostListingDataModel.h; sourceTree = "<group>"; };
@@ -276,11 +279,12 @@
 			isa = PBXGroup;
 			children = (
 				B75450261C510C8300C9814D /* SettingsViewController */,
+				B75450271C510C9500C9814D /* EditProfileViewController */,
 				B754502B1C510CE500C9814D /* ShareFeedbackViewController */,
 				B754502A1C510CC400C9814D /* SocialMediaAccoutViewController */,
 				B75450291C510CB800C9814D /* AddInterestViewController */,
 				B75450281C510CA400C9814D /* ChangePasswordViewController */,
-				B75450271C510C9500C9814D /* EditProfileViewController */,
+				B76605061C5A11D2006CCECA /* LoadWebPagesViewController */,
 			);
 			name = SetingsModule;
 			sourceTree = "<group>";
@@ -363,6 +367,15 @@
 				B7636C221C44F1170009F01D /* GAITracker.h */,
 			);
 			name = GoogleAnalytics;
+			sourceTree = "<group>";
+		};
+		B76605061C5A11D2006CCECA /* LoadWebPagesViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B76605071C5A11F3006CCECA /* LoadWebPagesViewController.h */,
+				B76605081C5A11F3006CCECA /* LoadWebPagesViewController.m */,
+			);
+			name = LoadWebPagesViewController;
 			sourceTree = "<group>";
 		};
 		B76B69F61C3E41DA00A7254D /* PhotoPreviewViewController */ = {
@@ -780,7 +793,7 @@
 				TargetAttributes = {
 					B795B16B1C323CAF007EB2E6 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = 6S3AL87NGN;
+						DevelopmentTeam = T7GN63HCDX;
 					};
 				};
 			};
@@ -914,6 +927,7 @@
 				B795B1711C323CAF007EB2E6 /* main.m in Sources */,
 				B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */,
 				B709C5311C33A6BD00300EFF /* SignUpViewController.m in Sources */,
+				B76605091C5A11F3006CCECA /* LoadWebPagesViewController.m in Sources */,
 				B7F5481E1C33F3E2002A06E7 /* UserDefaultManager.m in Sources */,
 				B754502E1C510CFC00C9814D /* EditProfileViewController.m in Sources */,
 				B7050D341C4D0F6600E95FCA /* ViewPostImagesViewController.m in Sources */,
@@ -954,8 +968,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -977,7 +991,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
+				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -999,8 +1013,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1015,7 +1029,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
+				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1027,7 +1041,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1038,7 +1052,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.Hangaroo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
+				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";
 			};
 			name = Debug;
 		};
@@ -1048,8 +1062,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Rameshwar Vyas (7K7JRCWTUM)";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1060,7 +1074,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.Hangaroo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
+				PROVISIONING_PROFILE = "c1b634b4-e1d4-4f49-be67-75cd813c7833";
 			};
 			name = Release;
 		};

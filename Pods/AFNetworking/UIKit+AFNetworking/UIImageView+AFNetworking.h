@@ -78,6 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setImageWithURL:(NSURL *)url;
 
+- (void)clearImageCacheForURL:(NSURL *)url;
 /**
  Asynchronously downloads an image from the specified URL, and sets it once the request is finished. Any previous image request for the receiver will be cancelled.
 
@@ -139,6 +140,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)cacheImage:(UIImage *)image
         forRequest:(NSURLRequest *)request;
+
+- (void)clearCachedRequest:(NSURLRequest *)request;
 @end
 
 NS_ASSUME_NONNULL_END

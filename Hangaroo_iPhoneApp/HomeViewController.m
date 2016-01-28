@@ -195,6 +195,7 @@
                                    failure:^(NSError *error)
      {
          [postListingArray removeAllObjects];
+         [postListingTableView reloadData];
 //         noResultFound.hidden=NO;
 //         postListingTableView.hidden=YES;
      }] ;
@@ -572,7 +573,7 @@
         userImage.frame=CGRectMake(5, 1, userImage.frame.size.width,  userImage.frame.size.height);
         userImage.layer.cornerRadius=userImage.frame.size.height/2;
         userImage.clipsToBounds=YES;
-        
+        //[userImage clearImageCacheForURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]];
         UIImageView *meeToo=(UIImageView *)[meTooCell viewWithTag:90];
         
         meeToo.translatesAutoresizingMaskIntoConstraints=YES;
@@ -1087,8 +1088,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
         photoView.postImage=image;
     photoView.postID=postId;
-    //self.tabBarController.hidesBottomBarWhenPushed=YES;
-  //  [self.navigationController pushViewController:photoView animated:YES];
+ 
     UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:photoView];
     [self.navigationController presentViewController:navBar animated: YES completion: ^ {
          pickerSelection=false;

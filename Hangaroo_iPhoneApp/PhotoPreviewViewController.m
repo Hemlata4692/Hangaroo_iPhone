@@ -13,6 +13,8 @@
 @interface PhotoPreviewViewController ()<UIGestureRecognizerDelegate,UITextFieldDelegate>
 {
     int imageIndex;
+    CGFloat messageHeight, messageYValue;
+    UIPanGestureRecognizer *drag;
 }
 
 @property (weak, nonatomic) IBOutlet UIImageView *previewImageView;
@@ -26,26 +28,27 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.screenName = @"Photo preview screen";
+    self.screenName = @"Photo preview screen";
     self.title=@"Preview photo";
-     imageIndex=0;
+    imageIndex=0;
     previewImageView.image=postImage;
     [previewImageView setUserInteractionEnabled:YES];
-  
+    
     UITapGestureRecognizer *imageViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTapped)];
     imageViewTap.delegate = self;
-      // Drag Gesture for Caption
-    UIPanGestureRecognizer *drag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(captionDrag:)];
-    [previewImageView addGestureRecognizer:drag];
+    // Drag Gesture for Caption
+    drag = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(captionDrag:)];
+    
     [previewImageView addGestureRecognizer:imageViewTap];
     
     [self initCaption:self.view.frame];
- 
+    messageYValue=160;
     closeBtn.layer.shadowColor = [UIColor blackColor].CGColor;
     closeBtn.layer.shadowOffset = CGSizeMake(5, 5);
     closeBtn.layer.shadowRadius = 5;
     closeBtn.layer.shadowOpacity = 0.8;
-   [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [self registerForKeyboardNotifications];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -76,12 +79,14 @@
 
 #pragma mark - end
 
+
+
 #pragma mark - Add tagline
 - (void) initCaption:(CGRect)frame{
     
     // Caption
     caption = [[UITextField alloc] initWithFrame:CGRectMake(0,
-                                                            150,
+                                                            160,
                                                             frame.size.width,
                                                             30)];
     caption.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
@@ -89,7 +94,7 @@
     caption.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     caption.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     caption.textColor = [UIColor whiteColor];
-    caption.keyboardAppearance = UIKeyboardAppearanceDark;
+    caption.keyboardAppearance = UIKeyboardAppearanceDefault;
     caption.alpha = 0;
     caption.tintColor = [UIColor whiteColor];
     caption.delegate = self;
@@ -106,6 +111,7 @@
         [caption resignFirstResponder];
         caption.alpha = ([caption.text isEqualToString:@""]) ? 0 : caption.alpha;
     } else {
+        
         [caption becomeFirstResponder];
         caption.alpha = 1;
     }
@@ -115,7 +121,9 @@
     
     CGPoint translation = [gestureRecognizer locationInView:previewImageView];
     
-    if (translation.y>150 && translation.y<self.view.frame.size.height-50) {
+    if (translation.y>160 && translation.y<self.view.frame.size.height-60)
+    {
+        messageYValue=translation.y;
         if(translation.y < caption.frame.size.height/2)
         {
             caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  caption.frame.size.height/2);
@@ -126,9 +134,11 @@
         }
         else
         {
+            
             caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  translation.y);
+            
         }
-
+        
     }
     
 }
@@ -145,10 +155,35 @@ replacementString:(NSString *)string{
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     
-    
     [caption resignFirstResponder];
     return true;
 }
+- (void)registerForKeyboardNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    [previewImageView removeGestureRecognizer:drag];
+    NSDictionary* info = [notification userInfo];
+    NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
+    NSLog(@"%f",[aValue CGRectValue].size.height);
+    caption.frame = CGRectMake(0, self.view.frame.size.height-[aValue CGRectValue].size.height-10, [aValue CGRectValue].size.width, caption.frame.size.height);
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    [previewImageView addGestureRecognizer:drag];
+    
+    caption.frame = CGRectMake(0, messageYValue, self.view.bounds.size.width, caption.frame.size.height);
+    
+}
+
 #pragma mark - end
 
 #pragma mark - Swipe Images
@@ -222,7 +257,7 @@ replacementString:(NSString *)string{
 }
 - (IBAction)closeButtonAction:(id)sender
 {
-     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark - end
 
@@ -246,7 +281,7 @@ replacementString:(NSString *)string{
         
         [myDelegate StopIndicator];
         NSLog(@"post id is %@",responseObject);
-       [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         
     }
                                    failure:^(NSError *error)

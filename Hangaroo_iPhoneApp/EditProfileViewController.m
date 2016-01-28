@@ -24,9 +24,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //have to clear cache
-     self.screenName = @"Edit profile photo screen";
+    self.screenName = @"Edit profile photo screen";
     self.title=@"Edit profile photo";
     
+   
     __weak UIImageView *weakRef = userProfileImageView;
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -134,7 +135,8 @@
     [[WebService sharedManager]editProfilePhoto:userProfileImageView.image success: ^(id responseObject) {
         
         [myDelegate StopIndicator];
-        
+        [userProfileImageView clearImageCacheForURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]];
+        [UserDefaultManager removeValue:@"userImage"];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
                                               message:[responseObject objectForKey:@"message"]

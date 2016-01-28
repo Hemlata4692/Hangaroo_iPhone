@@ -12,18 +12,23 @@
 #import "SocialMediaAccountViewController.h"
 #import "ShareFeedbackViewController.h"
 #import "ChangePasswordViewController.h"
+#import "UIView+RoundedCorner.h"
+#import "UIView+Toast.h"
+#import <MessageUI/MessageUI.h>
 
-@interface SettingViewController ()
+@interface SettingViewController ()<MFMailComposeViewControllerDelegate>
 {
     NSMutableArray *settingsDataArray;
      NSMutableArray *editUserInfoArray;
 }
+@property (weak, nonatomic) IBOutlet UIView *findtheRooView;
 @property (weak, nonatomic) IBOutlet UITableView *settingTableView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
 
 @end
 
 @implementation SettingViewController
-@synthesize settingTableView;
+@synthesize settingTableView,findtheRooView,containerView;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
@@ -32,11 +37,13 @@
      self.screenName = @"Settings screen";
     settingsDataArray=[[NSMutableArray alloc]initWithObjects:@"Change Password",@"Share Feedback",@"Find the Roo",@"Log Out", nil];
     editUserInfoArray=[[NSMutableArray alloc]initWithObjects:@"Edit Profile Photo",@"Interest",@"Social Media Accounts", nil];
+    findtheRooView.hidden=YES;
+    [containerView setCornerRadius:5.0f];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    self.title=@"Edit";
+    self.title=@"Settings";
     self.tabBarController.tabBar.hidden=NO;
     [[self navigationController] setNavigationBarHidden:NO];
 }
@@ -121,11 +128,7 @@
        logOutLabel.hidden=NO;
        
     }
-       
-    
-    
     return cell;
-    
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -164,25 +167,96 @@
       
     }
     else if (indexPath.section == 1 && indexPath.row==2) {
-//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        UIViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"QuickLinksViewController"];
-//        [self.navigationController pushViewController:view animated:YES];
+        findtheRooView.hidden=NO;
     }
     
-    else if (indexPath.section == 1 && indexPath.row==3) {
+    else if (indexPath.section == 1 && indexPath.row==3)
+    {
+        [myDelegate unregisterDeviceForNotification];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
         myDelegate.navigationController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavController"];
-        
         myDelegate.window.rootViewController = myDelegate.navigationController;
         [UserDefaultManager removeValue:@"userId"];
         [UserDefaultManager removeValue:@"username"];
         [UserDefaultManager removeValue:@"userImage"];
-        
     }
     
 }
 
+#pragma mark - end
+
+#pragma mark - IBActions
+- (IBAction)facebookButtonAction:(id)sender
+{
+}
+- (IBAction)twitterButtonAction:(id)sender
+{
+}
+- (IBAction)mailButtonAction:(id)sender
+{
+    if ([MFMailComposeViewController canSendMail])
+    {
+        // Email Subject
+        NSString *emailTitle = @"Hangaroo";
+        NSArray *toRecipents = [NSArray arrayWithObject:@""];
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setSubject:emailTitle];
+//        [mc setMessageBody:[NSString stringWithFormat:@"%@ %@ %@ %@ %@%@%@%@\n\n%@\n\n%@",@"Check out",nameLabel.text,@"from",companyLabel.text,@"on Sure",@"(",[NSURL URLWithString: @"http://www.allsurething.com/"],@")",businessDescriptionTextView.text,@"Sure makes your life easier! We believe that booking local services should be easy, fast and definitely reliable! Through our app, you can book a trusted service provider in just a few clicks. With the collections of all the best services in town, we are opening up more possibilities in life for you."] isHTML:NO];
+        [mc setToRecipients:toRecipents];
+        
+        [self presentViewController:mc animated:YES completion:NULL];
+    }
+    else
+    {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Alert"
+                                  message:@"Email account is not configured in your device."
+                                  delegate:self
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+    
+    
+}
+
+
+- (IBAction)instagramButtonAction:(id)sender
+{
+}
+- (IBAction)closeFindTheRooViewButtonAction:(id)sender
+{
+     findtheRooView.hidden=YES;
+}
+#pragma mark - end
+
+#pragma mark - MFMailComposeViewController delegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
+                        error:(NSError*)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled: you cancelled the operation and no email message was queued.");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved: you saved the email message in the drafts folder.");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail send: the email message is queued in the outbox. It is ready to send.");
+            break;
+        case MFMailComposeResultFailed:
+            [self.view makeToast:@"Your email was not sent."];
+            NSLog(@"Mail failed: the email message was not saved or queued, possibly due to an error.");
+            break;
+        default:
+            NSLog(@"Mail not sent.");
+            break;
+    }
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
 #pragma mark - end
 
 @end

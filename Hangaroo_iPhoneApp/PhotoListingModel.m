@@ -13,4 +13,5 @@
 @synthesize postImagesUrl;
 @synthesize uploadedImageTime;
 @synthesize userImageUrl;
+@synthesize dislikeCountData;
 @end

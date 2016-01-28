@@ -476,6 +476,7 @@
                      PhotoListingModel *photoListData = [[PhotoListingModel alloc]init];
                      NSDictionary * photoListDict =[photoListingArray objectAtIndex:i];
                      photoListData.likeCountData =[photoListDict objectForKey:@"like_count"];
+                     photoListData.dislikeCountData =[photoListDict objectForKey:@"dislike_count"];
                      photoListData.postImagesUrl =[photoListDict objectForKey:@"post_image"];
                      photoListData.uploadedImageTime =[photoListDict objectForKey:@"uploaded_time"];
                      photoListData.userImageUrl=[photoListDict objectForKey:@"user_image_url"];
@@ -483,9 +484,7 @@
                      [dataArray addObject:photoListData];
                  }
                  success(dataArray);
-             }
-
-             
+             }             
          }
          else
          {
