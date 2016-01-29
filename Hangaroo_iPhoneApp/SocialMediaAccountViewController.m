@@ -82,6 +82,7 @@
     
 }
 #pragma mark - end
+#pragma mark - Textfield delegate methods
 -(void)textFieldDidChange :(UITextField *)theTextField{
     NSLog( @"text changed: %@", theTextField.text);
     if (theTextField==facebookTextField) {
@@ -118,6 +119,14 @@
    }
 
 }
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    
+    [textField resignFirstResponder];
+    return YES;
+    
+}
+#pragma mark - end
 #pragma mark - IBActions
 - (IBAction)saveSocialAccountsBtn:(id)sender
 {

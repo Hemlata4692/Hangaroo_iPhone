@@ -10,6 +10,7 @@
 #import "CategorySliderView.h"
 #import "PhotoListingModel.h"
 #import <UIImageView+AFNetworking.h>
+#import "PhotoListingModel.h"
 
 #define CategorySliderHeight 120
 
@@ -267,7 +268,21 @@
         [self addLeftAnimationPresentToView:moveImageView];
         likeCount.text=[[photoListingDataArray objectAtIndex:selectedIndex]likeCountData];
         dislikeCount.text=[[photoListingDataArray objectAtIndex:selectedIndex]dislikeCountData];
-        
+        if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"0"]) {
+            [likeButton setSelected:NO];
+            [dislikeButton setSelected:NO];
+        }
+        else if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"T"])
+        {
+            [likeButton setSelected:YES];
+            [dislikeButton setSelected:NO];
+        }
+        else if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"F"])
+        {
+            [likeButton setSelected:NO];
+            [dislikeButton setSelected:YES];
+        }
+
         
     }
     else
@@ -293,11 +308,6 @@
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
         }];
-        UIImageView *moveImageView = photoImageView;
-        [self addRightAnimationPresentToView:moveImageView];
-        likeCount.text=[[photoListingDataArray objectAtIndex:selectedIndex]likeCountData];
-        dislikeCount.text=[[photoListingDataArray objectAtIndex:selectedIndex]dislikeCountData];
-        
         
         int value = ((selectedIndex*80) + 35) -self.view.frame.size.width/2 ;
         NSLog(@"-----%d---------",value);
@@ -314,6 +324,26 @@
             
             
         }
+        UIImageView *moveImageView = photoImageView;
+        [self addRightAnimationPresentToView:moveImageView];
+        likeCount.text=[[photoListingDataArray objectAtIndex:selectedIndex]likeCountData];
+        dislikeCount.text=[[photoListingDataArray objectAtIndex:selectedIndex]dislikeCountData];
+        if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"0"]) {
+            [likeButton setSelected:NO];
+            [dislikeButton setSelected:NO];
+        }
+        else if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"T"])
+        {
+            [likeButton setSelected:YES];
+            [dislikeButton setSelected:NO];
+        }
+        else if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"F"])
+        {
+            [likeButton setSelected:NO];
+            [dislikeButton setSelected:YES];
+        }
+        
+
     }
     
     else
@@ -336,7 +366,23 @@
             [postImagesArray addObject:[[photoListingDataArray objectAtIndex:i]postImagesUrl]];
             [imageArray addObject:[[photoListingDataArray objectAtIndex:i]userImageUrl]];
             [labelArray addObject:[[photoListingDataArray objectAtIndex:i]uploadedImageTime]];
+          
+                   }
+        if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"0"]) {
+            [likeButton setSelected:NO];
+            [dislikeButton setSelected:NO];
         }
+        else if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"T"])
+        {
+            [likeButton setSelected:YES];
+            [dislikeButton setSelected:NO];
+        }
+        else if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"F"])
+        {
+            [likeButton setSelected:NO];
+            [dislikeButton setSelected:YES];
+        }
+        //userCollectionview.scrollEnabled=NO;
         
         userCollectionview.contentInset = UIEdgeInsetsMake(0, (self.view.frame.size.width/2) - 35, 0, (self.view.frame.size.width/2) - 80);
         int spaceValue = ((selectedIndex*80) + 35) -self.view.frame.size.width/2 ;
@@ -372,9 +418,20 @@
     [[WebService sharedManager] likDislikePhoto:[postImagesArray objectAtIndex:selectedIndex] likeDislike:likeDislikeString  success: ^(id responseObject) {
         
         [myDelegate StopIndicator];
-        
+         photoImageView.userInteractionEnabled=YES;
         likeCount.text=[responseObject objectForKey:@"likeCount"];
         dislikeCount.text=[responseObject objectForKey:@"dislikeCount"];
+     //   likeCount.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
+        PhotoListingModel *photoList;
+
+        NSMutableArray *tempArray=[photoListingDataArray mutableCopy];
+        photoList=[tempArray objectAtIndex:selectedIndex];
+        photoList.likeCountData=[responseObject objectForKey:@"likeCount"];
+         photoList.dislikeCountData=[responseObject objectForKey:@"dislikeCount"];
+        photoList.isLike=[responseObject objectForKey:@"is_like"];
+        [tempArray replaceObjectAtIndex:selectedIndex withObject:photoList];
+        photoListingDataArray=[tempArray mutableCopy];
+      
         
     }
     failure:^(NSError *error)
@@ -412,6 +469,7 @@
 }
 - (IBAction)likePhotoButtonAction:(id)sender
 {
+    photoImageView.userInteractionEnabled=NO;
     likeDislikeString=@"T";
     if ([sender isSelected])
     {

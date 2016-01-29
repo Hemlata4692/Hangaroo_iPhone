@@ -42,7 +42,7 @@
     [previewImageView addGestureRecognizer:imageViewTap];
     
     [self initCaption:self.view.frame];
-    messageYValue=160;
+    messageYValue=170;
     closeBtn.layer.shadowColor = [UIColor blackColor].CGColor;
     closeBtn.layer.shadowOffset = CGSizeMake(5, 5);
     closeBtn.layer.shadowRadius = 5;
@@ -86,7 +86,7 @@
     
     // Caption
     caption = [[UITextField alloc] initWithFrame:CGRectMake(0,
-                                                            160,
+                                                            170,
                                                             frame.size.width,
                                                             30)];
     caption.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
@@ -121,7 +121,7 @@
     
     CGPoint translation = [gestureRecognizer locationInView:previewImageView];
     
-    if (translation.y>160 && translation.y<self.view.frame.size.height-60)
+    if (translation.y>170 && translation.y<self.view.frame.size.height-65)
     {
         messageYValue=translation.y;
         if(translation.y < caption.frame.size.height/2)

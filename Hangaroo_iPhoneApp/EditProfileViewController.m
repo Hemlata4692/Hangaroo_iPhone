@@ -33,7 +33,7 @@
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
     
-    [userProfileImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [userProfileImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         weakRef.contentMode = UIViewContentModeScaleAspectFill;
         weakRef.clipsToBounds = YES;
         weakRef.image = image;
@@ -135,8 +135,7 @@
     [[WebService sharedManager]editProfilePhoto:userProfileImageView.image success: ^(id responseObject) {
         
         [myDelegate StopIndicator];
-        [userProfileImageView clearImageCacheForURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]];
-        [UserDefaultManager removeValue:@"userImage"];
+    
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
                                               message:[responseObject objectForKey:@"message"]

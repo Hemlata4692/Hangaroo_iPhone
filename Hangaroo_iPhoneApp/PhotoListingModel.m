@@ -14,4 +14,5 @@
 @synthesize uploadedImageTime;
 @synthesize userImageUrl;
 @synthesize dislikeCountData;
+@synthesize isLike;
 @end

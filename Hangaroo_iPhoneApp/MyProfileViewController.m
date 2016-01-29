@@ -7,6 +7,7 @@
 //
 
 #import "MyProfileViewController.h"
+#import "SettingViewController.h"
 
 @interface MyProfileViewController ()
 
@@ -19,15 +20,27 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
      self.screenName = @"Profile screen";
-     self.title=@"My Profile";
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    self.navigationItem.title=@"My Profile";
+    
+}
 #pragma mark - end
 
+- (IBAction)settingsBtnAction:(id)sender
+{
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SettingViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"SettingViewController"];
+    [self.navigationController pushViewController:loginView animated:YES];
+}
 
 
 @end

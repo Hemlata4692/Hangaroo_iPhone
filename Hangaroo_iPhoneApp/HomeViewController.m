@@ -593,7 +593,7 @@
             {
                 if (indexPath.item==0)
                 {
-                    // meeToo.hidden=NO;
+                     meeToo.hidden=NO;
                     nameLabel.text=@"";
                     __weak UIImageView *weakRef = userImage;
                     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:0] joinedUserImage]]
@@ -711,7 +711,7 @@
                 if (indexPath.item==0)
                 {
                     
-                    
+                    meeToo.hidden=NO;
                     nameLabel.text=@"";
                     __weak UIImageView *weakRef = userImage;
                     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[yesterdayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:0] joinedUserImage]]

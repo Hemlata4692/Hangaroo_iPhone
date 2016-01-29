@@ -14,10 +14,11 @@
 @interface AddInterestViewController ()
 
 @property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *interestTextView;
+@property (weak, nonatomic) IBOutlet UIButton *saveBtn;
 @end
 
 @implementation AddInterestViewController
-@synthesize interestTextView;
+@synthesize interestTextView,saveBtn;
 #pragma mark - View life cycle
 
 - (void)viewDidLoad {
@@ -27,13 +28,13 @@
     
     [interestTextView setPlaceholder:@"  Add your interest"];
     [interestTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:14.0]];
-
+    saveBtn.enabled=NO;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     self.navigationItem.title=@"Interest";
-    
+    saveBtn.enabled=NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,14 +72,14 @@
     if (textView.text.length >= 100)
     {
         textView.text = [textView.text substringToIndex:100];
-       // sharePostBtn.enabled=YES;
+        saveBtn.enabled=YES;
     }
     else if (textView.text.length==1) {
-       // sharePostBtn.enabled=YES;
+        saveBtn.enabled=YES;
         
     }
     else if (textView.text.length==0) {
-        //sharePostBtn.enabled=NO;
+        saveBtn.enabled=NO;
         
     }
 }

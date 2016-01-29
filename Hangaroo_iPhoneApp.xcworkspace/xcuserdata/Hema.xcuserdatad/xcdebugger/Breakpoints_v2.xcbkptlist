@@ -26,12 +26,12 @@
                   moduleName = "Hangaroo_iPhoneApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/CategorySliderView.m"
-                  timestampString = "475678804.050459"
+                  timestampString = "475764252.392476"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "208"
                   endingLineNumber = "208"
-                  offsetFromSymbolStart = "105">
+                  offsetFromSymbolStart = "96">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -41,12 +41,12 @@
                   moduleName = "Hangaroo_iPhoneApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/CategorySliderView.m"
-                  timestampString = "475678804.051143"
+                  timestampString = "475764252.393441"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "208"
                   endingLineNumber = "208"
-                  offsetFromSymbolStart = "18">
+                  offsetFromSymbolStart = "24">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -73,60 +73,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/EditProfileViewController.m"
-            timestampString = "475653341.431139"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "-editProfilePhoto"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[EditProfileViewController editProfilePhoto]"
-                  moduleName = "Hangaroo_iPhoneApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/EditProfileViewController.m"
-                  timestampString = "475678804.055549"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "29">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__45-[EditProfileViewController editProfilePhoto]_block_invoke"
-                  moduleName = "Hangaroo_iPhoneApp"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/EditProfileViewController.m"
-                  timestampString = "475678804.055886"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "55">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Hangaroo_iPhoneApp/MeTooUserProfileViewController.m"
-            timestampString = "475568198.552969"
+            timestampString = "475764250.861053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "-seeOutUser"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hangaroo_iPhoneApp/MeTooUserProfileViewController.m"
-            timestampString = "475568198.552969"
+            timestampString = "475764250.861053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "-seeOutUser"
             landmarkType = "5">
          </BreakpointContent>
@@ -160,22 +112,6 @@
             startingLineNumber = "86"
             endingLineNumber = "86"
             landmarkName = "-saveUserFeedback"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/SocialMediaAccountViewController.m"
-            timestampString = "475591859.022548"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "-textFieldDidChange:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -217,13 +153,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/EditProfileViewController.m"
-            timestampString = "475651024.516637"
+            filePath = "Hangaroo_iPhoneApp/WebService.m"
+            timestampString = "475764047.587473"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "-post:parameters:success:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -233,13 +169,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/HomeViewController.m"
-            timestampString = "475678008.581798"
+            filePath = "Hangaroo_iPhoneApp/LoginViewController.m"
+            timestampString = "475764101.674687"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "182"
-            endingLineNumber = "182"
-            landmarkName = "-getPostListing"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
+            landmarkName = "-loginUser"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -249,13 +185,61 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/HomeViewController.m"
-            timestampString = "475678292.156085"
+            filePath = "Hangaroo_iPhoneApp/AppDelegate.m"
+            timestampString = "475764105.330441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "197"
-            endingLineNumber = "197"
-            landmarkName = "-getPostListing"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "-application:didRegisterForRemoteNotificationsWithDeviceToken:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AppDelegate application:didRegisterForRemoteNotificationsWithDeviceToken:]"
+                  moduleName = "Hangaroo_iPhoneApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/AppDelegate.m"
+                  timestampString = "475764252.412107"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "167"
+                  endingLineNumber = "167"
+                  offsetFromSymbolStart = "376">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__76-[AppDelegate application:didRegisterForRemoteNotificationsWithDeviceToken:]_block_invoke"
+                  moduleName = "Hangaroo_iPhoneApp"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Ranosys/Documents/Hangaroo/Hangaroo_iPhoneApp/Hangaroo_iPhoneApp/AppDelegate.m"
+                  timestampString = "475764252.41236"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "167"
+                  endingLineNumber = "167"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hangaroo_iPhoneApp/WebService.m"
+            timestampString = "475764108.354483"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "650"
+            endingLineNumber = "650"
+            landmarkName = "-registerDeviceForPushNotification:deviceType:success:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

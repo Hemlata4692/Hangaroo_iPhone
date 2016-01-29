@@ -1066,6 +1066,7 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="chatBtn" destination="tB7-qr-sJC" id="iX5-B0-aiI"/>
                         <outlet property="followedUserLabel" destination="E8p-hh-qYH" id="yRC-0G-EeB"/>
                         <outlet property="mainContainerView" destination="ENx-ye-J00" id="xjA-Mg-OvO"/>
                         <outlet property="postLabel" destination="RV6-b9-X4U" id="CTN-BM-O12"/>
@@ -1098,7 +1099,7 @@
                                     <constraint firstAttribute="width" secondItem="AXv-C5-84O" secondAttribute="height" multiplier="40:71" constant="21.97183098591546" id="fSu-qz-99z"/>
                                 </constraints>
                             </imageView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="39p-kG-K1g">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="39p-kG-K1g">
                                 <rect key="frame" x="0.0" y="40" width="320" height="90"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1960,9 +1961,10 @@
                                 <color key="textColor" red="0.28627450980000002" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pga-En-1MT">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pga-En-1MT">
                                 <rect key="frame" x="0.0" y="61" width="320" height="394"/>
                                 <animations/>
+                                <color key="backgroundColor" red="0.81176470588235294" green="0.81176470588235294" blue="0.81176470588235294" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="pga-En-1MT" secondAttribute="height" multiplier="160:197" id="77i-gd-fxF"/>
                                 </constraints>
@@ -2067,6 +2069,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="interestTextView" destination="10f-zI-YKZ" id="te6-fe-gjH"/>
+                        <outlet property="saveBtn" destination="A71-Az-L1K" id="7xh-hj-IZx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QL0-Cb-UDp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2569,6 +2572,16 @@
                     <view key="view" contentMode="scaleToFill" id="TKq-7c-AQx">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MpF-fp-Y5a">
+                                <rect key="frame" x="201" y="20" width="85" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Settings"/>
+                                <connections>
+                                    <action selector="settingsBtnAction:" destination="eug-OM-AxI" eventType="touchUpInside" id="RPb-0K-AuU"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

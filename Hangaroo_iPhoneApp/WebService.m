@@ -480,6 +480,7 @@
                      photoListData.postImagesUrl =[photoListDict objectForKey:@"post_image"];
                      photoListData.uploadedImageTime =[photoListDict objectForKey:@"uploaded_time"];
                      photoListData.userImageUrl=[photoListDict objectForKey:@"user_image_url"];
+                     photoListData.isLike=[photoListDict objectForKey:@"is_like"];
                      
                      [dataArray addObject:photoListData];
                  }
@@ -652,7 +653,8 @@
          if([self isStatusOK:responseObject])
          {
              success(responseObject);
-         } else
+         }
+         else
          {
              [myDelegate StopIndicator];
              failure(nil);

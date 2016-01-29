@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIView *mainContainerView;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 @property (weak, nonatomic) IBOutlet UIButton *tapToSeeOutBtn;
+@property (weak, nonatomic) IBOutlet UIButton *chatBtn;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property(nonatomic,retain) NSString * postedPostId;
 @end
@@ -24,7 +25,7 @@
 @implementation MeTooUserProfileViewController
 @synthesize postLabel,followedUserLabel,userNameLabel,postedPostId;
 @synthesize userImageView,mainContainerView,tapToSeeOutBtn,joineUserId;
-@synthesize userName,userProfileImageUrl,post,postID,followedUser;
+@synthesize userName,userProfileImageUrl,post,postID,followedUser,chatBtn;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad
@@ -68,6 +69,16 @@
 #pragma mark - Display data
 -(void)displayData
 {
+    if ([joineUserId isEqualToString:[UserDefaultManager getValue:@"userId"]]) {
+        tapToSeeOutBtn.enabled=NO;
+        chatBtn.enabled=NO;
+    }
+    else
+    {
+        tapToSeeOutBtn.enabled=YES;
+        chatBtn.enabled=YES;
+
+    }
     userNameLabel.text=userName;
     postLabel.text=post;
     postedPostId=postID;
@@ -95,9 +106,7 @@
 }
 - (IBAction)chatButtonAction:(id)sender
 {
-    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    SettingViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"SettingViewController"];
-    [self.navigationController pushViewController:loginView animated:YES];
+    
 }
 - (IBAction)seeOutbutonAction:(id)sender
 {
