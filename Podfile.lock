@@ -20,14 +20,11 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - QBImagePickerController (3.4.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5)
-  - QBImagePickerController
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  QBImagePickerController: d54cf93db6decf26baf6ed3472f336ef35cae022
 
 COCOAPODS: 0.39.0

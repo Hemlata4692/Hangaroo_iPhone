@@ -14,8 +14,6 @@
 #import "PostImageDataModel.h"
 #import <UIImageView+AFNetworking.h>
 #import "MyCollectionView.h"
-#import <QBImagePickerController/QBImagePickerController.h>
-#import <AssetsLibrary/AssetsLibrary.h>
 #import "PhotoPreviewViewController.h"
 #import "MyButton.h"
 #import "MeTooUserProfileViewController.h"
@@ -23,7 +21,7 @@
 
 #define kCellsPerRow 3
 
-@interface HomeViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,QBImagePickerControllerDelegate>
+@interface HomeViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     NSMutableArray *postListingArray;
     NSString *posted;
@@ -31,7 +29,6 @@
     UIRefreshControl *refreshControl;
     bool pickerSelection;
     NSString *postId;
-    QBImagePickerController *imagePickerController;
     int btnTag;
     int tableSection;
 }
@@ -48,7 +45,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *noResultFound;
 @property(nonatomic,retain) NSMutableArray * postPhotoTodayArray;
 @property(nonatomic,retain) NSMutableArray * postImagesArray;
-@property (nonatomic, strong) PHImageRequestOptions *requestOptions;
 @end
 
 @implementation HomeViewController
@@ -85,18 +81,6 @@
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     self.postListingTableView.alwaysBounceVertical = YES;
     
-   imagePickerController = [[QBImagePickerController alloc] init];
-    imagePickerController.delegate = self;
-    imagePickerController.allowsMultipleSelection=YES;
-    
-        imagePickerController.minimumNumberOfSelection = 1;
-        imagePickerController.maximumNumberOfSelection = 10;
-    self.requestOptions = [[PHImageRequestOptions alloc] init];
-    self.requestOptions.resizeMode   = PHImageRequestOptionsResizeModeExact;
-    self.requestOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-    
-    // this one is key
-    self.requestOptions.synchronous = true;
 //    [myDelegate ShowIndicator];
 // [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
 }
