@@ -18,6 +18,8 @@
 		B70AFA7D1C490C0B0091D570 /* button_done.png in Resources */ = {isa = PBXBuildFile; fileRef = B70AFA7B1C490C0B0091D570 /* button_done.png */; };
 		B70AFA7E1C490C0B0091D570 /* button_done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B70AFA7C1C490C0B0091D570 /* button_done@2x.png */; };
 		B70AFA811C492D3F0091D570 /* MyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B70AFA801C492D3F0091D570 /* MyButton.m */; };
+		B72ED7F11C5F69BD0084964D /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */; };
+		B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F31C5F6BEF0084964D /* CoolNavi.m */; };
 		B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */; };
 		B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44C1C43A341009601D2 /* user_thumbnail.png */; };
 		B747C44F1C43AE9A009601D2 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44E1C43AE9A009601D2 /* picture.png */; };
@@ -91,6 +93,10 @@
 		B70AFA7C1C490C0B0091D570 /* button_done@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_done@2x.png"; sourceTree = "<group>"; };
 		B70AFA7F1C492D3F0091D570 /* MyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyButton.h; sourceTree = "<group>"; };
 		B70AFA801C492D3F0091D570 /* MyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyButton.m; sourceTree = "<group>"; };
+		B72ED7EF1C5F69BD0084964D /* ProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewCell.h; sourceTree = "<group>"; };
+		B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewCell.m; sourceTree = "<group>"; };
+		B72ED7F21C5F6BEF0084964D /* CoolNavi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolNavi.h; sourceTree = "<group>"; };
+		B72ED7F31C5F6BEF0084964D /* CoolNavi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoolNavi.m; sourceTree = "<group>"; };
 		B74260E81C3BA127000B3453 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
 		B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
 		B747C44C1C43A341009601D2 /* user_thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_thumbnail.png; sourceTree = "<group>"; };
@@ -273,6 +279,33 @@
 				B70AFA801C492D3F0091D570 /* MyButton.m */,
 			);
 			name = MyButton;
+			sourceTree = "<group>";
+		};
+		B72ED7EC1C5F62750084964D /* CustomTableView */ = {
+			isa = PBXGroup;
+			children = (
+				B72ED7F21C5F6BEF0084964D /* CoolNavi.h */,
+				B72ED7F31C5F6BEF0084964D /* CoolNavi.m */,
+			);
+			name = CustomTableView;
+			sourceTree = "<group>";
+		};
+		B72ED7ED1C5F698F0084964D /* ProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B785D5E41C3A7051007A4056 /* MyProfileViewController.h */,
+				B785D5E51C3A7051007A4056 /* MyProfileViewController.m */,
+			);
+			name = ProfileViewController;
+			sourceTree = "<group>";
+		};
+		B72ED7EE1C5F699D0084964D /* ProfileTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B72ED7EF1C5F69BD0084964D /* ProfileTableViewCell.h */,
+				B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */,
+			);
+			name = ProfileTableViewCell;
 			sourceTree = "<group>";
 		};
 		B75450221C50F5CA00C9814D /* SetingsModule */ = {
@@ -467,8 +500,8 @@
 		B785D5DF1C3A7009007A4056 /* ProfileModule */ = {
 			isa = PBXGroup;
 			children = (
-				B785D5E41C3A7051007A4056 /* MyProfileViewController.h */,
-				B785D5E51C3A7051007A4056 /* MyProfileViewController.m */,
+				B72ED7ED1C5F698F0084964D /* ProfileViewController */,
+				B72ED7EE1C5F699D0084964D /* ProfileTableViewCell */,
 			);
 			name = ProfileModule;
 			sourceTree = "<group>";
@@ -603,6 +636,7 @@
 		B795B18F1C325CC4007EB2E6 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
+				B72ED7EC1C5F62750084964D /* CustomTableView */,
 				B7EFD47F1C4F9C9500B8D8D5 /* ImageSlider */,
 				B70AFA821C492D420091D570 /* MyButton */,
 				B7605C621C476D540078C6B1 /* ToastFile */,
@@ -902,12 +936,14 @@
 				B795B1CC1C32A5C5007EB2E6 /* FXPageControl.m in Sources */,
 				B785D5E91C3A706A007A4056 /* ChatViewController.m in Sources */,
 				B795B1771C323CAF007EB2E6 /* TutorialViewController.m in Sources */,
+				B72ED7F11C5F69BD0084964D /* ProfileTableViewCell.m in Sources */,
 				B795B1741C323CAF007EB2E6 /* AppDelegate.m in Sources */,
 				B785D5E31C3A703C007A4056 /* DiscoverViewController.m in Sources */,
 				B7063BB41C340B4D007C9E4D /* ForgotPasswordViewController.m in Sources */,
 				B77D2FE51C3F73C80067BA6C /* JoinedUserDataModel.m in Sources */,
 				B76B69F91C3E423C00A7254D /* PhotoPreviewViewController.m in Sources */,
 				B795B19F1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.m in Sources */,
+				B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */,
 				B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */,
 				B70AFA811C492D3F0091D570 /* MyButton.m in Sources */,
 				B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */,

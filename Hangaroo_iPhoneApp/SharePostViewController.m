@@ -117,29 +117,30 @@
     [[WebService sharedManager] sharePost:postTextView.text success:^(id responseObject) {
         
         [myDelegate StopIndicator];
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"Alert"
-                                              message:[responseObject objectForKey:@"message"]
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:@"OK"
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       postTextView.text=@"";
-                                    //[alertController dismissViewControllerAnimated:YES completion:nil];
-//                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//                                                                              HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
-//                                                                              [self.navigationController pushViewController:homeView animated:YES];
-
-                                       [self.tabBarController setSelectedIndex:0];
-
-                                       
-                                   }];
-        
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+         [self.tabBarController setSelectedIndex:0];
+//        UIAlertController *alertController = [UIAlertController
+//                                              alertControllerWithTitle:@"Alert"
+//                                              message:[responseObject objectForKey:@"message"]
+//                                              preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction *okAction = [UIAlertAction
+//                                   actionWithTitle:@"OK"
+//                                   style:UIAlertActionStyleDefault
+//                                   handler:^(UIAlertAction *action)
+//                                   {
+//                                       postTextView.text=@"";
+//                                    //[alertController dismissViewControllerAnimated:YES completion:nil];
+////                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+////                                                                              HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+////                                                                              [self.navigationController pushViewController:homeView animated:YES];
+//
+//                                       [self.tabBarController setSelectedIndex:0];
+//
+//                                       
+//                                   }];
+//        
+//        [alertController addAction:okAction];
+//        [self presentViewController:alertController animated:YES completion:nil];
         
         
     } failure:^(NSError *error) {

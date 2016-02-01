@@ -831,7 +831,7 @@
         
         UICollectionViewCell *photoCell = [cv dequeueReusableCellWithReuseIdentifier:@"uploadPhoto" forIndexPath:indexPath];
         photoCell.translatesAutoresizingMaskIntoConstraints=YES;
-        photoCell.layer.cornerRadius=3.0f;
+        photoCell.layer.cornerRadius=7.0f;
         photoCell.clipsToBounds=YES;
         photoCell.layer.borderWidth=1.0f;
         photoCell.layer.borderColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0].CGColor;

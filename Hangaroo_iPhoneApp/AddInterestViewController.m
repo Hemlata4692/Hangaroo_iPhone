@@ -28,13 +28,17 @@
     
     [interestTextView setPlaceholder:@"  Add your interest"];
     [interestTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:14.0]];
-    saveBtn.enabled=NO;
+    saveBtn.userInteractionEnabled=NO;
+    saveBtn.titleLabel.alpha=0.5f;
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     self.navigationItem.title=@"Interest";
-    saveBtn.enabled=NO;
+    saveBtn.userInteractionEnabled=NO;
+    saveBtn.titleLabel.alpha=0.5f;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,14 +76,16 @@
     if (textView.text.length >= 100)
     {
         textView.text = [textView.text substringToIndex:100];
-        saveBtn.enabled=YES;
+        saveBtn.userInteractionEnabled=YES;
+        saveBtn.titleLabel.alpha=1.0;
     }
     else if (textView.text.length==1) {
-        saveBtn.enabled=YES;
-        
+         saveBtn.userInteractionEnabled=YES;
+        saveBtn.titleLabel.alpha=1.0;
     }
     else if (textView.text.length==0) {
-        saveBtn.enabled=NO;
+        saveBtn.userInteractionEnabled=NO;
+        saveBtn.titleLabel.alpha=0.5;
         
     }
 }
@@ -128,6 +134,7 @@
 #pragma mark - IBActions
 - (IBAction)saveButtonAction:(id)sender
 {
+    [interestTextView resignFirstResponder];
     [myDelegate ShowIndicator];
     [self performSelector:@selector(saveUserInterest) withObject:nil afterDelay:.1];
 }

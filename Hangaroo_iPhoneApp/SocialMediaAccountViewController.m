@@ -27,7 +27,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
      self.screenName = @"Social media accounts screen";
-    self.title = @"Social accounts";
+    self.title = @"Social media accounts";
     
     [facebookTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [twitterTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -130,6 +130,9 @@
 #pragma mark - IBActions
 - (IBAction)saveSocialAccountsBtn:(id)sender
 {
+    [facebookTextField resignFirstResponder];
+     [instaTextField resignFirstResponder];
+     [twitterTextField resignFirstResponder];
     [myDelegate ShowIndicator];
     [self performSelector:@selector(saveSocialAccountsInfo) withObject:nil afterDelay:.1];
 }

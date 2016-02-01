@@ -35,8 +35,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
      self.screenName = @"Settings screen";
-    settingsDataArray=[[NSMutableArray alloc]initWithObjects:@"Change Password",@"Share Feedback",@"Find the Roo",@"Log Out", nil];
-    editUserInfoArray=[[NSMutableArray alloc]initWithObjects:@"Edit Profile Photo",@"Interest",@"Social Media Accounts", nil];
+    settingsDataArray=[[NSMutableArray alloc]initWithObjects:@"Change password",@"Share feedback",@"Find the roo",@"Log out", nil];
+    editUserInfoArray=[[NSMutableArray alloc]initWithObjects:@"Edit profile photo",@"Interest",@"Social media accounts", nil];
     findtheRooView.hidden=YES;
     [containerView setCornerRadius:5.0f];
 }
@@ -202,7 +202,7 @@
         MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
         mc.mailComposeDelegate = self;
         [mc setSubject:emailTitle];
-//        [mc setMessageBody:[NSString stringWithFormat:@"%@ %@ %@ %@ %@%@%@%@\n\n%@\n\n%@",@"Check out",nameLabel.text,@"from",companyLabel.text,@"on Sure",@"(",[NSURL URLWithString: @"http://www.allsurething.com/"],@")",businessDescriptionTextView.text,@"Sure makes your life easier! We believe that booking local services should be easy, fast and definitely reliable! Through our app, you can book a trusted service provider in just a few clicks. With the collections of all the best services in town, we are opening up more possibilities in life for you."] isHTML:NO];
+        [mc setMessageBody:[NSString stringWithFormat:@"Explore Hangaroo!! To get to know more, please download the application from the given link."] isHTML:NO];
         [mc setToRecipients:toRecipents];
         
         [self presentViewController:mc animated:YES completion:NULL];
