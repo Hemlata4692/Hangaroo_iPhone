@@ -135,7 +135,7 @@
     [[WebService sharedManager]editProfilePhoto:userProfileImageView.image success: ^(id responseObject) {
         
         [myDelegate StopIndicator];
-    
+   // [UserDefaultManager setValue:userProfileImageView.image key:@"userImage"];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
                                               message:[responseObject objectForKey:@"message"]

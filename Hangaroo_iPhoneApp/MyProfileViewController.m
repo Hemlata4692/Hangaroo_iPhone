@@ -10,10 +10,13 @@
 #import "SettingViewController.h"
 #import "ProfileTableViewCell.h"
 #import "CoolNavi.h"
+#import "MyProfileDataModel.h"
 
 @interface MyProfileViewController ()
 {
     NSMutableArray *notificationsArray;
+     NSMutableArray *myProfileArray;
+    
 }
 @property (weak, nonatomic) IBOutlet UITableView *myProfileTableView;
 @end
@@ -28,12 +31,10 @@
      self.screenName = @"Profile screen";
      [[UIApplication sharedApplication] setStatusBarHidden:YES];
     notificationsArray=[[NSMutableArray alloc]init];
-    CoolNavi *headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)backGroudImage:@"picture.png" headerImageURL:@"user.png" title:@"Hello" subTitle:@"This is a test!" buttonTitle:@"settings"];
-    headerView.scrollView = self.myProfileTableView;
-    headerView.imgActionBlock = ^(){
-        NSLog(@"headerImageAction");
-    };
-    [self.view addSubview:headerView];
+    myProfileArray=[[NSMutableArray alloc]init];
+   
+    
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -53,6 +54,8 @@
     [super viewWillAppear:YES];
     //self.navigationItem.title=@"My profile";
     [[self navigationController] setNavigationBarHidden:YES];
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(getMyProfileData) withObject:nil afterDelay:0.1];
     
 }
 
@@ -120,17 +123,17 @@
 {
     if (indexPath.section == 0)
     {
-        return 70;
+        return 40;
         
     }
     else if (indexPath.section == 1)
     {
-        return 64;
+        return 40;
         
     }
     else if (indexPath.section == 2)
     {
-        return 30;
+        return 35;
     }
     else{
         return 70;
@@ -149,7 +152,12 @@
         {
             locationCell = [[ProfileTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
-      //  [locationCell layoutView4:self.view.frame];
+        if (myProfileArray.count!=0) {
+            MyProfileDataModel *data=[myProfileArray objectAtIndex:indexPath.row];
+            [locationCell displayData:data :(int)indexPath.row];
+        }
+        
+       
         
              return locationCell;
     }
@@ -194,7 +202,7 @@
         {
             notificationCell = [[ProfileTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
-        //[notificationCell layoutView1:self.view.frame];
+        [notificationCell layoutView4:self.view.frame];
 
             return notificationCell;
     }
@@ -215,5 +223,29 @@
     
 }
 
+-(void)getMyProfileData
+{
+    [[WebService sharedManager]myProfile:^(id profileDataArray) {
+        
+        [myDelegate StopIndicator];
+        myProfileArray = [profileDataArray mutableCopy];
+       
+        CoolNavi *headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)backGroudImage:@"" headerImageURL:[[myProfileArray objectAtIndex:0]profileImageUrl] title:[[myProfileArray objectAtIndex:0]userName] facebookBtn:@"facebook_profile.png" instagramBtn:@"insta_profile.png" twitterBtn:@"twit_profile.png" settingsBtn:@"setting_icon.png"];
+        headerView.scrollView = self.myProfileTableView;
+        headerView.imgActionBlock = ^(){
+            NSLog(@"headerImageAction");
+        };
+       // [headerView getAccountsUrl:[[myProfileArray objectAtIndex:0]fbUrl] twitUrl:[[myProfileArray objectAtIndex:0]twitUrl] instaUrl:[[myProfileArray objectAtIndex:0]instaUrl]];
+        [self.view addSubview:headerView];
+        [myProfileTableView reloadData];
+        
+    }
+        failure:^(NSError *error)
+     {
+         
+     }] ;
+    
+
+}
 
 @end

@@ -13,6 +13,7 @@
 #import "PostListingDataModel.h"
 #import "JoinedUserDataModel.h"
 #import "PhotoListingModel.h"
+#import "MyProfileDataModel.h"
 
 #define kUrlLogin                       @"login"
 #define kUrlRegister                    @"register"
@@ -30,6 +31,7 @@
 #define kUrlRegisterDevice              @"registerdevice"
 #define kUrlTapToSeeOut                 @"seeout"
 #define kUrlSocialAccounts              @"socialaccounts"
+#define kUrlMyProfile                   @"userprofile"
 
 
 
@@ -722,4 +724,49 @@
 
 }
 #pragma mark- end
+
+#pragma mark- My Profile
+-(void)myProfile:(void (^)(id data))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
+    NSLog(@"my Profile User request%@", requestDict);
+    [self post:kUrlMyProfile parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"my Profile User Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+                    NSMutableArray *profileDataArray = [NSMutableArray new];
+
+                     MyProfileDataModel *profileData = [[MyProfileDataModel alloc]init];
+                     NSDictionary * profileDict =[responseObject objectForKey:@"userprofile"];
+                     profileData.fbUrl =[profileDict objectForKey:@"fb_url"];
+                     profileData.twitUrl =[profileDict objectForKey:@"twitter_url"];
+                     profileData.instaUrl =[profileDict objectForKey:@"insta_url"];
+                     profileData.userInterest =[profileDict objectForKey:@"interest"];
+                     profileData.userName=[profileDict objectForKey:@"username"];
+                     profileData.profileImageUrl=[profileDict objectForKey:@"user_image"];
+                     profileData.totalFriends=[NSString stringWithFormat:@"%d",[[profileDict objectForKey:@"totalFriends"] intValue]];
+                     profileData.university=[profileDict objectForKey:@"university"];
+                     
+                     [profileDataArray addObject:profileData];
+
+            success(profileDataArray);
+             
+         }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(responseObject);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
+#pragma mark- end
+
 @end

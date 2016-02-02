@@ -16,11 +16,11 @@
 //#define BASE_URL                              @""
 
 //clients link
-#define BASE_URL                              @"http://52.74.174.129/admin/api/"
+//#define BASE_URL                              @"http://52.74.174.129/admin/api/"
 
 //testing link
 //#define BASE_URL                              @"http://ranosys.net/client/hangaroo/admin/api/"
-//#define BASE_URL                                @"http://52.74.174.129/beta/admin/api"
+#define BASE_URL                                @"http://52.74.174.129/beta/admin/api"
 
 @interface WebService : NSObject
 
@@ -82,6 +82,11 @@
 //Tap to see out
 -(void)seeOutNotification:(NSString *)joinedUserId success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //end
+
+//My profile
+-(void)myProfile:(void (^)(id data))success failure:(void (^)(NSError *error))failure;
+//end
+
 //Register device for push notification
 -(void)registerDeviceForPushNotification:(NSString *)deviceId deviceType:(NSString *)deviceType success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //end

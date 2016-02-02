@@ -154,7 +154,9 @@ replacementString:(NSString *)string{
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    
+    if (caption.text.length==0) {
+        caption.alpha = ([caption.text isEqualToString:@""]) ? 0 : caption.alpha;
+    }
     [caption resignFirstResponder];
     return true;
 }

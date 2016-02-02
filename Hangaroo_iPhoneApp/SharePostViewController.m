@@ -117,6 +117,7 @@
     [[WebService sharedManager] sharePost:postTextView.text success:^(id responseObject) {
         
         [myDelegate StopIndicator];
+        postTextView.text=@"";
          [self.tabBarController setSelectedIndex:0];
 //        UIAlertController *alertController = [UIAlertController
 //                                              alertControllerWithTitle:@"Alert"

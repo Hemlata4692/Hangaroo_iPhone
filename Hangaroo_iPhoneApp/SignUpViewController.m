@@ -94,6 +94,15 @@
     [signUpScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     
 }
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if ( [string isEqualToString:@" "] )
+    {
+        return NO;
+    }
+    else {
+        return YES;
+    }
+}
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     
