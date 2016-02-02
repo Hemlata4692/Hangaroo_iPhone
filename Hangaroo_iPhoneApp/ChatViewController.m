@@ -7,6 +7,7 @@
 //
 
 #import "ChatViewController.h"
+#import "UserListViewController.h"
 
 @interface ChatViewController ()
 
@@ -16,12 +17,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"New Chat";
     // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)userListingView:(UIButton *)sender {
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UserListViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
+    [self.navigationController pushViewController:loginView animated:YES];
 }
 
 /*

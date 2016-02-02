@@ -8,10 +8,64 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+//added by rohit
+#import "XMPP.h"
+#import "XMPPFramework.h"
+#import "TURNSocket.h"
+#import "XMPPMessageArchivingCoreDataStorage.h"
+//end
 
-@property (strong, nonatomic) UIWindow *window;
+@interface AppDelegate : UIResponder <UIApplicationDelegate,XMPPRosterDelegate>
+{
+    //added by rohit
+    XMPPStream *xmppStream;
+    XMPPReconnect *xmppReconnect;
+    XMPPRoster *xmppRoster;
+    XMPPRosterCoreDataStorage *xmppRosterStorage;
+    XMPPvCardCoreDataStorage *xmppvCardStorage;
+    XMPPvCardTempModule *xmppvCardTempModule;
+    XMPPvCardAvatarModule *xmppvCardAvatarModule;
+    XMPPCapabilities *xmppCapabilities;
+    XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
+    
+    NSString *password;
+    
+    BOOL customCertEvaluation;
+    
+    BOOL isXmppConnected;
+    NSMutableArray *turnSockets;
+    //end
+    
+}
 @property(nonatomic,retain) UINavigationController *navigationController;
+
+//added by rohit
+@property (nonatomic, strong, readonly) XMPPStream *xmppStream;
+@property (nonatomic, strong, readonly) XMPPReconnect *xmppReconnect;
+@property (nonatomic, strong, readonly) XMPPRoster *xmppRoster;
+@property (nonatomic, strong, readonly) XMPPRosterCoreDataStorage *xmppRosterStorage;
+@property (nonatomic, strong, readonly) XMPPvCardTempModule *xmppvCardTempModule;
+@property (nonatomic, strong, readonly) XMPPvCardAvatarModule *xmppvCardAvatarModule;
+@property (nonatomic, strong, readonly) XMPPCapabilities *xmppCapabilities;
+@property (nonatomic, strong, readonly) XMPPCapabilitiesCoreDataStorage *xmppCapabilitiesStorage;
+@property (strong, nonatomic) UIWindow *window;
+@property(strong, nonatomic)NSMutableArray *UserListArray;
+@property(strong, nonatomic)NSMutableArray *groupListArray;
+
+- (NSManagedObjectContext *)managedObjectContext_roster;
+- (NSManagedObjectContext *)managedObjectContext_capabilities;
+
+
+@property(strong, nonatomic)XMPPMessageArchivingCoreDataStorage* xmppMessageArchivingCoreDataStorage;
+@property(strong, nonatomic)XMPPMessageArchiving* xmppMessageArchivingModule;
+
+
+@property(strong, nonatomic)NSMutableArray *userHistoryArr;
+@property(strong, nonatomic)NSMutableDictionary *userProfileImage;
+- (BOOL)connect;
+- (void)disconnect;
+//end
+
 //Indicator
 - (void)ShowIndicator;
 - (void)StopIndicator;
