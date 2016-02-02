@@ -14,5 +14,4 @@
     NSFetchedResultsController *fetchedResultsController;
 }
 
-
 @end

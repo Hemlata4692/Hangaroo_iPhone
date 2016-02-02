@@ -51,7 +51,6 @@
 		B77A5F921C606889005C846F /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B77A5F911C606889005C846F /* libidn.a */; settings = {ASSET_TAGS = (); }; };
 		B77A5F951C607391005C846F /* Talk.png in Resources */ = {isa = PBXBuildFile; fileRef = B77A5F941C607391005C846F /* Talk.png */; settings = {ASSET_TAGS = (); }; };
 		B77A5F981C607629005C846F /* UserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B77A5F971C607629005C846F /* UserListViewController.m */; settings = {ASSET_TAGS = (); }; };
-		B77A5F9A1C607E5C005C846F /* images.png in Resources */ = {isa = PBXBuildFile; fileRef = B77A5F991C607E5C005C846F /* images.png */; settings = {ASSET_TAGS = (); }; };
 		B77D2FE51C3F73C80067BA6C /* JoinedUserDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */; };
 		B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */; };
 		B785D5E31C3A703C007A4056 /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E21C3A703C007A4056 /* DiscoverViewController.m */; };
@@ -162,7 +161,6 @@
 		B77A5F941C607391005C846F /* Talk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Talk.png; sourceTree = "<group>"; };
 		B77A5F961C607629005C846F /* UserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserListViewController.h; sourceTree = "<group>"; };
 		B77A5F971C607629005C846F /* UserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserListViewController.m; sourceTree = "<group>"; };
-		B77A5F991C607E5C005C846F /* images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = images.png; sourceTree = "<group>"; };
 		B77D2FE31C3F73C80067BA6C /* JoinedUserDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoinedUserDataModel.h; sourceTree = "<group>"; };
 		B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoinedUserDataModel.m; sourceTree = "<group>"; };
 		B77D2FE61C3F73E00067BA6C /* PostImageDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostImageDataModel.h; sourceTree = "<group>"; };
@@ -569,7 +567,6 @@
 		B795B16E1C323CAF007EB2E6 /* Hangaroo_iPhoneApp */ = {
 			isa = PBXGroup;
 			children = (
-				B77A5F991C607E5C005C846F /* images.png */,
 				B77A5F941C607391005C846F /* Talk.png */,
 				B77A5F931C6069AE005C846F /* XMPPFramework.h */,
 				B77A5F911C606889005C846F /* libidn.a */,
@@ -900,7 +897,6 @@
 				B70AFA7E1C490C0B0091D570 /* button_done@2x.png in Resources */,
 				B77A5F951C607391005C846F /* Talk.png in Resources */,
 				B795B1C01C329893007EB2E6 /* Roboto-Bold.ttf in Resources */,
-				B77A5F9A1C607E5C005C846F /* images.png in Resources */,
 				B795B1C21C329893007EB2E6 /* Roboto-Light.ttf in Resources */,
 				B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */,
 				B709C5371C33E92600300EFF /* header.png in Resources */,

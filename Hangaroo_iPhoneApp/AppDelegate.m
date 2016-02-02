@@ -127,8 +127,8 @@ id<GAITracker> tracker;
     userHistoryArr = [NSMutableArray new];
     userProfileImage = [NSMutableDictionary new];
 //    if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
-        [UserDefaultManager setValue:@"rohit@52.74.174.129" key:@"LoginCred"];
-        [UserDefaultManager setValue:@"password" key:@"PassCred"];
+        [UserDefaultManager setValue:@"admin@52.74.174.129" key:@"LoginCred"];
+        [UserDefaultManager setValue:@"asd-123" key:@"PassCred"];
 //    }
     
     xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];

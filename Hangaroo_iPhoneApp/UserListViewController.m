@@ -26,8 +26,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"New Chat";
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:@"UserProfile" object:nil];
+    
+    self.title = @"New Chat";
     [myDelegate disconnect];
     if ([myDelegate connect])
     {
@@ -38,6 +40,12 @@
     // Do any additional setup after loading the view.
 }
 
+-(void)updateTableView{
+    dispatch_async(dispatch_get_main_queue(), ^(void)
+                   {
+                       [_FTableView reloadData];
+                   });
+}
 
 - (XMPPStream *)xmppStream
 {
@@ -88,12 +96,13 @@
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5; //[[[self fetchedResultsController] sections] count];
+    NSLog(@"%d",[[[self fetchedResultsController] sections] count]);
+    return [[[self fetchedResultsController] sections] count]; //[[[self fetchedResultsController] sections] count];
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView * headerView;
-    NSArray *sections = [[self fetchedResultsController] sections];
+//    NSArray *sections = [[self fetchedResultsController] sections];
     
 //    if (section < [sections count])
 //    {
