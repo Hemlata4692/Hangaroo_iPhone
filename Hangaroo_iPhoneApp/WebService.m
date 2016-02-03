@@ -14,6 +14,7 @@
 #import "JoinedUserDataModel.h"
 #import "PhotoListingModel.h"
 #import "MyProfileDataModel.h"
+#import "NotificationDataModel.h"
 
 #define kUrlLogin                       @"login"
 #define kUrlRegister                    @"register"
@@ -32,8 +33,7 @@
 #define kUrlTapToSeeOut                 @"seeout"
 #define kUrlSocialAccounts              @"socialaccounts"
 #define kUrlMyProfile                   @"userprofile"
-
-
+#define kUrlUserNotification            @"getnotifications"
 
 
 @implementation WebService
@@ -74,12 +74,12 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [myDelegate StopIndicator];
         failure(error);
-      
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
         });
-
+        
     }];
 }
 
@@ -213,7 +213,7 @@
     [self post:kUrlLogin parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
-          NSLog(@"Login User Response%@", responseObject);
+         NSLog(@"Login User Response%@", responseObject);
          if([self isStatusOK:responseObject])
          {
              success(responseObject);
@@ -268,7 +268,7 @@
     [self post:kUrlForgotPassword parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
-          NSLog(@"forgot User Response%@", responseObject);
+         NSLog(@"forgot User Response%@", responseObject);
          if([self isStatusOK:responseObject])
          {
              success(responseObject);
@@ -290,13 +290,13 @@
 //Share Post
 -(void)sharePost:(NSString *)post success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
- //{user_id:"20" post_content:"i had a bad day"}
+    //{user_id:"20" post_content:"i had a bad day"}
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"post_content":post};
     NSLog(@"share post request%@", requestDict);
     [self post:kUrlSharePost parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
-          NSLog(@"share User Response%@", responseObject);
+         NSLog(@"share User Response%@", responseObject);
          if([self isStatusOK:responseObject])
          {
              success(responseObject);
@@ -310,7 +310,7 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-
+    
 }
 #pragma mark- end
 
@@ -323,7 +323,7 @@
     [self post:kUrlPostListing parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
-          NSLog(@"postlisting User Response%@", responseObject);
+         NSLog(@"postlisting User Response%@", responseObject);
          if([self isStatusOK:responseObject])
          {
              id array =[responseObject objectForKey:@"post_listing"];
@@ -338,7 +338,7 @@
                      PostListingDataModel *postListData = [[PostListingDataModel alloc]init];
                      NSDictionary * postListDict =[postListingArray objectAtIndex:i];
                      postListData.joinedUserArray = [[NSMutableArray alloc]init];
-                      postListData.uploadedPhotoArray = [[NSMutableArray alloc]init];
+                     postListData.uploadedPhotoArray = [[NSMutableArray alloc]init];
                      postListData.postContent =[postListDict objectForKey:@"post_content"];
                      postListData.postedDay =[postListDict objectForKey:@"posted"];
                      postListData.postID =[postListDict objectForKey:@"post_id"];
@@ -349,12 +349,12 @@
                      postListData.creatorOfPostName = [postListDict objectForKey:@"PostCreatorName"];
                      postListData.creatorOfPostUserId=[postListDict objectForKey:@"user_id"];
                      NSArray *joinedArray=[postListDict objectForKey:@"joined_users"];
-                   
+                     
                      for (int j =0; j<joinedArray.count; j++)
                      {
-                          JoinedUserDataModel * joinedUserList = [[JoinedUserDataModel alloc]init];
-                            NSDictionary * joinedUserDict =[joinedArray objectAtIndex:j];
-                        
+                         JoinedUserDataModel * joinedUserList = [[JoinedUserDataModel alloc]init];
+                         NSDictionary * joinedUserDict =[joinedArray objectAtIndex:j];
+                         
                          joinedUserList.joinedUserName = [joinedUserDict objectForKey:@"username"];
                          joinedUserList.joinedUserImage =[joinedUserDict objectForKey:@"image_url"];
                          joinedUserList.joinedUserId=[joinedUserDict objectForKey:@"id"];
@@ -373,7 +373,7 @@
                          [postListData.uploadedPhotoArray addObject:postImagesList];
                          
                      }
-
+                     
                      [dataArray addObject:postListData];
                  }
                  success(dataArray);
@@ -395,7 +395,7 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-
+    
 }
 #pragma mark- end
 
@@ -406,7 +406,7 @@
     NSLog(@"join post  request%@", requestDict);
     [self post:kUrlJoinPost parameters:requestDict success:^(id responseObject)
      {
-          NSLog(@"join post Response%@", responseObject);
+         NSLog(@"join post Response%@", responseObject);
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
          
          if([self isStatusOK:responseObject])
@@ -422,7 +422,7 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-
+    
 }
 #pragma mark- end
 
@@ -449,16 +449,16 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-   
+    
 }
 #pragma mark- end
 
 #pragma mark- Photo Listing
 -(void)photoListing:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
-   
+    
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"post_id":postID};
-     NSLog(@"photo listing User request%@", requestDict);
+    NSLog(@"photo listing User request%@", requestDict);
     [self post:kUrlPhotoListing parameters:requestDict success:^(id responseObject)
      {
          NSLog(@"photo listing User Response%@", responseObject);
@@ -487,7 +487,7 @@
                      [dataArray addObject:photoListData];
                  }
                  success(dataArray);
-             }             
+             }
          }
          else
          {
@@ -527,7 +527,7 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-
+    
 }
 #pragma mark- end
 
@@ -554,7 +554,7 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-
+    
 }
 #pragma mark- end
 
@@ -582,7 +582,7 @@
          failure(error);
      }];
     
-
+    
 }
 #pragma mark- end
 
@@ -610,7 +610,7 @@
          failure(error);
      }];
     
-
+    
 }
 #pragma mark- end
 
@@ -638,7 +638,7 @@
          failure(error);
      }];
     
-
+    
 }
 #pragma mark- end
 
@@ -666,7 +666,7 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-
+    
 }
 #pragma mark- end
 
@@ -693,7 +693,7 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-
+    
 }
 #pragma mark- end
 
@@ -721,7 +721,7 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-
+    
 }
 #pragma mark- end
 
@@ -737,22 +737,22 @@
          
          if([self isStatusOK:responseObject])
          {
-                    NSMutableArray *profileDataArray = [NSMutableArray new];
-
-                     MyProfileDataModel *profileData = [[MyProfileDataModel alloc]init];
-                     NSDictionary * profileDict =[responseObject objectForKey:@"userprofile"];
-                     profileData.fbUrl =[profileDict objectForKey:@"fb_url"];
-                     profileData.twitUrl =[profileDict objectForKey:@"twitter_url"];
-                     profileData.instaUrl =[profileDict objectForKey:@"insta_url"];
-                     profileData.userInterest =[profileDict objectForKey:@"interest"];
-                     profileData.userName=[profileDict objectForKey:@"username"];
-                     profileData.profileImageUrl=[profileDict objectForKey:@"user_image"];
-                     profileData.totalFriends=[NSString stringWithFormat:@"%d",[[profileDict objectForKey:@"totalFriends"] intValue]];
-                     profileData.university=[profileDict objectForKey:@"university"];
-                     
-                     [profileDataArray addObject:profileData];
-
-            success(profileDataArray);
+             NSMutableArray *profileDataArray = [NSMutableArray new];
+             
+             MyProfileDataModel *profileData = [[MyProfileDataModel alloc]init];
+             NSDictionary * profileDict =[responseObject objectForKey:@"userprofile"];
+             profileData.fbUrl =[profileDict objectForKey:@"fb_url"];
+             profileData.twitUrl =[profileDict objectForKey:@"twitter_url"];
+             profileData.instaUrl =[profileDict objectForKey:@"insta_url"];
+             profileData.userInterest =[profileDict objectForKey:@"interest"];
+             profileData.userName=[profileDict objectForKey:@"username"];
+             profileData.profileImageUrl=[profileDict objectForKey:@"user_image"];
+             profileData.totalFriends=[NSString stringWithFormat:@"%d",[[profileDict objectForKey:@"totalFriends"] intValue]];
+             profileData.university=[profileDict objectForKey:@"university"];
+             
+             [profileDataArray addObject:profileData];
+             
+             success(profileDataArray);
              
          }
          else
@@ -765,8 +765,51 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
-
+    
 }
 #pragma mark- end
+#pragma mark- User Notification
+-(void)getUserNotification:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
+    NSLog(@"my Profile User request%@", requestDict);
+    [self post:kUrlUserNotification parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"my Profile User Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+          NSNumber *number = responseObject[@"isSuccess"];
+         if (number.integerValue!=0)
+         {
+             id array =[responseObject objectForKey:@"notificationMessage"];
+             if (([array isKindOfClass:[NSArray class]]))
+             {
+                 NSArray * notificationDataArray = [responseObject objectForKey:@"notificationMessage"];
+                 NSMutableArray *dataArray = [NSMutableArray new];
+                 
+                 
+                 for (int i =0; i<notificationDataArray.count; i++)
+                 {
+                     NotificationDataModel *notificationData = [[NotificationDataModel alloc]init];
+                     NSDictionary * notificationDict =[notificationDataArray objectAtIndex:i];
+                     notificationData.notificationString =[notificationDict objectForKey:@"notification_text"];
+                     notificationData.userImageUrl =[notificationDict objectForKey:@"user_image"];
+                     [dataArray addObject:notificationData];
+                 }
+                 success(dataArray);
+             }
+
+        }
+         
+         
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+}
+#pragma mark- end
+
 
 @end

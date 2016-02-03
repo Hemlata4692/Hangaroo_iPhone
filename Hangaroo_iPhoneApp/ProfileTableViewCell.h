@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MyProfileDataModel.h"
+#import "NotificationDataModel.h"
 
 @interface ProfileTableViewCell : UITableViewCell
 //locationCell
@@ -16,14 +17,14 @@
 
 //interestCell
 @property (weak, nonatomic) IBOutlet UILabel *interestLabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 //notificationCell
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
 @property (weak, nonatomic) IBOutlet UILabel *notificationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *noNotificationFound;
+@property (weak, nonatomic) IBOutlet UILabel *seperatorLabel;
 
--(void)layoutView1 :(CGRect)rect;
--(void)layoutView2 :(CGRect)rect;
-//-(void)layoutView3 :(CGRect)rect count:(int)count;
--(void)layoutView4 :(CGRect)rect;
 -(void)displayData :(MyProfileDataModel *)profileData :(int)indexPath;
+-(void)displayNotificationData :(NotificationDataModel *)profileData :(int)indexPath;
 @end

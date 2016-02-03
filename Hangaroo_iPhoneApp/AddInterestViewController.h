@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyProfileDataModel.h"
+#import "SettingViewController.h"
 
 @interface AddInterestViewController : GlobalBackViewController
-
+@property(strong, nonatomic) MyProfileDataModel *userProfileData;
+@property(strong, nonatomic) SettingViewController *userSettingObj;
 @end

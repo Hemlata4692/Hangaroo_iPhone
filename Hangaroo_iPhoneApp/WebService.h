@@ -87,6 +87,11 @@
 -(void)myProfile:(void (^)(id data))success failure:(void (^)(NSError *error))failure;
 //end
 
+//Notifications
+-(void)getUserNotification:(void (^)(id data))success failure:(void (^)(NSError *error))failure;
+//end
+
+
 //Register device for push notification
 -(void)registerDeviceForPushNotification:(NSString *)deviceId deviceType:(NSString *)deviceType success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //end

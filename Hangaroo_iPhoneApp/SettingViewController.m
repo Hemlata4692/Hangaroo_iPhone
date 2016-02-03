@@ -19,7 +19,7 @@
 @interface SettingViewController ()<MFMailComposeViewControllerDelegate>
 {
     NSMutableArray *settingsDataArray;
-     NSMutableArray *editUserInfoArray;
+    NSMutableArray *editUserInfoArray;
 }
 @property (weak, nonatomic) IBOutlet UIView *findtheRooView;
 @property (weak, nonatomic) IBOutlet UITableView *settingTableView;
@@ -29,12 +29,13 @@
 
 @implementation SettingViewController
 @synthesize settingTableView,findtheRooView,containerView;
+@synthesize myProfileData;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-     self.screenName = @"Settings screen";
+    self.screenName = @"Settings screen";
     settingsDataArray=[[NSMutableArray alloc]initWithObjects:@"Change password",@"Share feedback",@"Find the roo",@"Log out", nil];
     editUserInfoArray=[[NSMutableArray alloc]initWithObjects:@"Edit profile photo",@"Interest",@"Social media accounts", nil];
     findtheRooView.hidden=YES;
@@ -67,7 +68,7 @@
     }
     else
     {
-    return settingsDataArray.count;
+        return settingsDataArray.count;
     }
 }
 
@@ -105,7 +106,7 @@
     }
     
     UILabel *settingsLabel=(UILabel *)[cell viewWithTag:1];
-     UILabel *sepratorLabel=(UILabel *)[cell viewWithTag:2];
+    UILabel *sepratorLabel=(UILabel *)[cell viewWithTag:2];
     UIImageView *arrowImage=(UIImageView *)[cell viewWithTag:3];
     UILabel *logOutLabel=(UILabel *)[cell viewWithTag:4];
     if (indexPath.section==0)
@@ -121,12 +122,12 @@
     if (indexPath.section==0 && indexPath.row==2) {
         sepratorLabel.hidden=YES;
     }
-   else if (indexPath.section==1 && indexPath.row==3) {
-       
-       settingsLabel.hidden=YES;
-       arrowImage.hidden=YES;
-       logOutLabel.hidden=NO;
-       
+    else if (indexPath.section==1 && indexPath.row==3) {
+        
+        settingsLabel.hidden=YES;
+        arrowImage.hidden=YES;
+        logOutLabel.hidden=NO;
+        
     }
     return cell;
 }
@@ -134,23 +135,27 @@
 {
     
     if (indexPath.section == 0 && indexPath.row==0) {
-                UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                EditProfileViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"EditProfileViewController"];
-                [self.navigationController pushViewController:view animated:YES];
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        EditProfileViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"EditProfileViewController"];
+        view.userSettingObj=self;
+        [self.navigationController pushViewController:view animated:YES];
     }
     
     else if (indexPath.section == 0 && indexPath.row==1)
     {
-                UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                AddInterestViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"AddInterestViewController"];
-                [self.navigationController pushViewController:view animated:YES];
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        AddInterestViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"AddInterestViewController"];
+       // view.userProfileData=myProfileData;
+        view.userSettingObj=self;
+        [self.navigationController pushViewController:view animated:YES];
     }
     
     else if (indexPath.section == 0 && indexPath.row==2)
     {
-                UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                SocialMediaAccountViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"SocialMediaAccountViewController"];
-                [self.navigationController pushViewController:view animated:YES];
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        SocialMediaAccountViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"SocialMediaAccountViewController"];
+        view.userSettingObj=self;
+        [self.navigationController pushViewController:view animated:YES];
     }
     
     else if (indexPath.section == 1 && indexPath.row==0)
@@ -160,11 +165,11 @@
         [self.navigationController pushViewController:view animated:YES];
     }
     else if (indexPath.section == 1 && indexPath.row==1) {
-       
-            UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            ShareFeedbackViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"ShareFeedbackViewController"];
-            [self.navigationController pushViewController:view animated:YES];
-      
+        
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        ShareFeedbackViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"ShareFeedbackViewController"];
+        [self.navigationController pushViewController:view animated:YES];
+        
     }
     else if (indexPath.section == 1 && indexPath.row==2) {
         findtheRooView.hidden=NO;
@@ -227,7 +232,7 @@
 }
 - (IBAction)closeFindTheRooViewButtonAction:(id)sender
 {
-     findtheRooView.hidden=YES;
+    findtheRooView.hidden=YES;
 }
 #pragma mark - end
 

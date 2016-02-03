@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SocialMediaAccountViewController : GlobalBackViewController
+#import "SettingViewController.h"
 
+@interface SocialMediaAccountViewController : GlobalBackViewController
+@property(strong, nonatomic) SettingViewController *userSettingObj;
 @end

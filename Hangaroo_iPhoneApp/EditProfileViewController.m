@@ -18,7 +18,7 @@
 
 @implementation EditProfileViewController
 @synthesize infoLabel,userProfileImageView;
-
+@synthesize userSettingObj;
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -29,11 +29,11 @@
     
    
     __weak UIImageView *weakRef = userProfileImageView;
-    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userSettingObj.myProfileData.profileImageUrl]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
     
-    [userProfileImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [userProfileImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"placeholder.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         weakRef.contentMode = UIViewContentModeScaleAspectFill;
         weakRef.clipsToBounds = YES;
         weakRef.image = image;
@@ -135,7 +135,7 @@
     [[WebService sharedManager]editProfilePhoto:userProfileImageView.image success: ^(id responseObject) {
         
         [myDelegate StopIndicator];
-   // [UserDefaultManager setValue:userProfileImageView.image key:@"userImage"];
+        userSettingObj.myProfileData.profileImageUrl=[responseObject objectForKey:@"user_image"];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
                                               message:[responseObject objectForKey:@"message"]

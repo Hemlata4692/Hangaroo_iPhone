@@ -22,6 +22,7 @@
 		B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F31C5F6BEF0084964D /* CoolNavi.m */; };
 		B738DF881C607C4500DC6CB4 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = B738DF871C607C4500DC6CB4 /* placeholder.png */; };
 		B738DF8C1C60D0A200DC6CB4 /* MyProfileDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B738DF8B1C60D0A200DC6CB4 /* MyProfileDataModel.m */; };
+		B73AB6D41C61DF6F00E0F662 /* NotificationDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B73AB6D31C61DF6F00E0F662 /* NotificationDataModel.m */; };
 		B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */; };
 		B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44C1C43A341009601D2 /* user_thumbnail.png */; };
 		B747C44F1C43AE9A009601D2 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44E1C43AE9A009601D2 /* picture.png */; };
@@ -102,6 +103,8 @@
 		B738DF871C607C4500DC6CB4 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		B738DF8A1C60D0A200DC6CB4 /* MyProfileDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileDataModel.h; sourceTree = "<group>"; };
 		B738DF8B1C60D0A200DC6CB4 /* MyProfileDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileDataModel.m; sourceTree = "<group>"; };
+		B73AB6D21C61DF6F00E0F662 /* NotificationDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationDataModel.h; sourceTree = "<group>"; };
+		B73AB6D31C61DF6F00E0F662 /* NotificationDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationDataModel.m; sourceTree = "<group>"; };
 		B74260E81C3BA127000B3453 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
 		B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
 		B747C44C1C43A341009601D2 /* user_thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_thumbnail.png; sourceTree = "<group>"; };
@@ -317,10 +320,28 @@
 		B738DF891C60D08600DC6CB4 /* MyProfileModel */ = {
 			isa = PBXGroup;
 			children = (
+				B73AB6D11C61DF5100E0F662 /* MyProfileDataModel */,
+				B73AB6D01C61DF4600E0F662 /* NotificationDataModel */,
+			);
+			name = MyProfileModel;
+			sourceTree = "<group>";
+		};
+		B73AB6D01C61DF4600E0F662 /* NotificationDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				B73AB6D21C61DF6F00E0F662 /* NotificationDataModel.h */,
+				B73AB6D31C61DF6F00E0F662 /* NotificationDataModel.m */,
+			);
+			name = NotificationDataModel;
+			sourceTree = "<group>";
+		};
+		B73AB6D11C61DF5100E0F662 /* MyProfileDataModel */ = {
+			isa = PBXGroup;
+			children = (
 				B738DF8A1C60D0A200DC6CB4 /* MyProfileDataModel.h */,
 				B738DF8B1C60D0A200DC6CB4 /* MyProfileDataModel.m */,
 			);
-			name = MyProfileModel;
+			name = MyProfileDataModel;
 			sourceTree = "<group>";
 		};
 		B75450221C50F5CA00C9814D /* SetingsModule */ = {
@@ -973,6 +994,7 @@
 				B754503A1C510D3400C9814D /* ShareFeedbackViewController.m in Sources */,
 				B795B1AB1C326077007EB2E6 /* UITextField+Validations.m in Sources */,
 				B795B1B71C32658E007EB2E6 /* BSKeyboardControls.m in Sources */,
+				B73AB6D41C61DF6F00E0F662 /* NotificationDataModel.m in Sources */,
 				B795B1A51C32605B007EB2E6 /* UITextField+Padding.m in Sources */,
 				B75450251C50F5ED00C9814D /* SettingViewController.m in Sources */,
 				B785D5EC1C3A7214007A4056 /* SharePostViewController.m in Sources */,

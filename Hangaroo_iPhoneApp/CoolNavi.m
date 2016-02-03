@@ -13,21 +13,15 @@
 
 @property (nonatomic, strong) UIImageView *backImageView;
 @property (nonatomic, strong) UIImageView *headerImageView;
-@property (nonatomic, strong) UIButton *facebookBtn;
-@property (nonatomic, strong) UIButton *instaBtn;
-@property (nonatomic, strong) UIButton *twitterBtn;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *settings;
 @property (nonatomic, assign) CGPoint prePoint;
 
-@property (nonatomic, strong) NSString *fbUrl;
-@property (nonatomic, strong) NSString *twitUrl;
-@property (nonatomic, strong) NSString *instaUrl;
 
 @end
 
 
 @implementation CoolNavi
+@synthesize facebookButton,twitterButton,instaButton,settings;
 
 - (id)initWithFrame:(CGRect)frame backGroudImage:(NSString *)backImageName headerImageURL:(NSString *)headerImageURL title:(NSString *)title facebookBtn:(NSString *)facebookBtn instagramBtn:(NSString *)instagramBtn twitterBtn:(NSString *)twitterBtn settingsBtn:(NSString *)settingsBtn
 {
@@ -61,37 +55,37 @@
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
         [_headerImageView addGestureRecognizer:tap];
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, frame.size.height-50, frame.size.width-60, 40)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, frame.size.height-50, frame.size.width-100, 40)];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
-        _titleLabel.font = [UIFont fontWithName:@"Roboto-Regular" size:14.0];
+        //_titleLabel.backgroundColor=[UIColor blackColor];
+        _titleLabel.font = [UIFont fontWithName:@"Roboto-Regular" size:15.0];
         _titleLabel.text = title;
         
-        _settings = [[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-40, 30, 20, 20)];
-        [_settings setBackgroundImage:[UIImage imageNamed:settingsBtn] forState:UIControlStateNormal];
-        [_settings addTarget:self action:@selector(headerMethod:) forControlEvents:UIControlEventTouchUpInside];
+        settings = [[UIButton alloc] initWithFrame:CGRectMake(frame.size.width-50, 20, 40, 40)];
+        [settings setImage:[UIImage imageNamed:settingsBtn] forState:UIControlStateNormal];
+       
         
-        _facebookBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, frame.size.height-100, 21, 21)];
-        [_facebookBtn setBackgroundImage:[UIImage imageNamed:facebookBtn] forState:UIControlStateNormal];
-        [_facebookBtn addTarget:self action:@selector(facebookBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        facebookButton = [[UIButton alloc] initWithFrame:CGRectMake(20, frame.size.height-110, 30, 30)];
+        [facebookButton setImage:[UIImage imageNamed:facebookBtn] forState:UIControlStateNormal];
+   
         
-        _twitterBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, frame.size.height-70, 21, 21)];
-        [_twitterBtn setBackgroundImage:[UIImage imageNamed:twitterBtn] forState:UIControlStateNormal];
-        [_twitterBtn addTarget:self action:@selector(twitterBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        twitterButton = [[UIButton alloc] initWithFrame:CGRectMake(20, frame.size.height-80, 30, 30)];
+        [twitterButton setImage:[UIImage imageNamed:twitterBtn] forState:UIControlStateNormal];
+    
         
-        _instaBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, frame.size.height-40, 21, 21)];
-        [_instaBtn setBackgroundImage:[UIImage imageNamed:instagramBtn] forState:UIControlStateNormal];
-        [_instaBtn addTarget:self action:@selector(instagramBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        instaButton = [[UIButton alloc] initWithFrame:CGRectMake(20, frame.size.height-50, 30, 30)];
+        [instaButton setImage:[UIImage imageNamed:instagramBtn] forState:UIControlStateNormal];
+       
         _titleLabel.textColor = [UIColor whiteColor];
-        
         
         
         [self addSubview:_backImageView];
         [self addSubview:_headerImageView];
         [self addSubview:_titleLabel];
-        [self addSubview:_facebookBtn];
-        [self addSubview:_twitterBtn];
-        [self addSubview:_instaBtn];
-        [self addSubview:_settings];
+        [self addSubview:facebookButton];
+        [self addSubview:twitterButton];
+        [self addSubview:instaButton];
+        [self addSubview:settings];
         
         self.clipsToBounds = YES;
         
@@ -99,33 +93,7 @@
     return self;
     
 }
-- (IBAction)headerMethod:(UIButton *)sender
-{
-//    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    SettingViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"SettingViewController"];
-//    [self.navigationController pushViewController:loginView animated:YES];
-}
-- (IBAction)instagramBtnAction:(UIButton *)sender
-{
-    NSLog(@"testI");
-}
 
-- (IBAction)twitterBtnAction:(UIButton *)sender
-{
-    NSLog(@"testF");
-}
-
-- (IBAction)facebookBtnAction:(UIButton *)sender
-{
-    NSLog(@"testT");
-}
-
--(void)getAccountsUrl:(NSString *)fbUrl twitUrl:(NSString *)twitUrl instaUrl:(NSString *)instaUrl
-{
-    _fbUrl=fbUrl;
-    _twitUrl=twitUrl;
-    _instaUrl=instaUrl;
-}
 
 
 -(void)willMoveToSuperview:(UIView *)newSuperview
@@ -135,7 +103,11 @@
     self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
 }
 
-
+-(void)deallocHeaderView {
+    [self.scrollView removeObserver:self forKeyPath:@"contentOffset" context:Nil];
+    self.scrollView.contentInset = UIEdgeInsetsMake(0, 0 ,0 , 0);
+    self.scrollView.scrollIndicatorInsets = self.scrollView.contentInset;
+}
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -157,15 +129,15 @@
     float imageReduce = 1;
     
     self.titleLabel.alpha = alpha;
-    self.facebookBtn.alpha = alpha;
-    self.twitterBtn.alpha = alpha;
-    self.instaBtn.alpha = alpha;
+    self.facebookButton.alpha = alpha;
+    self.twitterButton.alpha = alpha;
+    self.instaButton.alpha = alpha;
     // self.settings.alpha = alpha;
     self.frame = CGRectMake(0, newY, self.frame.size.width, self.frame.size.height);
     self.backImageView.frame = CGRectMake(0, -0.5*self.frame.size.height+(1.5*self.frame.size.height-64)*(1-alpha), self.backImageView.frame.size.width, self.backImageView.frame.size.height);
     
     CGAffineTransform t = CGAffineTransformMakeTranslation(0,(titleDestinateOffset-0.10*self.frame.size.height)*(1-alpha));
-    _settings.transform = CGAffineTransformScale(t,
+    settings.transform = CGAffineTransformScale(t,
                                                  imageReduce, imageReduce);
     
     // self.titleLabel.frame = CGRectMake(50, 0.6*self.frame.size.height+(titleDestinateOffset-0.45*self.frame.size.height)*(1-alpha), self.frame.size.width, self.frame.size.height*0.2);

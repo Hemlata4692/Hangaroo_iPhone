@@ -19,31 +19,44 @@
 
 @implementation AddInterestViewController
 @synthesize interestTextView,saveBtn;
+@synthesize userProfileData,userSettingObj;
 #pragma mark - View life cycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.screenName = @"Add Interest screen";
-    
+  
     [interestTextView setPlaceholder:@"  Add your interest"];
     [interestTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:14.0]];
-    saveBtn.userInteractionEnabled=NO;
-    saveBtn.titleLabel.alpha=0.5f;
+    [self loadData];
     
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
     self.navigationItem.title=@"Interest";
-    saveBtn.userInteractionEnabled=NO;
-    saveBtn.titleLabel.alpha=0.5f;
-    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(void)loadData
+{
+    if ([userSettingObj.myProfileData.userInterest isEqualToString:@""])
+    {
+        [interestTextView setPlaceholder:@"  Add your interest"];
+        saveBtn.userInteractionEnabled=NO;
+        saveBtn.titleLabel.alpha=0.5f;
+    }
+    else
+    {
+        interestTextView.text=userSettingObj.myProfileData.userInterest;
+        saveBtn.userInteractionEnabled=YES;
+        saveBtn.titleLabel.alpha=1.0f;
+    }
+
 }
 
 #pragma mark - end
@@ -96,7 +109,7 @@
     [[WebService sharedManager]addUserInterest:interestTextView.text success: ^(id responseObject) {
         
         [myDelegate StopIndicator];
-        
+        userSettingObj.myProfileData.userInterest=interestTextView.text;
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
                                               message:[responseObject objectForKey:@"message"]

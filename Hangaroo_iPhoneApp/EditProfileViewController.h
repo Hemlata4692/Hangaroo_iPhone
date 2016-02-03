@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#import "SettingViewController.h"
+
 @interface EditProfileViewController : GlobalBackViewController
 
+@property(strong, nonatomic) SettingViewController *userSettingObj;
 @end

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoadWebPagesViewController : UIViewController
-
+@interface LoadWebPagesViewController : GlobalBackViewController
+@property(nonatomic,retain) NSString * facebookString;
+@property(nonatomic,retain) NSString * twitterString;
+@property(nonatomic,retain) NSString * instagramString;
+@property(nonatomic,retain) NSString * navigationTitle;
 @end

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyProfileDataModel.h"
 
 @interface SettingViewController : GlobalBackViewController
-
+@property(strong, nonatomic) MyProfileDataModel *myProfileData;
 @end
