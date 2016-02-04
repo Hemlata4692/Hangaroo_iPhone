@@ -48,6 +48,7 @@
 		B7712BD61C58B55700C956DD /* me_too.png in Resources */ = {isa = PBXBuildFile; fileRef = B7712BD51C58B55700C956DD /* me_too.png */; };
 		B77D2FE51C3F73C80067BA6C /* JoinedUserDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */; };
 		B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */; };
+		B77DA94D1C6355C600003639 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B77DA94C1C6355C600003639 /* FriendListViewController.m */; };
 		B785D5E31C3A703C007A4056 /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E21C3A703C007A4056 /* DiscoverViewController.m */; };
 		B785D5E61C3A7051007A4056 /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E51C3A7051007A4056 /* MyProfileViewController.m */; };
 		B785D5E91C3A706A007A4056 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E81C3A706A007A4056 /* ChatViewController.m */; };
@@ -155,6 +156,8 @@
 		B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoinedUserDataModel.m; sourceTree = "<group>"; };
 		B77D2FE61C3F73E00067BA6C /* PostImageDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostImageDataModel.h; sourceTree = "<group>"; };
 		B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostImageDataModel.m; sourceTree = "<group>"; };
+		B77DA94B1C6355C600003639 /* FriendListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListViewController.h; sourceTree = "<group>"; };
+		B77DA94C1C6355C600003639 /* FriendListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListViewController.m; sourceTree = "<group>"; };
 		B785D5E11C3A703C007A4056 /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		B785D5E21C3A703C007A4056 /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		B785D5E41C3A7051007A4056 /* MyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
@@ -488,6 +491,15 @@
 			name = MeTooUserProfileViewController;
 			sourceTree = "<group>";
 		};
+		B77DA94A1C6355A100003639 /* FriendListModule */ = {
+			isa = PBXGroup;
+			children = (
+				B77DA94B1C6355C600003639 /* FriendListViewController.h */,
+				B77DA94C1C6355C600003639 /* FriendListViewController.m */,
+			);
+			name = FriendListModule;
+			sourceTree = "<group>";
+		};
 		B785D5DA1C3A6F8A007A4056 /* UserModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -618,6 +630,7 @@
 				B785D5E01C3A7020007A4056 /* DiscoverModule */,
 				B785D5DF1C3A7009007A4056 /* ProfileModule */,
 				B75450221C50F5CA00C9814D /* SetingsModule */,
+				B77DA94A1C6355A100003639 /* FriendListModule */,
 				B785D5DE1C3A7001007A4056 /* ChatModule */,
 			);
 			name = Views;
@@ -985,6 +998,7 @@
 				B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */,
 				B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */,
 				B70AFA811C492D3F0091D570 /* MyButton.m in Sources */,
+				B77DA94D1C6355C600003639 /* FriendListViewController.m in Sources */,
 				B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */,
 				B75450371C510D2600C9814D /* SocialMediaAccountViewController.m in Sources */,
 				B75450341C510D1400C9814D /* AddInterestViewController.m in Sources */,
