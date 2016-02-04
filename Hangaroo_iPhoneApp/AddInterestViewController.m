@@ -47,8 +47,8 @@
     if ([userSettingObj.myProfileData.userInterest isEqualToString:@""])
     {
         [interestTextView setPlaceholder:@"  Add your interest"];
-        saveBtn.userInteractionEnabled=NO;
-        saveBtn.titleLabel.alpha=0.5f;
+        saveBtn.userInteractionEnabled=YES;
+        saveBtn.titleLabel.alpha=1.0f;
     }
     else
     {
@@ -92,15 +92,15 @@
         saveBtn.userInteractionEnabled=YES;
         saveBtn.titleLabel.alpha=1.0;
     }
-    else if (textView.text.length==1) {
-         saveBtn.userInteractionEnabled=YES;
-        saveBtn.titleLabel.alpha=1.0;
-    }
-    else if (textView.text.length==0) {
-        saveBtn.userInteractionEnabled=NO;
-        saveBtn.titleLabel.alpha=0.5;
-        
-    }
+//    else if (textView.text.length==1) {
+//         saveBtn.userInteractionEnabled=YES;
+//        saveBtn.titleLabel.alpha=1.0;
+//    }
+//    else if (textView.text.length==0) {
+//        saveBtn.userInteractionEnabled=YES;
+//        saveBtn.titleLabel.alpha=1.0;
+//        
+//    }
 }
 #pragma mark - end
 #pragma mark - Webservice
@@ -110,31 +110,43 @@
         
         [myDelegate StopIndicator];
         userSettingObj.myProfileData.userInterest=interestTextView.text;
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"Alert"
-                                              message:[responseObject objectForKey:@"message"]
-                                              preferredStyle:UIAlertControllerStyleAlert];
+        for (UIViewController *controller in self.navigationController.viewControllers)
+        {
+            if ([controller isKindOfClass:[SettingViewController class]])
+            {
+                [self.navigationController popToViewController:controller animated:YES];
+                
+                break;
+            }
+        }
         
-        UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:@"OK"
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       
-                                       for (UIViewController *controller in self.navigationController.viewControllers)
-                                       {
-                                           if ([controller isKindOfClass:[SettingViewController class]])
-                                           {
-                                               [self.navigationController popToViewController:controller animated:YES];
-                                               
-                                               break;
-                                           }
-                                       }
-                                       
-                                   }];
-        
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+  
+
+//        UIAlertController *alertController = [UIAlertController
+//                                              alertControllerWithTitle:@"Alert"
+//                                              message:[responseObject objectForKey:@"message"]
+//                                              preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction *okAction = [UIAlertAction
+//                                   actionWithTitle:@"OK"
+//                                   style:UIAlertActionStyleDefault
+//                                   handler:^(UIAlertAction *action)
+//                                   {
+//                                       
+//                                       for (UIViewController *controller in self.navigationController.viewControllers)
+//                                       {
+//                                           if ([controller isKindOfClass:[SettingViewController class]])
+//                                           {
+//                                               [self.navigationController popToViewController:controller animated:YES];
+//                                               
+//                                               break;
+//                                           }
+//                                       }
+//                                       
+//                                   }];
+//        
+//        [alertController addAction:okAction];
+//        [self presentViewController:alertController animated:YES completion:nil];
         
     }
                                        failure:^(NSError *error)

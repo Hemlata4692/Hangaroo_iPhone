@@ -55,7 +55,6 @@
 {
     self.userImage.layer.cornerRadius=30.0f;
     self.userImage.clipsToBounds=YES;
-    self.userImage.backgroundColor=[UIColor redColor];
     __weak UIImageView *weakRef = userImage;
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:notificationData.userImageUrl]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad

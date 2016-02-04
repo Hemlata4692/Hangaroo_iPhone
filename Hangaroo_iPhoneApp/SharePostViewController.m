@@ -35,8 +35,7 @@
     seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);
     postTextView.layer.borderWidth=1.0f;
     postTextView.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor grayColor]);
-    //[postTextView canPerformAction:@selector(paste:) withSender:postTextView];
-    sharePostBtn.enabled=NO;
+    
     
  }
 
@@ -47,8 +46,15 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    self.navigationItem.title=@"Share Post";
-     sharePostBtn.enabled=NO;
+    self.navigationItem.title=@"Share post";
+    if ([postTextView.text isEqualToString:@""]) {
+        sharePostBtn.enabled=NO;
+    }
+    else
+    {
+        sharePostBtn.enabled=YES;
+    }
+    
 }
 
 #pragma mark - end
@@ -94,11 +100,6 @@
     }
 }
 
-//- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
-//{
-//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{ [[UIMenuController sharedMenuController] setMenuVisible:NO animated:NO]; }];
-//    return [super canPerformAction:action withSender:sender];
-//}
 #pragma mark - end
 
 #pragma mark - IBActions
@@ -119,30 +120,6 @@
         [myDelegate StopIndicator];
         postTextView.text=@"";
          [self.tabBarController setSelectedIndex:0];
-//        UIAlertController *alertController = [UIAlertController
-//                                              alertControllerWithTitle:@"Alert"
-//                                              message:[responseObject objectForKey:@"message"]
-//                                              preferredStyle:UIAlertControllerStyleAlert];
-//        
-//        UIAlertAction *okAction = [UIAlertAction
-//                                   actionWithTitle:@"OK"
-//                                   style:UIAlertActionStyleDefault
-//                                   handler:^(UIAlertAction *action)
-//                                   {
-//                                       postTextView.text=@"";
-//                                    //[alertController dismissViewControllerAnimated:YES completion:nil];
-////                                       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-////                                                                              HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
-////                                                                              [self.navigationController pushViewController:homeView animated:YES];
-//
-//                                       [self.tabBarController setSelectedIndex:0];
-//
-//                                       
-//                                   }];
-//        
-//        [alertController addAction:okAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
-        
         
     } failure:^(NSError *error) {
         

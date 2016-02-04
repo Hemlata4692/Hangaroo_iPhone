@@ -85,32 +85,41 @@
     [[WebService sharedManager]shareFeedback:subjectTextField.text content:contentTextView.text success: ^(id responseObject) {
         
         [myDelegate StopIndicator];
-        
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"Alert"
-                                              message:[responseObject objectForKey:@"message"]
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:@"OK"
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       
-                                       for (UIViewController *controller in self.navigationController.viewControllers)
-                                       {
-                                           if ([controller isKindOfClass:[SettingViewController class]])
-                                           {
-                                               [self.navigationController popToViewController:controller animated:YES];
-                                               
-                                               break;
-                                           }
-                                       }
-                                       
-                                   }];
-        
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        for (UIViewController *controller in self.navigationController.viewControllers)
+        {
+            if ([controller isKindOfClass:[SettingViewController class]])
+            {
+                [self.navigationController popToViewController:controller animated:YES];
+                
+                break;
+            }
+        }
+
+//        UIAlertController *alertController = [UIAlertController
+//                                              alertControllerWithTitle:@"Alert"
+//                                              message:[responseObject objectForKey:@"message"]
+//                                              preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction *okAction = [UIAlertAction
+//                                   actionWithTitle:@"OK"
+//                                   style:UIAlertActionStyleDefault
+//                                   handler:^(UIAlertAction *action)
+//                                   {
+//                                       
+//                                       for (UIViewController *controller in self.navigationController.viewControllers)
+//                                       {
+//                                           if ([controller isKindOfClass:[SettingViewController class]])
+//                                           {
+//                                               [self.navigationController popToViewController:controller animated:YES];
+//                                               
+//                                               break;
+//                                           }
+//                                       }
+//                                       
+//                                   }];
+//        
+//        [alertController addAction:okAction];
+//        [self presentViewController:alertController animated:YES completion:nil];
         
     }
                                        failure:^(NSError *error)
@@ -124,6 +133,7 @@
 #pragma mark - IBActions
 - (IBAction)saveFeedbackButtonAction:(id)sender
 {
+    [self.keyboardControls.activeField resignFirstResponder];
     [myDelegate ShowIndicator];
     [self performSelector:@selector(saveUserFeedback) withObject:nil afterDelay:.1];
 }

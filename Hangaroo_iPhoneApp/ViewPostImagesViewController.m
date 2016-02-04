@@ -135,6 +135,7 @@
     image.layer.borderWidth = 1.0;
     
     UILabel* separatorLabel1 =  (UILabel*)[myCell viewWithTag:2];
+   
     UILabel* timeLabel =  (UILabel*)[myCell viewWithTag:3];
     UILabel* separatorLabel2 =  (UILabel*)[myCell viewWithTag:4];
     if (indexPath.row == 0)

@@ -1970,7 +1970,7 @@
                                 <color key="textColor" red="0.28627450980000002" green="0.28627450980000002" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pga-En-1MT">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder.png" translatesAutoresizingMaskIntoConstraints="NO" id="pga-En-1MT">
                                 <rect key="frame" x="0.0" y="61" width="320" height="394"/>
                                 <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -2909,6 +2909,7 @@
         <image name="noti" width="16" height="16"/>
         <image name="password" width="21" height="21"/>
         <image name="picture.png" width="388" height="388"/>
+        <image name="placeholder.png" width="1242" height="406"/>
         <image name="plus_icon" width="22" height="22"/>
         <image name="s_bullets" width="10" height="10"/>
         <image name="tap" width="45" height="45"/>

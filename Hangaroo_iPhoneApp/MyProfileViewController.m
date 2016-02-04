@@ -19,20 +19,22 @@
     NSMutableArray *notificationsArray;
      NSMutableArray *myProfileArray;
     CoolNavi *headerView;
-    
+    UIView * footerView;
+    int totalNotifications;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myProfileTableView;
+@property(nonatomic, strong) NSString *Offset;
 @end
 
 @implementation MyProfileViewController
-@synthesize myProfileTableView;
+@synthesize myProfileTableView,Offset;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
      self.screenName = @"Profile screen";
-    
+    Offset=@"0";
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     notificationsArray=[[NSMutableArray alloc]init];
     myProfileArray=[[NSMutableArray alloc]init];
@@ -54,9 +56,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    //self.navigationItem.title=@"My profile";
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [[self navigationController] setNavigationBarHidden:YES];
+    [notificationsArray removeAllObjects];
+      [self initFooterView];
+    Offset=@"0";
     [myDelegate ShowIndicator];
     [self performSelector:@selector(getMyProfileData) withObject:nil afterDelay:0.1];
     
@@ -289,6 +293,52 @@
 }
 #pragma mark - end
 
+#pragma mark - pagignation for table view
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *) cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (notificationsArray.count ==totalNotifications)
+    {
+        [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
+        [(UILabel *)[footerView viewWithTag:11] setHidden:true];
+    }
+    else if(indexPath.row==[notificationsArray count]-1) //self.array is the array of items you are displaying
+    {
+        if(notificationsArray.count <= totalNotifications)
+        {
+            tableView.tableFooterView = footerView;
+            [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
+            [self getUserNotification];
+        }
+        else
+        {
+            myProfileTableView.tableFooterView = nil;
+            //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
+        }
+    }
+}
+
+-(void)initFooterView
+{
+    footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];
+    UIActivityIndicatorView * actInd = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    actInd.color=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
+    UILabel *footerLabel=[[UILabel alloc]init];
+    footerLabel.tag=11;
+    footerLabel.frame=CGRectMake(self.view.frame.size.width/2, 10.0, 80.0, 20.0);
+    footerLabel.text=@"Loading...";
+    footerLabel.font=[UIFont fontWithName:@"Roboto-Regular" size:12.0];
+    footerLabel.textColor=[UIColor grayColor];
+    actInd.tag = 10;
+    actInd.frame = CGRectMake(self.view.frame.size.width/2-10, 10.0, 20.0, 20.0);
+    actInd.hidesWhenStopped = YES;
+    [footerView addSubview:actInd];
+  //  [footerView addSubview:footerLabel];
+    footerLabel=nil;
+    actInd = nil;
+}
+#pragma mark - end
+
+
 #pragma mark - My profile webservice
 -(void)getMyProfileData
 {
@@ -365,10 +415,21 @@
 #pragma mark - User notification webservice
 -(void)getUserNotification
 {
-    [[WebService sharedManager]getUserNotification:^(id notificationDataArray)
+   
+    [[WebService sharedManager]getUserNotification:[NSString stringWithFormat:@"%@",Offset] success:^(id notificationDataArray)
      {
          [myDelegate StopIndicator];
-         notificationsArray=[notificationDataArray mutableCopy];
+         if (notificationsArray.count<=0) {
+             notificationsArray =[notificationDataArray mutableCopy];
+         }
+         else
+         {
+             [notificationsArray addObjectsFromArray:notificationDataArray];
+         }
+         
+         totalNotifications= [[notificationsArray objectAtIndex:notificationsArray.count-1]intValue];
+         [notificationsArray removeLastObject];
+         Offset=[NSString stringWithFormat:@"%lu",(unsigned long)notificationsArray.count];
          [myProfileTableView reloadData];
      }
         failure:^(NSError *error)

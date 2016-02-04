@@ -11,5 +11,5 @@
 @interface NotificationDataModel : NSObject
 @property(nonatomic,retain)NSString * userImageUrl;
 @property(nonatomic,retain)NSString * notificationString;
-
+@property(nonatomic,retain)NSString * totalRecords;
 @end

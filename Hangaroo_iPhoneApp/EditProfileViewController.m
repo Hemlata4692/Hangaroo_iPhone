@@ -136,31 +136,41 @@
         
         [myDelegate StopIndicator];
         userSettingObj.myProfileData.profileImageUrl=[responseObject objectForKey:@"user_image"];
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"Alert"
-                                              message:[responseObject objectForKey:@"message"]
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:@"OK"
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                       
-                                       for (UIViewController *controller in self.navigationController.viewControllers)
-                                       {
-                                           if ([controller isKindOfClass:[SettingViewController class]])
-                                           {
-                                               [self.navigationController popToViewController:controller animated:YES];
-                                               
-                                               break;
-                                           }
-                                       }
-                                       
-                                   }];
-        
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+        for (UIViewController *controller in self.navigationController.viewControllers)
+        {
+            if ([controller isKindOfClass:[SettingViewController class]])
+            {
+                [self.navigationController popToViewController:controller animated:YES];
+                
+                break;
+            }
+        }
+
+//        UIAlertController *alertController = [UIAlertController
+//                                              alertControllerWithTitle:@"Alert"
+//                                              message:[responseObject objectForKey:@"message"]
+//                                              preferredStyle:UIAlertControllerStyleAlert];
+//        
+//        UIAlertAction *okAction = [UIAlertAction
+//                                   actionWithTitle:@"OK"
+//                                   style:UIAlertActionStyleDefault
+//                                   handler:^(UIAlertAction *action)
+//                                   {
+//                                       
+//                                       for (UIViewController *controller in self.navigationController.viewControllers)
+//                                       {
+//                                           if ([controller isKindOfClass:[SettingViewController class]])
+//                                           {
+//                                               [self.navigationController popToViewController:controller animated:YES];
+//                                               
+//                                               break;
+//                                           }
+//                                       }
+//                                       
+//                                   }];
+//        
+//        [alertController addAction:okAction];
+//        [self presentViewController:alertController animated:YES completion:nil];
         
     }
                                         failure:^(NSError *error)

@@ -106,9 +106,7 @@
 }
 - (IBAction)chatButtonAction:(id)sender
 {
-    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    SettingViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"SettingViewController"];
-    [self.navigationController pushViewController:loginView animated:YES];
+
 }
 - (IBAction)seeOutbutonAction:(id)sender
 {

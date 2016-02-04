@@ -41,15 +41,14 @@
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                   timeoutInterval:60];
         
-        [_headerImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [_headerImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"placeholder.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             weakRef.contentMode = UIViewContentModeScaleAspectFill;
             weakRef.clipsToBounds = YES;
             weakRef.image = image;
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
         }];
-        // _headerImageView.image=[UIImage imageNamed:headerImageURL];
-        //[_headerImageView sd_setImageWithURL:[NSURL URLWithString:headerImageURL]];
+       
         
         _headerImageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
@@ -57,7 +56,6 @@
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, frame.size.height-50, frame.size.width-100, 40)];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
-        //_titleLabel.backgroundColor=[UIColor blackColor];
         _titleLabel.font = [UIFont fontWithName:@"Roboto-Regular" size:15.0];
         _titleLabel.text = title;
         

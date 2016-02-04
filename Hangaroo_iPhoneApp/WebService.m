@@ -769,9 +769,9 @@
 }
 #pragma mark- end
 #pragma mark- User Notification
--(void)getUserNotification:(void (^)(id))success failure:(void (^)(NSError *))failure
+-(void)getUserNotification:(NSString *)offset success:(void (^)(id))success failure:(void (^)(NSError *error))failure
 {
-    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"offset":offset};
     NSLog(@"my Profile User request%@", requestDict);
     [self post:kUrlUserNotification parameters:requestDict success:^(id responseObject)
      {
@@ -796,6 +796,7 @@
                      notificationData.userImageUrl =[notificationDict objectForKey:@"user_image"];
                      [dataArray addObject:notificationData];
                  }
+                  [dataArray addObject:[responseObject objectForKey:@"totalRecords"]];
                  success(dataArray);
              }
 
