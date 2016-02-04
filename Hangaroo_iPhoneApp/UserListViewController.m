@@ -7,17 +7,18 @@
 //
 
 #import "UserListViewController.h"
-
-//#import "FriendListVC.h"
 #import "AppDelegate.h"
-//#import "ViewController.h"
-//#import "ListVCViewController.h"
 #import "XMPPvCardTemp.h"
-//XMPPMessageArchivingCoreDataStorage
 #import "XMPPMessageArchivingCoreDataStorage.h"
+#import <UIImageView+AFNetworking.h>
+#import "PersonalChatViewController.h"
 
-
-@interface UserListViewController ()
+@interface UserListViewController (){
+//    NSURLRequest *imageRequest;
+//    UIImageView* profileImage;
+    NSMutableSet* sortArrSet;
+    NSMutableArray* userListArr;
+}
 @property (strong, nonatomic) IBOutlet UITableView *FTableView;
 
 @end
@@ -27,17 +28,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    sortArrSet = [NSMutableSet new];
+    userListArr = [NSMutableArray new];
+//    profileImage = [[UIImageView alloc] init];
+//    __weak UIImageView *weakRef = profileImage;
+//    imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]
+//                                    cachePolicy:NSURLRequestReturnCacheDataElseLoad
+//                                timeoutInterval:60];
+//    
+//    [profileImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+//        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+//        weakRef.clipsToBounds = YES;
+//        weakRef.image = image;
+//    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+//        
+//    }];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:@"UserProfile" object:nil];
     
     self.title = @"New Chat";
     [myDelegate disconnect];
+    
+    
     if ([myDelegate connect])
     {
         [self fetchedResultsController];
         
         [_FTableView reloadData];
     }
+
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    myDelegate.chatUser = @"";
 }
 
 -(void)updateTableView{
@@ -91,55 +116,68 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    //NSLog(@"123 %@",[self fetchedResultsController]);
+    NSArray *sections = [[self fetchedResultsController] sections];
+    for (int i = 0 ; i< [[[self fetchedResultsController] sections] count];i++) {
+        for (int j = 0; j<[[sections objectAtIndex:i] numberOfObjects]; j++) {
+            if (([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != nil) && ![[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] isEqualToString:@""] && ([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != NULL)) {
+                [sortArrSet addObject:[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]]];
+            }
+            
+        }
+    }
+    
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"displayName" ascending:YES];
+    userListArr = [[sortArrSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]] mutableCopy];
+    
     [self.FTableView reloadData];
 }
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    NSLog(@"%d",[[[self fetchedResultsController] sections] count]);
-    return [[[self fetchedResultsController] sections] count]; //[[[self fetchedResultsController] sections] count];
-}
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView * headerView;
-//    NSArray *sections = [[self fetchedResultsController] sections];
-    
-//    if (section < [sections count])
-//    {
-//        headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width,0)];
-//        headerView.backgroundColor = [UIColor whiteColor];
-//        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, headerView.frame.size.width, 46)];
-//        id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
+
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+//{
+//    NSLog(@"%d",[[[self fetchedResultsController] sections] count]);
+//    return [[[self fetchedResultsController] sections] count]; //[[[self fetchedResultsController] sections] count];
+//}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView * headerView;
+////    NSArray *sections = [[self fetchedResultsController] sections];
+//    
+////    if (section < [sections count])
+////    {
+////        headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width,0)];
+////        headerView.backgroundColor = [UIColor whiteColor];
+////        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, headerView.frame.size.width, 46)];
+////        id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
+////        
+////        int section = [sectionInfo.name intValue];
+////        switch (section)
+////        {
+////            case 0  :
+////                label.text = @"Available";
+////                label.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
+////                break;
+////            case 1  :
+////                label.text =  @"Away";
+////                label.textColor=[UIColor yellowColor];
+////                break;
+////            default :
+////                label.text =  @"Offline";
+////                label.textColor=[UIColor grayColor];
+////                break;
+////        }
+////        label.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
+////        label.backgroundColor=[UIColor clearColor];
+////        
+////        [headerView addSubview:label];
+////    }
+////    else{
+//        headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 0)];
+//        headerView.backgroundColor = [UIColor clearColor];
 //        
-//        int section = [sectionInfo.name intValue];
-//        switch (section)
-//        {
-//            case 0  :
-//                label.text = @"Available";
-//                label.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
-//                break;
-//            case 1  :
-//                label.text =  @"Away";
-//                label.textColor=[UIColor yellowColor];
-//                break;
-//            default :
-//                label.text =  @"Offline";
-//                label.textColor=[UIColor grayColor];
-//                break;
-//        }
-//        label.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
-//        label.backgroundColor=[UIColor clearColor];
-//        
-//        [headerView addSubview:label];
-//    }
-//    else{
-        headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 0)];
-        headerView.backgroundColor = [UIColor clearColor];
-        
-//    }
-    
-    return headerView;
-}
+////    }
+//    
+//    return headerView;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
 {
@@ -168,16 +206,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    NSArray *sections = [[self fetchedResultsController] sections];
-    
-    if (sectionIndex < [sections count])
-    {
-        id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:sectionIndex];
-        return sectionInfo.numberOfObjects;
-    }
-    
-    return 0;
-    //return 5;
+//    NSArray *sections = [[self fetchedResultsController] sections];
+//    
+//    if (sectionIndex < [sections count])
+//    {
+//        id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:sectionIndex];
+//        return sectionInfo.numberOfObjects;
+//    }
+//    
+//    return 0;
+//    //return 5;
+    return userListArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -191,7 +230,7 @@
                                       reuseIdentifier:CellIdentifier];
     }
     
-    XMPPUserCoreDataStorageObject *user = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+    XMPPUserCoreDataStorageObject *user = [userListArr objectAtIndex:indexPath.row];
     
     UIImageView *userImage = (UIImageView*)[cell viewWithTag:2];
     userImage.layer.cornerRadius = 20;
@@ -205,12 +244,20 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    ViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
-//    vc.userDetail = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-//    [self presentViewController:vc animated:YES completion:nil];
-//    //    ViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"vc"];
-//    //    vc.userDetail = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-//    //    [self.navigationController pushViewController:vc animated:YES];
+    PersonalChatViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
+    vc.userDetail = [userListArr objectAtIndex:indexPath.row];
+    NSLog(@"%@",[[userListArr objectAtIndex:indexPath.row] jidStr]);
+    
+    if ([myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]] == nil) {
+        vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
+    }
+    else{
+        vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]];
+    }
+    
+//    vc.userProfileImageView = profileImage.image;
+    
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

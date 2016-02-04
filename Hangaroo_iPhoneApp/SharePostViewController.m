@@ -30,6 +30,7 @@
     self.screenName = @"Sharepost screen";
    
     [postTextView setPlaceholder:@" Do it for the hangaroo!"];
+    postTextView.backgroundColor = [UIColor lightGrayColor];
     [postTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:18.0]];
  
     seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);

@@ -20,6 +20,7 @@
 		B70AFA811C492D3F0091D570 /* MyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B70AFA801C492D3F0091D570 /* MyButton.m */; };
 		B72ED7F11C5F69BD0084964D /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */; };
 		B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F31C5F6BEF0084964D /* CoolNavi.m */; };
+		B7309B3B1C63041E0016B6DC /* PersonalChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7309B3A1C63041E0016B6DC /* PersonalChatViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */; };
 		B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44C1C43A341009601D2 /* user_thumbnail.png */; };
 		B747C44F1C43AE9A009601D2 /* picture.png in Resources */ = {isa = PBXBuildFile; fileRef = B747C44E1C43AE9A009601D2 /* picture.png */; };
@@ -105,6 +106,8 @@
 		B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewCell.m; sourceTree = "<group>"; };
 		B72ED7F21C5F6BEF0084964D /* CoolNavi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolNavi.h; sourceTree = "<group>"; };
 		B72ED7F31C5F6BEF0084964D /* CoolNavi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoolNavi.m; sourceTree = "<group>"; };
+		B7309B391C63041E0016B6DC /* PersonalChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalChatViewController.h; sourceTree = "<group>"; };
+		B7309B3A1C63041E0016B6DC /* PersonalChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalChatViewController.m; sourceTree = "<group>"; };
 		B74260E81C3BA127000B3453 /* UIPlaceHolderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIPlaceHolderTextView.h; sourceTree = "<group>"; };
 		B74260E91C3BA127000B3453 /* UIPlaceHolderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIPlaceHolderTextView.m; sourceTree = "<group>"; };
 		B747C44C1C43A341009601D2 /* user_thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_thumbnail.png; sourceTree = "<group>"; };
@@ -524,6 +527,8 @@
 				B785D5E81C3A706A007A4056 /* ChatViewController.m */,
 				B77A5F961C607629005C846F /* UserListViewController.h */,
 				B77A5F971C607629005C846F /* UserListViewController.m */,
+				B7309B391C63041E0016B6DC /* PersonalChatViewController.h */,
+				B7309B3A1C63041E0016B6DC /* PersonalChatViewController.m */,
 			);
 			name = ChatModule;
 			sourceTree = "<group>";
@@ -1001,6 +1006,7 @@
 				B76605091C5A11F3006CCECA /* LoadWebPagesViewController.m in Sources */,
 				B77A5F981C607629005C846F /* UserListViewController.m in Sources */,
 				B7F5481E1C33F3E2002A06E7 /* UserDefaultManager.m in Sources */,
+				B7309B3B1C63041E0016B6DC /* PersonalChatViewController.m in Sources */,
 				B754502E1C510CFC00C9814D /* EditProfileViewController.m in Sources */,
 				B7050D341C4D0F6600E95FCA /* ViewPostImagesViewController.m in Sources */,
 				B795B1A81C326063007EB2E6 /* UIView+RoundedCorner.m in Sources */,

@@ -61,7 +61,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 @synthesize xmppCapabilities;
 @synthesize xmppCapabilitiesStorage;
 @synthesize userHistoryArr;
-@synthesize userProfileImage;
+@synthesize userProfileImage, chatUser;
 @synthesize xmppMessageArchivingCoreDataStorage, xmppMessageArchivingModule;
 //end
 
@@ -126,11 +126,12 @@ id<GAITracker> tracker;
     //added by rohit
     userHistoryArr = [NSMutableArray new];
     userProfileImage = [NSMutableDictionary new];
-//    if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
-        [UserDefaultManager setValue:@"admin@52.74.174.129" key:@"LoginCred"];
-        [UserDefaultManager setValue:@"asd-123" key:@"PassCred"];
-//    }
-    
+    //    if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
+    [UserDefaultManager setValue:@"rohit@52.74.174.129" key:@"LoginCred"];
+    [UserDefaultManager setValue:@"password" key:@"PassCred"];
+    //    [UserDefaultManager setValue:@"admin@52.74.174.129" key:@"LoginCred"];
+    //    [UserDefaultManager setValue:@"asd-123" key:@"PassCred"];
+    //    }
     xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
     xmppMessageArchivingModule = [[XMPPMessageArchiving alloc]initWithMessageArchivingStorage:xmppMessageArchivingCoreDataStorage];
     
@@ -162,9 +163,6 @@ id<GAITracker> tracker;
 //    }
 
     //end
-    
-    
-    
     
     NSLog(@"customerId %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]);
    
@@ -283,7 +281,6 @@ id<GAITracker> tracker;
         
     }] ;
     
-    
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -300,20 +297,19 @@ id<GAITracker> tracker;
     }
 }
 
-
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err
 {
     NSString *str = [NSString stringWithFormat: @"Error: %@", err];
     NSLog(@"did failtoRegister and testing : %@",str);
     
 }
+
 -(void)unregisterDeviceForNotification
 {
     [[UIApplication sharedApplication]  unregisterForRemoteNotifications];
 }
 
 #pragma mark - end
-
 
 
 //added by rohit
@@ -826,6 +822,9 @@ id<GAITracker> tracker;
         [dateFormatter setDateFormat:@"HH:mm:ss"];
         NSDate *date = [NSDate date];
         [dateFormatter setDateFormat:@"hh:mm a"];
+        [dateFormatter setAMSymbol:@"am"];
+        [dateFormatter setPMSymbol:@"pm"];
+        
         NSString *formattedDate = [dateFormatter stringFromDate:date];
         NSLog(@"%@",formattedDate);
         
@@ -840,7 +839,11 @@ id<GAITracker> tracker;
             //                                                      cancelButtonTitle:@"Ok"
             //                                                      otherButtonTitles:nil];
             //			[alertView show];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"UserHistory" object:message];
+             NSArray* fromUser = [[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"];
+            if ([myDelegate.chatUser isEqualToString:[fromUser objectAtIndex:0]]){
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"UserHistory" object:message];
+            }
+           
         }
         else
         {
@@ -893,7 +896,8 @@ id<GAITracker> tracker;
     //        [newvCardTemp setLabels:interestsArray];
     //        [newvCardTemp setMiddleName:@"vaishnav"];
     
-    NSData *pictureData = UIImagePNGRepresentation([UIImage imageNamed:@"myImage.png"]);
+//    NSData *pictureData = UIImagePNGRepresentation([UIImage imageNamed:@"myImage.png"]);
+    NSData *pictureData = UIImageJPEGRepresentation([UIImage imageNamed:@"user_profile.jpg"], 0.5);
     [UserDefaultManager setValue:pictureData key:@"UserImage"];
     //        NSData *pictureData = UIImageJPEGRepresentation([UIImage imageNamed:@"myImage.jpeg"], .5);
     [newvCardTemp setPhoto:pictureData];

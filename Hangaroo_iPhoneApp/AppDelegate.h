@@ -51,6 +51,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property(strong, nonatomic)NSMutableArray *UserListArray;
 @property(strong, nonatomic)NSMutableArray *groupListArray;
+@property(strong, nonatomic)NSString *chatUser;
 
 - (NSManagedObjectContext *)managedObjectContext_roster;
 - (NSManagedObjectContext *)managedObjectContext_capabilities;
