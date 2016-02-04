@@ -205,12 +205,15 @@
         NSString *emailTitle = @"Hangaroo";
         NSArray *toRecipents = [NSArray arrayWithObject:@""];
         MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        [mc.navigationBar setTintColor:[UIColor whiteColor]];
         mc.mailComposeDelegate = self;
         [mc setSubject:emailTitle];
         [mc setMessageBody:[NSString stringWithFormat:@"Explore Hangaroo!! To get to know more, please download the application from the given link."] isHTML:NO];
         [mc setToRecipients:toRecipents];
         
-        [self presentViewController:mc animated:YES completion:NULL];
+        [self presentViewController: mc animated:YES completion:^{
+            [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleLightContent];
+        }];
     }
     else
     {
@@ -257,6 +260,7 @@
             NSLog(@"Mail failed: the email message was not saved or queued, possibly due to an error.");
             break;
         default:
+            [self.view makeToast:@"Your email was not sent."];
             NSLog(@"Mail not sent.");
             break;
     }
