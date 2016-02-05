@@ -98,6 +98,7 @@
     //self.tabBarController.tabBar.hidden=NO;
     [[self navigationController] setNavigationBarHidden:NO];
     posted=@"Today";
+    [postListingTableView setContentOffset:CGPointZero animated:YES];
     if (!pickerSelection) {
         [myDelegate ShowIndicator];
         [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];

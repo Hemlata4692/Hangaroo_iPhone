@@ -15,6 +15,7 @@
 #import "UIView+RoundedCorner.h"
 #import "UIView+Toast.h"
 #import <MessageUI/MessageUI.h>
+#import "LoadWebPagesViewController.h"
 
 @interface SettingViewController ()<MFMailComposeViewControllerDelegate>
 {
@@ -193,9 +194,27 @@
 #pragma mark - IBActions
 - (IBAction)facebookButtonAction:(id)sender
 {
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoadWebPagesViewController *loadWebPage =[storyboard instantiateViewControllerWithIdentifier:@"LoadWebPagesViewController"];
+    loadWebPage.facebookString=@"hangaroocampusapp";
+    loadWebPage.navigationTitle=@"Facebook";
+    [self.navigationController pushViewController:loadWebPage animated:YES];
 }
 - (IBAction)twitterButtonAction:(id)sender
 {
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoadWebPagesViewController *loadWebPage =[storyboard instantiateViewControllerWithIdentifier:@"LoadWebPagesViewController"];
+    loadWebPage.twitterString=@"Hangarooapp";
+    loadWebPage.navigationTitle=@"Twitter";
+    [self.navigationController pushViewController:loadWebPage animated:YES];
+}
+- (IBAction)instagramButtonAction:(id)sender
+{
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoadWebPagesViewController *loadWebPage =[storyboard instantiateViewControllerWithIdentifier:@"LoadWebPagesViewController"];
+    loadWebPage.instagramString=@"hangarooapp";
+    loadWebPage.navigationTitle=@"Instagram";
+    [self.navigationController pushViewController:loadWebPage animated:YES];
 }
 - (IBAction)mailButtonAction:(id)sender
 {
@@ -203,12 +222,12 @@
     {
         // Email Subject
         NSString *emailTitle = @"Hangaroo";
-        NSArray *toRecipents = [NSArray arrayWithObject:@""];
+        NSArray *toRecipents = [NSArray arrayWithObject:@"support@hangaroo.com"];
         MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
         [mc.navigationBar setTintColor:[UIColor whiteColor]];
         mc.mailComposeDelegate = self;
         [mc setSubject:emailTitle];
-        [mc setMessageBody:[NSString stringWithFormat:@"Explore Hangaroo!! To get to know more, please download the application from the given link."] isHTML:NO];
+       // [mc setMessageBody:[NSString stringWithFormat:@"Explore Hangaroo!! To get to know more, please download the application from the given link."] isHTML:NO];
         [mc setToRecipients:toRecipents];
         
         [self presentViewController: mc animated:YES completion:^{
@@ -230,9 +249,7 @@
 }
 
 
-- (IBAction)instagramButtonAction:(id)sender
-{
-}
+
 - (IBAction)closeFindTheRooViewButtonAction:(id)sender
 {
     findtheRooView.hidden=YES;

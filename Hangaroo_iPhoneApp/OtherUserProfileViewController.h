@@ -1,5 +1,5 @@
 //
-//  FriendListViewController.h
+//  OtherUserProfileViewController.h
 //  Hangaroo_iPhoneApp
 //
 //  Created by Hema on 04/02/16.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FriendListViewController : GlobalBackViewController
-@property(nonatomic, strong) NSString *otherUserId;
+@interface OtherUserProfileViewController : GlobalBackViewController
+
 @end

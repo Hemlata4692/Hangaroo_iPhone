@@ -15,6 +15,7 @@
 #import "PhotoListingModel.h"
 #import "MyProfileDataModel.h"
 #import "NotificationDataModel.h"
+#import "FriendListDataModel.h"
 
 #define kUrlLogin                       @"login"
 #define kUrlRegister                    @"register"
@@ -34,7 +35,7 @@
 #define kUrlSocialAccounts              @"socialaccounts"
 #define kUrlMyProfile                   @"userprofile"
 #define kUrlUserNotification            @"getnotifications"
-
+#define kUrlFriendList                  @"userfriendlist"
 
 @implementation WebService
 @synthesize manager;
@@ -654,6 +655,7 @@
          
          if([self isStatusOK:responseObject])
          {
+             NSLog(@"Notification info  --------------------->>>%@",responseObject);
              success(responseObject);
          }
          else
@@ -812,5 +814,46 @@
 }
 #pragma mark- end
 
+#pragma mark- Friend List
+-(void)getFriendList:(NSString *)offset otherUserId:(NSString *)otherUserId success:(void (^)(id))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"otherUserId":otherUserId ,@"offset":offset};
+    NSLog(@"friend list request%@", requestDict);
+    [self post:kUrlFriendList parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"friend list Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             NSMutableArray *friendListDataArray = [NSMutableArray new];
+             
+             FriendListDataModel *friendList = [[FriendListDataModel alloc]init];
+             NSDictionary * profileDict =[responseObject objectForKey:@"userprofile"];
+             friendList.isFriend =[profileDict objectForKey:@"twitter_url"];
+             friendList.isRequestSent =[profileDict objectForKey:@"insta_url"];
+             friendList.userImageUrl =[profileDict objectForKey:@"interest"];
+             friendList.userName=[profileDict objectForKey:@"username"];
+             friendList.mutualFriends=[profileDict objectForKey:@"user_image"];
+             friendList.totalRecords=[NSString stringWithFormat:@"%d",[[profileDict objectForKey:@"totalFriends"] intValue]];
+            
+             
+             [friendListDataArray addObject:friendList];
+             
+             success(friendListDataArray);
+             
+         }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(responseObject);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
 
+}
+#pragma mark- end
 @end

@@ -9,6 +9,7 @@
 #import "ShareFeedbackViewController.h"
 #import "UIPlaceHolderTextView.h"
 #import "SettingViewController.h"
+#import "UITextField+Validations.h"
 
 @interface ShareFeedbackViewController ()<UITextFieldDelegate,BSKeyboardControlsDelegate,UITextViewDelegate>
 {
@@ -79,6 +80,57 @@
     
 }
 #pragma mark - end
+#pragma mark - Email validation
+- (BOOL)performValidationsForFeedback
+{
+    if ([subjectTextField isEmpty] && contentTextView.text.length<=0)
+    {
+        [self showAlertMessage:@"Please enter a subject and content in the body."];
+        return NO;
+    }
+    else
+    {
+        if ([subjectTextField isEmpty])
+        {
+            [self showAlertMessage:@"Please enter a subject."];
+            return NO;
+            
+        }
+        else if (contentTextView.text.length<=0)
+        {
+            [self showAlertMessage:@"Please enter content in the body."];
+            return NO;
+            
+        }
+        else
+        {
+            return YES;
+        }
+    }
+    
+}
+#pragma mark - end
+#pragma mark - Alert message
+-(void)showAlertMessage:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController
+                                          alertControllerWithTitle:@"Alert"
+                                          message:message
+                                          preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:@"OK"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action)
+                               {
+                                   [alertController dismissViewControllerAnimated:YES completion:nil];
+                               }];
+    
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+}
+
 #pragma mark - Webservice
 -(void)saveUserFeedback
 {
@@ -94,33 +146,6 @@
                 break;
             }
         }
-
-//        UIAlertController *alertController = [UIAlertController
-//                                              alertControllerWithTitle:@"Alert"
-//                                              message:[responseObject objectForKey:@"message"]
-//                                              preferredStyle:UIAlertControllerStyleAlert];
-//        
-//        UIAlertAction *okAction = [UIAlertAction
-//                                   actionWithTitle:@"OK"
-//                                   style:UIAlertActionStyleDefault
-//                                   handler:^(UIAlertAction *action)
-//                                   {
-//                                       
-//                                       for (UIViewController *controller in self.navigationController.viewControllers)
-//                                       {
-//                                           if ([controller isKindOfClass:[SettingViewController class]])
-//                                           {
-//                                               [self.navigationController popToViewController:controller animated:YES];
-//                                               
-//                                               break;
-//                                           }
-//                                       }
-//                                       
-//                                   }];
-//        
-//        [alertController addAction:okAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
-        
     }
                                        failure:^(NSError *error)
      {
@@ -134,8 +159,11 @@
 - (IBAction)saveFeedbackButtonAction:(id)sender
 {
     [self.keyboardControls.activeField resignFirstResponder];
-    [myDelegate ShowIndicator];
-    [self performSelector:@selector(saveUserFeedback) withObject:nil afterDelay:.1];
+    if ([self performValidationsForFeedback]) {
+        [myDelegate ShowIndicator];
+        [self performSelector:@selector(saveUserFeedback) withObject:nil afterDelay:.1];
+    }
+    
 }
 #pragma mark - end
 @end

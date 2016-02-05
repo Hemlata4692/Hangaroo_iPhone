@@ -6,12 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "facebook_profile.png",
+      "filename" : "chat_TAP.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "facebook_profile-1.png",
+      "filename" : "chat_TAP@3x.png",
       "scale" : "3x"
     }
   ],

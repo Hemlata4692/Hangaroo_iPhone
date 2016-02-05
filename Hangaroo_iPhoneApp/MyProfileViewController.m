@@ -13,6 +13,7 @@
 #import "MyProfileDataModel.h"
 #import "LoadWebPagesViewController.h"
 #import "NotificationDataModel.h"
+#import "FriendListViewController.h"
 
 @interface MyProfileViewController ()
 {
@@ -194,7 +195,7 @@
             MyProfileDataModel *data=[myProfileArray objectAtIndex:indexPath.row];
             [locationCell displayData:data :(int)indexPath.row];
         }
-        
+        [locationCell.friendListButton addTarget:self action:@selector(showFriendListButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         return locationCell;
     }
     else if (indexPath.section==1)
@@ -291,6 +292,8 @@
     //    }
     
 }
+
+
 #pragma mark - end
 
 #pragma mark - pagignation for table view
@@ -442,6 +445,13 @@
 
 
 #pragma mark - IBActions
+- (IBAction)showFriendListButtonAction:(id)sender
+{
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    FriendListViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"FriendListViewController"];
+    view.otherUserId=@"0";
+    [self.navigationController pushViewController:view animated:YES];
+}
 - (IBAction)settingsBtnAction:(UIButton *)sender
 {
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

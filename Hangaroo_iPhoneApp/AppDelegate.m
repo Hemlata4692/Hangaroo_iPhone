@@ -95,11 +95,14 @@ id<GAITracker> tracker;
         [self.navigationController setViewControllers: [NSArray arrayWithObject: infoView]
                                              animated: YES];
     }
-    application.applicationIconBadgeNumber = 0;
+   
     NSDictionary *remoteNotifiInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
     //Accept push notification when app is not open
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     if (remoteNotifiInfo)
     {
+         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         [self application:application didReceiveRemoteNotification:remoteNotifiInfo];
     }
     
@@ -121,6 +124,7 @@ id<GAITracker> tracker;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
@@ -146,15 +150,16 @@ id<GAITracker> tracker;
 }
 
 
-//-(NSString *)getNotificationMessage : (NSDictionary *)userInfo
-//{
-//    NSLog(@"Notification info %@",userInfo);
-////    [[NSUserDefaults standardUserDefaults]setInteger:[[userInfo objectForKey:@"PendingConfirmation"]intValue] forKey:@"PendingConfirmation"];
-////    [[NSUserDefaults standardUserDefaults]synchronize];
-////    bookingId =[userInfo objectForKey:@"BookingId"];
-////    NSDictionary *tempDict=[userInfo objectForKey:@"aps"];
-////    return [tempDict objectForKey:@"alert"];
-//}
+-(NSString *)getNotificationMessage : (NSDictionary *)userInfo
+{
+    NSLog(@"Notification info........................... %@",userInfo);
+//    [[NSUserDefaults standardUserDefaults]setInteger:[[userInfo objectForKey:@"PendingConfirmation"]intValue] forKey:@"PendingConfirmation"];
+//    [[NSUserDefaults standardUserDefaults]synchronize];
+//    bookingId =[userInfo objectForKey:@"BookingId"];
+   NSDictionary *tempDict=[userInfo objectForKey:@"aps"];
+    return [tempDict objectForKey:@"alert"];
+}
+
 
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken1
@@ -177,11 +182,21 @@ id<GAITracker> tracker;
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"UserId"]!=nil)
+     NSLog(@"entered into did recieve log");
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]!=nil)
     {
         [UIApplication sharedApplication].applicationIconBadgeNumber=0;
-      //  [self getNotificationMessage:userInfo];
-        NSLog(@"Notification info %@",userInfo);
+         NSString *msg = [self getNotificationMessage:userInfo];
+        NSLog(@"Notification userinfo  --------------------->>>%@",userInfo);
+        if (application.applicationState == UIApplicationStateActive)
+        {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Alert" message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+          //  alert.tag = 1;
+            [alert show];
+            
+            NSLog(@"push notification user info is active state --------------------->>>%@",userInfo);
+        }
+
     }
     else
     {

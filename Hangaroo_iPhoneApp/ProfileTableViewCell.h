@@ -14,6 +14,7 @@
 //locationCell
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *friendsLabel;
+@property (weak, nonatomic) IBOutlet UIButton *friendListButton;
 
 //interestCell
 @property (weak, nonatomic) IBOutlet UILabel *interestLabel;

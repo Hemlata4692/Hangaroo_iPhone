@@ -73,6 +73,9 @@
 		B795B1C31C329893007EB2E6 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B795B1BD1C329893007EB2E6 /* Roboto-Medium.ttf */; };
 		B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B795B1BE1C329893007EB2E6 /* Roboto-Regular.ttf */; };
 		B795B1CC1C32A5C5007EB2E6 /* FXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B795B1CB1C32A5C5007EB2E6 /* FXPageControl.m */; };
+		B7A727721C6375520055CA6E /* FriendListTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A727711C6375520055CA6E /* FriendListTableCell.m */; };
+		B7A727761C6378F60055CA6E /* FriendListDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A727751C6378F60055CA6E /* FriendListDataModel.m */; };
+		B7A7277A1C6382100055CA6E /* OtherUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A727791C6382100055CA6E /* OtherUserProfileViewController.m */; };
 		B7EFD4821C4F9CAB00B8D8D5 /* CategorySliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EFD4811C4F9CAB00B8D8D5 /* CategorySliderView.m */; };
 		B7EFD4861C4FA6D200B8D8D5 /* PhotoListingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B7EFD4851C4FA6D200B8D8D5 /* PhotoListingModel.m */; };
 		B7F5481E1C33F3E2002A06E7 /* UserDefaultManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F5481D1C33F3E2002A06E7 /* UserDefaultManager.m */; };
@@ -200,6 +203,12 @@
 		B795B1BE1C329893007EB2E6 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		B795B1CA1C32A5C5007EB2E6 /* FXPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXPageControl.h; sourceTree = "<group>"; };
 		B795B1CB1C32A5C5007EB2E6 /* FXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXPageControl.m; sourceTree = "<group>"; };
+		B7A727701C6375520055CA6E /* FriendListTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListTableCell.h; sourceTree = "<group>"; };
+		B7A727711C6375520055CA6E /* FriendListTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListTableCell.m; sourceTree = "<group>"; };
+		B7A727741C6378F60055CA6E /* FriendListDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListDataModel.h; sourceTree = "<group>"; };
+		B7A727751C6378F60055CA6E /* FriendListDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListDataModel.m; sourceTree = "<group>"; };
+		B7A727781C6382100055CA6E /* OtherUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherUserProfileViewController.h; sourceTree = "<group>"; };
+		B7A727791C6382100055CA6E /* OtherUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherUserProfileViewController.m; sourceTree = "<group>"; };
 		B7EFD4801C4F9CAB00B8D8D5 /* CategorySliderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySliderView.h; sourceTree = "<group>"; };
 		B7EFD4811C4F9CAB00B8D8D5 /* CategorySliderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySliderView.m; sourceTree = "<group>"; };
 		B7EFD4841C4FA6D200B8D8D5 /* PhotoListingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoListingModel.h; sourceTree = "<group>"; };
@@ -302,22 +311,22 @@
 			name = CustomTableView;
 			sourceTree = "<group>";
 		};
-		B72ED7ED1C5F698F0084964D /* ProfileViewController */ = {
+		B72ED7ED1C5F698F0084964D /* MyProfileViewController */ = {
 			isa = PBXGroup;
 			children = (
 				B785D5E41C3A7051007A4056 /* MyProfileViewController.h */,
 				B785D5E51C3A7051007A4056 /* MyProfileViewController.m */,
 			);
-			name = ProfileViewController;
+			name = MyProfileViewController;
 			sourceTree = "<group>";
 		};
-		B72ED7EE1C5F699D0084964D /* ProfileTableViewCell */ = {
+		B72ED7EE1C5F699D0084964D /* MyProfileTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
 				B72ED7EF1C5F69BD0084964D /* ProfileTableViewCell.h */,
 				B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */,
 			);
-			name = ProfileTableViewCell;
+			name = MyProfileTableViewCell;
 			sourceTree = "<group>";
 		};
 		B738DF891C60D08600DC6CB4 /* MyProfileModel */ = {
@@ -462,6 +471,7 @@
 		B76B69FA1C3E4A2200A7254D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B7A727731C6378BC0055CA6E /* FriendListModel */,
 				B738DF891C60D08600DC6CB4 /* MyProfileModel */,
 				B7EFD4831C4FA6A500B8D8D5 /* PhotoListingModel */,
 				B76B69FB1C3E4A2D00A7254D /* PostListingModel */,
@@ -494,8 +504,8 @@
 		B77DA94A1C6355A100003639 /* FriendListModule */ = {
 			isa = PBXGroup;
 			children = (
-				B77DA94B1C6355C600003639 /* FriendListViewController.h */,
-				B77DA94C1C6355C600003639 /* FriendListViewController.m */,
+				B7A7276B1C6374790055CA6E /* FriendListViewController */,
+				B7A7276C1C6374870055CA6E /* FriendListCell */,
 			);
 			name = FriendListModule;
 			sourceTree = "<group>";
@@ -549,8 +559,9 @@
 		B785D5DF1C3A7009007A4056 /* ProfileModule */ = {
 			isa = PBXGroup;
 			children = (
-				B72ED7ED1C5F698F0084964D /* ProfileViewController */,
-				B72ED7EE1C5F699D0084964D /* ProfileTableViewCell */,
+				B7A727771C6381E60055CA6E /* OtherUserProfileViewController */,
+				B72ED7ED1C5F698F0084964D /* MyProfileViewController */,
+				B72ED7EE1C5F699D0084964D /* MyProfileTableViewCell */,
 			);
 			name = ProfileModule;
 			sourceTree = "<group>";
@@ -807,6 +818,42 @@
 			name = PageControl;
 			sourceTree = "<group>";
 		};
+		B7A7276B1C6374790055CA6E /* FriendListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B77DA94B1C6355C600003639 /* FriendListViewController.h */,
+				B77DA94C1C6355C600003639 /* FriendListViewController.m */,
+			);
+			name = FriendListViewController;
+			sourceTree = "<group>";
+		};
+		B7A7276C1C6374870055CA6E /* FriendListCell */ = {
+			isa = PBXGroup;
+			children = (
+				B7A727701C6375520055CA6E /* FriendListTableCell.h */,
+				B7A727711C6375520055CA6E /* FriendListTableCell.m */,
+			);
+			name = FriendListCell;
+			sourceTree = "<group>";
+		};
+		B7A727731C6378BC0055CA6E /* FriendListModel */ = {
+			isa = PBXGroup;
+			children = (
+				B7A727741C6378F60055CA6E /* FriendListDataModel.h */,
+				B7A727751C6378F60055CA6E /* FriendListDataModel.m */,
+			);
+			name = FriendListModel;
+			sourceTree = "<group>";
+		};
+		B7A727771C6381E60055CA6E /* OtherUserProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B7A727781C6382100055CA6E /* OtherUserProfileViewController.h */,
+				B7A727791C6382100055CA6E /* OtherUserProfileViewController.m */,
+			);
+			name = OtherUserProfileViewController;
+			sourceTree = "<group>";
+		};
 		B7EFD47F1C4F9C9500B8D8D5 /* ImageSlider */ = {
 			isa = PBXGroup;
 			children = (
@@ -877,7 +924,7 @@
 				TargetAttributes = {
 					B795B16B1C323CAF007EB2E6 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = T7GN63HCDX;
+						DevelopmentTeam = 6S3AL87NGN;
 					};
 				};
 			};
@@ -987,6 +1034,7 @@
 				B709C52E1C33A5D600300EFF /* LoginViewController.m in Sources */,
 				B795B1CC1C32A5C5007EB2E6 /* FXPageControl.m in Sources */,
 				B785D5E91C3A706A007A4056 /* ChatViewController.m in Sources */,
+				B7A7277A1C6382100055CA6E /* OtherUserProfileViewController.m in Sources */,
 				B795B1771C323CAF007EB2E6 /* TutorialViewController.m in Sources */,
 				B72ED7F11C5F69BD0084964D /* ProfileTableViewCell.m in Sources */,
 				B795B1741C323CAF007EB2E6 /* AppDelegate.m in Sources */,
@@ -1021,9 +1069,11 @@
 				B7F5481E1C33F3E2002A06E7 /* UserDefaultManager.m in Sources */,
 				B754502E1C510CFC00C9814D /* EditProfileViewController.m in Sources */,
 				B7050D341C4D0F6600E95FCA /* ViewPostImagesViewController.m in Sources */,
+				B7A727721C6375520055CA6E /* FriendListTableCell.m in Sources */,
 				B795B1A81C326063007EB2E6 /* UIView+RoundedCorner.m in Sources */,
 				B75450311C510D0700C9814D /* ChangePasswordViewController.m in Sources */,
 				B7636C311C4531D90009F01D /* MyCollectionView.m in Sources */,
+				B7A727761C6378F60055CA6E /* FriendListDataModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1131,7 +1181,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1152,7 +1202,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;

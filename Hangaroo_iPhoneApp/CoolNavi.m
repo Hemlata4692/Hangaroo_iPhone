@@ -30,12 +30,12 @@
         self.backgroundColor = [UIColor clearColor];
         
         _backImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -0.5*frame.size.height, frame.size.width, frame.size.height*1.5)];
-        _backImageView.backgroundColor=[UIColor blackColor];
+        _backImageView.backgroundColor=[UIColor whiteColor];
         //_backImageView.image = [UIImage imageNamed:backImageName];
-        _backImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _backImageView.contentMode = UIViewContentModeScaleAspectFit;
         
         _headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -0.5*frame.size.height, frame.size.width, frame.size.height*1.5)];
-        
+        _headerImageView.contentMode=UIViewContentModeScaleAspectFit;
         __weak UIImageView *weakRef = _headerImageView;
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:headerImageURL]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -126,7 +126,7 @@
     float alpha = 1-(newOffset.y-startChangeOffset)/d;
     float imageReduce = 1;
     
-    self.titleLabel.alpha = alpha;
+   // self.titleLabel.alpha = alpha;
     self.facebookButton.alpha = alpha;
     self.twitterButton.alpha = alpha;
     self.instaButton.alpha = alpha;

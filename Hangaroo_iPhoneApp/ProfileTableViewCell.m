@@ -8,8 +8,9 @@
 
 #import "ProfileTableViewCell.h"
 
+
 @implementation ProfileTableViewCell
-@synthesize interestLabel,notificationLabel,locationLabel,friendsLabel,userImage,titleLabel,seperatorLabel;
+@synthesize interestLabel,notificationLabel,locationLabel,friendsLabel,userImage,titleLabel,seperatorLabel,friendListButton;
 
 - (void)awakeFromNib {
     // Initialization code
@@ -74,5 +75,6 @@
 
 - (IBAction)showFriendListButtonAction:(id)sender
 {
+    
 }
 @end
