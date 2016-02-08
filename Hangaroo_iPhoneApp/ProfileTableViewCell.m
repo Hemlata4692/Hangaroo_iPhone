@@ -25,7 +25,6 @@
 -(void)displayData :(MyProfileDataModel *)profileData :(int)indexPath
 {
     
-    
     locationLabel.text=[profileData.university uppercaseString];
     NSString *yourString;
     if ([profileData.totalFriends isEqualToString:@"1"] || [profileData.totalFriends isEqualToString:@"0"]) {

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface OtherUserProfileViewController : GlobalBackViewController
-
+@property(nonatomic, strong) NSString *otherUserId;
 @end

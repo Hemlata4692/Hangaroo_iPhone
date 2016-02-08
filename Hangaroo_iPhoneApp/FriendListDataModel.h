@@ -11,6 +11,7 @@
 @interface FriendListDataModel : NSObject
 @property(nonatomic,retain)NSString * userImageUrl;
 @property(nonatomic,retain)NSString * userName;
+@property(nonatomic,retain)NSString * userId;
 @property(nonatomic,retain)NSString * mutualFriends;
 @property(nonatomic,retain)NSString * isFriend;
 @property(nonatomic,retain)NSString * isRequestSent;

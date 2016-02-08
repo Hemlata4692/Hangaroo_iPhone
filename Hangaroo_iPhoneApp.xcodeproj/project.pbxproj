@@ -49,6 +49,9 @@
 		B77D2FE51C3F73C80067BA6C /* JoinedUserDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */; };
 		B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */; };
 		B77DA94D1C6355C600003639 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B77DA94C1C6355C600003639 /* FriendListViewController.m */; };
+		B77EDEC61C68597F007AABA4 /* OtherUserProfileDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77EDEC51C68597F007AABA4 /* OtherUserProfileDataModel.m */; };
+		B77EDECB1C688311007AABA4 /* DiscoverTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B77EDECA1C688311007AABA4 /* DiscoverTableCell.m */; };
+		B77EDECF1C6898C8007AABA4 /* DiscoverDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77EDECE1C6898C8007AABA4 /* DiscoverDataModel.m */; };
 		B785D5E31C3A703C007A4056 /* DiscoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E21C3A703C007A4056 /* DiscoverViewController.m */; };
 		B785D5E61C3A7051007A4056 /* MyProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E51C3A7051007A4056 /* MyProfileViewController.m */; };
 		B785D5E91C3A706A007A4056 /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B785D5E81C3A706A007A4056 /* ChatViewController.m */; };
@@ -161,6 +164,12 @@
 		B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostImageDataModel.m; sourceTree = "<group>"; };
 		B77DA94B1C6355C600003639 /* FriendListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListViewController.h; sourceTree = "<group>"; };
 		B77DA94C1C6355C600003639 /* FriendListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListViewController.m; sourceTree = "<group>"; };
+		B77EDEC41C68597F007AABA4 /* OtherUserProfileDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherUserProfileDataModel.h; sourceTree = "<group>"; };
+		B77EDEC51C68597F007AABA4 /* OtherUserProfileDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherUserProfileDataModel.m; sourceTree = "<group>"; };
+		B77EDEC91C688311007AABA4 /* DiscoverTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverTableCell.h; sourceTree = "<group>"; };
+		B77EDECA1C688311007AABA4 /* DiscoverTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverTableCell.m; sourceTree = "<group>"; };
+		B77EDECD1C6898C8007AABA4 /* DiscoverDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverDataModel.h; sourceTree = "<group>"; };
+		B77EDECE1C6898C8007AABA4 /* DiscoverDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverDataModel.m; sourceTree = "<group>"; };
 		B785D5E11C3A703C007A4056 /* DiscoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiscoverViewController.h; sourceTree = "<group>"; };
 		B785D5E21C3A703C007A4056 /* DiscoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DiscoverViewController.m; sourceTree = "<group>"; };
 		B785D5E41C3A7051007A4056 /* MyProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileViewController.h; sourceTree = "<group>"; };
@@ -471,6 +480,8 @@
 		B76B69FA1C3E4A2200A7254D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B77EDECC1C6898A6007AABA4 /* DiscoverDataModel */,
+				B77EDEC31C685959007AABA4 /* OtherUserProfileModel */,
 				B7A727731C6378BC0055CA6E /* FriendListModel */,
 				B738DF891C60D08600DC6CB4 /* MyProfileModel */,
 				B7EFD4831C4FA6A500B8D8D5 /* PhotoListingModel */,
@@ -508,6 +519,42 @@
 				B7A7276C1C6374870055CA6E /* FriendListCell */,
 			);
 			name = FriendListModule;
+			sourceTree = "<group>";
+		};
+		B77EDEC31C685959007AABA4 /* OtherUserProfileModel */ = {
+			isa = PBXGroup;
+			children = (
+				B77EDEC41C68597F007AABA4 /* OtherUserProfileDataModel.h */,
+				B77EDEC51C68597F007AABA4 /* OtherUserProfileDataModel.m */,
+			);
+			name = OtherUserProfileModel;
+			sourceTree = "<group>";
+		};
+		B77EDEC71C6873D1007AABA4 /* DiscoverViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B785D5E11C3A703C007A4056 /* DiscoverViewController.h */,
+				B785D5E21C3A703C007A4056 /* DiscoverViewController.m */,
+			);
+			name = DiscoverViewController;
+			sourceTree = "<group>";
+		};
+		B77EDEC81C6882DB007AABA4 /* DiscoverTableCell */ = {
+			isa = PBXGroup;
+			children = (
+				B77EDEC91C688311007AABA4 /* DiscoverTableCell.h */,
+				B77EDECA1C688311007AABA4 /* DiscoverTableCell.m */,
+			);
+			name = DiscoverTableCell;
+			sourceTree = "<group>";
+		};
+		B77EDECC1C6898A6007AABA4 /* DiscoverDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				B77EDECD1C6898C8007AABA4 /* DiscoverDataModel.h */,
+				B77EDECE1C6898C8007AABA4 /* DiscoverDataModel.m */,
+			);
+			name = DiscoverDataModel;
 			sourceTree = "<group>";
 		};
 		B785D5DA1C3A6F8A007A4056 /* UserModule */ = {
@@ -569,8 +616,8 @@
 		B785D5E01C3A7020007A4056 /* DiscoverModule */ = {
 			isa = PBXGroup;
 			children = (
-				B785D5E11C3A703C007A4056 /* DiscoverViewController.h */,
-				B785D5E21C3A703C007A4056 /* DiscoverViewController.m */,
+				B77EDEC81C6882DB007AABA4 /* DiscoverTableCell */,
+				B77EDEC71C6873D1007AABA4 /* DiscoverViewController */,
 			);
 			name = DiscoverModule;
 			sourceTree = "<group>";
@@ -1027,6 +1074,7 @@
 			files = (
 				B7EFD4821C4F9CAB00B8D8D5 /* CategorySliderView.m in Sources */,
 				B738DF8C1C60D0A200DC6CB4 /* MyProfileDataModel.m in Sources */,
+				B77EDECB1C688311007AABA4 /* DiscoverTableCell.m in Sources */,
 				B76B6A081C3E952500A7254D /* MeTooUserProfileViewController.m in Sources */,
 				B795B1AF1C3260C5007EB2E6 /* MMMaterialDesignSpinner.m in Sources */,
 				B795B1B31C326123007EB2E6 /* WebService.m in Sources */,
@@ -1060,12 +1108,14 @@
 				B795B1A51C32605B007EB2E6 /* UITextField+Padding.m in Sources */,
 				B75450251C50F5ED00C9814D /* SettingViewController.m in Sources */,
 				B785D5EC1C3A7214007A4056 /* SharePostViewController.m in Sources */,
+				B77EDECF1C6898C8007AABA4 /* DiscoverDataModel.m in Sources */,
 				B7EFD4861C4FA6D200B8D8D5 /* PhotoListingModel.m in Sources */,
 				B795B1931C325CEA007EB2E6 /* NullValueChecker.m in Sources */,
 				B795B1711C323CAF007EB2E6 /* main.m in Sources */,
 				B74260EA1C3BA127000B3453 /* UIPlaceHolderTextView.m in Sources */,
 				B709C5311C33A6BD00300EFF /* SignUpViewController.m in Sources */,
 				B76605091C5A11F3006CCECA /* LoadWebPagesViewController.m in Sources */,
+				B77EDEC61C68597F007AABA4 /* OtherUserProfileDataModel.m in Sources */,
 				B7F5481E1C33F3E2002A06E7 /* UserDefaultManager.m in Sources */,
 				B754502E1C510CFC00C9814D /* EditProfileViewController.m in Sources */,
 				B7050D341C4D0F6600E95FCA /* ViewPostImagesViewController.m in Sources */,

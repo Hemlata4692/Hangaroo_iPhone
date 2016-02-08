@@ -114,6 +114,7 @@
      [self performSelector:@selector(seeOutUser) withObject:nil afterDelay:0.1];
 }
 #pragma mark - end
+#pragma mark - Tap to see out webservice
 -(void)seeOutUser
 {
     NSLog(@"user id %@",joineUserId);
@@ -128,5 +129,5 @@
     }] ;
 
 }
-
+#pragma mark - end
 @end

@@ -16,6 +16,8 @@
 #import "MyProfileDataModel.h"
 #import "NotificationDataModel.h"
 #import "FriendListDataModel.h"
+#import "OtherUserProfileDataModel.h"
+#import "DiscoverDataModel.h"
 
 #define kUrlLogin                       @"login"
 #define kUrlRegister                    @"register"
@@ -36,6 +38,11 @@
 #define kUrlMyProfile                   @"userprofile"
 #define kUrlUserNotification            @"getnotifications"
 #define kUrlFriendList                  @"userfriendlist"
+#define kUrlOtherUserProfile            @"otheruserprofile"
+#define kUrlSentRequest                 @"sentrequest"
+#define kUrlFriendRequestList           @"requestlist"
+#define kUrlSuggestedFriendList         @"suggestedfriend"
+#define kUrlAcceptRequest               @"acceptdecline"
 
 @implementation WebService
 @synthesize manager;
@@ -780,7 +787,7 @@
          NSLog(@"my Profile User Response%@", responseObject);
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
          
-          NSNumber *number = responseObject[@"isSuccess"];
+         NSNumber *number = responseObject[@"isSuccess"];
          if (number.integerValue!=0)
          {
              id array =[responseObject objectForKey:@"notificationMessage"];
@@ -798,11 +805,11 @@
                      notificationData.userImageUrl =[notificationDict objectForKey:@"user_image"];
                      [dataArray addObject:notificationData];
                  }
-                  [dataArray addObject:[responseObject objectForKey:@"totalRecords"]];
+                 [dataArray addObject:[responseObject objectForKey:@"totalRecords"]];
                  success(dataArray);
              }
-
-        }
+             
+         }
          
          
      } failure:^(NSError *error)
@@ -826,21 +833,77 @@
          
          if([self isStatusOK:responseObject])
          {
-             NSMutableArray *friendListDataArray = [NSMutableArray new];
+             id array =[responseObject objectForKey:@"friendList"];
+             if (([array isKindOfClass:[NSArray class]]))
+             {
+                 NSArray * friendListArray = [responseObject objectForKey:@"friendList"];
+                 NSMutableArray *friendListDataArray = [NSMutableArray new];
+                 
+                 for (int i =0; i<friendListArray.count; i++)
+                 {
+                     FriendListDataModel *friendList = [[FriendListDataModel alloc]init];
+                     NSDictionary * friendListDict =[friendListArray objectAtIndex:i];
+                     friendList.isFriend =[friendListDict objectForKey:@"isFriend"];
+                     friendList.isRequestSent =[friendListDict objectForKey:@"isRequestSent"];
+                     friendList.userImageUrl =[friendListDict objectForKey:@"userProfilePic"];
+                     friendList.userName=[friendListDict objectForKey:@"username"];
+                     friendList.mutualFriends=[friendListDict objectForKey:@"mutualFriends"];
+                     friendList.userId=[friendListDict objectForKey:@"user_id"];
+                     
+                     
+                     [friendListDataArray addObject:friendList];
+                 }
+                 [friendListDataArray addObject:[responseObject objectForKey:@"totalRecord"]];
+                 
+                 success(friendListDataArray);
+             }
+
              
-             FriendListDataModel *friendList = [[FriendListDataModel alloc]init];
+        }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(responseObject);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+}
+#pragma mark- end
+#pragma mark- Other user profile
+-(void)otherUserProfile:(NSString *)friendUserId success:(void (^)(id))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"friendUser_id":friendUserId};
+    NSLog(@"other user profile%@", requestDict);
+    [self post:kUrlOtherUserProfile parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"other user profile Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             
+             NSMutableArray *otherUserDataArray = [NSMutableArray new];
+             
+             OtherUserProfileDataModel *otherUserProfile = [[OtherUserProfileDataModel alloc]init];
              NSDictionary * profileDict =[responseObject objectForKey:@"userprofile"];
-             friendList.isFriend =[profileDict objectForKey:@"twitter_url"];
-             friendList.isRequestSent =[profileDict objectForKey:@"insta_url"];
-             friendList.userImageUrl =[profileDict objectForKey:@"interest"];
-             friendList.userName=[profileDict objectForKey:@"username"];
-             friendList.mutualFriends=[profileDict objectForKey:@"user_image"];
-             friendList.totalRecords=[NSString stringWithFormat:@"%d",[[profileDict objectForKey:@"totalFriends"] intValue]];
-            
+             otherUserProfile.isFriend =[profileDict objectForKey:@"isFriend"];
+             otherUserProfile.isRequestSent =[profileDict objectForKey:@"isRequestSent"];
+             otherUserProfile.userImageUrl =[profileDict objectForKey:@"userProfilePic"];
+             otherUserProfile.userName=[profileDict objectForKey:@"username"];
+             otherUserProfile.userInterest=[profileDict objectForKey:@"interest"];
+             otherUserProfile.totalFriends=[NSString stringWithFormat:@"%d",[[profileDict objectForKey:@"totalFriends"] intValue]];
+             otherUserProfile.userFbUrl=[profileDict objectForKey:@"fb_url"];
+             otherUserProfile.userInstaUrl=[profileDict objectForKey:@"insta_url"];
+             otherUserProfile.usertwitUrl=[profileDict objectForKey:@"twitter_url"];
+             otherUserProfile.userLocation=[profileDict objectForKey:@"university"];
+             otherUserProfile.otherUserId=[profileDict objectForKey:@"user_id"];
+             [otherUserDataArray addObject:otherUserProfile];
              
-             [friendListDataArray addObject:friendList];
-             
-             success(friendListDataArray);
+             success(otherUserDataArray);
              
          }
          else
@@ -853,6 +916,142 @@
          [myDelegate StopIndicator];
          failure(error);
      }];
+    
+}
+#pragma mark- end
+
+#pragma mark- Send request
+-(void)sendFriendRequest:(NSString *)friendUserId success:(void (^)(id))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"friend_id":friendUserId};
+    NSLog(@"sent request%@", requestDict);
+    [self post:kUrlSentRequest parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"sent request Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+             
+         }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(responseObject);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+}
+#pragma mark- end
+
+#pragma mark- Friend request list
+-(void)friendRequestList:(NSString *)offset success:(void (^)(id))success failure:(void (^)(NSError *error))failure{
+    
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"offset":offset};
+    NSLog(@"friend request%@", requestDict);
+    [self post:kUrlFriendRequestList parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"friend request Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+            id array =[responseObject objectForKey:@"friendRequestList"];
+             if (([array isKindOfClass:[NSArray class]]))
+             {
+                 NSArray * requestArray = [responseObject objectForKey:@"friendRequestList"];
+                 NSMutableArray *friendRequestListDataArray = [NSMutableArray new];
+                 
+                 
+                 for (int i =0; i<requestArray.count; i++)
+                 {
+                     DiscoverDataModel *friendRequestList = [[DiscoverDataModel alloc]init];
+                     NSDictionary * friendRequestListDict =[requestArray objectAtIndex:i];
+                     friendRequestList.requestUsername =[friendRequestListDict objectForKey:@"f_username"];
+                     friendRequestList.requestFriendId =[friendRequestListDict objectForKey:@"f_id"];
+                     friendRequestList.requestFriendImage =[friendRequestListDict objectForKey:@"f_userimg"];
+                     [friendRequestListDataArray addObject:friendRequestList];
+                 }
+                 [friendRequestListDataArray addObject:[responseObject objectForKey:@"totalRecord"]];
+                
+                 success(friendRequestListDataArray);
+             }
+
+         }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(responseObject);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+}
+#pragma mark- end
+
+#pragma mark- Suggested friend list
+-(void)suggestedFriendList:(NSString *)offset success:(void (^)(id))success failure:(void (^)(NSError *error))failure{
+    
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"offset":offset};
+    NSLog(@"suggested friend request%@", requestDict);
+    [self post:kUrlSuggestedFriendList parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"suggested friend request Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+             
+         }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(responseObject);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+}
+#pragma mark- end
+
+#pragma mark- Accept decline friend request
+-(void)acceptFriendRequest:(NSString *)otherFriendId acceptRequest:(NSString *)acceptRequest success:(void (^)(id))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"friend_id":otherFriendId,@"accept":acceptRequest};
+    NSLog(@"accept friend request%@", requestDict);
+    [self post:kUrlAcceptRequest parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"accept friend request Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+             
+         }
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(responseObject);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
 
 }
 #pragma mark- end

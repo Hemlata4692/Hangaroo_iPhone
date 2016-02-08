@@ -95,6 +95,26 @@
 -(void)getFriendList:(NSString *)offset otherUserId:(NSString *)otherUserId success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
 //end
 
+//Other user profile
+-(void)otherUserProfile:(NSString *)friendUserId success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
+//end
+
+//Send frient request
+-(void)sendFriendRequest:(NSString *)friendUserId success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
+//end
+
+//Friend request list
+-(void)friendRequestList:(NSString *)offset success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
+//end
+
+//Suggested friend list
+-(void)suggestedFriendList:(NSString *)offset success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
+//end
+
+//Accept friend request
+-(void)acceptFriendRequest:(NSString *)otherFriendId acceptRequest:(NSString *)acceptRequest success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
+//end
+
 //Register device for push notification
 -(void)registerDeviceForPushNotification:(NSString *)deviceId deviceType:(NSString *)deviceType success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //end

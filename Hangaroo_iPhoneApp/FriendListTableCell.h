@@ -16,4 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *requestSentButton;
 @property (weak, nonatomic) IBOutlet UILabel *seperatorLabel;
 
+@property(nonatomic, strong) NSString *isFriend;
+@property(nonatomic, strong) NSString *isRequestSent;
+-(void)displayData :(FriendListDataModel *)friendList :(int)indexPath;
 @end

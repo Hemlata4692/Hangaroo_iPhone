@@ -15,4 +15,5 @@
 @synthesize isRequestSent;
 @synthesize mutualFriends;
 @synthesize totalRecords;
+@synthesize userId;
 @end

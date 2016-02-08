@@ -9,6 +9,8 @@
 #import "FriendListViewController.h"
 #import "FriendListTableCell.h"
 #import "OtherUserProfileViewController.h"
+#import "FriendListDataModel.h"
+#import "UIView+Toast.h"
 
 @interface FriendListViewController ()
 {
@@ -18,6 +20,8 @@
     
 }
 @property(nonatomic, strong) NSString *Offset;
+@property(nonatomic, strong) NSString *friendUserId;
+
 
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *friendListTableView;
@@ -25,11 +29,14 @@
 
 @implementation FriendListViewController
 @synthesize Offset,friendListTableView,otherUserId;
+@synthesize friendUserId;
 
+#pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.screenName=@"Friend list";
     // Do any additional setup after loading the view.
+    friendListArray=[[NSMutableArray alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -48,14 +55,14 @@
     [self performSelector:@selector(getFriendList) withObject:nil afterDelay:0.1];
     
 }
-
+#pragma mark - end
 
 #pragma mark - Table view methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 4;
+    return friendListArray.count;
 }
 
 
@@ -73,11 +80,13 @@
     {
         friendCell = [[FriendListTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
-//    if (myProfileArray.count!=0) {
-//        MyProfileDataModel *data=[myProfileArray objectAtIndex:indexPath.row];
-//        [locationCell displayData:data :(int)indexPath.row];
-//    }
-    
+    if (friendListArray.count!=0)
+    {
+        FriendListDataModel *data=[friendListArray objectAtIndex:indexPath.row];
+        friendUserId=data.userId;
+        [friendCell displayData:data :(int)indexPath.row];
+    }
+    [friendCell.requestSentButton addTarget:self action:@selector(sendRequest:) forControlEvents:UIControlEventTouchUpInside];
     return friendCell;
     
     
@@ -86,8 +95,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    OtherUserProfileViewController *searchView =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
-    [self.navigationController pushViewController:searchView animated:YES];
+    OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+    otherUserProfile.otherUserId=friendUserId;
+    [self.navigationController pushViewController:otherUserProfile animated:YES];
 }
 #pragma mark - end
 
@@ -105,7 +115,7 @@
         {
             tableView.tableFooterView = footerView;
             [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
-            //[self getFriendList];
+            [self getFriendList];
         }
         else
         {
@@ -135,13 +145,30 @@
     actInd = nil;
 }
 #pragma mark - end
+- (IBAction)sendRequest:(UIButton *)sender
+{
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(sendFriendRequest) withObject:nil afterDelay:0.1];
 
-#pragma mark - Webservice
+}
+#pragma mark - Friend list webservice
 -(void)getFriendList
 {
-    [[WebService sharedManager]getFriendList:Offset otherUserId:otherUserId success:^(id responseObject)
+    [[WebService sharedManager]getFriendList:Offset otherUserId:otherUserId success:^(id friendListDataArray)
      {
          [myDelegate StopIndicator];
+        if (friendListArray.count<=0) {
+              friendListArray=[friendListDataArray mutableCopy];
+         }
+         else
+         {
+             [friendListArray addObjectsFromArray:friendListArray];
+         }
+         
+         totalFriends= [[friendListArray objectAtIndex:friendListArray.count-1]intValue];
+         [friendListArray removeLastObject];
+         Offset=[NSString stringWithFormat:@"%lu",(unsigned long)friendListArray.count];
+         [friendListTableView reloadData];
          
      }                                     failure:^(NSError *error)
      {
@@ -149,4 +176,21 @@
      }] ;
 }
 #pragma mark - end
+#pragma mark - Send request webservice
+-(void)sendFriendRequest
+{
+    [[WebService sharedManager]sendFriendRequest:friendUserId success:^(id responseObject)
+     {
+         [myDelegate StopIndicator];
+         //[addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
+         [self.view makeToast:@"Request Sent"];
+        // addFriendBtn.userInteractionEnabled=NO;
+     }
+                                         failure:^(NSError *error)
+     {
+         
+     }] ;
+}
+#pragma mark - end
+
 @end
