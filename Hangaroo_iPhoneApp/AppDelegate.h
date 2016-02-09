@@ -63,6 +63,10 @@
 
 @property(strong, nonatomic)NSMutableArray *userHistoryArr;
 @property(strong, nonatomic)NSMutableDictionary *userProfileImage;
+@property(strong, nonatomic)UIImageView *userProfileImageData;
+
+@property(strong, nonatomic)NSData *userProfileImageDataValue;
+@property(strong, nonatomic)NSString *myView;
 - (BOOL)connect;
 - (void)disconnect;
 //end

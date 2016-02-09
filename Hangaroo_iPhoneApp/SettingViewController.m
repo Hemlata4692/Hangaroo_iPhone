@@ -179,6 +179,9 @@
         [UserDefaultManager removeValue:@"userId"];
         [UserDefaultManager removeValue:@"username"];
         [UserDefaultManager removeValue:@"userImage"];
+        [UserDefaultManager removeValue:@"LoginCred"];
+        [UserDefaultManager removeValue:@"PassCred"];
+        
     }
     
 }

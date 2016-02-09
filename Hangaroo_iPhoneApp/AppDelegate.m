@@ -63,6 +63,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 @synthesize userHistoryArr;
 @synthesize userProfileImage, chatUser;
 @synthesize xmppMessageArchivingCoreDataStorage, xmppMessageArchivingModule;
+@synthesize userProfileImageData;
 //end
 
 @synthesize deviceToken;
@@ -70,6 +71,7 @@ id<GAITracker> tracker;
 #pragma mark - Global indicator view
 - (void)ShowIndicator
 {
+    userProfileImageData = [[UIImageView alloc] init];
     logoImage=[[UIImageView alloc]initWithFrame:CGRectMake(3, 3, 50, 50)];
     logoImage.backgroundColor=[UIColor whiteColor];
     logoImage.layer.cornerRadius=25.0f;
@@ -122,16 +124,15 @@ id<GAITracker> tracker;
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0]];
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIFont fontWithName:@"Roboto-Light" size:18.0], NSFontAttributeName, nil]];
     
-    
     //added by rohit
     userHistoryArr = [NSMutableArray new];
     userProfileImage = [NSMutableDictionary new];
-    //    if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
-    [UserDefaultManager setValue:@"rohit@52.74.174.129" key:@"LoginCred"];
-    [UserDefaultManager setValue:@"password" key:@"PassCred"];
-    //    [UserDefaultManager setValue:@"admin@52.74.174.129" key:@"LoginCred"];
-    //    [UserDefaultManager setValue:@"asd-123" key:@"PassCred"];
-    //    }
+    if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
+        [UserDefaultManager setValue:@"Hema13245@52.74.174.129" key:@"LoginCred"];
+        [UserDefaultManager setValue:@"password" key:@"PassCred"];
+//        [UserDefaultManager setValue:@"admin@52.74.174.129" key:@"LoginCred"];
+//        [UserDefaultManager setValue:@"asd-123" key:@"PassCred"];
+    }
     xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
     xmppMessageArchivingModule = [[XMPPMessageArchiving alloc]initWithMessageArchivingStorage:xmppMessageArchivingCoreDataStorage];
     
@@ -825,10 +826,16 @@ id<GAITracker> tracker;
         [dateFormatter setAMSymbol:@"am"];
         [dateFormatter setPMSymbol:@"pm"];
         
+        NSString *formattedTime = [dateFormatter stringFromDate:date];
+        [dateFormatter setDateFormat:@"dd/MM/yy"];
         NSString *formattedDate = [dateFormatter stringFromDate:date];
-        NSLog(@"%@",formattedDate);
         
-        [message addAttributeWithName:@"time" stringValue:formattedDate];
+        [message addAttributeWithName:@"time" stringValue:formattedTime];
+        [message addAttributeWithName:@"Date" stringValue:formattedDate];
+        
+        [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",[message attributeStringValueForName:@"to"],[[[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0]]];
+       
+        [xmppMessageArchivingCoreDataStorage archiveMessage:message outgoing:NO xmppStream:[self xmppStream]];
         
         if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
         {
@@ -839,11 +846,11 @@ id<GAITracker> tracker;
             //                                                      cancelButtonTitle:@"Ok"
             //                                                      otherButtonTitles:nil];
             //			[alertView show];
-             NSArray* fromUser = [[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"];
+            NSArray* fromUser = [[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"];
             if ([myDelegate.chatUser isEqualToString:[fromUser objectAtIndex:0]]){
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UserHistory" object:message];
             }
-           
+            
         }
         else
         {
@@ -868,17 +875,18 @@ id<GAITracker> tracker;
         
         [xmppRoster acceptPresenceSubscriptionRequestFrom:presence.from andAddToRoster:YES];
     }
-    NSString *myUsername = [[sender myJID] user];
-    NSString *presenceFromUser = [[presence from] user];
+//    NSString *myUsername = [[sender myJID] user];
+//    NSString *presenceFromUser = [[presence from] user];
     
     NSLog(@" Printing full jid of user %@",[[sender myJID] full]);
     NSLog(@"Printing full jid of user %@",[[sender myJID] resource]);
     NSLog(@"From user %@",[[presence from] full]);
     
     int myCount = [[UserDefaultManager getValue:@"CountValue"] intValue];
-    myCount = myCount + 1;
-    [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",myCount] key:@"CountValue"];
+//    myCount = myCount + 1;
+//    [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",myCount] key:@"CountValue"];
     if (myCount == 1) {
+        [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",myCount+1] key:@"CountValue"];
         [self performSelector:@selector(methodCalling) withObject:nil afterDelay:0.1];
     }
     
@@ -896,9 +904,12 @@ id<GAITracker> tracker;
     //        [newvCardTemp setLabels:interestsArray];
     //        [newvCardTemp setMiddleName:@"vaishnav"];
     
-//    NSData *pictureData = UIImagePNGRepresentation([UIImage imageNamed:@"myImage.png"]);
-    NSData *pictureData = UIImageJPEGRepresentation([UIImage imageNamed:@"user_profile.jpg"], 0.5);
-    [UserDefaultManager setValue:pictureData key:@"UserImage"];
+    //    NSData *pictureData = UIImagePNGRepresentation([UIImage imageNamed:@"myImage.png"]);
+    UIImage *a =[UIImage imageWithData:myDelegate.userProfileImageDataValue];
+    //     UIImage *b =[UIImage imageWithData:[UserDefaultManager getValue:@"IMG"]];
+    //    UIImage *c = myDelegate.userProfileImageData.image;
+    NSData *pictureData = UIImageJPEGRepresentation([UIImage imageWithData:myDelegate.userProfileImageDataValue], 0.5);
+    //    [UserDefaultManager setValue:pictureData key:@"UserImage"];
     //        NSData *pictureData = UIImageJPEGRepresentation([UIImage imageNamed:@"myImage.jpeg"], .5);
     [newvCardTemp setPhoto:pictureData];
     //    [newvCardTemp setEmailAddresses:[NSMutableArray arrayWithObjects:@"email", nil]];
@@ -907,6 +918,7 @@ id<GAITracker> tracker;
     XMPPvCardTempModule * xmppvCardTempModule1 = [[XMPPvCardTempModule alloc] initWithvCardStorage:xmppvCardStorage1];
     [xmppvCardTempModule1  activate:[self xmppStream]];
     [xmppvCardTempModule1 updateMyvCardTemp:newvCardTemp];
+    [myDelegate StopIndicator];
     //    });
     
 }
@@ -971,6 +983,15 @@ id<GAITracker> tracker;
         [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
     }
     
+}
+
+- (void)xmppRosterDidEndPopulating:(XMPPRoster *)sender
+{
+    if ([myDelegate.myView isEqualToString:@"UserListView"]) {
+        [myDelegate StopIndicator];
+    }
+    
+    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserListValue" object:nil];
 }
 //end
 @end

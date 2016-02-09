@@ -44,21 +44,34 @@
 //        
 //    }];
     
+     myDelegate.myView = @"UserListView";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:@"UserProfile" object:nil];
-    
+    [myDelegate ShowIndicator];
     self.title = @"New Chat";
-    [myDelegate disconnect];
-    
-    
-    if ([myDelegate connect])
-    {
-        [self fetchedResultsController];
+//    if ([UserDefaultManager getValue:[UserDefaultManager getValue:@"LoginCred"]] == nil || [UserDefaultManager getValue:[UserDefaultManager getValue:@"LoginCred"]] == NULL) {
+        [myDelegate disconnect];
         
-        [_FTableView reloadData];
-    }
+        if ([myDelegate connect])
+        {
+            [self fetchedResultsController];
+            
+            [_FTableView reloadData];
+        }
 
+//    }
+//    else{
+//        userListArr = [UserDefaultManager getValue:[UserDefaultManager getValue:@"LoginCred"]];
+//        [_FTableView reloadData];
+//    }
+//   
     // Do any additional setup after loading the view.
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    myDelegate.myView = @"Other";
+}
+
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -117,6 +130,7 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     NSArray *sections = [[self fetchedResultsController] sections];
+    [sortArrSet removeAllObjects];
     for (int i = 0 ; i< [[[self fetchedResultsController] sections] count];i++) {
         for (int j = 0; j<[[sections objectAtIndex:i] numberOfObjects]; j++) {
             if (([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != nil) && ![[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] isEqualToString:@""] && ([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != NULL)) {
@@ -126,11 +140,15 @@
         }
     }
     
+    
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"displayName" ascending:YES];
     userListArr = [[sortArrSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]] mutableCopy];
     
+    
     [self.FTableView reloadData];
 }
+
+
 
 //- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 //{

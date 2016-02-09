@@ -12,7 +12,7 @@
 #import "XMPP.h"
 #import "TURNSocket.h"
 
-@interface PersonalChatViewController : UIViewController
+@interface PersonalChatViewController : GlobalBackViewController
 {
     NSMutableArray *turnSockets;
     NSMutableArray	*messages;

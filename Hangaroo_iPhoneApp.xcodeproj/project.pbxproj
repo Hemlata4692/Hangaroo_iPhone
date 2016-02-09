@@ -866,7 +866,7 @@
 				TargetAttributes = {
 					B795B16B1C323CAF007EB2E6 = {
 						CreatedOnToolsVersion = 7.1.1;
-						DevelopmentTeam = T7GN63HCDX;
+						DevelopmentTeam = 6S3AL87NGN;
 					};
 				};
 			};
@@ -1119,7 +1119,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1129,9 +1129,9 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Hangaroo_iPhoneApp",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.Hangaroo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.createapp.Hangaroo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
+				PROVISIONING_PROFILE = "5e0490cd-4ccb-4009-8f6c-1593e5efc187";
 			};
 			name = Debug;
 		};
@@ -1141,7 +1141,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = BrandAssets;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Technopreneur's Resource Centre Private Limited";
 				GCC_PREFIX_HEADER = "Hangaroo_iPhoneApp/Hangaroo-Prefix.pch";
 				INFOPLIST_FILE = Hangaroo_iPhoneApp/Info.plist;
@@ -1152,9 +1152,9 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Hangaroo_iPhoneApp",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ranosys.Hangaroo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.createapp.Hangaroo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "95d6b3fd-2408-46f3-8789-c1fc1ca58741";
+				PROVISIONING_PROFILE = "5e0490cd-4ccb-4009-8f6c-1593e5efc187";
 			};
 			name = Release;
 		};

@@ -9,10 +9,12 @@
 #import "LoginViewController.h"
 #import "UITextField+Validations.h"
 #import "HomeViewController.h"
+#import <UIImageView+AFNetworking.h>
 
 @interface LoginViewController ()<UITextFieldDelegate,BSKeyboardControlsDelegate>
 {
     NSArray *textFieldArray;
+    UIImageView *myImageview;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
@@ -28,11 +30,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     // Set the screen name for automatic screenview tracking.
+     myImageview = [[UIImageView alloc] init];
     self.screenName = @"SignIn screen";
     //Adding textfield to array
     textFieldArray = @[userNameField,passwordField];
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:textFieldArray]];
     [self.keyboardControls setDelegate:self];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -148,21 +152,77 @@
     [[WebService sharedManager] userLogin:userNameField.text password:passwordField.text success:^(id responseObject) {
         
         [myDelegate StopIndicator];
-         NSDictionary *responseDict = (NSDictionary *)responseObject;
+        NSDictionary *responseDict = (NSDictionary *)responseObject;
         [UserDefaultManager setValue:[responseDict objectForKey:@"userId"] key:@"userId"];
         [UserDefaultManager setValue:[responseDict objectForKey:@"username"] key:@"userName"];
         [UserDefaultManager setValue:[responseDict objectForKey:@"userImage"] key:@"userImage"];
-        [myDelegate registerDeviceForNotification];
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-        [myDelegate.window setRootViewController:homeView];
-        [myDelegate.window makeKeyAndVisible];
+        
+        [myDelegate ShowIndicator];
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]
+                                                      cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                  timeoutInterval:60];
+        //        UIImageView *userProfileImageView;
+        __weak UIImageView *weakRef = myImageview;
+        
+        //        __weak UITableView *weaktable = userTableView;
+        __weak typeof(self) weakSelf = self;
+        [myImageview setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            weakRef.contentMode = UIViewContentModeScaleAspectFill;
+            weakRef.clipsToBounds = YES;
+            weakRef.image = image;
+           
+            [NSTimer scheduledTimerWithTimeInterval:0.1
+                                             target:weakSelf
+                                           selector:@selector(targetMethod)
+                                           userInfo:nil
+                                            repeats:NO];
+           
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            
+        }];
+        
         
     } failure:^(NSError *error) {
         
     }] ;
     
-   
+}
+
+-(void)targetMethod{
+    myDelegate.userProfileImageDataValue = UIImageJPEGRepresentation(myImageview.image, 1.0);
+    NSString *username = [NSString stringWithFormat:@"%@@52.74.174.129",userNameField.text]; // OR
+    NSString *password = passwordField.text;
+    
+    AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    del.xmppStream.myJID = [XMPPJID jidWithString:username];
+    
+    //    NSLog(@"Does supports registration %ub ", );
+    NSLog(@"Attempting registration for username %@",del.xmppStream.myJID.bare);
+    
+    if (del.xmppStream.supportsInBandRegistration) {
+        NSError *error = nil;
+        if (![del.xmppStream registerWithPassword:password name:userNameField.text error:&error])
+        {
+            NSLog(@"Oops, I forgot something: %@", error);
+        }else{
+            NSLog(@"No Error");
+            
+            [myDelegate registerDeviceForNotification];
+            //            AppDelegate *delegate=[self appDelegate];
+            [myDelegate disconnect];
+            [UserDefaultManager setValue:username key:@"LoginCred"];
+            [UserDefaultManager setValue:password key:@"PassCred"];
+            [UserDefaultManager setValue:@"1" key:@"CountValue"];
+            [myDelegate connect];
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+            [myDelegate.window setRootViewController:homeView];
+            [myDelegate.window makeKeyAndVisible];
+            
+        }
+    }
 }
 #pragma mark - end
 @end
