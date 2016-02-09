@@ -57,6 +57,11 @@
             mutualFriendsLabel.hidden=YES;
             
         }
+        else if ([[UserDefaultManager getValue:@"userId"] isEqualToString:friendList.userId])
+        {
+            requestSentButton.hidden=YES;
+            mutualFriendsLabel.hidden=YES;
+        }
         else
         {
             requestSentButton.hidden=NO;

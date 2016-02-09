@@ -45,7 +45,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     if([[UIScreen mainScreen] bounds].size.height>568)
     {
         scrollView.scrollEnabled=NO;
@@ -63,6 +62,7 @@
     [super viewWillAppear:YES];
     self.navigationItem.title=@"Profile";
     [[self navigationController] setNavigationBarHidden:YES];
+     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [myDelegate ShowIndicator];
     [self performSelector:@selector(getOtherUserProfileData) withObject:nil afterDelay:0.1];
    
@@ -147,7 +147,7 @@
     [[WebService sharedManager]sendFriendRequest:otherUserId success:^(id responseObject)
      {
          [myDelegate StopIndicator];
-          [addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
+        [addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
          [self.view makeToast:@"Request Sent"];
          addFriendBtn.userInteractionEnabled=NO;
      }
@@ -247,6 +247,12 @@
             addFriendBtn.hidden=YES;
             
         }
+        else if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[otherUserProfileArray objectAtIndex:0]otherUserId]])
+        {
+            friendBtn.hidden=NO;
+            addFriendBtn.hidden=YES;
+        }
+
         else
         {
             friendBtn.hidden=YES;

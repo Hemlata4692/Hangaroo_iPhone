@@ -111,6 +111,10 @@
 -(void)suggestedFriendList:(NSString *)offset success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
 //end
 
+//Search friends
+-(void)searchFriends:(NSString *)offset serachKey:(NSString *)serachKey success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
+//end
+
 //Accept friend request
 -(void)acceptFriendRequest:(NSString *)otherFriendId acceptRequest:(NSString *)acceptRequest success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
 //end

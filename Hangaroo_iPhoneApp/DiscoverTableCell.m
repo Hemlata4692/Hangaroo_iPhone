@@ -10,7 +10,7 @@
 
 @implementation DiscoverTableCell
 @synthesize userImage,userNameLbl,addFriendBtn,sepratorLbl;
-@synthesize userImageView,userNameLabel,acceptRequestBtn,declineRequestBtn,separatorLabel;
+@synthesize userImageView,userNameLabel,acceptRequestBtn,declineRequestBtn,separatorLabel,reuestLabel;
 
 - (void)awakeFromNib {
     // Initialization code
@@ -24,6 +24,7 @@
 
 -(void)displayData :(DiscoverDataModel *)requestSentData :(int)indexPath
 {
+    reuestLabel.hidden=YES;
     userNameLabel.text=requestSentData.requestUsername;
     userImageView.layer.cornerRadius=30.0f;
     userImageView.clipsToBounds=YES;
@@ -41,5 +42,27 @@
     }];
 
     
+}
+
+-(void)displaySearchData :(DiscoverDataModel *)searchData :(int)indexPath
+{
+    
+    userNameLbl.text=searchData.requestUsername;
+    userImage.layer.cornerRadius=30.0f;
+    userImage.clipsToBounds=YES;
+    __weak UIImageView *weakRef = userImage;
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:searchData.requestFriendImage]
+                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                              timeoutInterval:60];
+    
+    [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+        weakRef.clipsToBounds = YES;
+        weakRef.image = image;
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        
+    }];
+    
+
 }
 @end

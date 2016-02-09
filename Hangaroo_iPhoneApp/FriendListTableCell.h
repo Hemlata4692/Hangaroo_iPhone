@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "FriendListDataModel.h"
+#import "MyButton.h"
 
 @interface FriendListTableCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *mutualFriendsLabel;
-@property (weak, nonatomic) IBOutlet UIButton *requestSentButton;
+@property (weak, nonatomic) IBOutlet MyButton *requestSentButton;
 @property (weak, nonatomic) IBOutlet UILabel *seperatorLabel;
 
 @property(nonatomic, strong) NSString *isFriend;

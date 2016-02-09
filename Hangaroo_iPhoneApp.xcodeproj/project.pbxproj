@@ -32,6 +32,7 @@
 		B75450341C510D1400C9814D /* AddInterestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75450331C510D1400C9814D /* AddInterestViewController.m */; };
 		B75450371C510D2600C9814D /* SocialMediaAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75450361C510D2600C9814D /* SocialMediaAccountViewController.m */; };
 		B754503A1C510D3400C9814D /* ShareFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75450391C510D3400C9814D /* ShareFeedbackViewController.m */; };
+		B75BCED71C69A4C00074EAEA /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B75BCED61C69A4C00074EAEA /* SearchViewController.m */; };
 		B7605C651C476D620078C6B1 /* UIView+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = B7605C641C476D620078C6B1 /* UIView+Toast.m */; };
 		B7636C241C44F43A0009F01D /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C231C44F43A0009F01D /* libGoogleAnalyticsServices.a */; };
 		B7636C261C44F45B0009F01D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B7636C251C44F45B0009F01D /* libz.tbd */; };
@@ -128,6 +129,8 @@
 		B75450361C510D2600C9814D /* SocialMediaAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SocialMediaAccountViewController.m; sourceTree = "<group>"; };
 		B75450381C510D3400C9814D /* ShareFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareFeedbackViewController.h; sourceTree = "<group>"; };
 		B75450391C510D3400C9814D /* ShareFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareFeedbackViewController.m; sourceTree = "<group>"; };
+		B75BCED51C69A4C00074EAEA /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		B75BCED61C69A4C00074EAEA /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		B7605C631C476D620078C6B1 /* UIView+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Toast.h"; sourceTree = "<group>"; };
 		B7605C641C476D620078C6B1 /* UIView+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Toast.m"; sourceTree = "<group>"; };
 		B7636C191C44F1170009F01D /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
@@ -433,6 +436,23 @@
 			name = ShareFeedbackViewController;
 			sourceTree = "<group>";
 		};
+		B75BCED41C69A4A60074EAEA /* SearchModule */ = {
+			isa = PBXGroup;
+			children = (
+				B75BCED81C69A9D50074EAEA /* SearcViewController */,
+			);
+			name = SearchModule;
+			sourceTree = "<group>";
+		};
+		B75BCED81C69A9D50074EAEA /* SearcViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B75BCED51C69A4C00074EAEA /* SearchViewController.h */,
+				B75BCED61C69A4C00074EAEA /* SearchViewController.m */,
+			);
+			name = SearcViewController;
+			sourceTree = "<group>";
+		};
 		B7605C621C476D540078C6B1 /* ToastFile */ = {
 			isa = PBXGroup;
 			children = (
@@ -689,6 +709,7 @@
 				B785D5DF1C3A7009007A4056 /* ProfileModule */,
 				B75450221C50F5CA00C9814D /* SetingsModule */,
 				B77DA94A1C6355A100003639 /* FriendListModule */,
+				B75BCED41C69A4A60074EAEA /* SearchModule */,
 				B785D5DE1C3A7001007A4056 /* ChatModule */,
 			);
 			name = Views;
@@ -1104,6 +1125,7 @@
 				B754503A1C510D3400C9814D /* ShareFeedbackViewController.m in Sources */,
 				B795B1AB1C326077007EB2E6 /* UITextField+Validations.m in Sources */,
 				B795B1B71C32658E007EB2E6 /* BSKeyboardControls.m in Sources */,
+				B75BCED71C69A4C00074EAEA /* SearchViewController.m in Sources */,
 				B73AB6D41C61DF6F00E0F662 /* NotificationDataModel.m in Sources */,
 				B795B1A51C32605B007EB2E6 /* UITextField+Padding.m in Sources */,
 				B75450251C50F5ED00C9814D /* SettingViewController.m in Sources */,

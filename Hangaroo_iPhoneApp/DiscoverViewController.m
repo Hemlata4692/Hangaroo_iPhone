@@ -9,23 +9,28 @@
 #import "DiscoverViewController.h"
 #import "DiscoverTableCell.h"
 #import "DiscoverDataModel.h"
+#import "SearchViewController.h"
+#import "MyButton.h"
+#import "UIView+Toast.h"
 
 @interface DiscoverViewController ()
 {
     NSMutableArray *friendRequestArray;
     int totalRequests;
+    int btnTag;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *serachBar;
 @property (weak, nonatomic) IBOutlet UIButton *suggestionBtn;
 @property (weak, nonatomic) IBOutlet UIButton *requestBtn;
 @property (weak, nonatomic) IBOutlet UITableView *discoverTableView;
+@property (weak, nonatomic) IBOutlet UILabel *noRecordLabel;
 @property(nonatomic, strong) NSString *Offset;
 @property(nonatomic, strong) NSString *requestFriendId;
 @property(nonatomic, strong) NSString *isAccept;
 @end
 
 @implementation DiscoverViewController
-@synthesize serachBar,suggestionBtn,requestBtn,discoverTableView,Offset,requestFriendId,isAccept;
+@synthesize serachBar,suggestionBtn,requestBtn,discoverTableView,Offset,requestFriendId,isAccept,noRecordLabel;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
@@ -37,6 +42,7 @@
     suggestionBtn.selected=YES;
     [suggestionBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
     friendRequestArray=[[NSMutableArray alloc]init];
+    noRecordLabel.hidden=YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,9 +110,11 @@
         if (friendRequestArray.count!=0)
         {
             DiscoverDataModel *data=[friendRequestArray objectAtIndex:indexPath.row];
-            requestFriendId=data.requestFriendId;
+           // requestFriendId=data.requestFriendId;
             [requestCell displayData:data :(int)indexPath.row];
         }
+        requestCell.acceptRequestBtn.Tag=(int)indexPath.row;
+        requestCell.declineRequestBtn.Tag=(int)indexPath.row;
         [requestCell.acceptRequestBtn addTarget:self action:@selector(acceptFriendRequest:) forControlEvents:UIControlEventTouchUpInside];
         [requestCell.declineRequestBtn addTarget:self action:@selector(declineFriendRequest:) forControlEvents:UIControlEventTouchUpInside];
         return requestCell;
@@ -132,22 +140,28 @@
 #pragma mark - end
 
 #pragma mark - IBActions
-- (IBAction)acceptFriendRequest:(UIButton *)sender
+- (IBAction)acceptFriendRequest:(MyButton *)sender
 {
+    btnTag=[sender Tag];
     isAccept=@"T";
+    requestFriendId=[[friendRequestArray objectAtIndex:btnTag]requestFriendId];
     [myDelegate ShowIndicator];
     [self performSelector:@selector(acceptFriendRequest) withObject:nil afterDelay:.1];
 }
 
-- (IBAction)declineFriendRequest:(UIButton *)sender
+- (IBAction)declineFriendRequest:(MyButton *)sender
 {
+    btnTag=[sender Tag];
     isAccept=@"F";
+    requestFriendId=[[friendRequestArray objectAtIndex:btnTag]requestFriendId];
     [myDelegate ShowIndicator];
     [self performSelector:@selector(acceptFriendRequest) withObject:nil afterDelay:.1];
     
 }
 - (IBAction)suggestionBtnAction:(id)sender
 {
+     noRecordLabel.hidden=YES;
+    discoverTableView.hidden=NO;
     Offset=@"0";
     [suggestionBtn setSelected:YES];
     [requestBtn setSelected:NO];
@@ -160,6 +174,8 @@
 - (IBAction)requestBtnAction:(id)sender
 {
     Offset=@"0";
+     noRecordLabel.hidden=YES;
+    discoverTableView.hidden=NO;
     [suggestionBtn setSelected:NO];
     [requestBtn setSelected:YES];
     [requestBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
@@ -183,25 +199,63 @@
         [discoverTableView reloadData];
         
     }
-                                        failure:^(NSError *error)
+    failure:^(NSError *error)
     {
-        
+        noRecordLabel.hidden=NO;
+        noRecordLabel.text=@"No new requests";
+        discoverTableView.hidden=YES;
     }] ;
 
 }
 #pragma mark - end
+#pragma mark - Accept friend request webservice
 -(void)acceptFriendRequest
 {
-    [[WebService sharedManager]acceptFriendRequest:requestFriendId acceptRequest:isAccept success:^(id friendRequestListDataArray)
+    NSIndexPath *index=[NSIndexPath indexPathForRow:btnTag inSection:0];
+    DiscoverTableCell * cell = (DiscoverTableCell *)[discoverTableView cellForRowAtIndexPath:index];
+    [[WebService sharedManager]acceptFriendRequest:requestFriendId acceptRequest:isAccept success:^(id responseObject)
      {
          [myDelegate StopIndicator];
-        
+         cell.acceptRequestBtn.hidden=YES;
+         cell.declineRequestBtn.hidden=YES;
+         cell.reuestLabel.hidden=NO;
+         if ([isAccept isEqualToString:@"T"]) {
+             cell.reuestLabel.text=@"You are now friends.";
+             [self.view makeToast:@"You are now friends."];
+         }
+         else
+         {
+             cell.reuestLabel.text=@"Request decliend.";
+             [self.view makeToast:@"Request decliend."];
+         }
          
      }
-                                         failure:^(NSError *error)
+        failure:^(NSError *error)
      {
-         
+         cell.acceptRequestBtn.hidden=NO;
+         cell.declineRequestBtn.hidden=NO;
+         cell.reuestLabel.hidden=YES;
      }] ;
 
 }
+#pragma mark - end
+#pragma mark - Search bar delegates
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    // called only once
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        SearchViewController *searchView =[storyboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
+        [self.navigationController pushViewController:searchView animated:YES];
+    return YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar
+{
+    [searchBar resignFirstResponder];
+}
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+#pragma mark - end
 @end

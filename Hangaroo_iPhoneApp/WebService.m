@@ -43,7 +43,7 @@
 #define kUrlFriendRequestList           @"requestlist"
 #define kUrlSuggestedFriendList         @"suggestedfriend"
 #define kUrlAcceptRequest               @"acceptdecline"
-
+#define kUrlSearch                      @"search"
 @implementation WebService
 @synthesize manager;
 
@@ -824,7 +824,7 @@
 #pragma mark- Friend List
 -(void)getFriendList:(NSString *)offset otherUserId:(NSString *)otherUserId success:(void (^)(id))success failure:(void (^)(NSError *error))failure
 {
-    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"otherUserId":otherUserId ,@"offset":offset};
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"friend_id":otherUserId ,@"offset":offset};
     NSLog(@"friend list request%@", requestDict);
     [self post:kUrlFriendList parameters:requestDict success:^(id responseObject)
      {
@@ -845,7 +845,7 @@
                      NSDictionary * friendListDict =[friendListArray objectAtIndex:i];
                      friendList.isFriend =[friendListDict objectForKey:@"isFriend"];
                      friendList.isRequestSent =[friendListDict objectForKey:@"isRequestSent"];
-                     friendList.userImageUrl =[friendListDict objectForKey:@"userProfilePic"];
+                     friendList.userImageUrl =[friendListDict objectForKey:@"user_image"];
                      friendList.userName=[friendListDict objectForKey:@"username"];
                      friendList.mutualFriends=[friendListDict objectForKey:@"mutualFriends"];
                      friendList.userId=[friendListDict objectForKey:@"user_id"];
@@ -1052,6 +1052,55 @@
          failure(error);
      }];
     
+
+}
+#pragma mark- end
+
+#pragma mark- Search
+-(void)searchFriends:(NSString *)offset serachKey:(NSString *)serachKey success:(void (^)(id))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"offset":offset,@"text":serachKey};
+    NSLog(@"search friend request%@", requestDict);
+    [self post:kUrlSearch parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"search friend request Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             id array =[responseObject objectForKey:@"searchResult"];
+             if (([array isKindOfClass:[NSArray class]]))
+             {
+                 NSArray * searchArray = [responseObject objectForKey:@"searchResult"];
+                 NSMutableArray *searchListDataArray = [NSMutableArray new];
+                 
+                 
+                 for (int i =0; i<searchArray.count; i++)
+                 {
+                     DiscoverDataModel *searchList = [[DiscoverDataModel alloc]init];
+                     NSDictionary * friendRequestListDict =[searchArray objectAtIndex:i];
+                     searchList.requestFriendId =[friendRequestListDict objectForKey:@"user_id"];
+                     searchList.requestFriendImage =[friendRequestListDict objectForKey:@"user_image"];
+                     searchList.requestUsername =[friendRequestListDict objectForKey:@"username"];
+                     [searchListDataArray addObject:searchList];
+                 }
+                [searchListDataArray addObject:[responseObject objectForKey:@"count"]];
+                 
+                 success(searchListDataArray);
+             }
+             
+         }
+
+         else
+         {
+             [myDelegate StopIndicator];
+             failure(responseObject);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
 
 }
 #pragma mark- end
