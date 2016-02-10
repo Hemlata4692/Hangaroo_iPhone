@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DiscoverDataModel.h"
+#import "FriendListDataModel.h"
 #import "MyButton.h"
 
 @interface DiscoverTableCell : UITableViewCell
@@ -26,7 +27,11 @@
 @property (weak, nonatomic) IBOutlet UILabel *userNameLbl;
 @property (weak, nonatomic) IBOutlet UILabel *mutualFriendLbl;
 
+//search
+@property(nonatomic, strong) NSString *isFriend;
+@property(nonatomic, strong) NSString *isRequestSent;
+
 -(void)displayData :(DiscoverDataModel *)requestSentData :(int)indexPath;
 -(void)displaySuggestedListData :(DiscoverDataModel *)suggestedData :(int)indexPath;
--(void)displaySearchData :(DiscoverDataModel *)searchData :(int)indexPath;
+-(void)displaySearchData :(FriendListDataModel *)searchData :(int)indexPath;
 @end

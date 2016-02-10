@@ -10,20 +10,24 @@
 #import "FriendListDataModel.h"
 #import "DiscoverTableCell.h"
 #import "OtherUserProfileViewController.h"
+#import "MyButton.h"
+#import "UIView+Toast.h"
 
 @interface SearchViewController ()
 {
     NSMutableArray *searchResultArray;
     int totalResults;
+    int btnTag;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *searchTableView;
 @property(nonatomic, strong) NSString *Offset;
+@property(nonatomic, strong) NSString *friendId;
 @property(nonatomic, strong) NSString *searchTextKey;
 @end
 
 @implementation SearchViewController
-@synthesize searchBar,searchTableView,Offset,searchTextKey;
+@synthesize searchBar,searchTableView,Offset,searchTextKey,friendId;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
@@ -74,10 +78,11 @@
             suggestionCell = [[DiscoverTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
                 if (searchResultArray.count!=0) {
-                    DiscoverDataModel *data=[searchResultArray objectAtIndex:indexPath.row];
+                    FriendListDataModel *data=[searchResultArray objectAtIndex:indexPath.row];
                     [suggestionCell displaySearchData:data :(int)indexPath.row];
                 }
-        [suggestionCell.addFriendBtn addTarget:self action:@selector(sendFriendRequest:) forControlEvents:UIControlEventTouchUpInside];
+    suggestionCell.addFriendBtn.Tag=(int)indexPath.row;
+    [suggestionCell.addFriendBtn addTarget:self action:@selector(sendFriendRequest:) forControlEvents:UIControlEventTouchUpInside];
         return suggestionCell;
 }
 
@@ -85,17 +90,18 @@
 {
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
-    otherUserProfile.otherUserId=[[searchResultArray objectAtIndex:indexPath.row]requestFriendId];
+    otherUserProfile.otherUserId=[[searchResultArray objectAtIndex:indexPath.row]userId];
     [self.navigationController pushViewController:otherUserProfile animated:YES];
 }
 
 
 #pragma mark - end
-- (IBAction)sendFriendRequest:(UIButton *)sender
+- (IBAction)sendFriendRequest:(MyButton *)sender
 {
-//    //isAccept=@"T";
-//    [myDelegate ShowIndicator];
-//    [self performSelector:@selector(acceptFriendRequest) withObject:nil afterDelay:.1];
+    btnTag=[sender Tag];
+    friendId=[[searchResultArray objectAtIndex:btnTag]userId];
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(sendRequestWebservice) withObject:nil afterDelay:0.1];
 }
 
 #pragma mark - Search webservice
@@ -125,7 +131,28 @@
      }] ;
 }
 #pragma mark - end
-
+#pragma mark - Send request webservice
+-(void)sendRequestWebservice
+{
+    NSIndexPath *index=[NSIndexPath indexPathForRow:btnTag inSection:0];
+    DiscoverTableCell * cell = (DiscoverTableCell *)[searchTableView cellForRowAtIndexPath:index];
+    [[WebService sharedManager]sendFriendRequest:friendId success:^(id responseObject)
+     {
+         [myDelegate StopIndicator];
+         
+         FriendListDataModel *tempModel = [searchResultArray objectAtIndex:btnTag];
+         tempModel.isRequestSent=@"True";
+         [searchResultArray replaceObjectAtIndex:btnTag withObject:tempModel];
+         [searchTableView reloadData];
+         [self.view makeToast:@"Request Sent"];
+     }
+                                         failure:^(NSError *error)
+     {
+         [cell.addFriendBtn setImage:[UIImage imageNamed:@"adduser.png"] forState:UIControlStateNormal];
+         cell.addFriendBtn.userInteractionEnabled=YES;
+     }] ;
+}
+#pragma mark - end
 #pragma mark - Search bar delegates
 - (void)searchBar:(UISearchBar *)srchBar textDidChange:(NSString *)searchText
 {

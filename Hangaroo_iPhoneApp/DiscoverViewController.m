@@ -227,9 +227,8 @@
           DiscoverDataModel *tempModel = [friendSuggestionArray objectAtIndex:btnTag];
           tempModel.addFriend=2;
           [friendSuggestionArray replaceObjectAtIndex:btnTag withObject:tempModel];
-        
-         [cell.addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
-         cell.addFriendBtn.userInteractionEnabled=NO;
+        [discoverTableView reloadData];
+         
          [self.view makeToast:@"Request Sent"];
      }
                                          failure:^(NSError *error)

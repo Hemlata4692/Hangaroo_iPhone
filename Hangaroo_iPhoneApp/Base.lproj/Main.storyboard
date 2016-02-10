@@ -1998,7 +1998,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MosesAndersonOngabcddd" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jyz-kR-gbA">
-                                                    <rect key="frame" x="83" y="15" width="182" height="25"/>
+                                                    <rect key="frame" x="83" y="13" width="182" height="25"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="jyz-kR-gbA" secondAttribute="height" multiplier="182:25" id="ay3-WI-weC"/>
@@ -2028,7 +2028,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 mutual friends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckc-KI-jXN">
-                                                    <rect key="frame" x="83" y="40" width="155" height="16"/>
+                                                    <rect key="frame" x="83" y="38" width="155" height="16"/>
                                                     <animations/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="ckc-KI-jXN" secondAttribute="height" multiplier="155:16" id="eXh-DJ-xXl"/>
@@ -2048,12 +2048,12 @@
                                                 <constraint firstItem="jyz-kR-gbA" firstAttribute="leading" secondItem="dga-d5-3bK" secondAttribute="leading" constant="83" id="Efy-k1-Gu5"/>
                                                 <constraint firstItem="ckc-KI-jXN" firstAttribute="top" secondItem="jyz-kR-gbA" secondAttribute="bottom" id="HSH-1I-43C"/>
                                                 <constraint firstItem="fPM-f7-UNw" firstAttribute="leading" secondItem="ckc-KI-jXN" secondAttribute="trailing" constant="35" id="J3e-cm-8St"/>
-                                                <constraint firstItem="VuB-zR-Bpl" firstAttribute="top" secondItem="ckc-KI-jXN" secondAttribute="bottom" constant="13" id="XU7-uF-nNJ"/>
-                                                <constraint firstItem="jyz-kR-gbA" firstAttribute="top" secondItem="fPM-f7-UNw" secondAttribute="top" id="crj-Wi-3up"/>
+                                                <constraint firstItem="VuB-zR-Bpl" firstAttribute="top" secondItem="ckc-KI-jXN" secondAttribute="bottom" constant="15" id="XU7-uF-nNJ"/>
+                                                <constraint firstItem="jyz-kR-gbA" firstAttribute="top" secondItem="fPM-f7-UNw" secondAttribute="top" constant="-2" id="crj-Wi-3up"/>
                                                 <constraint firstItem="VuB-zR-Bpl" firstAttribute="top" secondItem="fPM-f7-UNw" secondAttribute="bottom" constant="14" id="fer-QP-CdY"/>
                                                 <constraint firstItem="ThE-7A-SgW" firstAttribute="top" secondItem="dga-d5-3bK" secondAttribute="top" constant="5" id="hIw-y4-j6k"/>
                                                 <constraint firstItem="fPM-f7-UNw" firstAttribute="top" secondItem="dga-d5-3bK" secondAttribute="topMargin" constant="7" id="lno-jj-hJA"/>
-                                                <constraint firstItem="jyz-kR-gbA" firstAttribute="top" secondItem="dga-d5-3bK" secondAttribute="topMargin" constant="7" id="m7T-ok-U6j"/>
+                                                <constraint firstItem="jyz-kR-gbA" firstAttribute="top" secondItem="dga-d5-3bK" secondAttribute="topMargin" constant="5" id="m7T-ok-U6j"/>
                                                 <constraint firstItem="VuB-zR-Bpl" firstAttribute="leading" secondItem="dga-d5-3bK" secondAttribute="leadingMargin" constant="-8" id="ok4-7C-7ZS"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="fPM-f7-UNw" secondAttribute="trailing" constant="-1" id="qKz-RJ-Ju7"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="VuB-zR-Bpl" secondAttribute="trailing" constant="-8" id="uOE-yr-aLn"/>
@@ -2450,7 +2450,7 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jw6-yN-WeG">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jw6-yN-WeG" customClass="MyButton">
                                                     <rect key="frame" x="272" y="23" width="40" height="40"/>
                                                     <animations/>
                                                     <constraints>

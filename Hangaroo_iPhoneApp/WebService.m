@@ -1100,18 +1100,24 @@
                  
                  for (int i =0; i<searchArray.count; i++)
                  {
-                     DiscoverDataModel *searchList = [[DiscoverDataModel alloc]init];
-                     NSDictionary * friendRequestListDict =[searchArray objectAtIndex:i];
-                     searchList.requestFriendId =[friendRequestListDict objectForKey:@"user_id"];
-                     searchList.requestFriendImage =[friendRequestListDict objectForKey:@"user_image"];
-                     searchList.requestUsername =[friendRequestListDict objectForKey:@"username"];
+                     FriendListDataModel *searchList = [[FriendListDataModel alloc]init];
+                     NSDictionary * searchListDict =[searchArray objectAtIndex:i];
+                     searchList.isFriend =[searchListDict objectForKey:@"is_friend"];
+                     searchList.isRequestSent =[searchListDict objectForKey:@"is_requestsent"];
+                     searchList.userImageUrl =[searchListDict objectForKey:@"user_image"];
+                     searchList.userName=[searchListDict objectForKey:@"username"];
+                     searchList.mutualFriends=[NSString stringWithFormat:@"%d",[[searchListDict objectForKey:@"mutualFriend"] intValue]];
+                     searchList.userId=[searchListDict objectForKey:@"user_id"];
+                     
+                     
                      [searchListDataArray addObject:searchList];
                  }
-                [searchListDataArray addObject:[responseObject objectForKey:@"count"]];
+                 [searchListDataArray addObject:[responseObject objectForKey:@"count"]];
                  
                  success(searchListDataArray);
+                
              }
-             
+         
          }
 
          else

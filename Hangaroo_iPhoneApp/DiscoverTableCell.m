@@ -13,7 +13,8 @@
 @synthesize userImage,userNameLbl,addFriendBtn,sepratorLbl,mutualFriendLbl;
 //RequestCell
 @synthesize userImageView,userNameLabel,acceptRequestBtn,declineRequestBtn,separatorLabel,reuestLabel;
-
+//search
+@synthesize isRequestSent,isFriend;
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -97,14 +98,14 @@
     
 }
 //Search
--(void)displaySearchData :(DiscoverDataModel *)searchData :(int)indexPath
+-(void)displaySearchData :(FriendListDataModel *)searchData :(int)indexPath
 {
     
-    userNameLbl.text=searchData.requestUsername;
+    userNameLbl.text=searchData.userName;
     userImage.layer.cornerRadius=30.0f;
     userImage.clipsToBounds=YES;
     __weak UIImageView *weakRef = userImage;
-    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:searchData.requestFriendImage]
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:searchData.userImageUrl]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
     
@@ -116,6 +117,78 @@
         
     }];
     
+    isFriend=searchData.isFriend;
+    isRequestSent=searchData.isRequestSent;
+    
+    if ([isRequestSent isEqualToString:@"True"])
+    {
+        addFriendBtn.hidden=NO;
+        [addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
+        addFriendBtn.userInteractionEnabled=NO;
+        if ([searchData.mutualFriends isEqualToString:@"0"]) {
+            mutualFriendLbl.hidden=YES;
+        }
+        else if ([searchData.mutualFriends isEqualToString:@"1"])
+        {
+            mutualFriendLbl.hidden=NO;
+            mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",searchData.mutualFriends,@"mutual friend"];
+        }
+        else
+        {
+            mutualFriendLbl.hidden=NO;
+            mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",searchData.mutualFriends,@"mutual friends"];
+        }
+
+    }
+    else
+    {
+        if ([isFriend isEqualToString:@"True"])
+        {
+            addFriendBtn.hidden=YES;
+            if ([searchData.mutualFriends isEqualToString:@"0"]) {
+                mutualFriendLbl.hidden=YES;
+            }
+            else if ([searchData.mutualFriends isEqualToString:@"1"])
+            {
+                mutualFriendLbl.hidden=NO;
+                mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",searchData.mutualFriends,@"mutual friend"];
+            }
+            else
+            {
+                mutualFriendLbl.hidden=NO;
+                mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",searchData.mutualFriends,@"mutual friends"];
+            }
+
+            
+        }
+        else if ([[UserDefaultManager getValue:@"userId"] isEqualToString:searchData.userId])
+        {
+            addFriendBtn.hidden=YES;
+            mutualFriendLbl.hidden=YES;
+        }
+        else
+        {
+            if ([searchData.mutualFriends isEqualToString:@"0"]) {
+                mutualFriendLbl.hidden=YES;
+            }
+            else if ([searchData.mutualFriends isEqualToString:@"1"])
+            {
+                mutualFriendLbl.hidden=NO;
+                mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",searchData.mutualFriends,@"mutual friend"];
+            }
+            else
+            {
+                mutualFriendLbl.hidden=NO;
+                mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",searchData.mutualFriends,@"mutual friends"];
+            }
+
+            addFriendBtn.hidden=NO;
+            addFriendBtn.userInteractionEnabled=YES;
+            [addFriendBtn setImage:[UIImage imageNamed:@"adduser.png"] forState:UIControlStateNormal];
+        }
+        
+    }
+
 
 }
 @end

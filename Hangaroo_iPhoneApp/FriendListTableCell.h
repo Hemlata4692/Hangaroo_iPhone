@@ -20,4 +20,5 @@
 @property(nonatomic, strong) NSString *isFriend;
 @property(nonatomic, strong) NSString *isRequestSent;
 -(void)displayData :(FriendListDataModel *)friendList :(int)indexPath;
+
 @end
