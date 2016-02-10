@@ -66,7 +66,7 @@
 }
 #pragma mark - end
 
-#pragma mark - Display data
+#pragma mark - Display user data
 -(void)displayData
 {
     if ([joineUserId isEqualToString:[UserDefaultManager getValue:@"userId"]]) {
@@ -110,23 +110,22 @@
 }
 - (IBAction)seeOutbutonAction:(id)sender
 {
-    //    [myDelegate ShowIndicator];
      [self performSelector:@selector(seeOutUser) withObject:nil afterDelay:0.1];
 }
 #pragma mark - end
+
+#pragma mark - See out user webservice
 -(void)seeOutUser
 {
     NSLog(@"user id %@",joineUserId);
     [[WebService sharedManager] seeOutNotification:joineUserId success:^(id responseObject) {
         
         [myDelegate StopIndicator];
-        
-        
-        
+                
     } failure:^(NSError *error) {
         
     }] ;
 
 }
-
+#pragma mark - end
 @end

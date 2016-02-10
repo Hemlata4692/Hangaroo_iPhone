@@ -278,19 +278,6 @@
     
     
 }
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    //    UIViewController *searchView =[storyboard instantiateViewControllerWithIdentifier:@"OrderDetailViewController"];
-    //    [self.navigationController pushViewController:searchView animated:YES];
-    
-    //    if (indexPath.section==1 && indexPath.row == 0){
-    //        giftMessageBackgroundView.hidden = NO;
-    //
-    //    }
-    
-}
 #pragma mark - end
 
 #pragma mark - pagignation for table view

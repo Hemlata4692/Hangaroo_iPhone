@@ -152,7 +152,7 @@
 }
 #pragma mark - end
 
-#pragma mark - Webservice - Post listing
+#pragma mark - Post listing webservice
 -(void)getPostListing
 {
      flag=true;
@@ -180,8 +180,6 @@
      {
          [postListingArray removeAllObjects];
          [postListingTableView reloadData];
-//         noResultFound.hidden=NO;
-//         postListingTableView.hidden=YES;
      }] ;
     
 }
@@ -278,24 +276,17 @@
     if (flag) {
         if (section==0)
         {
-            
             headerLabel.text=@"Today";
-            
         }
         else
         {
-            
             headerLabel.text=@"Yesterday";
-            
         }
-        
     }
     else
     {
         headerLabel.text=posted;
     }
-    
-    
     return headerView;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -491,13 +482,8 @@
             tickIcon.hidden=NO;
         }
     }
-    
-
     [meTooCollectionView reloadData];
     [photoCollectionView reloadData];
-    
-    
-    
     return cell;
     
 }
@@ -505,7 +491,6 @@
 #pragma mark - end
 
 #pragma mark- Cell collection view delegate
-
 
 - (NSInteger)collectionView:(MyCollectionView *)view numberOfItemsInSection:(NSInteger)section {
 
@@ -515,27 +500,21 @@
     {
         if (view.tag==50)
         {
-           
             return [[todayPostData objectAtIndex:view.collectionTag]joinedUserArray].count;
-            
         }
         else
         {
-          
             return [[todayPostData objectAtIndex:view.collectionTag]uploadedPhotoArray].count;
         }
-        
     }
     else
     {
         if (view.tag==50)
         {
-         
             return [[yesterdayPostData objectAtIndex:view.collectionTag]joinedUserArray].count;
         }
         else
         {
-           
             return [[yesterdayPostData objectAtIndex:view.collectionTag]uploadedPhotoArray].count;
         }
         
@@ -557,7 +536,6 @@
         userImage.frame=CGRectMake(5, 1, userImage.frame.size.width,  userImage.frame.size.height);
         userImage.layer.cornerRadius=userImage.frame.size.height/2;
         userImage.clipsToBounds=YES;
-        //[userImage clearImageCacheForURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]];
         UIImageView *meeToo=(UIImageView *)[meTooCell viewWithTag:90];
         
         meeToo.translatesAutoresizingMaskIntoConstraints=YES;
@@ -591,7 +569,6 @@
                     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                         
                     }];
-                    
                     
                 }
                 else
@@ -801,14 +778,10 @@
                     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                         
                     }];
-                    
                 }
-                
             }
-            
         }
         return meTooCell;
-        
     }
     else
     {
@@ -894,7 +867,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 [self.navigationController presentViewController:navBar animated: YES completion: ^ {
                     
                 }];
-               // [self.navigationController pushViewController:viewPost animated:YES];
             }
             
         }
@@ -926,7 +898,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 [self.navigationController presentViewController:navBar animated: YES completion: ^ {
                     
                 }];
-                // [self.navigationController pushViewController:viewPost animated:YES];
             }
 
             
@@ -946,9 +917,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 [self.navigationController presentViewController:navBar animated: YES completion: ^ {
                     
                 }];
-                // [self.navigationController pushViewController:viewPost animated:YES];
-          
-            
         }
         else
         {
@@ -961,15 +929,13 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
             [self.navigationController presentViewController:navBar animated: YES completion: ^ {
                 
             }];
-                // [self.navigationController pushViewController:viewPost animated:YES];
-            
         }
 
         NSLog(@"selected index %ld",(long)indexPath.item);
     }
 }
 #pragma mark - end
-#pragma mark - Webservice - JoinPost
+#pragma mark - Join post webservice
 -(void)joinPost
 {
     [[WebService sharedManager]joinPost:postId success: ^(id responseObject) {
@@ -1056,7 +1022,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
         
         [self presentViewController:picker animated:YES completion:NULL];
-       // [self presentViewController:imagePickerController animated:YES completion:NULL];
     }
 }
 #pragma mark - end
@@ -1089,10 +1054,8 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-   // [myDelegate StopIndicator];
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }

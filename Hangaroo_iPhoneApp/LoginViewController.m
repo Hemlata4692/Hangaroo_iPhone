@@ -26,8 +26,7 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    // Set the screen name for automatic screenview tracking.
+    
     self.screenName = @"SignIn screen";
     //Adding textfield to array
     textFieldArray = @[userNameField,passwordField];

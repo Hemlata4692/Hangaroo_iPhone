@@ -170,24 +170,6 @@
     
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    //    index = indexPath.row;
-    //    int value = ((index*100) + 40) -self.view.frame.size.width/2 ;
-    //    NSLog(@"-----%d---------",value);
-    //    if (value < 0) {
-    //
-    //        [_myCollectionView setContentOffset:CGPointMake(value, 0) animated:YES];
-    //        [_myCollectionView reloadData];
-    //
-    //    }
-    //    else{
-    //        [_myCollectionView setContentOffset:CGPointMake(value, 0) animated:YES];
-    //        [_myCollectionView reloadData];
-    //
-    //
-    //    }
-    
-}
 #pragma mark - end
 #pragma mark - Swipe Images
 -(void)swipeImages
@@ -343,8 +325,6 @@
             [likeButton setSelected:NO];
             [dislikeButton setSelected:YES];
         }
-        
-
     }
     
     else
@@ -355,7 +335,7 @@
 
 #pragma mark - end
 
-#pragma mark - Webservice PhotoListing
+#pragma mark - PhotoListing webservice
 -(void)getPhotoListing
 {
     [[WebService sharedManager] photoListing:postID success: ^(id dataArray) {
@@ -413,7 +393,7 @@
 }
 #pragma mark - end
 
-#pragma mark - Webservice LikeDislike
+#pragma mark - LikeDislike webservice
 -(void)likeDislike
 {
     [[WebService sharedManager] likDislikePhoto:[postImagesArray objectAtIndex:selectedIndex] likeDislike:likeDislikeString  success: ^(id responseObject) {
@@ -422,9 +402,7 @@
          photoImageView.userInteractionEnabled=YES;
         likeCount.text=[responseObject objectForKey:@"likeCount"];
         dislikeCount.text=[responseObject objectForKey:@"dislikeCount"];
-     //   likeCount.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
         PhotoListingModel *photoList;
-
         NSMutableArray *tempArray=[photoListingDataArray mutableCopy];
         photoList=[tempArray objectAtIndex:selectedIndex];
         photoList.likeCountData=[responseObject objectForKey:@"likeCount"];

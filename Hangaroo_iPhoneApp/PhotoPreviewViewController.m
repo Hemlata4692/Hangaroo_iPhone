@@ -138,9 +138,7 @@
             caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  translation.y);
             
         }
-        
     }
-    
 }
 
 - (BOOL)textField:(UITextField *)textField
@@ -263,7 +261,7 @@ replacementString:(NSString *)string{
 }
 #pragma mark - end
 
-#pragma mark - Webservice
+#pragma mark - Upload photo webservice
 -(void)uploadPhoto
 {
     

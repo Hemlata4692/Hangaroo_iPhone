@@ -112,7 +112,7 @@
 }
 #pragma mark - end
 
-#pragma mark - Webservice
+#pragma mark - Share post webservice
 -(void)sharePost
 {
     [[WebService sharedManager] sharePost:postTextView.text success:^(id responseObject) {

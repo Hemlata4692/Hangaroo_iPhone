@@ -42,6 +42,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 -(void)loadData
 {
     if ([userSettingObj.myProfileData.userInterest isEqualToString:@""])
@@ -92,18 +93,9 @@
         saveBtn.userInteractionEnabled=YES;
         saveBtn.titleLabel.alpha=1.0;
     }
-//    else if (textView.text.length==1) {
-//         saveBtn.userInteractionEnabled=YES;
-//        saveBtn.titleLabel.alpha=1.0;
-//    }
-//    else if (textView.text.length==0) {
-//        saveBtn.userInteractionEnabled=YES;
-//        saveBtn.titleLabel.alpha=1.0;
-//        
-//    }
 }
 #pragma mark - end
-#pragma mark - Webservice
+#pragma mark - Save user interest webservice
 -(void)saveUserInterest
 {
     [[WebService sharedManager]addUserInterest:interestTextView.text success: ^(id responseObject) {
@@ -119,34 +111,6 @@
                 break;
             }
         }
-        
-  
-
-//        UIAlertController *alertController = [UIAlertController
-//                                              alertControllerWithTitle:@"Alert"
-//                                              message:[responseObject objectForKey:@"message"]
-//                                              preferredStyle:UIAlertControllerStyleAlert];
-//        
-//        UIAlertAction *okAction = [UIAlertAction
-//                                   actionWithTitle:@"OK"
-//                                   style:UIAlertActionStyleDefault
-//                                   handler:^(UIAlertAction *action)
-//                                   {
-//                                       
-//                                       for (UIViewController *controller in self.navigationController.viewControllers)
-//                                       {
-//                                           if ([controller isKindOfClass:[SettingViewController class]])
-//                                           {
-//                                               [self.navigationController popToViewController:controller animated:YES];
-//                                               
-//                                               break;
-//                                           }
-//                                       }
-//                                       
-//                                   }];
-//        
-//        [alertController addAction:okAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
         
     }
                                        failure:^(NSError *error)

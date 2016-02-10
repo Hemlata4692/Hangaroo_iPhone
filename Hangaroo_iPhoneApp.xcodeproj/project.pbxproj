@@ -438,6 +438,15 @@
 			name = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
+		B7642E321C6AF9E300A8055D /* HomeViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B7636C2F1C4531D90009F01D /* MyCollectionView.h */,
+				B7636C301C4531D90009F01D /* MyCollectionView.m */,
+			);
+			name = HomeViewCell;
+			sourceTree = "<group>";
+		};
 		B76605061C5A11D2006CCECA /* LoadWebPagesViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -519,6 +528,7 @@
 			isa = PBXGroup;
 			children = (
 				B795B18D1C325B12007EB2E6 /* HomeViewController */,
+				B7642E321C6AF9E300A8055D /* HomeViewCell */,
 				B76B69F61C3E41DA00A7254D /* PhotoPreviewViewController */,
 				B76B6A051C3E94FF00A7254D /* MeTooUserProfileViewController */,
 			);
@@ -655,8 +665,6 @@
 			children = (
 				B7063BAE1C3407D0007C9E4D /* HomeViewController.h */,
 				B7063BAF1C3407D0007C9E4D /* HomeViewController.m */,
-				B7636C2F1C4531D90009F01D /* MyCollectionView.h */,
-				B7636C301C4531D90009F01D /* MyCollectionView.m */,
 			);
 			name = HomeViewController;
 			sourceTree = "<group>";

@@ -79,7 +79,7 @@
     
 }
 #pragma mark - end
-#pragma mark - Webservice
+#pragma mark - Share feedback webservice
 -(void)saveUserFeedback
 {
     [[WebService sharedManager]shareFeedback:subjectTextField.text content:contentTextView.text success: ^(id responseObject) {
@@ -94,32 +94,6 @@
                 break;
             }
         }
-
-//        UIAlertController *alertController = [UIAlertController
-//                                              alertControllerWithTitle:@"Alert"
-//                                              message:[responseObject objectForKey:@"message"]
-//                                              preferredStyle:UIAlertControllerStyleAlert];
-//        
-//        UIAlertAction *okAction = [UIAlertAction
-//                                   actionWithTitle:@"OK"
-//                                   style:UIAlertActionStyleDefault
-//                                   handler:^(UIAlertAction *action)
-//                                   {
-//                                       
-//                                       for (UIViewController *controller in self.navigationController.viewControllers)
-//                                       {
-//                                           if ([controller isKindOfClass:[SettingViewController class]])
-//                                           {
-//                                               [self.navigationController popToViewController:controller animated:YES];
-//                                               
-//                                               break;
-//                                           }
-//                                       }
-//                                       
-//                                   }];
-//        
-//        [alertController addAction:okAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
         
     }
                                        failure:^(NSError *error)

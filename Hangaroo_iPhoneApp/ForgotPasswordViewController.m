@@ -126,8 +126,6 @@
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
-                                       // [alertController dismissViewControllerAnimated:YES completion:nil];
-                        
                                        for (UIViewController *controller in self.navigationController.viewControllers)
                                        {
                                            if ([controller isKindOfClass:[LoginViewController class]])

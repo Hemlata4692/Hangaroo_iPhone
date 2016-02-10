@@ -35,8 +35,6 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    // Set the screen name for automatic screenview tracking.
     self.screenName = @"SignUp screen";
     //Adding textfield to array
     textFieldArray = @[userNameField,passwordField,userEmailField];
@@ -218,7 +216,6 @@
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
-                                      // [alertController dismissViewControllerAnimated:YES completion:nil];
                                        for (UIViewController *controller in self.navigationController.viewControllers)
                                        {
                                            if ([controller isKindOfClass:[TutorialViewController class]])

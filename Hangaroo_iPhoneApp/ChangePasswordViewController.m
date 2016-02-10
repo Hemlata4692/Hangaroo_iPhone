@@ -127,7 +127,7 @@
 
 #pragma mark - end
 
-#pragma mark - Webservice
+#pragma mark - Change password webservice
 -(void)changePassword
 {
     [[WebService sharedManager]changePassword:oldPasswordField.text newPassword:changePasswordField.text success: ^(id responseObject) {
