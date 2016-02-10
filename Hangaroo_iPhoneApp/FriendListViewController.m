@@ -26,8 +26,6 @@
 @property(nonatomic, strong) NSString *Offset;
 @property(nonatomic, strong) NSString *friendUserId;
 @property (weak, nonatomic) IBOutlet UILabel *noRecordLbl;
-
-
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *friendListTableView;
 @end

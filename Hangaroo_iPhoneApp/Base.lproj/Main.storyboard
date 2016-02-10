@@ -1665,7 +1665,7 @@
                                     <constraint firstAttribute="width" constant="1" id="MEp-QR-qNL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ABX-SU-4HU">
@@ -1689,7 +1689,7 @@
                                     <constraint firstAttribute="height" constant="1" id="vYu-iI-1fQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="Y7N-fc-Te4">
@@ -1753,7 +1753,7 @@
                                                         <constraint firstAttribute="height" constant="1" id="ZjK-UP-1Vc"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1836,7 +1836,7 @@
                                                         <constraint firstAttribute="width" secondItem="Xvg-mC-SR3" secondAttribute="height" multiplier="320:1" id="GSc-7k-ahJ"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You are now friends." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S3f-CZ-teW">
@@ -1969,7 +1969,7 @@
                                     <constraint firstAttribute="height" constant="44" id="9Qs-ox-yGe"/>
                                     <constraint firstAttribute="width" constant="320" id="EjJ-cH-u7C"/>
                                 </constraints>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="IWb-3Z-isf" id="qdS-xR-rln"/>
                                 </connections>
@@ -2005,7 +2005,7 @@
                                                         <constraint firstAttribute="height" constant="25" id="due-xT-Dua"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fPM-f7-UNw" customClass="MyButton">
@@ -2024,7 +2024,7 @@
                                                         <constraint firstAttribute="width" secondItem="VuB-zR-Bpl" secondAttribute="height" multiplier="320:1" id="Q2o-7J-Aa2"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100 mutual friends" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckc-KI-jXN">
@@ -2079,7 +2079,7 @@
                                 <rect key="frame" x="0.0" y="239" width="320" height="21"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="E5W-eN-wtg"/>
+                                    <constraint firstAttribute="width" secondItem="VZP-Pc-X37" secondAttribute="height" multiplier="320:21" id="0tV-PU-dW3"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
                                 <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
@@ -2090,16 +2090,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="DCa-4d-Nyb" secondAttribute="bottom" constant="1" id="0Qi-Ix-wCR"/>
+                            <constraint firstItem="VZP-Pc-X37" firstAttribute="centerY" secondItem="DCa-4d-Nyb" secondAttribute="centerY" id="2re-tc-Me4"/>
                             <constraint firstItem="DCa-4d-Nyb" firstAttribute="leading" secondItem="fBx-55-cWb" secondAttribute="leading" id="6lt-bJ-bV6"/>
-                            <constraint firstAttribute="trailing" secondItem="VZP-Pc-X37" secondAttribute="trailing" id="7Wo-4z-UIu"/>
-                            <constraint firstItem="tbf-dM-EAE" firstAttribute="top" secondItem="VZP-Pc-X37" secondAttribute="bottom" constant="195" id="DYX-M5-eRd"/>
+                            <constraint firstItem="VZP-Pc-X37" firstAttribute="leading" secondItem="fBx-55-cWb" secondAttribute="leading" id="7bQ-el-4gT"/>
                             <constraint firstAttribute="trailing" secondItem="jFe-Mh-yqC" secondAttribute="trailing" id="RZx-eN-bGu"/>
-                            <constraint firstItem="VZP-Pc-X37" firstAttribute="leading" secondItem="fBx-55-cWb" secondAttribute="leading" id="XvH-6E-DTk"/>
+                            <constraint firstAttribute="trailing" secondItem="VZP-Pc-X37" secondAttribute="trailing" id="TpE-kB-0pp"/>
                             <constraint firstItem="jFe-Mh-yqC" firstAttribute="top" secondItem="IQR-C7-DB2" secondAttribute="bottom" id="ZkD-a5-wuO"/>
                             <constraint firstItem="tbf-dM-EAE" firstAttribute="top" secondItem="DCa-4d-Nyb" secondAttribute="bottom" constant="1" id="e1c-Aj-0YF"/>
+                            <constraint firstItem="VZP-Pc-X37" firstAttribute="centerX" secondItem="fBx-55-cWb" secondAttribute="centerX" id="gJX-Dy-saY"/>
                             <constraint firstItem="DCa-4d-Nyb" firstAttribute="top" secondItem="IQR-C7-DB2" secondAttribute="bottom" constant="45" id="iwo-SW-ZjN"/>
                             <constraint firstItem="jFe-Mh-yqC" firstAttribute="leading" secondItem="fBx-55-cWb" secondAttribute="leading" id="k8l-TP-9wn"/>
-                            <constraint firstItem="VZP-Pc-X37" firstAttribute="top" secondItem="jFe-Mh-yqC" secondAttribute="bottom" constant="195" id="pR7-sZ-EWj"/>
                             <constraint firstAttribute="trailing" secondItem="DCa-4d-Nyb" secondAttribute="trailing" id="zpk-0y-um6"/>
                         </constraints>
                     </view>
@@ -2219,7 +2219,7 @@
                                                     <constraint firstAttribute="height" constant="1" id="euY-Tu-ySX"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7xP-wg-lkg">
@@ -2239,7 +2239,7 @@
                                                 <animations/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="14"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qmz-Lo-CHY">
@@ -2447,7 +2447,7 @@
                                                         <constraint firstAttribute="height" constant="1" id="9Ff-Kb-Njw"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jw6-yN-WeG">
