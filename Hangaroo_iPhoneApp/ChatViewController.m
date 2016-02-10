@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    isChange = 1;
-    self.title = @"New Chat";
+    self.navigationItem.title = @"Chats";
     historyArray = [NSMutableArray new];
    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatScreenHistory) name:@"ChatScreenHistory" object:nil];

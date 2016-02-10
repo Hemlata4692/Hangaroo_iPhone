@@ -82,9 +82,7 @@
     [super viewWillDisappear:YES];
     myDelegate.myView = @"Other";
 
-
 }
-
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];

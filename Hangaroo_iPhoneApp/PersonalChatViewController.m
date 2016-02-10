@@ -68,15 +68,11 @@
     
     [self registerForKeyboardNotifications];
     
-    //    sendMessage.layer.cornerRadius = 5.0;
-    //    sendMessage.layer.borderWidth = 0.5;
-    //    sendMessage.layer.borderColor =  [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:205.0/255.0 alpha:1.0].CGColor;
     
     messageView.translatesAutoresizingMaskIntoConstraints = YES;
     sendMessage.translatesAutoresizingMaskIntoConstraints = YES;
     messageView.backgroundColor = [UIColor whiteColor];
-    //    userTableView.backgroundColor = [UIColor greenColor];
-    //    self.view.backgroundColor = [UIColor redColor];
+    
     NSLog(@"%f,%f",[UIScreen mainScreen].bounds.size.height,[UIScreen mainScreen].bounds.size.height- 40 -64 -50);
     messageHeight = 40;
     messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 - 10, self.view.bounds.size.width, messageHeight + 10);
@@ -91,18 +87,13 @@
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(historUpdated:) name:@"UserHistory" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatScreenHistoryPersonal) name:@"ChatScreenHistoryPersonal" object:nil];
+    
+    userTableView.translatesAutoresizingMaskIntoConstraints = YES;
+    userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - (messageHeight +64 +49 + 14));
     // Do any additional setup after loading the view.
 }
 
-//-(void)ChatScreenHistoryPersonal{
-//    if ([lastView isEqualToString:@"ChatViewController"]) {
-//        chatVC.isChange = 2;
-//    }
-//    else{
-//        userListVC.isChange = 2;
-//    }
-//}
+
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -120,21 +111,17 @@
         
         myDelegate.chatUser = [[userDetail.jidStr componentsSeparatedByString:@"/"] objectAtIndex:0];
     }
-    
-
-    //    self.navigationItem.leftBarButtonItems = nil;
-    //    UIImage* img = [UIImage imageNamed:@"back"];
-    ////    [self addLeftBarButtonWithImage:[UIImage imageNamed:@"back"]];
-    //    CGRect framing = CGRectMake(0, 0, img.size.width, img.size.height);
-    //    UIButton *button = [[UIButton alloc] initWithFrame:framing];
-    //    [button setBackgroundImage:img forState:UIControlStateNormal];
-    //    UIBarButtonItem* barButton =[[UIBarButtonItem alloc] initWithCustomView:button];
-    //    [button addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    //    self.navigationItem.leftBarButtonItems=[NSArray arrayWithObjects:barButton, nil];
     [userData removeAllObjects];
     NSString *keyName = myDelegate.chatUser;
     if ([[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] != nil) {
         int tempCount = 0;
+        
+        int badgeCount = [[[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] intValue];
+        if (badgeCount > 0) {
+            [myDelegate addBadgeIcon:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] - badgeCount ]];
+            [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] - badgeCount ] key:@"BadgeCount"];
+        }
+
         NSMutableDictionary *tempDict = [[UserDefaultManager getValue:@"CountData"] mutableCopy];
      
         [tempDict setObject:[NSString stringWithFormat:@"%d",tempCount] forKey:keyName];
@@ -148,8 +135,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     myDelegate.myView = @"Other";
-    
-    
+    myDelegate.chatUser = @"";
 }
 
 -(void)getHistoryData{
@@ -184,7 +170,7 @@
         
         if (userData.count > 0) {
             NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
-            [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }
                
     }
@@ -220,13 +206,29 @@
     
     messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- [aValue CGRectValue].size.height -messageHeight -64 -10 , [aValue CGRectValue].size.width, messageHeight+ 10);
     messageYValue = [UIScreen mainScreen].bounds.size.height- [aValue CGRectValue].size.height  -50 -10;
+    
+    NSLog(@"%f,%f",userTableView.frame.size.height,[UIScreen mainScreen].bounds.size.height - [aValue CGRectValue].size.height  -50 -10);
+    userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height- [aValue CGRectValue].size.height -messageHeight -64 -14);
+    
+    if (userData.count > 0) {
+        NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
+        [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
 }
+
 
 - (void)keyboardWillHide:(NSNotification *)notification {
     NSLog(@"%f,%f",[UIScreen mainScreen].bounds.size.height,[UIScreen mainScreen].bounds.size.height - messageHeight);
     messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -10, self.view.bounds.size.width, messageHeight+ 10);
     messageYValue = [UIScreen mainScreen].bounds.size.height -64 -49 -10;
+    
+    userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -14);
+    if (userData.count > 0) {
+        NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
+        [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
 }
+
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     
@@ -248,13 +250,22 @@
             
             messageHeight = textRect.size.height + 8;
             messageView.frame = CGRectMake(0, messageYValue-messageHeight - 14 , self.view.bounds.size.width, messageHeight +10 );
+            userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  messageYValue-messageHeight - 18);
+            if (userData.count > 0) {
+                NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
+                [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            }
         }
         else if(textRect.size.height <= 50){
             messageHeight = 40;
             
             sendMessage.frame = CGRectMake(sendMessage.frame.origin.x, sendMessage.frame.origin.y, sendMessage.frame.size.width, messageHeight-8);
             messageView.frame = CGRectMake(0, messageYValue-messageHeight - 14  , self.view.bounds.size.width, messageHeight + 10);
-            
+            userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  messageYValue-messageHeight - 18);
+            if (userData.count > 0) {
+                NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
+                [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            }
         }
         
         if (textView.text.length>=1) {
@@ -280,13 +291,24 @@
         
         messageHeight = [sendMessage sizeThatFits:sendMessage.frame.size].height + 8;
         messageView.frame = CGRectMake(0, messageYValue-messageHeight - 14 , self.view.bounds.size.width, messageHeight +10 );
+        userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  messageYValue-messageHeight - 18);
+        if (userData.count > 0) {
+            NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
+            [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
     }
     else if([sendMessage sizeThatFits:sendMessage.frame.size].height <= 50){
         messageHeight = 40;
         
         sendMessage.frame = CGRectMake(sendMessage.frame.origin.x, sendMessage.frame.origin.y, sendMessage.frame.size.width, messageHeight-8);
         messageView.frame = CGRectMake(0, messageYValue-messageHeight - 14  , self.view.bounds.size.width, messageHeight + 10);
+        userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  messageYValue-messageHeight - 18 );
+        if (userData.count > 0) {
+            NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
+            [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+        }
     }
+
     
     if (textView.text.length>=1) {
         sendOutlet.enabled=YES;
@@ -393,6 +415,11 @@
     messageHeight = 40;
     messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -10, self.view.bounds.size.width, messageHeight+ 10);
     messageYValue = [UIScreen mainScreen].bounds.size.height -64 -49;
+    userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -14);
+    if (userData.count > 0) {
+        NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
+        [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    }
     
     if (sendMessage.text.length>=1) {
         sendOutlet.enabled=YES;
@@ -404,12 +431,6 @@
 }
 
 -(void)messagesData:(NSXMLElement*)myMessage{
-//    if ([lastView isEqualToString:@"ChatViewController"]) {
-//        chatVC.isChange = 2;
-//    }
-//    else{
-//        userListVC.isChange = 2;
-//    }
 
     [userData addObject:myMessage];
     

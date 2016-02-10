@@ -38,7 +38,7 @@
     
 }
 @property(nonatomic,retain) UINavigationController *navigationController;
-
+@property(nonatomic,retain) UITabBarController *tabBarView;
 //added by rohit
 @property (nonatomic, strong, readonly) XMPPStream *xmppStream;
 @property (nonatomic, strong, readonly) XMPPReconnect *xmppReconnect;
@@ -77,5 +77,6 @@
 -(void)unregisterDeviceForNotification;
 -(void)registerDeviceForNotification;
 @property(nonatomic,retain)NSString * deviceToken;
+-(void)addBadgeIcon:(NSString*)badgeValue;
 @end
 

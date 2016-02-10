@@ -64,6 +64,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 @synthesize userProfileImage, chatUser;
 @synthesize xmppMessageArchivingCoreDataStorage, xmppMessageArchivingModule;
 @synthesize userProfileImageData;
+@synthesize tabBarView;
 //end
 
 @synthesize deviceToken;
@@ -142,8 +143,11 @@ id<GAITracker> tracker;
         NSMutableDictionary* countData = [NSMutableDictionary new];
         
         [UserDefaultManager setValue:countData key:@"CountData"];
-        //        [UserDefaultManager setValue:@"admin@52.74.174.129" key:@"LoginCred"];
-        //        [UserDefaultManager setValue:@"asd-123" key:@"PassCred"];
+        
+    }
+    
+    if ([UserDefaultManager getValue:@"BadgeCount"] == nil) {
+        [UserDefaultManager setValue:@"0" key:@"BadgeCount"];
     }
     
     
@@ -830,19 +834,19 @@ id<GAITracker> tracker;
         NSString *body = [[message elementForName:@"body"] stringValue];
         NSString *displayName = [user displayName];
         
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"HH:mm:ss"];
-        NSDate *date = [NSDate date];
-        [dateFormatter setDateFormat:@"hh:mm a"];
-        [dateFormatter setAMSymbol:@"am"];
-        [dateFormatter setPMSymbol:@"pm"];
-        
-        NSString *formattedTime = [dateFormatter stringFromDate:date];
-        [dateFormatter setDateFormat:@"dd/MM/yy"];
-        NSString *formattedDate = [dateFormatter stringFromDate:date];
-        
-        [message addAttributeWithName:@"time" stringValue:formattedTime];
-        [message addAttributeWithName:@"Date" stringValue:formattedDate];
+//        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//        [dateFormatter setDateFormat:@"HH:mm:ss"];
+//        NSDate *date = [NSDate date];
+//        [dateFormatter setDateFormat:@"hh:mm a"];
+//        [dateFormatter setAMSymbol:@"am"];
+//        [dateFormatter setPMSymbol:@"pm"];
+//        
+//        NSString *formattedTime = [dateFormatter stringFromDate:date];
+//        [dateFormatter setDateFormat:@"dd/MM/yy"];
+//        NSString *formattedDate = [dateFormatter stringFromDate:date];
+//        
+//        [message addAttributeWithName:@"time" stringValue:formattedTime];
+//        [message addAttributeWithName:@"Date" stringValue:formattedDate];
         
         [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",[message attributeStringValueForName:@"to"],[[[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0]]];
        
@@ -877,8 +881,14 @@ id<GAITracker> tracker;
             if ([myDelegate.chatUser isEqualToString:[fromUser objectAtIndex:0]]){
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UserHistory" object:message];
             }
-            else if ([myDelegate.chatUser isEqualToString:@"ChatScreen"]){
+            else if ([myDelegate.chatUser isEqualToString:@"ChatScreen"]){  //this is use for History chat screen if already open
+                [self addBadgeIcon:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] + 1 ]];
+                [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] + 1 ] key:@"BadgeCount"];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"ChatScreenHistory" object:nil];
+            }
+            else{
+                [self addBadgeIcon:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] + 1 ]];
+                [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] + 1 ] key:@"BadgeCount"];
             }
 //            else{
 //                [[NSNotificationCenter defaultCenter] postNotificationName:@"ChatScreenHistoryPersonal" object:nil];
@@ -901,6 +911,49 @@ id<GAITracker> tracker;
 //            
 //            [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
 //        }
+    }
+}
+
+-(void)addBadgeIcon:(NSString*)badgeValue{
+    
+    if ([badgeValue intValue] < 1) {
+        [self removeBadgeIcon];
+    }
+    else{
+        for (UILabel *subview in myDelegate.tabBarView.tabBar.subviews)
+        {
+            if ([subview isKindOfClass:[UILabel class]])
+            {
+                if (subview.tag == 2365) {
+                    [subview removeFromSuperview];
+                }
+            }
+        }
+        
+        UILabel *a = [[UILabel alloc] init];
+        a.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width/5) + (([UIScreen mainScreen].bounds.size.width/5)/2) , 0, 25, 20);
+        a.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:83.0/255.0 blue:77.0/255.0 alpha:1.0];
+        a.layer.cornerRadius = 10;
+        a.layer.masksToBounds = YES;
+        a.text = badgeValue;
+        a.tag = 2365;
+        a.textAlignment = NSTextAlignmentCenter;
+        [a setFont:[UIFont fontWithName:@"Roboto-Regular" size:10.0]];
+        a.textColor = [UIColor whiteColor];
+        [myDelegate.tabBarView.tabBar addSubview:a];
+    }
+    
+}
+
+-(void)removeBadgeIcon{
+    for (UILabel *subview in myDelegate.tabBarView.tabBar.subviews)
+    {
+        if ([subview isKindOfClass:[UILabel class]])
+        {
+            if (subview.tag == 2365) {
+                [subview removeFromSuperview];
+            }
+        }
     }
 }
 
