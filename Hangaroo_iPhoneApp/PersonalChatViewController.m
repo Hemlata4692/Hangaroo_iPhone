@@ -26,17 +26,17 @@
 @end
 
 @implementation PersonalChatViewController
-@synthesize userDetail;
+@synthesize userDetail, userXmlDetail;
 @synthesize sendMessage, sendOutlet;
 @synthesize messageView;
 @synthesize userTableView;
+@synthesize lastView;
+@synthesize chatVC,userListVC;
 
 @synthesize userProfileImageView, friendProfileImageView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSArray* fromUser = [userDetail.jidStr componentsSeparatedByString:@"@52.74.174.129"];
-    self.title = [fromUser objectAtIndex:0];
     
     userProfileImageView = [[UIImageView alloc] init];
     __weak UIImageView *weakRef = userProfileImageView;
@@ -55,8 +55,6 @@
         
     }];
     
-    myDelegate.chatUser = userDetail.jidStr;
-    
     sendMessage.text = @"";
     [sendMessage setPlaceholder:@"Type a message here..."];
     [sendMessage setFont:[UIFont fontWithName:@"Roboto-Regular" size:14.0]];
@@ -67,8 +65,6 @@
     sendMessage.bounces = NO;
     
     userData = [NSMutableArray new];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(historUpdated:) name:@"UserHistory" object:nil];
     
     [self registerForKeyboardNotifications];
     
@@ -94,10 +90,114 @@
         sendOutlet.enabled = YES;
     }
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(historUpdated:) name:@"UserHistory" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatScreenHistoryPersonal) name:@"ChatScreenHistoryPersonal" object:nil];
     // Do any additional setup after loading the view.
 }
 
+//-(void)ChatScreenHistoryPersonal{
+//    if ([lastView isEqualToString:@"ChatViewController"]) {
+//        chatVC.isChange = 2;
+//    }
+//    else{
+//        userListVC.isChange = 2;
+//    }
+//}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    NSLog(@"%@",userXmlDetail);
+    if ([lastView isEqualToString:@"ChatViewController"]) {
+        
+        self.title = [userXmlDetail attributeStringValueForName:@"ToName"];
+        
+        myDelegate.chatUser = [userXmlDetail attributeStringValueForName:@"to"];
+        NSLog(@"%@",myDelegate.chatUser);
+    }
+    else{
+        NSArray* fromUser = [userDetail.jidStr componentsSeparatedByString:@"@52.74.174.129"];
+        self.title = [fromUser objectAtIndex:0];
+        
+        myDelegate.chatUser = [[userDetail.jidStr componentsSeparatedByString:@"/"] objectAtIndex:0];
+    }
+    
+
+    //    self.navigationItem.leftBarButtonItems = nil;
+    //    UIImage* img = [UIImage imageNamed:@"back"];
+    ////    [self addLeftBarButtonWithImage:[UIImage imageNamed:@"back"]];
+    //    CGRect framing = CGRectMake(0, 0, img.size.width, img.size.height);
+    //    UIButton *button = [[UIButton alloc] initWithFrame:framing];
+    //    [button setBackgroundImage:img forState:UIControlStateNormal];
+    //    UIBarButtonItem* barButton =[[UIBarButtonItem alloc] initWithCustomView:button];
+    //    [button addTarget:self action:@selector(backButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    //    self.navigationItem.leftBarButtonItems=[NSArray arrayWithObjects:barButton, nil];
+    [userData removeAllObjects];
+    NSString *keyName = myDelegate.chatUser;
+    if ([[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] != nil) {
+        int tempCount = 0;
+        NSMutableDictionary *tempDict = [[UserDefaultManager getValue:@"CountData"] mutableCopy];
+     
+        [tempDict setObject:[NSString stringWithFormat:@"%d",tempCount] forKey:keyName];
+        [UserDefaultManager setValue:tempDict key:@"CountData"];
+    }
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
+    
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    myDelegate.myView = @"Other";
+    
+    
+}
+
+-(void)getHistoryData{
+    NSManagedObjectContext *moc = [myDelegate.xmppMessageArchivingCoreDataStorage mainThreadManagedObjectContext];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
+                                                         inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc]init];
+    
+    NSString *predicateFrmt = @"bareJidStr == %@ ";
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFrmt, myDelegate.chatUser];
+    request.predicate = predicate;
+    NSLog(@"%@",[UserDefaultManager getValue:@"LoginCred"]);
+    [request setEntity:entityDescription];
+    NSError *error;
+    NSArray *messages_arc = [moc executeFetchRequest:request error:&error];
+    //
+    [self print:[[NSMutableArray alloc]initWithArray:messages_arc]];
+    
+}
+
+-(void)print:(NSMutableArray*)messages_arc{
+  
+    @autoreleasepool {
+        for (XMPPMessageArchiving_Message_CoreDataObject *message in messages_arc) {
+            
+            NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
+            [userData addObject:element];
+        }
+        
+        [myDelegate StopIndicator];
+        [userTableView reloadData];
+        
+        if (userData.count > 0) {
+            NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
+            [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }
+               
+    }
+}
+
 - (void)historUpdated:(NSNotification *)notification {
+    NSString *keyName = myDelegate.chatUser;
+    if ([[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] != nil) {
+        int tempCount = 0;
+        NSMutableDictionary *tempDict = [[UserDefaultManager getValue:@"CountData"] mutableCopy];
+        [tempDict setObject:[NSString stringWithFormat:@"%d",tempCount] forKey:keyName];
+        [UserDefaultManager setValue:tempDict key:@"CountData"];
+    }
     NSLog(@"%@",[notification object]);
     NSXMLElement* message = [notification object];
     [self messagesData:message];
@@ -186,7 +286,6 @@
         
         sendMessage.frame = CGRectMake(sendMessage.frame.origin.x, sendMessage.frame.origin.y, sendMessage.frame.size.width, messageHeight-8);
         messageView.frame = CGRectMake(0, messageYValue-messageHeight - 14  , self.view.bounds.size.width, messageHeight + 10);
-        
     }
     
     if (textView.text.length>=1) {
@@ -244,25 +343,42 @@
     NSString *formattedDate = [dateFormatter stringFromDate:date];
     NSLog(@"%@",formattedTime);
     
-    
-    
     NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
     [body setStringValue:messageStr];
     //    NSArray* fromUser = [userDetail.streamBareJidStr componentsSeparatedByString:@"@52.74.174.129"];
     
     NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
     [message addAttributeWithName:@"type" stringValue:@"chat"];
-    [message addAttributeWithName:@"to" stringValue:userDetail.jidStr];
-    [message addAttributeWithName:@"from" stringValue:userDetail.streamBareJidStr];
     
-    [message addAttributeWithName:@"time" stringValue:formattedTime];
-    [message addAttributeWithName:@"Name" stringValue:[UserDefaultManager getValue:@"userName"]];
-    [message addAttributeWithName:@"Date" stringValue:formattedDate];
-    [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",userDetail.streamBareJidStr,userDetail.jidStr]];
-    [message addAttributeWithName:@"ToName" stringValue:userDetail.displayName];
+    if ([lastView isEqualToString:@"ChatViewController"]) {
+        
+        [message addAttributeWithName:@"to" stringValue:[userXmlDetail attributeStringValueForName:@"to"]];
+        [message addAttributeWithName:@"from" stringValue:[userXmlDetail attributeStringValueForName:@"from"]];
+        
+        [message addAttributeWithName:@"time" stringValue:formattedTime];
+        [message addAttributeWithName:@"Name" stringValue:[UserDefaultManager getValue:@"userName"]];
+        [message addAttributeWithName:@"Date" stringValue:formattedDate];
+        [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",[userXmlDetail attributeStringValueForName:@"to"],[userXmlDetail attributeStringValueForName:@"from"]]];
+        [message addAttributeWithName:@"ToName" stringValue:[userXmlDetail attributeStringValueForName:@"ToName"]];
+    }
+    else{
+        [message addAttributeWithName:@"to" stringValue:userDetail.jidStr];
+        [message addAttributeWithName:@"from" stringValue:userDetail.streamBareJidStr];
+        
+        [message addAttributeWithName:@"time" stringValue:formattedTime];
+        [message addAttributeWithName:@"Name" stringValue:[UserDefaultManager getValue:@"userName"]];
+        [message addAttributeWithName:@"Date" stringValue:formattedDate];
+        [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",userDetail.streamBareJidStr,userDetail.jidStr]];
+        [message addAttributeWithName:@"ToName" stringValue:userDetail.displayName];
+    }
     [message addChild:body];
-    //    NSString* a = [message stringValue];
-    //    NSLog(@"%@",a);
+    
+//    if ([lastView isEqualToString:@"ChatViewController"]) {
+//        chatVC.isChange = 2;
+//    }
+//    else{
+//        userListVC.isChange = 2;
+//    }
     
     [[self xmppStream] sendElement:message];
     
@@ -288,6 +404,13 @@
 }
 
 -(void)messagesData:(NSXMLElement*)myMessage{
+//    if ([lastView isEqualToString:@"ChatViewController"]) {
+//        chatVC.isChange = 2;
+//    }
+//    else{
+//        userListVC.isChange = 2;
+//    }
+
     [userData addObject:myMessage];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
@@ -327,15 +450,19 @@
     
     NSXMLElement* message = [userData objectAtIndex:indexPath.row];
     
-    userName.text = [message attributeStringValueForName:@"Name"];
+    if ( [[UserDefaultManager getValue:@"userName"] caseInsensitiveCompare:[message attributeStringValueForName:@"Name"]] == NSOrderedSame) {
+        userName.text = [UserDefaultManager getValue:@"userName"];
+    }
+    else{
+        userName.text = [message attributeStringValueForName:@"Name"];
+    }
+    
     userChat.text = [[message elementForName:@"body"] stringValue];
     
     NSArray* fromUser = [[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"];
     
-    
     NSLog(@"%@,%@",[UserDefaultManager getValue:@"LoginCred"],[fromUser objectAtIndex:0]);
     
-    //    if ([[[UserDefaultManager getValue:@"LoginCred"] lowercaseString] isEqualToString:[[fromUser objectAtIndex:0] lowercaseString]]) {
     if ( [[UserDefaultManager getValue:@"LoginCred"] caseInsensitiveCompare:[fromUser objectAtIndex:0]] == NSOrderedSame) {
         
         userImage.image = userProfileImageView.image;

@@ -19,69 +19,85 @@
     NSMutableSet* sortArrSet;
     NSMutableArray* userListArr;
 }
-@property (strong, nonatomic) IBOutlet UITableView *FTableView;
+@property (strong, nonatomic) IBOutlet UITableView *userListTableView;
 
 @end
 
 @implementation UserListViewController
+@synthesize isChange, chatVC;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     sortArrSet = [NSMutableSet new];
     userListArr = [NSMutableArray new];
-//    profileImage = [[UIImageView alloc] init];
-//    __weak UIImageView *weakRef = profileImage;
-//    imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]
-//                                    cachePolicy:NSURLRequestReturnCacheDataElseLoad
-//                                timeoutInterval:60];
-//    
-//    [profileImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-//        weakRef.contentMode = UIViewContentModeScaleAspectFill;
-//        weakRef.clipsToBounds = YES;
-//        weakRef.image = image;
-//    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-//        
-//    }];
-    
-     myDelegate.myView = @"UserListView";
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:@"UserProfile" object:nil];
+//    isChange = 1;
+    myDelegate.myView = @"UserListView";
+  
     [myDelegate ShowIndicator];
+  
     self.title = @"New Chat";
-//    if ([UserDefaultManager getValue:[UserDefaultManager getValue:@"LoginCred"]] == nil || [UserDefaultManager getValue:[UserDefaultManager getValue:@"LoginCred"]] == NULL) {
+  
+    [myDelegate disconnect];
+    
+    if ([myDelegate connect])
+    {
+        [self fetchedResultsController];
+        
+        [_userListTableView reloadData];
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:@"UserProfile" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterInBackGround) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterInForeGround) name:UIApplicationWillEnterForegroundNotification object:nil];
+    // Do any additional setup after loading the view.
+}
+
+-(void)enterInBackGround{
+    if (userListArr.count == 0) {
+        [myDelegate StopIndicator];
+    }
+    
+}
+
+-(void)enterInForeGround{
+    if (userListArr.count == 0) {
         [myDelegate disconnect];
         
         if ([myDelegate connect])
         {
             [self fetchedResultsController];
             
-            [_FTableView reloadData];
+            [_userListTableView reloadData];
         }
-
-//    }
-//    else{
-//        userListArr = [UserDefaultManager getValue:[UserDefaultManager getValue:@"LoginCred"]];
-//        [_FTableView reloadData];
-//    }
-//   
-    // Do any additional setup after loading the view.
+        
+    }
+    else{
+        [_userListTableView reloadData];
+    }
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     myDelegate.myView = @"Other";
+
+
 }
 
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+    
+    
     myDelegate.chatUser = @"";
+//    chatVC.isChange = isChange;
 }
 
 -(void)updateTableView{
     dispatch_async(dispatch_get_main_queue(), ^(void)
                    {
-                       [_FTableView reloadData];
+                       [_userListTableView reloadData];
                    });
 }
 
@@ -115,7 +131,6 @@
                                                                                   cacheName:nil];
         [fetchedResultsController setDelegate:self];
         
-        
         NSError *error = nil;
         if (![fetchedResultsController performFetch:&error])
         {
@@ -140,100 +155,20 @@
         }
     }
     
-    
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"displayName" ascending:YES];
     userListArr = [[sortArrSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]] mutableCopy];
+       NSLog(@"check");
     
-    
-    [self.FTableView reloadData];
+    [self.userListTableView reloadData];
 }
-
-
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    NSLog(@"%d",[[[self fetchedResultsController] sections] count]);
-//    return [[[self fetchedResultsController] sections] count]; //[[[self fetchedResultsController] sections] count];
-//}
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    UIView * headerView;
-////    NSArray *sections = [[self fetchedResultsController] sections];
-//    
-////    if (section < [sections count])
-////    {
-////        headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width,0)];
-////        headerView.backgroundColor = [UIColor whiteColor];
-////        UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, headerView.frame.size.width, 46)];
-////        id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:section];
-////        
-////        int section = [sectionInfo.name intValue];
-////        switch (section)
-////        {
-////            case 0  :
-////                label.text = @"Available";
-////                label.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
-////                break;
-////            case 1  :
-////                label.text =  @"Away";
-////                label.textColor=[UIColor yellowColor];
-////                break;
-////            default :
-////                label.text =  @"Offline";
-////                label.textColor=[UIColor grayColor];
-////                break;
-////        }
-////        label.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
-////        label.backgroundColor=[UIColor clearColor];
-////        
-////        [headerView addSubview:label];
-////    }
-////    else{
-//        headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 0)];
-//        headerView.backgroundColor = [UIColor clearColor];
-//        
-////    }
-//    
-//    return headerView;
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
 {
     return 0;
 }
 
-/*- (NSString *)tableView:(UITableView *)sender titleForHeaderInSection:(NSInteger)sectionIndex
- {
-	NSArray *sections = [[self fetchedResultsController] sections];
- 
-	if (sectionIndex < [sections count])
-	{
- id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:sectionIndex];
- 
- int section = [sectionInfo.name intValue];
- switch (section)
- {
- case 0  : return @"Available";
- case 1  : return @"Away";
- default : return @"Offline";
- }
-	}
- 
-	return @"";
- }*/
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-//    NSArray *sections = [[self fetchedResultsController] sections];
-//    
-//    if (sectionIndex < [sections count])
-//    {
-//        id <NSFetchedResultsSectionInfo> sectionInfo = [sections objectAtIndex:sectionIndex];
-//        return sectionInfo.numberOfObjects;
-//    }
-//    
-//    return 0;
-//    //return 5;
     return userListArr.count;
 }
 
@@ -262,8 +197,10 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    isChange = 1;
     PersonalChatViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
     vc.userDetail = [userListArr objectAtIndex:indexPath.row];
+    vc.lastView = @"UserListViewController";
     NSLog(@"%@",[[userListArr objectAtIndex:indexPath.row] jidStr]);
     
     if ([myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]] == nil) {
@@ -273,8 +210,8 @@
         vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]];
     }
     
-//    vc.userProfileImageView = profileImage.image;
-    
+    //    vc.userProfileImageView = profileImage.image;
+    vc.userListVC = self;
     [self.navigationController pushViewController:vc animated:YES];
     
 }

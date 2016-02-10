@@ -18,22 +18,53 @@
 @end
 
 @implementation ChatViewController
-@synthesize historyTableView;
+@synthesize historyTableView, isChange;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    isChange = 1;
     self.title = @"New Chat";
     historyArray = [NSMutableArray new];
+   
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatScreenHistory) name:@"ChatScreenHistory" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterInBackGround) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatScreenHistory) name:UIApplicationWillEnterForegroundNotification object:nil];
+    
+//    [myDelegate ShowIndicator];
+//    [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
+    // Do any additional setup after loading the view.
+}
+
+-(void)enterInBackGround{
+    [myDelegate StopIndicator];
+}
+
+-(void)ChatScreenHistory{
+    [historyArray removeAllObjects];
     [myDelegate ShowIndicator];
     [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
-    // Do any additional setup after loading the view.
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    myDelegate.chatUser = @"";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     
-    
+    myDelegate.chatUser = @"ChatScreen";
+//    if (isChange == 2 ) {
+        [historyArray removeAllObjects];
+        [myDelegate ShowIndicator];
+        [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
+//    }
+//    else{
+//        [historyTableView reloadData];
+//    }
 }
+
+
 
 -(void)getHistoryData{
     NSManagedObjectContext *moc = [myDelegate.xmppMessageArchivingCoreDataStorage mainThreadManagedObjectContext];
@@ -50,7 +81,7 @@
     NSArray *messages_arc = [moc executeFetchRequest:request error:&error];
     //
     [self print:[[NSMutableArray alloc]initWithArray:messages_arc]];
-
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,8 +90,9 @@
 }
 - (IBAction)userListingView:(UIButton *)sender {
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UserListViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
-    [self.navigationController pushViewController:loginView animated:YES];
+    UserListViewController *userListView =[storyboard instantiateViewControllerWithIdentifier:@"UserListViewController"];
+    userListView.chatVC = self;
+    [self.navigationController pushViewController:userListView animated:YES];
 }
 
 - (IBAction)historyMethod:(UIButton *)sender {
@@ -69,7 +101,7 @@
 }
 -(void)methodCallingSecond{
     //    ---------------DELETE HISTORY---------
-//    NSString *userJid = [NSString stringWithFormat:@"rohit321@52.74.174.129"];
+    //    NSString *userJid = [NSString stringWithFormat:@"rohit321@52.74.174.129"];
     XMPPMessageArchivingCoreDataStorage *storage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
     NSManagedObjectContext *context = [storage mainThreadManagedObjectContext];
     NSManagedObjectContext *moc = [storage mainThreadManagedObjectContext];
@@ -105,7 +137,7 @@
             NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
             if ( [[element attributeStringValueForName:@"ToName"] caseInsensitiveCompare:[UserDefaultManager getValue:@"userName"]] == NSOrderedSame) {
                 if ([tempArray containsObject:[[element attributeStringValueForName:@"Name"] lowercaseString]]) {
-                    i = [tempArray indexOfObject:[[element attributeStringValueForName:@"Name"] lowercaseString]];
+                    i = (int)[tempArray indexOfObject:[[element attributeStringValueForName:@"Name"] lowercaseString]];
                     [tempArray removeObjectAtIndex:i];
                     [historyArray removeObjectAtIndex:i];
                     [tempArray addObject:[[element attributeStringValueForName:@"Name"] lowercaseString]];
@@ -119,7 +151,7 @@
             }
             else{
                 if ([tempArray containsObject:[[element attributeStringValueForName:@"ToName"] lowercaseString]]) {
-                    i = [tempArray indexOfObject:[[element attributeStringValueForName:@"ToName"] lowercaseString]];
+                    i = (int)[tempArray indexOfObject:[[element attributeStringValueForName:@"ToName"] lowercaseString]];
                     [tempArray removeObjectAtIndex:i];
                     [historyArray removeObjectAtIndex:i];
                     [tempArray addObject:[[element attributeStringValueForName:@"ToName"] lowercaseString]];
@@ -133,6 +165,7 @@
         }
         historyArray=[[[historyArray reverseObjectEnumerator] allObjects] mutableCopy];
         [myDelegate StopIndicator];
+//        isChange = 1;
         [historyTableView reloadData];
         //        -----reload table-------
         
@@ -147,8 +180,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-   
-    return historyArray.count;
+    
+//    if (isChange == 2 ) {
+//        return 0;
+//    }
+//    else{
+        return historyArray.count;
+//    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -162,55 +200,100 @@
                                       reuseIdentifier:CellIdentifier];
     }
     
-    NSXMLElement *msg = [historyArray objectAtIndex:indexPath.row];
-    
-//    
-    UIImageView *userImage = (UIImageView*)[cell viewWithTag:1];
-    UILabel* nameLabel = (UILabel*)[cell viewWithTag:2];
-    UILabel* chatHistory = (UILabel*)[cell viewWithTag:3];
-    UILabel* dateLabel = (UILabel*)[cell viewWithTag:4];
-    UILabel* countLabel = (UILabel*)[cell viewWithTag:5];
-    
-    userImage.layer.cornerRadius = 30;
-    userImage.layer.masksToBounds = YES;
-    
-    if ( [[msg attributeStringValueForName:@"ToName"] caseInsensitiveCompare:[UserDefaultManager getValue:@"userName"]] == NSOrderedSame) {
-        nameLabel.text = [msg attributeStringValueForName:@"Name"];
-    }
-    else{
-         nameLabel.text = [msg attributeStringValueForName:@"ToName"];
+    if (historyArray.count > 0) {
+        NSXMLElement *msg = [historyArray objectAtIndex:indexPath.row];
         
-    }
-    
-    if ( [[UserDefaultManager getValue:@"LoginCred"] caseInsensitiveCompare:[[[msg attributeStringValueForName:@"to"] componentsSeparatedByString:@"/"] objectAtIndex:0]] == NSOrderedSame) {
-        [self configurePhotoForCell:cell user:[XMPPJID jidWithString:[[[msg attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0]]];
+        //
+        UIImageView *userImage = (UIImageView*)[cell viewWithTag:1];
+        UILabel* nameLabel = (UILabel*)[cell viewWithTag:2];
+        UILabel* chatHistory = (UILabel*)[cell viewWithTag:3];
+        UILabel* dateLabel = (UILabel*)[cell viewWithTag:4];
+        UILabel* countLabel = (UILabel*)[cell viewWithTag:5];
+        countLabel.layer.cornerRadius = 10;
+        countLabel.layer.masksToBounds = YES;
         
+        userImage.layer.cornerRadius = 30;
+        userImage.layer.masksToBounds = YES;
+        
+        if ( [[msg attributeStringValueForName:@"ToName"] caseInsensitiveCompare:[UserDefaultManager getValue:@"userName"]] == NSOrderedSame) {
+            nameLabel.text = [msg attributeStringValueForName:@"Name"];
+        }
+        else{
+            nameLabel.text = [msg attributeStringValueForName:@"ToName"];
+            
+        }
+        
+        if ( [[UserDefaultManager getValue:@"LoginCred"] caseInsensitiveCompare:[[[msg attributeStringValueForName:@"to"] componentsSeparatedByString:@"/"] objectAtIndex:0]] == NSOrderedSame) {
+            [self configurePhotoForCell:cell user:[XMPPJID jidWithString:[[[msg attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0]]];
+            
+        }
+        else{
+            [self configurePhotoForCell:cell user:[XMPPJID jidWithString:[[[msg attributeStringValueForName:@"to"] componentsSeparatedByString:@"/"] objectAtIndex:0]]];
+        }
+        
+        NSString *keyName = [[[msg attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0];
+        if ([[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] == nil) {
+            countLabel.hidden = YES;
+        }
+        else{
+            if ([[[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] intValue] == 0) {
+                countLabel.hidden = YES;
+            }
+            else{
+                countLabel.hidden = NO;
+                countLabel.text = [[UserDefaultManager getValue:@"CountData"] objectForKey:keyName];
+            }
+        }
+        
+        dateLabel.text = [msg attributeStringValueForName:@"Date"];
+        chatHistory.text = [[msg elementForName:@"body"]stringValue];
     }
-    else{
-       [self configurePhotoForCell:cell user:[XMPPJID jidWithString:[[[msg attributeStringValueForName:@"to"] componentsSeparatedByString:@"/"] objectAtIndex:0]]];
-    }
-
-    dateLabel.text = [msg attributeStringValueForName:@"Date"];
-    chatHistory.text = [[msg elementForName:@"body"]stringValue];
+   
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    PersonalChatViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
-//    vc.userDetail = [userListArr objectAtIndex:indexPath.row];
-//    NSLog(@"%@",[[userListArr objectAtIndex:indexPath.row] jidStr]);
-//    
-//    if ([myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]] == nil) {
-//        vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
-//    }
-//    else{
-//        vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]];
-//    }
-//    
-//    //    vc.userProfileImageView = profileImage.image;
-//    
-//    [self.navigationController pushViewController:vc animated:YES];
+//    isChange = 1;
+    PersonalChatViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
+    NSXMLElement *msg = [historyArray objectAtIndex:indexPath.row];
+    NSString* fromString = [[[msg attributeStringValueForName:@"to"] componentsSeparatedByString:@"/"] objectAtIndex:0];
+    NSString* toString = [[[msg attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0];
     
+    vc.lastView = @"ChatViewController";
+    //    NSLog(@"%@",[NSString stringWithFormat:@"%@",[[[msg attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0]]);
+    
+    if ( [[UserDefaultManager getValue:@"LoginCred"] caseInsensitiveCompare:[[[msg attributeStringValueForName:@"to"] componentsSeparatedByString:@"/"] objectAtIndex:0]] == NSOrderedSame) {
+        if ([myDelegate.userProfileImage objectForKey:toString] == nil) {
+            vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
+        }
+        else{
+            vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:toString];
+        }
+        
+        [msg addAttributeWithName:@"to" stringValue:toString];
+        [msg addAttributeWithName:@"from" stringValue:fromString];
+        [msg addAttributeWithName:@"ToName" stringValue:[msg attributeStringValueForName:@"Name"]];
+        [msg addAttributeWithName:@"Name" stringValue:[UserDefaultManager getValue:@"userName"]];
+    }
+    else{
+        
+        if ([myDelegate.userProfileImage objectForKey:[[[msg attributeStringValueForName:@"to"] componentsSeparatedByString:@"/"] objectAtIndex:0]] == nil) {
+            vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
+        }
+        else{
+            vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[[msg attributeStringValueForName:@"to"] componentsSeparatedByString:@"/"] objectAtIndex:0]];
+        }
+    }
+    //    NSLog(@"%@",[NSString stringWithFormat:@"%@",[[[msg attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0]]);
+    vc.userXmlDetail = msg;
+    vc.chatVC = self;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 100;
 }
 
 - (void)configurePhotoForCell:(UITableViewCell *)cell user:(XMPPJID *)user
@@ -218,13 +301,6 @@
     // Our xmppRosterStorage will cache photos as they arrive from the xmppvCardAvatarModule.
     // We only need to ask the avatar module for a photo, if the roster doesn't have it.
     UIImageView *userImage = (UIImageView*)[cell viewWithTag:1];
-  
-//    if (user.photo != nil)
-//    {
-//        userImage.image = user.photo;
-//    }
-//    else
-//    {
     
     if ([myDelegate.userProfileImage objectForKey:[NSString stringWithFormat:@"%@",user]] == nil) {
         NSData *photoData = [myDelegate.xmppvCardAvatarModule photoDataForJID:user];
@@ -233,22 +309,14 @@
             userImage.image = [UIImage imageWithData:photoData];
         else
             userImage.image = [UIImage imageNamed:@"user_thumbnail.png"];
-        
-//        [myDelegate.userProfileImage setObject:userImage.image forKey:[NSString stringWithFormat:@"%@",user]];
+        [myDelegate.userProfileImage setObject:userImage.image forKey:[NSString stringWithFormat:@"%@",user]];
+        NSLog(@"%@",[NSString stringWithFormat:@"%@",user]);
     }
     else{
         userImage.image = [myDelegate.userProfileImage objectForKey:[NSString stringWithFormat:@"%@",user]];
     }
-//        NSData *photoData = [myDelegate.xmppvCardAvatarModule photoDataForJID:user.jid];
-//        
-//        if (photoData != nil)
-//            userImage.image = [UIImage imageWithData:photoData];
-//        else
-//            userImage.image = [UIImage imageNamed:@"user_thumbnail.png"];
-//        
-//        [myDelegate.userProfileImage setObject:userImage.image forKey:[NSString stringWithFormat:@"%@",user.jidStr]];
-//    }
 }
+
 
 /*
 #pragma mark - Navigation

@@ -71,7 +71,6 @@ id<GAITracker> tracker;
 #pragma mark - Global indicator view
 - (void)ShowIndicator
 {
-    userProfileImageData = [[UIImageView alloc] init];
     logoImage=[[UIImageView alloc]initWithFrame:CGRectMake(3, 3, 50, 50)];
     logoImage.backgroundColor=[UIColor whiteColor];
     logoImage.layer.cornerRadius=25.0f;
@@ -104,6 +103,8 @@ id<GAITracker> tracker;
 
 #pragma mark - Application life cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    userProfileImageData = [[UIImageView alloc] init];
+
     // Override point for customization after application launch.
    
     // Optional: automatically send uncaught exceptions to Google Analytics.
@@ -135,6 +136,16 @@ id<GAITracker> tracker;
     }
     xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
     xmppMessageArchivingModule = [[XMPPMessageArchiving alloc]initWithMessageArchivingStorage:xmppMessageArchivingCoreDataStorage];
+    
+    
+    if ([UserDefaultManager getValue:@"CountData"] == nil) {
+        NSMutableDictionary* countData = [NSMutableDictionary new];
+        
+        [UserDefaultManager setValue:countData key:@"CountData"];
+        //        [UserDefaultManager setValue:@"admin@52.74.174.129" key:@"LoginCred"];
+        //        [UserDefaultManager setValue:@"asd-123" key:@"PassCred"];
+    }
+    
     
     [DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:XMPP_LOG_FLAG_SEND_RECV];
     
@@ -836,9 +847,24 @@ id<GAITracker> tracker;
         [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",[message attributeStringValueForName:@"to"],[[[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0]]];
        
         [xmppMessageArchivingCoreDataStorage archiveMessage:message outgoing:NO xmppStream:[self xmppStream]];
+        NSString *keyName = [[[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0];
+        if ([[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] == nil) {
+            int tempCount = 1;
+            
+            NSMutableDictionary *tempDict = [[UserDefaultManager getValue:@"CountData"] mutableCopy];
+            [tempDict setObject:[NSString stringWithFormat:@"%d",tempCount] forKey:keyName];
+            [UserDefaultManager setValue:tempDict key:@"CountData"];
+        }
+        else{
+            int tempCount = [[[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] intValue];
+            tempCount = tempCount + 1;
+            NSMutableDictionary *tempDict = [[UserDefaultManager getValue:@"CountData"] mutableCopy];
+            [tempDict setObject:[NSString stringWithFormat:@"%d",tempCount] forKey:keyName];
+            [UserDefaultManager setValue:tempDict key:@"CountData"];
+        }
         
-        if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
-        {
+//        if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive)
+//        {
             //            NSMutableDictionary *tempDict =
             //			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:displayName
             //                                                                message:body
@@ -847,20 +873,34 @@ id<GAITracker> tracker;
             //                                                      otherButtonTitles:nil];
             //			[alertView show];
             NSArray* fromUser = [[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"];
+            NSLog(@"%@",myDelegate.chatUser);
             if ([myDelegate.chatUser isEqualToString:[fromUser objectAtIndex:0]]){
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UserHistory" object:message];
             }
+            else if ([myDelegate.chatUser isEqualToString:@"ChatScreen"]){
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"ChatScreenHistory" object:nil];
+            }
+//            else{
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"ChatScreenHistoryPersonal" object:nil];
+////                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+////                localNotification.alertAction = @"Ok";
+////                localNotification.alertBody = [NSString stringWithFormat:@"From: %@\n\n%@",displayName,body];
+////                localNotification.soundName = UILocalNotificationDefaultSoundName;
+////                
+////                [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+//                
+//            }
             
-        }
-        else
-        {
-            // We are not active, so use a local notification instead
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            localNotification.alertAction = @"Ok";
-            localNotification.alertBody = [NSString stringWithFormat:@"From: %@\n\n%@",displayName,body];
-            
-            [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
-        }
+//        }
+//        else
+//        {
+//            // We are not active, so use a local notification instead
+//            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+//            localNotification.alertAction = @"Ok";
+//            localNotification.alertBody = [NSString stringWithFormat:@"From: %@\n\n%@",displayName,body];
+//            
+//            [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+//        }
     }
 }
 
@@ -904,10 +944,9 @@ id<GAITracker> tracker;
     //        [newvCardTemp setLabels:interestsArray];
     //        [newvCardTemp setMiddleName:@"vaishnav"];
     
-    //    NSData *pictureData = UIImagePNGRepresentation([UIImage imageNamed:@"myImage.png"]);
-    UIImage *a =[UIImage imageWithData:myDelegate.userProfileImageDataValue];
-    //     UIImage *b =[UIImage imageWithData:[UserDefaultManager getValue:@"IMG"]];
-    //    UIImage *c = myDelegate.userProfileImageData.image;
+  
+//    UIImage *a =[UIImage imageWithData:myDelegate.userProfileImageDataValue];
+   
     NSData *pictureData = UIImageJPEGRepresentation([UIImage imageWithData:myDelegate.userProfileImageDataValue], 0.5);
     //    [UserDefaultManager setValue:pictureData key:@"UserImage"];
     //        NSData *pictureData = UIImageJPEGRepresentation([UIImage imageNamed:@"myImage.jpeg"], .5);
