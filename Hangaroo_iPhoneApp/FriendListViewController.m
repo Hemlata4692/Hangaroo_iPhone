@@ -17,6 +17,7 @@
 @interface FriendListViewController ()
 {
    NSMutableArray* friendListArray;
+    UIRefreshControl *refreshControl;
     NSArray* searchArray;
     UIView *footerView;
     int totalFriends;
@@ -44,6 +45,16 @@
     noRecordLbl.hidden=YES;
      searchBar.enablesReturnKeyAutomatically = NO;
     searchBar.returnKeyType=UIReturnKeyDone;
+    
+    // Pull To Refresh
+    refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 10, 10)];
+    [self.friendListTableView addSubview:refreshControl];
+    NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc] initWithString:@""];
+    [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor grayColor]} range:NSMakeRange(0, refreshString.length)];
+    refreshControl.attributedTitle = refreshString;
+    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+    self.friendListTableView.alwaysBounceVertical = YES;
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,6 +74,17 @@
     
 }
 #pragma mark - end
+#pragma mark - Refresh Table
+//Pull to refresh implementation on my submission data
+- (void)refreshTable
+{
+    [friendListArray removeAllObjects];
+    Offset=@"0";
+    [self performSelector:@selector(getFriendList) withObject:nil afterDelay:0.1];
+    [refreshControl endRefreshing];
+    [self.friendListTableView reloadData];
+}
+#pragma mark - end
 
 #pragma mark - Table view methods
 
@@ -74,16 +96,12 @@
         if (searchArray.count<1) {
             noRecordLbl.hidden=NO;
             return searchArray.count;
-           
         }
         else
         {
             noRecordLbl.hidden=YES;
             return searchArray.count;
-
         }
-        
-        
     }
     else
     {
@@ -115,7 +133,7 @@
          }
          else
          {
-             noRecordLbl.hidden=NO;
+            noRecordLbl.hidden=NO;
              friendListTableView.hidden=YES;
          }
      }
@@ -240,9 +258,11 @@
     [[WebService sharedManager]sendFriendRequest:friendUserId success:^(id responseObject)
      {
          [myDelegate StopIndicator];
-        
-         [cell.requestSentButton setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
-         cell.requestSentButton.userInteractionEnabled=NO;
+         FriendListDataModel *tempModel = [friendListArray objectAtIndex:btnTag];
+         tempModel.isRequestSent=@"True";
+         [friendListArray replaceObjectAtIndex:btnTag withObject:tempModel];
+         [friendListTableView reloadData];
+
          [self.view makeToast:@"Request Sent"];
      }
         failure:^(NSError *error)

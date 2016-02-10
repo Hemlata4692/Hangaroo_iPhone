@@ -16,6 +16,7 @@
 @interface DiscoverViewController ()
 {
     NSMutableArray *friendRequestArray;
+     NSMutableArray *friendSuggestionArray;
     int totalRequests;
     int btnTag;
 }
@@ -42,7 +43,27 @@
     suggestionBtn.selected=YES;
     [suggestionBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
     friendRequestArray=[[NSMutableArray alloc]init];
+    friendSuggestionArray=[[NSMutableArray alloc]init];
     noRecordLabel.hidden=YES;
+   
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+   [friendRequestArray removeAllObjects];
+    [friendSuggestionArray removeAllObjects];
+   // [self initFooterView];
+    Offset=@"0";
+    if (suggestionBtn.selected==YES) {
+        [myDelegate ShowIndicator];
+        [self performSelector:@selector(suggestedFriendList) withObject:nil afterDelay:.1];
+    }
+    else
+    {
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(requestFriendList) withObject:nil afterDelay:0.1];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,7 +85,7 @@
     // Return the number of rows in the section.
     if (suggestionBtn.selected==YES)
     {
-        return 1;
+        return friendSuggestionArray.count;
     }
     else
     {
@@ -90,11 +111,12 @@
         {
             suggestionCell = [[DiscoverTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
-//        if (myProfileArray.count!=0) {
-//            MyProfileDataModel *data=[myProfileArray objectAtIndex:indexPath.row];
-//            [locationCell displayData:data :(int)indexPath.row];
-//        }
-//        [locationCell.friendListButton addTarget:self action:@selector(showFriendListButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        if (friendSuggestionArray.count!=0) {
+            DiscoverDataModel *data=[friendSuggestionArray objectAtIndex:indexPath.row];
+            [suggestionCell displaySuggestedListData:data :(int)indexPath.row];
+        }
+        suggestionCell.addFriendBtn.Tag=(int)indexPath.row;
+       [suggestionCell.addFriendBtn addTarget:self action:@selector(sendRequest:) forControlEvents:UIControlEventTouchUpInside];
         return suggestionCell;
     }
     else
@@ -110,7 +132,6 @@
         if (friendRequestArray.count!=0)
         {
             DiscoverDataModel *data=[friendRequestArray objectAtIndex:indexPath.row];
-           // requestFriendId=data.requestFriendId;
             [requestCell displayData:data :(int)indexPath.row];
         }
         requestCell.acceptRequestBtn.Tag=(int)indexPath.row;
@@ -140,6 +161,15 @@
 #pragma mark - end
 
 #pragma mark - IBActions
+- (IBAction)sendRequest:(MyButton *)sender
+{
+    btnTag=[sender Tag];
+    requestFriendId=[[friendSuggestionArray objectAtIndex:btnTag]requestFriendId];
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(sendRequestWebservice) withObject:nil afterDelay:0.1];
+    
+}
+
 - (IBAction)acceptFriendRequest:(MyButton *)sender
 {
     btnTag=[sender Tag];
@@ -167,22 +197,46 @@
     [requestBtn setSelected:NO];
     [suggestionBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
     [requestBtn setTitleColor:[UIColor colorWithRed:135.0/255.0 green:135.0/255.0 blue:135.0/255.0 alpha:1.0] forState:UIControlStateSelected];
-    [discoverTableView reloadData];
-//    [myDelegate ShowIndicator];
-//    [self performSelector:@selector(suggestedFriendList) withObject:nil afterDelay:.1];
+    [friendSuggestionArray removeAllObjects];
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(suggestedFriendList) withObject:nil afterDelay:.1];
 }
 - (IBAction)requestBtnAction:(id)sender
 {
     Offset=@"0";
-     noRecordLabel.hidden=YES;
+    noRecordLabel.hidden=YES;
     discoverTableView.hidden=NO;
     [suggestionBtn setSelected:NO];
     [requestBtn setSelected:YES];
     [requestBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
     [suggestionBtn setTitleColor:[UIColor colorWithRed:135.0/255.0 green:135.0/255.0 blue:135.0/255.0 alpha:1.0] forState:UIControlStateSelected];
-  
+    [friendRequestArray removeAllObjects];
     [myDelegate ShowIndicator];
     [self performSelector:@selector(requestFriendList) withObject:nil afterDelay:.1];
+}
+#pragma mark - end
+#pragma mark - Send request webservice
+-(void)sendRequestWebservice
+{
+    NSIndexPath *index=[NSIndexPath indexPathForRow:btnTag inSection:0];
+    DiscoverTableCell * cell = (DiscoverTableCell *)[discoverTableView cellForRowAtIndexPath:index];
+    [[WebService sharedManager]sendFriendRequest:requestFriendId success:^(id responseObject)
+     {
+         [myDelegate StopIndicator];
+        
+          DiscoverDataModel *tempModel = [friendSuggestionArray objectAtIndex:btnTag];
+          tempModel.addFriend=2;
+          [friendSuggestionArray replaceObjectAtIndex:btnTag withObject:tempModel];
+        
+         [cell.addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
+         cell.addFriendBtn.userInteractionEnabled=NO;
+         [self.view makeToast:@"Request Sent"];
+     }
+                                         failure:^(NSError *error)
+     {
+         [cell.addFriendBtn setImage:[UIImage imageNamed:@"adduser.png"] forState:UIControlStateNormal];
+         cell.addFriendBtn.userInteractionEnabled=YES;
+     }] ;
 }
 #pragma mark - end
 
@@ -192,7 +246,15 @@
    [[WebService sharedManager]friendRequestList:Offset success:^(id friendRequestListDataArray)
     {
         [myDelegate StopIndicator];
-        friendRequestArray=[friendRequestListDataArray mutableCopy];
+        
+        if (friendRequestArray.count<=0) {
+           friendRequestArray=[friendRequestListDataArray mutableCopy];
+        }
+        else
+        {
+            [friendRequestArray addObjectsFromArray:friendRequestArray];
+        }
+        
         totalRequests= [[friendRequestArray objectAtIndex:friendRequestArray.count-1]intValue];
         [friendRequestArray removeLastObject];
         Offset=[NSString stringWithFormat:@"%lu",(unsigned long)friendRequestArray.count];
@@ -207,6 +269,28 @@
     }] ;
 
 }
+#pragma mark - Friend request webservice
+#pragma mark - Suggested friend webservice
+-(void)suggestedFriendList
+{
+    [[WebService sharedManager]suggestedFriendList:Offset success:^(id suggestionListDataArray)
+     {
+         [myDelegate StopIndicator];
+         friendSuggestionArray=[suggestionListDataArray mutableCopy];
+        // totalRequests= [[friendRequestArray objectAtIndex:friendRequestArray.count-1]intValue];
+        // [friendRequestArray removeLastObject];
+       //  Offset=[NSString stringWithFormat:@"%lu",(unsigned long)friendRequestArray.count];
+         [discoverTableView reloadData];
+         
+     }
+                                         failure:^(NSError *error)
+     {
+//         noRecordLabel.hidden=NO;
+//         noRecordLabel.text=@"No new requests";
+//         discoverTableView.hidden=YES;
+     }] ;
+
+}
 #pragma mark - end
 #pragma mark - Accept friend request webservice
 -(void)acceptFriendRequest
@@ -216,9 +300,12 @@
     [[WebService sharedManager]acceptFriendRequest:requestFriendId acceptRequest:isAccept success:^(id responseObject)
      {
          [myDelegate StopIndicator];
-         cell.acceptRequestBtn.hidden=YES;
-         cell.declineRequestBtn.hidden=YES;
-         cell.reuestLabel.hidden=NO;
+         DiscoverDataModel *tempModel = [friendRequestArray objectAtIndex:btnTag];
+         tempModel.acceptRequestCheck=2;
+         [friendRequestArray replaceObjectAtIndex:btnTag withObject:tempModel];
+//         cell.acceptRequestBtn.hidden=YES;
+//         cell.declineRequestBtn.hidden=YES;
+       //  cell.reuestLabel.hidden=NO;
          if ([isAccept isEqualToString:@"T"]) {
              cell.reuestLabel.text=@"You are now friends.";
              [self.view makeToast:@"You are now friends."];
@@ -228,7 +315,7 @@
              cell.reuestLabel.text=@"Request decliend.";
              [self.view makeToast:@"Request decliend."];
          }
-         
+         [discoverTableView reloadData];
      }
         failure:^(NSError *error)
      {

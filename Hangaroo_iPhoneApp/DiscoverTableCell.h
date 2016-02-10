@@ -27,6 +27,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *mutualFriendLbl;
 
 -(void)displayData :(DiscoverDataModel *)requestSentData :(int)indexPath;
-
+-(void)displaySuggestedListData :(DiscoverDataModel *)suggestedData :(int)indexPath;
 -(void)displaySearchData :(DiscoverDataModel *)searchData :(int)indexPath;
 @end

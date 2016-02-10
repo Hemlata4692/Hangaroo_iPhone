@@ -90,27 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hangaroo_iPhoneApp/DiscoverViewController.m"
-            timestampString = "476705136.122088"
+            timestampString = "476792886.956609"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "-declineFriendRequest:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/DiscoverViewController.m"
-            timestampString = "476705136.122088"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
             landmarkName = "-acceptFriendRequest"
             landmarkType = "5">
          </BreakpointContent>
@@ -122,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hangaroo_iPhoneApp/WebService.m"
-            timestampString = "476702877.051331"
+            timestampString = "476795259.244072"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1032"
-            endingLineNumber = "1032"
+            startingLineNumber = "1055"
+            endingLineNumber = "1055"
             landmarkName = "-acceptFriendRequest:acceptRequest:success:failure:"
             landmarkType = "5">
          </BreakpointContent>
@@ -137,13 +121,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/WebService.m"
-            timestampString = "476705378.060137"
+            filePath = "Hangaroo_iPhoneApp/DiscoverViewController.m"
+            timestampString = "476792886.956609"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "927"
-            endingLineNumber = "927"
-            landmarkName = "-sendFriendRequest:success:failure:"
+            startingLineNumber = "279"
+            endingLineNumber = "279"
+            landmarkName = "-suggestedFriendList"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -154,12 +138,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hangaroo_iPhoneApp/WebService.m"
-            timestampString = "476705428.055707"
+            timestampString = "476793193.408767"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "931"
-            endingLineNumber = "931"
-            landmarkName = "-sendFriendRequest:success:failure:"
+            startingLineNumber = "828"
+            endingLineNumber = "828"
+            landmarkName = "-getFriendList:otherUserId:success:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -169,13 +153,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/FriendListViewController.m"
-            timestampString = "476769790.690439"
+            filePath = "Hangaroo_iPhoneApp/WebService.m"
+            timestampString = "476793199.128549"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "864"
+            endingLineNumber = "864"
+            landmarkName = "-getFriendList:otherUserId:success:failure:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -185,13 +169,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hangaroo_iPhoneApp/FriendListViewController.m"
-            timestampString = "476769790.690439"
+            filePath = "Hangaroo_iPhoneApp/WebService.m"
+            timestampString = "476793209.072514"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "109"
-            endingLineNumber = "109"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "-isStatusOK:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

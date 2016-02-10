@@ -9,7 +9,9 @@
 #import "DiscoverTableCell.h"
 
 @implementation DiscoverTableCell
-@synthesize userImage,userNameLbl,addFriendBtn,sepratorLbl;
+//SuggestionCell
+@synthesize userImage,userNameLbl,addFriendBtn,sepratorLbl,mutualFriendLbl;
+//RequestCell
 @synthesize userImageView,userNameLabel,acceptRequestBtn,declineRequestBtn,separatorLabel,reuestLabel;
 
 - (void)awakeFromNib {
@@ -21,7 +23,7 @@
 
     // Configure the view for the selected state
 }
-
+//RequestCell
 -(void)displayData :(DiscoverDataModel *)requestSentData :(int)indexPath
 {
     reuestLabel.hidden=YES;
@@ -40,10 +42,61 @@
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
     }];
-
+    if (requestSentData.acceptRequestCheck==1) {
+        acceptRequestBtn.hidden=NO;
+        declineRequestBtn.hidden=NO;
+         reuestLabel.hidden=YES;
+    }
+    else
+    {
+        acceptRequestBtn.hidden=YES;
+        declineRequestBtn.hidden=YES;
+         reuestLabel.hidden=NO;
+    }
     
 }
-
+//SuggestionCell
+-(void)displaySuggestedListData :(DiscoverDataModel *)suggestedData :(int)indexPath
+{
+    userNameLbl.text=suggestedData.requestUsername;
+    if ([suggestedData.mutualFriends isEqualToString:@"0"]) {
+        mutualFriendLbl.hidden=YES;
+    }
+    else if ([suggestedData.mutualFriends isEqualToString:@"1"])
+    {
+         mutualFriendLbl.hidden=NO;
+        mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",suggestedData.mutualFriends,@"mutual friend"];
+    }
+    else
+    {
+         mutualFriendLbl.hidden=NO;
+        mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",suggestedData.mutualFriends,@"mutual friends"];
+    }
+    userImage.layer.cornerRadius=30.0f;
+    userImage.clipsToBounds=YES;
+    __weak UIImageView *weakRef = userImage;
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:suggestedData.requestFriendImage]
+                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                              timeoutInterval:60];
+    
+    [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+        weakRef.clipsToBounds = YES;
+        weakRef.image = image;
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        
+    }];
+    if (suggestedData.addFriend==1) {
+        [addFriendBtn setImage:[UIImage imageNamed:@"adduser.png"] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
+    }
+    
+    
+}
+//Search
 -(void)displaySearchData :(DiscoverDataModel *)searchData :(int)indexPath
 {
     

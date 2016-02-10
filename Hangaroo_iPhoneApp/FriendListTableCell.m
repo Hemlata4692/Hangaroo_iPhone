@@ -25,7 +25,21 @@
 -(void)displayData :(FriendListDataModel *)friendList :(int)indexPath
 {
     userNameLabel.text=friendList.userName;
-    mutualFriendsLabel.text=friendList.mutualFriends;
+    if ([friendList.mutualFriends isEqualToString:@"0"]) {
+        mutualFriendsLabel.hidden=YES;
+    }
+    else if ([friendList.mutualFriends isEqualToString:@"1"])
+    {
+        mutualFriendsLabel.hidden=NO;
+        mutualFriendsLabel.text= [NSString stringWithFormat:@"%@ %@",friendList.mutualFriends,@"mutual friend"];
+    }
+    else
+    {
+        mutualFriendsLabel.hidden=NO;
+        mutualFriendsLabel.text= [NSString stringWithFormat:@"%@ %@",friendList.mutualFriends,@"mutual friends"];
+    }
+    
+
     userImageView.layer.cornerRadius=30.0f;
     userImageView.clipsToBounds=YES;
     __weak UIImageView *weakRef = userImageView;
@@ -51,8 +65,8 @@
     }
     else
     {
-        if ([isFriend isEqualToString:@"True"]) {
-           
+        if ([isFriend isEqualToString:@"True"])
+        {
             requestSentButton.hidden=YES;
             mutualFriendsLabel.hidden=YES;
             
@@ -71,6 +85,8 @@
         }
         
     }
-
+    
+  
 }
+
 @end

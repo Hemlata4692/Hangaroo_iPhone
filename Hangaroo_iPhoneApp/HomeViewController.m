@@ -33,9 +33,7 @@
     int tableSection;
 }
 @property (weak, nonatomic) IBOutlet UISegmentedControl *hotNewPostSegment;
-
 @property (weak, nonatomic) IBOutlet UITableView *postListingTableView;
-
 @property (strong, nonatomic) UITabBarController *tabbarcontroller;
 @property(nonatomic,retain) NSMutableArray * todayPostData;
 @property(nonatomic,retain) NSMutableArray * yesterdayPostData;
@@ -53,12 +51,9 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad
 {
-    
     [super viewDidLoad];
-    
     // Set the screen name for automatic screenview tracking.
     self.screenName = @"Home screen";
-    
     [self setTabBarImages];
     postListingArray=[[NSMutableArray alloc]init];
     todayPostData = [[NSMutableArray alloc]init];
@@ -80,9 +75,6 @@
     refreshControl.attributedTitle = refreshString;
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     self.postListingTableView.alwaysBounceVertical = YES;
-    
-//    [myDelegate ShowIndicator];
-// [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
 }
 
 - (void)didReceiveMemoryWarning
@@ -153,7 +145,7 @@
 }
 #pragma mark - end
 
-#pragma mark - Webservice - Post listing
+#pragma mark - Post listing webservice
 -(void)getPostListing
 {
      flag=true;
@@ -970,7 +962,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 #pragma mark - end
-#pragma mark - Webservice - JoinPost
+#pragma mark - Join post webservice
 -(void)joinPost
 {
     [[WebService sharedManager]joinPost:postId success: ^(id responseObject) {

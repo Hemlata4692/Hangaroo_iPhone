@@ -15,8 +15,6 @@
 		B709C5311C33A6BD00300EFF /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5301C33A6BD00300EFF /* SignUpViewController.m */; };
 		B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5341C33D28700300EFF /* GlobalBackViewController.m */; };
 		B709C5371C33E92600300EFF /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = B709C5361C33E92600300EFF /* header.png */; };
-		B70AFA7D1C490C0B0091D570 /* button_done.png in Resources */ = {isa = PBXBuildFile; fileRef = B70AFA7B1C490C0B0091D570 /* button_done.png */; };
-		B70AFA7E1C490C0B0091D570 /* button_done@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B70AFA7C1C490C0B0091D570 /* button_done@2x.png */; };
 		B70AFA811C492D3F0091D570 /* MyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B70AFA801C492D3F0091D570 /* MyButton.m */; };
 		B72ED7F11C5F69BD0084964D /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */; };
 		B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F31C5F6BEF0084964D /* CoolNavi.m */; };
@@ -100,8 +98,6 @@
 		B709C5331C33D28700300EFF /* GlobalBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalBackViewController.h; sourceTree = "<group>"; };
 		B709C5341C33D28700300EFF /* GlobalBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalBackViewController.m; sourceTree = "<group>"; };
 		B709C5361C33E92600300EFF /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
-		B70AFA7B1C490C0B0091D570 /* button_done.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_done.png; sourceTree = "<group>"; };
-		B70AFA7C1C490C0B0091D570 /* button_done@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_done@2x.png"; sourceTree = "<group>"; };
 		B70AFA7F1C492D3F0091D570 /* MyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyButton.h; sourceTree = "<group>"; };
 		B70AFA801C492D3F0091D570 /* MyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyButton.m; sourceTree = "<group>"; };
 		B72ED7EF1C5F69BD0084964D /* ProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewCell.h; sourceTree = "<group>"; };
@@ -294,9 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				B738DF871C607C4500DC6CB4 /* placeholder.png */,
-				B70AFA7B1C490C0B0091D570 /* button_done.png */,
 				B7712BD51C58B55700C956DD /* me_too.png */,
-				B70AFA7C1C490C0B0091D570 /* button_done@2x.png */,
 				B770A0B01C4CED8900B20691 /* user.png */,
 				B747C44E1C43AE9A009601D2 /* picture.png */,
 				B747C44C1C43A341009601D2 /* user_thumbnail.png */,
@@ -479,6 +473,15 @@
 			name = GoogleAnalytics;
 			sourceTree = "<group>";
 		};
+		B7642E331C6B024700A8055D /* HomeViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				B7636C2F1C4531D90009F01D /* MyCollectionView.h */,
+				B7636C301C4531D90009F01D /* MyCollectionView.m */,
+			);
+			name = HomeViewCell;
+			sourceTree = "<group>";
+		};
 		B76605061C5A11D2006CCECA /* LoadWebPagesViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -607,6 +610,7 @@
 		B785D5DD1C3A6FF0007A4056 /* PostListingModule */ = {
 			isa = PBXGroup;
 			children = (
+				B7642E331C6B024700A8055D /* HomeViewCell */,
 				B795B18D1C325B12007EB2E6 /* HomeViewController */,
 				B76B69F61C3E41DA00A7254D /* PhotoPreviewViewController */,
 				B76B6A051C3E94FF00A7254D /* MeTooUserProfileViewController */,
@@ -747,8 +751,6 @@
 			children = (
 				B7063BAE1C3407D0007C9E4D /* HomeViewController.h */,
 				B7063BAF1C3407D0007C9E4D /* HomeViewController.m */,
-				B7636C2F1C4531D90009F01D /* MyCollectionView.h */,
-				B7636C301C4531D90009F01D /* MyCollectionView.m */,
 			);
 			name = HomeViewController;
 			sourceTree = "<group>";
@@ -1023,9 +1025,7 @@
 				B7712BD61C58B55700C956DD /* me_too.png in Resources */,
 				B795B1C11C329893007EB2E6 /* Roboto-Italic.ttf in Resources */,
 				B747C44F1C43AE9A009601D2 /* picture.png in Resources */,
-				B70AFA7D1C490C0B0091D570 /* button_done.png in Resources */,
 				B795B17C1C323CAF007EB2E6 /* Assets.xcassets in Resources */,
-				B70AFA7E1C490C0B0091D570 /* button_done@2x.png in Resources */,
 				B795B1C01C329893007EB2E6 /* Roboto-Bold.ttf in Resources */,
 				B795B1C21C329893007EB2E6 /* Roboto-Light.ttf in Resources */,
 				B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */,

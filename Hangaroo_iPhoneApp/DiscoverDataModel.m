@@ -13,4 +13,8 @@
 @synthesize requestFriendImage;
 @synthesize requestUsername;
 @synthesize totalRecord;
+@synthesize mutualFriends;
+@synthesize addFriend;
+@synthesize acceptRequestCheck;
+
 @end

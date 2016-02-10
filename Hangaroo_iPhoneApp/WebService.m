@@ -41,7 +41,7 @@
 #define kUrlOtherUserProfile            @"otheruserprofile"
 #define kUrlSentRequest                 @"sentrequest"
 #define kUrlFriendRequestList           @"requestlist"
-#define kUrlSuggestedFriendList         @"suggestedfriend"
+#define kUrlSuggestedFriendList         @"suggestedfrnds"
 #define kUrlAcceptRequest               @"acceptdecline"
 #define kUrlSearch                      @"search"
 @implementation WebService
@@ -847,7 +847,7 @@
                      friendList.isRequestSent =[friendListDict objectForKey:@"isRequestSent"];
                      friendList.userImageUrl =[friendListDict objectForKey:@"user_image"];
                      friendList.userName=[friendListDict objectForKey:@"username"];
-                     friendList.mutualFriends=[friendListDict objectForKey:@"mutualFriends"];
+                     friendList.mutualFriends=[NSString stringWithFormat:@"%d",[[friendListDict objectForKey:@"mutualFriends"] intValue]];
                      friendList.userId=[friendListDict objectForKey:@"user_id"];
                      
                      
@@ -975,6 +975,7 @@
                      friendRequestList.requestUsername =[friendRequestListDict objectForKey:@"f_username"];
                      friendRequestList.requestFriendId =[friendRequestListDict objectForKey:@"f_id"];
                      friendRequestList.requestFriendImage =[friendRequestListDict objectForKey:@"f_userimg"];
+                     friendRequestList.acceptRequestCheck =1;
                      [friendRequestListDataArray addObject:friendRequestList];
                  }
                  [friendRequestListDataArray addObject:[responseObject objectForKey:@"totalRecord"]];
@@ -1009,7 +1010,29 @@
          
          if([self isStatusOK:responseObject])
          {
-             success(responseObject);
+             id array =[responseObject objectForKey:@"suggestedFriendList"];
+             if (([array isKindOfClass:[NSArray class]]))
+             {
+                 NSArray * suggestionArray = [responseObject objectForKey:@"suggestedFriendList"];
+                 NSMutableArray *suggestionListDataArray = [NSMutableArray new];
+                 
+                 
+                 for (int i =0; i<suggestionArray.count; i++)
+                 {
+                     DiscoverDataModel *suggestionList = [[DiscoverDataModel alloc]init];
+                     NSDictionary * suggestionDict =[suggestionArray objectAtIndex:i];
+                     suggestionList.requestUsername =[suggestionDict objectForKey:@"username"];
+                     suggestionList.requestFriendId =[suggestionDict objectForKey:@"user_id"];
+                     suggestionList.requestFriendImage =[suggestionDict objectForKey:@"user_image"];
+                     suggestionList.mutualFriends =[NSString stringWithFormat:@"%d",[[suggestionDict objectForKey:@"mutual_friends"] intValue]];
+                     suggestionList.addFriend =1;
+                     [suggestionListDataArray addObject:suggestionList];
+                 }
+               //  [suggestionListDataArray addObject:[responseObject objectForKey:@"totalRecord"]];
+                 
+                 success(suggestionListDataArray);
+             }
+
              
          }
          else
