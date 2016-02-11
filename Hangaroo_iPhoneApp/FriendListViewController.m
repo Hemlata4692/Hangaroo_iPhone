@@ -67,6 +67,7 @@
     [super viewWillAppear:YES];
     self.navigationItem.title=@"Friends";
     [friendListArray removeAllObjects];
+    [friendListTableView setContentOffset:CGPointZero animated:YES];
     [self initFooterView];
     Offset=@"0";
     [myDelegate ShowIndicator];

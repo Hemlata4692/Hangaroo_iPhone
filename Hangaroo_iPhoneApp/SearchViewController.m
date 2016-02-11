@@ -12,6 +12,7 @@
 #import "OtherUserProfileViewController.h"
 #import "MyButton.h"
 #import "UIView+Toast.h"
+#import "MyProfileViewController.h"
 
 @interface SearchViewController ()
 {
@@ -46,6 +47,9 @@
 {
     [super viewWillAppear:YES];
     [searchTableView setContentOffset:CGPointZero animated:YES];
+    [[self navigationController] setNavigationBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+
     [self initFooterView];
 }
 
@@ -95,10 +99,21 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
-    otherUserProfile.otherUserId=[[searchResultArray objectAtIndex:indexPath.row]userId];
-    [self.navigationController pushViewController:otherUserProfile animated:YES];
+    if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[searchResultArray objectAtIndex:indexPath.row]userId]])
+    {
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+        // otherUserProfile.otherUserId=[[searchResultArray objectAtIndex:indexPath.row]userId];
+        [self.navigationController pushViewController:otherUserProfile animated:YES];
+    }
+    else
+    {
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+        otherUserProfile.otherUserId=[[searchResultArray objectAtIndex:indexPath.row]userId];
+        [self.navigationController pushViewController:otherUserProfile animated:YES];
+    }
+   
 }
 
 

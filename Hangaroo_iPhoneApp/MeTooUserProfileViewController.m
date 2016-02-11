@@ -10,6 +10,7 @@
 #import "UIView+RoundedCorner.h"
 #import <UIImageView+AFNetworking.h>
 #import "SettingViewController.h"
+#import "UIView+Toast.h"
 
 @interface MeTooUserProfileViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *postLabel;

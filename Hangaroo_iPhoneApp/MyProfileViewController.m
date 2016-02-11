@@ -139,7 +139,7 @@
 {
     if (indexPath.section == 0)
     {
-        return 40;
+        return 45;
         
     }
     else if (indexPath.section == 1)

@@ -12,6 +12,8 @@
 #import "SearchViewController.h"
 #import "MyButton.h"
 #import "UIView+Toast.h"
+#import "OtherUserProfileViewController.h"
+#import "MyProfileViewController.h"
 
 @interface DiscoverViewController ()
 {
@@ -148,14 +150,23 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    //    UIViewController *searchView =[storyboard instantiateViewControllerWithIdentifier:@"OrderDetailViewController"];
-    //    [self.navigationController pushViewController:searchView animated:YES];
+   
+        if (suggestionBtn.selected==YES) {
+            
+        
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+        otherUserProfile.otherUserId=[[friendSuggestionArray objectAtIndex:indexPath.row]requestFriendId];
+        [self.navigationController pushViewController:otherUserProfile animated:YES];
+        }
+        else
+        {
+            UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+            otherUserProfile.otherUserId=[[friendRequestArray objectAtIndex:indexPath.row]requestFriendId];
+            [self.navigationController pushViewController:otherUserProfile animated:YES];
+        }
     
-    //    if (indexPath.section==1 && indexPath.row == 0){
-    //        giftMessageBackgroundView.hidden = NO;
-    //
-    //    }
     
 }
 

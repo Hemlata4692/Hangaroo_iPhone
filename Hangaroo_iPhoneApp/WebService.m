@@ -857,8 +857,6 @@
                  
                  success(friendListDataArray);
              }
-
-             
         }
          else
          {
