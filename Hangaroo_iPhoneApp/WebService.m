@@ -959,7 +959,8 @@
          NSLog(@"friend request Response%@", responseObject);
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
          
-         if([self isStatusOK:responseObject])
+         NSNumber *number = responseObject[@"isSuccess"];
+         if (number.integerValue!=0)
          {
             id array =[responseObject objectForKey:@"friendRequestList"];
              if (([array isKindOfClass:[NSArray class]]))
@@ -1028,7 +1029,7 @@
                      suggestionList.addFriend =1;
                      [suggestionListDataArray addObject:suggestionList];
                  }
-               //  [suggestionListDataArray addObject:[responseObject objectForKey:@"totalRecord"]];
+                [suggestionListDataArray addObject:[responseObject objectForKey:@"total_count"]];
                  
                  success(suggestionListDataArray);
              }

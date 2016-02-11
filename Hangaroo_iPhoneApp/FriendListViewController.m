@@ -236,7 +236,7 @@
          }
          else
          {
-             [friendListArray addObjectsFromArray:friendListArray];
+             [friendListArray addObjectsFromArray:friendListDataArray];
          }
          
          totalFriends= [[friendListArray objectAtIndex:friendListArray.count-1]intValue];

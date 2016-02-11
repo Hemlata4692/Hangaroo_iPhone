@@ -19,6 +19,7 @@
      NSMutableArray *friendSuggestionArray;
     int totalRequests;
     int btnTag;
+    UIView *footerView;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *serachBar;
 @property (weak, nonatomic) IBOutlet UIButton *suggestionBtn;
@@ -52,7 +53,8 @@
     [super viewWillAppear:YES];
    [friendRequestArray removeAllObjects];
     [friendSuggestionArray removeAllObjects];
-   // [self initFooterView];
+    [discoverTableView setContentOffset:CGPointZero animated:YES];
+    [self initFooterView];
     Offset=@"0";
     if (suggestionBtn.selected==YES) {
         [myDelegate ShowIndicator];
@@ -193,6 +195,7 @@
      noRecordLabel.hidden=YES;
     discoverTableView.hidden=NO;
     Offset=@"0";
+    [discoverTableView setContentOffset:CGPointZero animated:YES];
     [suggestionBtn setSelected:YES];
     [requestBtn setSelected:NO];
     [suggestionBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
@@ -206,6 +209,7 @@
     Offset=@"0";
     noRecordLabel.hidden=YES;
     discoverTableView.hidden=NO;
+    [discoverTableView setContentOffset:CGPointZero animated:YES];
     [suggestionBtn setSelected:NO];
     [requestBtn setSelected:YES];
     [requestBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
@@ -251,7 +255,7 @@
         }
         else
         {
-            [friendRequestArray addObjectsFromArray:friendRequestArray];
+            [friendRequestArray addObjectsFromArray:friendRequestListDataArray];
         }
         
         totalRequests= [[friendRequestArray objectAtIndex:friendRequestArray.count-1]intValue];
@@ -268,19 +272,25 @@
     }] ;
 
 }
-#pragma mark - Friend request webservice
+#pragma mark - end
 #pragma mark - Suggested friend webservice
 -(void)suggestedFriendList
 {
     [[WebService sharedManager]suggestedFriendList:Offset success:^(id suggestionListDataArray)
      {
          [myDelegate StopIndicator];
-         friendSuggestionArray=[suggestionListDataArray mutableCopy];
-        // totalRequests= [[friendRequestArray objectAtIndex:friendRequestArray.count-1]intValue];
-        // [friendRequestArray removeLastObject];
-       //  Offset=[NSString stringWithFormat:@"%lu",(unsigned long)friendRequestArray.count];
-         [discoverTableView reloadData];
+         if (friendSuggestionArray.count<=0) {
+             friendSuggestionArray=[suggestionListDataArray mutableCopy];
+         }
+         else
+         {
+             [friendSuggestionArray addObjectsFromArray:suggestionListDataArray];
+         }
          
+         totalRequests= [[friendSuggestionArray objectAtIndex:friendSuggestionArray.count-1]intValue];
+         [friendSuggestionArray removeLastObject];
+         Offset=[NSString stringWithFormat:@"%lu",(unsigned long)friendSuggestionArray.count];
+         [discoverTableView reloadData];
      }
                                          failure:^(NSError *error)
      {
@@ -344,4 +354,75 @@
     [searchBar resignFirstResponder];
 }
 #pragma mark - end
+#pragma mark - pagignation for table view
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *) cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (suggestionBtn.selected==YES)
+    {
+    if (friendSuggestionArray.count ==totalRequests)
+    {
+        [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
+        [(UILabel *)[footerView viewWithTag:11] setHidden:true];
+    }
+    else if(indexPath.row==[friendSuggestionArray count]-1) //self.array is the array of items you are displaying
+    {
+        if(friendSuggestionArray.count <= totalRequests)
+        {
+            tableView.tableFooterView = footerView;
+            [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
+            [self suggestedFriendList];
+        }
+        else
+        {
+            discoverTableView.tableFooterView = nil;
+            //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
+        }
+    }
+    }
+    else
+    {
+        if (friendRequestArray.count ==totalRequests)
+        {
+            [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
+            [(UILabel *)[footerView viewWithTag:11] setHidden:true];
+        }
+        else if(indexPath.row==[friendRequestArray count]-1) //self.array is the array of items you are displaying
+        {
+            if(friendRequestArray.count <= totalRequests)
+            {
+                tableView.tableFooterView = footerView;
+                [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
+                [self requestFriendList];
+            }
+            else
+            {
+                discoverTableView.tableFooterView = nil;
+                //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
+            }
+        }
+
+    }
+}
+
+-(void)initFooterView
+{
+    footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];
+    UIActivityIndicatorView * actInd = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    actInd.color=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
+    UILabel *footerLabel=[[UILabel alloc]init];
+    footerLabel.tag=11;
+    footerLabel.frame=CGRectMake(self.view.frame.size.width/2, 10.0, 80.0, 20.0);
+    footerLabel.text=@"Loading...";
+    footerLabel.font=[UIFont fontWithName:@"Roboto-Regular" size:12.0];
+    footerLabel.textColor=[UIColor grayColor];
+    actInd.tag = 10;
+    actInd.frame = CGRectMake(self.view.frame.size.width/2-10, 10.0, 20.0, 20.0);
+    actInd.hidesWhenStopped = YES;
+    [footerView addSubview:actInd];
+    //  [footerView addSubview:footerLabel];
+    footerLabel=nil;
+    actInd = nil;
+}
+#pragma mark - end
+
 @end

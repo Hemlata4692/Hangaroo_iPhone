@@ -18,6 +18,7 @@
     NSMutableArray *searchResultArray;
     int totalResults;
     int btnTag;
+    UIView *footerView;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *searchTableView;
@@ -40,6 +41,12 @@
     searchBar.enablesReturnKeyAutomatically = NO;
     [searchBar becomeFirstResponder];
    
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [searchTableView setContentOffset:CGPointZero animated:YES];
+    [self initFooterView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,7 +122,7 @@
          }
          else
          {
-             [searchResultArray addObjectsFromArray:searchResultArray];
+             [searchResultArray addObjectsFromArray:searchListDataArray];
          }
          
          totalResults= [[searchResultArray objectAtIndex:searchResultArray.count-1]intValue];
@@ -176,6 +183,50 @@
     [self performSelector:@selector(searchFriend) withObject:nil afterDelay:.1];
     [searchBar resignFirstResponder];
     }
+}
+#pragma mark - end
+#pragma mark - pagignation for table view
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *) cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (searchResultArray.count ==totalResults)
+    {
+        [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
+        [(UILabel *)[footerView viewWithTag:11] setHidden:true];
+    }
+    else if(indexPath.row==[searchResultArray count]-1) //self.array is the array of items you are displaying
+    {
+        if(searchResultArray.count <= totalResults)
+        {
+            tableView.tableFooterView = footerView;
+            [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
+            [self searchFriend];
+        }
+        else
+        {
+            searchTableView.tableFooterView = nil;
+            //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
+        }
+    }
+}
+
+-(void)initFooterView
+{
+    footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];
+    UIActivityIndicatorView * actInd = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    actInd.color=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
+    UILabel *footerLabel=[[UILabel alloc]init];
+    footerLabel.tag=11;
+    footerLabel.frame=CGRectMake(self.view.frame.size.width/2, 10.0, 80.0, 20.0);
+    footerLabel.text=@"Loading...";
+    footerLabel.font=[UIFont fontWithName:@"Roboto-Regular" size:12.0];
+    footerLabel.textColor=[UIColor grayColor];
+    actInd.tag = 10;
+    actInd.frame = CGRectMake(self.view.frame.size.width/2-10, 10.0, 20.0, 20.0);
+    actInd.hidesWhenStopped = YES;
+    [footerView addSubview:actInd];
+    //  [footerView addSubview:footerLabel];
+    footerLabel=nil;
+    actInd = nil;
 }
 #pragma mark - end
 
