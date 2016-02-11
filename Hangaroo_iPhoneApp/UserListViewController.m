@@ -18,6 +18,7 @@
 //    UIImageView* profileImage;
     NSMutableSet* sortArrSet;
     NSMutableArray* userListArr;
+    NSString *yearValue, *checkCompare;
 }
 @property (strong, nonatomic) IBOutlet UITableView *userListTableView;
 
@@ -32,6 +33,38 @@
     sortArrSet = [NSMutableSet new];
     userListArr = [NSMutableArray new];
 //    isChange = 1;
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy"];
+    NSString *dateString = [NSString stringWithFormat:@"01-05-%@",[dateFormatter stringFromDate:[NSDate date]]];
+    NSLog(@"%@", dateString);
+    
+    yearValue = [dateFormatter stringFromDate:[NSDate date]];
+    [dateFormatter setDateFormat:@"dd-MM-yyyy"];
+    NSDate *dateFromString = [[NSDate alloc] init];
+    // voila!
+    dateFromString = [dateFormatter dateFromString:dateString];
+    
+    NSDate *dateFromString1 = [NSDate date];
+    dateFromString1 = [dateFormatter dateFromString:[dateFormatter stringFromDate:dateFromString1]];
+    
+    if ([dateFromString compare:dateFromString1] == NSOrderedDescending) {
+        checkCompare = @"L";
+        NSLog(@"date1 is later than date2");
+        
+    }
+    else if ([dateFromString compare:dateFromString1] == NSOrderedAscending) {
+        checkCompare = @"G";
+        NSLog(@"date1 is earlier than date2");
+        
+    }
+    else {
+        checkCompare = @"E";
+        NSLog(@"dates are the same");
+        
+    }
+
+    
     myDelegate.myView = @"UserListView";
   
     [myDelegate ShowIndicator];
@@ -147,7 +180,13 @@
     for (int i = 0 ; i< [[[self fetchedResultsController] sections] count];i++) {
         for (int j = 0; j<[[sections objectAtIndex:i] numberOfObjects]; j++) {
             if (([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != nil) && ![[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] isEqualToString:@""] && ([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != NULL)) {
-                [sortArrSet addObject:[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]]];
+               
+                NSString *myName = [[[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:1];
+                
+                if (!([myName intValue] < [yearValue intValue] - 3) && [checkCompare isEqualToString:@"L"]) {
+                    [sortArrSet addObject:[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]]];
+                }
+               
             }
             
         }
@@ -155,7 +194,6 @@
     
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"displayName" ascending:YES];
     userListArr = [[sortArrSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]] mutableCopy];
-       NSLog(@"check");
     
     [self.userListTableView reloadData];
 }
@@ -188,7 +226,7 @@
     userImage.layer.masksToBounds = YES;
     
     UILabel* nameLabel = (UILabel*)[cell viewWithTag:1];
-    nameLabel.text = user.displayName;
+    nameLabel.text = [[[user displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0];
     [self configurePhotoForCell:cell user:user];
     
     return cell;

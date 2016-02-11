@@ -60,6 +60,7 @@
     self.screenName = @"Home screen";
     
     [self setTabBarImages];
+    myDelegate.tabBarView = (UITabBarController *)self.tabBarController;
     postListingArray=[[NSMutableArray alloc]init];
     todayPostData = [[NSMutableArray alloc]init];
     yesterdayPostData = [[NSMutableArray alloc]init];

@@ -831,8 +831,8 @@ id<GAITracker> tracker;
                                                                  xmppStream:xmppStream
                                                        managedObjectContext:[self managedObjectContext_roster]];
         
-        NSString *body = [[message elementForName:@"body"] stringValue];
-        NSString *displayName = [user displayName];
+//        NSString *body = [[message elementForName:@"body"] stringValue];
+//        NSString *displayName = [user displayName];
         
 //        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 //        [dateFormatter setDateFormat:@"HH:mm:ss"];
@@ -1042,7 +1042,7 @@ id<GAITracker> tracker;
                                                              xmppStream:xmppStream
                                                    managedObjectContext:[self managedObjectContext_roster]];
     
-    NSString *displayName = [user displayName];
+    NSString *displayName = [[[user displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0];
     NSString *jidStrBare = [presence fromStr];
     NSString *body = nil;
     

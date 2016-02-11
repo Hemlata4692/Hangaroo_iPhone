@@ -156,6 +156,7 @@
         [UserDefaultManager setValue:[responseDict objectForKey:@"userId"] key:@"userId"];
         [UserDefaultManager setValue:[responseDict objectForKey:@"username"] key:@"userName"];
         [UserDefaultManager setValue:[responseDict objectForKey:@"userImage"] key:@"userImage"];
+        [UserDefaultManager setValue:[responseDict objectForKey:@"joining_year"] key:@"joining_year"];
         
         [myDelegate ShowIndicator];
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]
@@ -190,7 +191,7 @@
 
 -(void)targetMethod{
     myDelegate.userProfileImageDataValue = UIImageJPEGRepresentation(myImageview.image, 1.0);
-    NSString *username = [NSString stringWithFormat:@"%@@52.74.174.129",userNameField.text]; // OR
+    NSString *username = [NSString stringWithFormat:@"%@@52.74.174.129",[UserDefaultManager getValue:@"userName"]]; // OR
     NSString *password = passwordField.text;
     
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -202,7 +203,7 @@
     
     if (del.xmppStream.supportsInBandRegistration) {
         NSError *error = nil;
-        if (![del.xmppStream registerWithPassword:password name:userNameField.text error:&error])
+        if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@52.74.174.129@%@",[UserDefaultManager getValue:@"userName"],[UserDefaultManager getValue:@"joining_year"]] error:&error])
         {
             NSLog(@"Oops, I forgot something: %@", error);
         }else{

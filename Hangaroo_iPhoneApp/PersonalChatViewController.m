@@ -391,7 +391,7 @@
         [message addAttributeWithName:@"Name" stringValue:[UserDefaultManager getValue:@"userName"]];
         [message addAttributeWithName:@"Date" stringValue:formattedDate];
         [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",userDetail.streamBareJidStr,userDetail.jidStr]];
-        [message addAttributeWithName:@"ToName" stringValue:userDetail.displayName];
+        [message addAttributeWithName:@"ToName" stringValue:[[[userDetail displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0]];
     }
     [message addChild:body];
     
