@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A6252986-9860-4303-9664-CCA6D0B0E556</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Hangaroo_iPhoneApp</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B2556A08DA2BD227B92FF124AE987EC72B1A29D2</key>
+		<string>https://gitlab.com/ranosys-bkn/hangaroo_iPhone.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Hangaroo_iPhoneApp.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B2556A08DA2BD227B92FF124AE987EC72B1A29D2</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://gitlab.com/ranosys-bkn/hangaroo_iPhone.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B2556A08DA2BD227B92FF124AE987EC72B1A29D2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B2556A08DA2BD227B92FF124AE987EC72B1A29D2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>hangaroo_iPhone</string>
+		</dict>
+	</array>
+</dict>
+</plist>
