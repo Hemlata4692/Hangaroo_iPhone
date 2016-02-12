@@ -16,7 +16,7 @@
 @synthesize friendsJoinedCount;
 @synthesize uploadedPhotoArray;
 @synthesize joinedUserArray;
-@synthesize isJoined;
+@synthesize isUserJoined;
 @synthesize creatorOfPost;
 @synthesize creatorOfPostName;
 @synthesize creatorOfPostUserId;

@@ -14,7 +14,7 @@
 @property(nonatomic,retain)NSString * joinedUserCount;
 @property(nonatomic,retain)NSString * friendsJoinedCount;
 @property(nonatomic,retain)NSString * postedDay;
-@property(nonatomic,retain)NSString * isJoined;
+@property(nonatomic,retain)NSString * isUserJoined;
 @property(nonatomic,retain)NSString * creatorOfPost;
 @property(nonatomic,retain)NSString * creatorOfPostName;
 @property(nonatomic,retain)NSString * creatorOfPostUserId;

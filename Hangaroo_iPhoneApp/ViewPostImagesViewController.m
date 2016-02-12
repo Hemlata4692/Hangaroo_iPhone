@@ -124,7 +124,7 @@
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
     
-    [image setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+    [image setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"profileImage.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         weakRef.contentMode = UIViewContentModeScaleAspectFill;
         weakRef.clipsToBounds = YES;
         weakRef.image = image;

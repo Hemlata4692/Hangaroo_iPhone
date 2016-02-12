@@ -44,6 +44,7 @@
 #define kUrlSuggestedFriendList         @"suggestedfrnds"
 #define kUrlAcceptRequest               @"acceptdecline"
 #define kUrlSearch                      @"search"
+#define kUrlChatNotifications           @"chatnotification"
 @implementation WebService
 @synthesize manager;
 
@@ -353,7 +354,7 @@
                      postListData.creatorOfPost=[postListDict objectForKey:@"createOfPost"];
                      postListData.friendsJoinedCount =[postListDict objectForKey:@"friends_joined"];
                      postListData.joinedUserCount=[postListDict objectForKey:@"joined_users_count"];
-                     postListData.isJoined = [postListDict objectForKey:@"is_joined"];
+                     postListData.isUserJoined = [postListDict objectForKey:@"is_joined"];
                      postListData.creatorOfPostName = [postListDict objectForKey:@"PostCreatorName"];
                      postListData.creatorOfPostUserId=[postListDict objectForKey:@"user_id"];
                      NSArray *joinedArray=[postListDict objectForKey:@"joined_users"];
@@ -1132,4 +1133,29 @@
 
 }
 #pragma mark- end
+-(void)chatNotification:(NSString *)userNameTo userNameFrom:(NSString *)userNameFrom messageString:(NSString *)messageString success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"usernameto":userNameTo,@"usernamefrom":userNameFrom,@"msg":messageString};
+    NSLog(@"chat  request%@", requestDict);
+    [self post:kUrlChatNotifications parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"chat Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+    
+}
+
 @end

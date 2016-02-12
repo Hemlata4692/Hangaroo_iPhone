@@ -16,11 +16,11 @@
 //#define BASE_URL                              @""
 
 //clients link
-//#define BASE_URL                              @"http://52.74.174.129/admin/api/"
+#define BASE_URL                              @"http://52.74.174.129/admin/api/"
 
 //testing link
 //#define BASE_URL                              @"http://ranosys.net/client/hangaroo/admin/api/"
-#define BASE_URL                                @"http://52.74.174.129/beta/admin/api"
+//#define BASE_URL                                @"http://52.74.174.129/beta/admin/api"
 
 @interface WebService : NSObject
 
@@ -117,6 +117,10 @@
 
 //Accept friend request
 -(void)acceptFriendRequest:(NSString *)otherFriendId acceptRequest:(NSString *)acceptRequest success:(void (^)(id))success failure:(void (^)(NSError *error))failure;
+//end
+
+//Chat notification
+-(void)chatNotification:(NSString *)userNameTo userNameFrom:(NSString *)userNameFrom messageString:(NSString *)messageString success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //end
 
 //Register device for push notification

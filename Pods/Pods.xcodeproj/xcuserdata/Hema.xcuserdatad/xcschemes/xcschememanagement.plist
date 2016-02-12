@@ -9,7 +9,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CocoaAsyncSocket.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>CocoaLumberjack.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>XMPPFramework.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -33,11 +48,6 @@
 			<true/>
 		</dict>
 		<key>9915B771E847B33E350C7DB5C5851564</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C6D66FE7D3AD8963382F17E79643E1B8</key>
 		<dict>
 			<key>primary</key>
 			<true/>

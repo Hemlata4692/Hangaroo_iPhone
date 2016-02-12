@@ -11,6 +11,7 @@
 #import <UIImageView+AFNetworking.h>
 #import "SettingViewController.h"
 #import "UIView+Toast.h"
+#import "PersonalChatViewController.h"
 
 @interface MeTooUserProfileViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *postLabel;
@@ -107,7 +108,12 @@
 }
 - (IBAction)chatButtonAction:(id)sender
 {
-
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    PersonalChatViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
+    otherUserProfile.meeToProfile=@"1";
+    otherUserProfile.userNameProfile=userName;
+    otherUserProfile.hidesBottomBarWhenPushed=NO;
+    [self.navigationController pushViewController:otherUserProfile animated:YES];
 }
 - (IBAction)seeOutbutonAction:(id)sender
 {
@@ -122,7 +128,7 @@
     [[WebService sharedManager] seeOutNotification:joineUserId success:^(id responseObject) {
         
         [myDelegate StopIndicator];
-        
+        //[self.view makeToast:@"Notification sent."];
         
         
     } failure:^(NSError *error) {

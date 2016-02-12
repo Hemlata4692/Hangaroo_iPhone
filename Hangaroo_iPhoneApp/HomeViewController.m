@@ -55,6 +55,7 @@
     // Set the screen name for automatic screenview tracking.
     self.screenName = @"Home screen";
     [self setTabBarImages];
+     myDelegate.tabBarView = (UITabBarController *)self.tabBarController;
     postListingArray=[[NSMutableArray alloc]init];
     todayPostData = [[NSMutableArray alloc]init];
     yesterdayPostData = [[NSMutableArray alloc]init];
@@ -436,7 +437,7 @@
             followedUserLabel.text=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] joinedUserCount],[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
         }
         
-        if ([[[todayPostData objectAtIndex:indexPath.row] isJoined] isEqualToString:@"No"]) {
+        if ([[[todayPostData objectAtIndex:indexPath.row] isUserJoined] isEqualToString:@"No"]) {
             cameraButton.hidden=YES;
             cameraIcon.hidden=YES;
             tickIcon.hidden=YES;
@@ -472,7 +473,7 @@
         }
         
         
-        if ([[[yesterdayPostData objectAtIndex:indexPath.row] isJoined] isEqualToString:@"No"]) {
+        if ([[[yesterdayPostData objectAtIndex:indexPath.row] isUserJoined] isEqualToString:@"No"]) {
             cameraButton.hidden=YES;
             cameraIcon.hidden=YES;
             tickIcon.hidden=YES;
@@ -566,7 +567,7 @@
         
         if (cv.sectionTag==0)
         {
-            if ([[[todayPostData objectAtIndex:cv.collectionTag] isJoined] isEqualToString:@"No"])
+            if ([[[todayPostData objectAtIndex:cv.collectionTag] isUserJoined] isEqualToString:@"No"])
             {
                 if (indexPath.item==0)
                 {
@@ -683,7 +684,7 @@
         
         else if (cv.sectionTag==1)
         {
-            if ([[[yesterdayPostData objectAtIndex:cv.collectionTag] isJoined] isEqualToString:@"No"])
+            if ([[[yesterdayPostData objectAtIndex:cv.collectionTag] isUserJoined] isEqualToString:@"No"])
             {
                 if (indexPath.item==0)
                 {
@@ -861,7 +862,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         
         if (collectionView.sectionTag==0)
         {
-            if (indexPath.item==0 && [[[todayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
+            if (indexPath.item==0 && [[[todayPostData objectAtIndex:collectionView.collectionTag]isUserJoined]isEqualToString:@"No"]) {
                 postId=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
@@ -893,7 +894,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         }
         else
         {
-            if (indexPath.item==0 && [[[yesterdayPostData objectAtIndex:collectionView.collectionTag]isJoined]isEqualToString:@"No"]) {
+            if (indexPath.item==0 && [[[yesterdayPostData objectAtIndex:collectionView.collectionTag]isUserJoined]isEqualToString:@"No"]) {
                 postId=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
                 [myDelegate ShowIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
