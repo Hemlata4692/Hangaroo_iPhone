@@ -50,12 +50,16 @@
     noRecordLabel.hidden=YES;
    
 }
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
    [friendRequestArray removeAllObjects];
     [friendSuggestionArray removeAllObjects];
     [discoverTableView setContentOffset:CGPointZero animated:YES];
+    [[self navigationController] setNavigationBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+
     [self initFooterView];
     Offset=@"0";
     if (suggestionBtn.selected==YES) {

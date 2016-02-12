@@ -74,16 +74,16 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
 }
-//-(BOOL)prefersStatusBarHidden
-//{
-//    return YES;
-//}
-//- (void)statusHide
-//{
-//    [UIView animateWithDuration:0.1 animations:^() {
-//        [self setNeedsStatusBarAppearanceUpdate];
-//    }completion:^(BOOL finished){}];
-//}
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+- (void)statusHide
+{
+    [UIView animateWithDuration:0.1 animations:^() {
+        [self setNeedsStatusBarAppearanceUpdate];
+    }completion:^(BOOL finished){}];
+}
 
 -(void)setFrames
 {
