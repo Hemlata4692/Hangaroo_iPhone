@@ -82,6 +82,9 @@
 //Tap to see out
 -(void)seeOutNotification:(NSString *)joinedUserId success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //end
+//Chat notification
+-(void)chatNotification:(NSString *)userNameTo userNameFrom:(NSString *)userNameFrom messageString:(NSString *)messageString success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+//end
 //Register device for push notification
 -(void)registerDeviceForPushNotification:(NSString *)deviceId deviceType:(NSString *)deviceType success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 //end

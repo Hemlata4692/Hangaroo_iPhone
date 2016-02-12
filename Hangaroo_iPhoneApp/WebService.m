@@ -30,7 +30,7 @@
 #define kUrlRegisterDevice              @"registerdevice"
 #define kUrlTapToSeeOut                 @"seeout"
 #define kUrlSocialAccounts              @"socialaccounts"
-
+#define kUrlChatNotifications           @"chatnotification"
 
 
 
@@ -722,4 +722,29 @@
 
 }
 #pragma mark- end
+//{usernameto:"hema","usernamefrom":"harleen","msg":"testing message"}
+-(void)chatNotification:(NSString *)userNameTo userNameFrom:(NSString *)userNameFrom messageString:(NSString *)messageString success:(void (^)(id))success failure:(void (^)(NSError *))failure
+{
+    NSDictionary *requestDict = @{@"usernameto":userNameTo,@"usernamefrom":userNameFrom,@"msg":messageString};
+    NSLog(@"chat  request%@", requestDict);
+    [self post:kUrlChatNotifications parameters:requestDict success:^(id responseObject)
+     {
+         NSLog(@"chat Response%@", responseObject);
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         
+         if([self isStatusOK:responseObject])
+         {
+             success(responseObject);
+         } else
+         {
+             [myDelegate StopIndicator];
+             failure(nil);
+         }
+     } failure:^(NSError *error)
+     {
+         [myDelegate StopIndicator];
+         failure(error);
+     }];
+
+}
 @end

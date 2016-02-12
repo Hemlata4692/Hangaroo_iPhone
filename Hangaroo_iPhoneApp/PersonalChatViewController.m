@@ -395,6 +395,15 @@
     }
     [message addChild:body];
     
+    [[WebService sharedManager] chatNotification:[message attributeStringValueForName:@"to"] userNameFrom:[message attributeStringValueForName:@"from"] messageString:[[message elementForName:@"body"] stringValue] success:^(id responseObject) {
+        
+        [myDelegate StopIndicator];
+        
+    } failure:^(NSError *error) {
+        
+    }] ;
+    
+    
 //    if ([lastView isEqualToString:@"ChatViewController"]) {
 //        chatVC.isChange = 2;
 //    }
