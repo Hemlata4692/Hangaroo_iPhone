@@ -23,15 +23,17 @@
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UITableView *userListTableView;
+@property (weak, nonatomic) IBOutlet UILabel *noRecordsLabel;
 
 @end
 
 @implementation UserListViewController
-@synthesize isChange, chatVC,searchBar,userListTableView;
+@synthesize isChange, chatVC,searchBar,userListTableView,noRecordsLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
      self.screenName=@"User list Chat";
+    noRecordsLabel.hidden=YES;
     sortArrSet = [NSMutableSet new];
     userListArr = [NSMutableArray new];
 //    isChange = 1;
@@ -212,18 +214,28 @@
     if (isSearch)
     {
         if (searchResultArray.count<1) {
-            //noRecordLbl.hidden=NO;
+            noRecordsLabel.hidden=NO;
             return searchResultArray.count;
         }
         else
         {
-            //noRecordLbl.hidden=YES;
+            noRecordsLabel.hidden=YES;
             return searchResultArray.count;
         }
     }
     else
     {
-        return userListArr.count;
+        if (userListArr.count<1) {
+            noRecordsLabel.hidden=NO;
+            noRecordsLabel.text=@"No friends added.";
+            return userListArr.count;
+        }
+        else
+        {
+            noRecordsLabel.hidden=YES;
+            return userListArr.count;
+        }
+        
     }
 
 }
@@ -252,7 +264,7 @@
         }
         else
         {
-            //noRecordLbl.hidden=NO;
+            noRecordsLabel.hidden=NO;
             userListTableView.hidden=YES;
         }
     }
@@ -324,7 +336,7 @@
 {
     
     if (text.length<1) {
-        //noRecordLbl.hidden=YES;
+        noRecordsLabel.hidden=YES;
         searchResultArray = [NSArray arrayWithArray:userListArr];
         isSearch = NO;
     }
@@ -352,7 +364,7 @@
     
     if (searchKey.length)
     {
-       // noRecordLbl.hidden=YES;
+        noRecordsLabel.hidden=YES;
         isSearch = YES;
         NSPredicate *pred1 = [NSPredicate predicateWithFormat:@"displayName contains[cd] %@",searchKey];
         NSArray *subPredicates = [NSArray arrayWithObjects:pred1, nil];
@@ -397,7 +409,7 @@
 {
     if (searchText.length<1)
     {
-      //  noRecordLbl.hidden=YES;
+        noRecordsLabel.hidden=YES;
         searchResultArray = [userListArr mutableCopy];
         isSearch = NO;
         [userListTableView reloadData];

@@ -282,7 +282,7 @@
     failure:^(NSError *error)
     {
         noRecordLabel.hidden=NO;
-        noRecordLabel.text=@"No new requests";
+        noRecordLabel.text=@"No new requests.";
         discoverTableView.hidden=YES;
     }] ;
 
@@ -309,9 +309,9 @@
      }
                                          failure:^(NSError *error)
      {
-//         noRecordLabel.hidden=NO;
-//         noRecordLabel.text=@"No new requests";
-//         discoverTableView.hidden=YES;
+         noRecordLabel.hidden=NO;
+         noRecordLabel.text=@"No friend suggestions.";
+         discoverTableView.hidden=YES;
      }] ;
 
 }
