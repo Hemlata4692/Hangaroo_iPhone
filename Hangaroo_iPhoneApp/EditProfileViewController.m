@@ -136,6 +136,8 @@
         
         [myDelegate StopIndicator];
         userSettingObj.myProfileData.profileImageUrl=[responseObject objectForKey:@"user_image"];
+        [UserDefaultManager setValue:[responseObject objectForKey:@"user_image"] key:@"userImage"];
+        [myDelegate editProfileImageUploading:userProfileImageView.image];
         for (UIViewController *controller in self.navigationController.viewControllers)
         {
             if ([controller isKindOfClass:[SettingViewController class]])
@@ -146,32 +148,6 @@
             }
         }
 
-//        UIAlertController *alertController = [UIAlertController
-//                                              alertControllerWithTitle:@"Alert"
-//                                              message:[responseObject objectForKey:@"message"]
-//                                              preferredStyle:UIAlertControllerStyleAlert];
-//        
-//        UIAlertAction *okAction = [UIAlertAction
-//                                   actionWithTitle:@"OK"
-//                                   style:UIAlertActionStyleDefault
-//                                   handler:^(UIAlertAction *action)
-//                                   {
-//                                       
-//                                       for (UIViewController *controller in self.navigationController.viewControllers)
-//                                       {
-//                                           if ([controller isKindOfClass:[SettingViewController class]])
-//                                           {
-//                                               [self.navigationController popToViewController:controller animated:YES];
-//                                               
-//                                               break;
-//                                           }
-//                                       }
-//                                       
-//                                   }];
-//        
-//        [alertController addAction:okAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
-        
     }
                                         failure:^(NSError *error)
      {

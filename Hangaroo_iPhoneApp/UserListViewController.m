@@ -18,13 +18,16 @@
     NSMutableSet* sortArrSet;
     NSMutableArray* userListArr;
     NSString *yearValue, *checkCompare;
+    NSArray *searchResultArray;
+    BOOL isSearch;
 }
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) IBOutlet UITableView *userListTableView;
 
 @end
 
 @implementation UserListViewController
-@synthesize isChange, chatVC;
+@synthesize isChange, chatVC,searchBar,userListTableView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,7 +35,9 @@
     sortArrSet = [NSMutableSet new];
     userListArr = [NSMutableArray new];
 //    isChange = 1;
-    
+     searchResultArray=[[NSArray alloc]init];
+    searchBar.enablesReturnKeyAutomatically = NO;
+    searchBar.returnKeyType=UIReturnKeyDone;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy"];
     NSString *dateString = [NSString stringWithFormat:@"01-05-%@",[dateFormatter stringFromDate:[NSDate date]]];
@@ -76,7 +81,7 @@
     {
         [self fetchedResultsController];
         
-        [_userListTableView reloadData];
+        [userListTableView reloadData];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:@"UserProfile" object:nil];
@@ -100,12 +105,12 @@
         {
             [self fetchedResultsController];
             
-            [_userListTableView reloadData];
+            [userListTableView reloadData];
         }
         
     }
     else{
-        [_userListTableView reloadData];
+        [userListTableView reloadData];
     }
     
 }
@@ -127,7 +132,7 @@
 -(void)updateTableView{
     dispatch_async(dispatch_get_main_queue(), ^(void)
                    {
-                       [_userListTableView reloadData];
+                       [userListTableView reloadData];
                    });
 }
 
@@ -204,7 +209,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
 {
-    return userListArr.count;
+    if (isSearch)
+    {
+        if (searchResultArray.count<1) {
+            //noRecordLbl.hidden=NO;
+            return searchResultArray.count;
+        }
+        else
+        {
+            //noRecordLbl.hidden=YES;
+            return searchResultArray.count;
+        }
+    }
+    else
+    {
+        return userListArr.count;
+    }
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -217,14 +238,32 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                       reuseIdentifier:CellIdentifier];
     }
-    
-    XMPPUserCoreDataStorageObject *user = [userListArr objectAtIndex:indexPath.row];
-    
     UIImageView *userImage = (UIImageView*)[cell viewWithTag:2];
     userImage.layer.cornerRadius = 20;
     userImage.layer.masksToBounds = YES;
     
     UILabel* nameLabel = (UILabel*)[cell viewWithTag:1];
+    XMPPUserCoreDataStorageObject *user;
+    if (isSearch)
+    {
+        if (searchResultArray.count!=0)
+        {
+             user = [searchResultArray objectAtIndex:indexPath.row];
+        }
+        else
+        {
+            //noRecordLbl.hidden=NO;
+            userListTableView.hidden=YES;
+        }
+    }
+    else
+    {
+        if (userListArr.count!=0)
+        {
+            user = [userListArr objectAtIndex:indexPath.row];
+        }
+    }
+
     nameLabel.text = [[[user displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0];
     [self configurePhotoForCell:cell user:user];
     
@@ -280,14 +319,96 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - Search bar delegates
+-(BOOL)searchBar:(UISearchBar *)srchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    
+    if (text.length<1) {
+        //noRecordLbl.hidden=YES;
+        searchResultArray = [NSArray arrayWithArray:userListArr];
+        isSearch = NO;
+    }
+    
+    NSLog(@"%@",searchBar.text);
+    //  NSLog(@"check3");
+    NSString *searchKey;
+    if([text isEqualToString:@"\n"]){
+        searchKey = searchBar.text;
+        
+    }
+    else if(text.length){
+        searchKey = [searchBar.text stringByAppendingString:text];
+    }
+    
+    else if((searchBar.text.length-1)!=0){
+        searchKey = [searchBar.text substringWithRange:NSMakeRange(0, searchBar.text.length-1)];
+    }
+    
+    else{
+        searchKey = @"";
+    }
+    
+    searchResultArray = nil;
+    
+    if (searchKey.length)
+    {
+       // noRecordLbl.hidden=YES;
+        isSearch = YES;
+        NSPredicate *pred1 = [NSPredicate predicateWithFormat:@"displayName contains[cd] %@",searchKey];
+        NSArray *subPredicates = [NSArray arrayWithObjects:pred1, nil];
+        NSPredicate * orPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:subPredicates];
+        searchResultArray=[userListArr filteredArrayUsingPredicate:orPredicate];
+        // NSLog(@"arrFilterSearch count is %lu",(unsigned long)searchArray.count);
+    }
+    
+    
+    else
+    {
+        searchResultArray = [NSArray arrayWithArray:userListArr];
+        searchBar.text=@"";
+        [searchBar resignFirstResponder];
+        isSearch = NO;
+        
+    }
+    [userListTableView reloadData];
+    
+    return YES;
 }
-*/
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    // NSLog(@"check2");
+    return YES;
+}
+
+
+-(BOOL)searchBarShouldEndEditing:(UISearchBar *)srchBar
+{
+    if ([srchBar.text isEqualToString:@""]) {
+        searchResultArray = [userListArr mutableCopy];
+        isSearch = NO;
+        [userListTableView reloadData];
+        
+    }
+    
+    return  YES;
+}
+
+-(void)searchBar:(UISearchBar *)srchBar textDidChange:(NSString *)searchText
+{
+    if (searchText.length<1)
+    {
+      //  noRecordLbl.hidden=YES;
+        searchResultArray = [userListArr mutableCopy];
+        isSearch = NO;
+        [userListTableView reloadData];
+        
+    }
+    
+}
+- (void)searchBarSearchButtonClicked:(UISearchBar *)srchBar
+{
+    [searchBar resignFirstResponder];
+}
+#pragma mark - end
 
 @end

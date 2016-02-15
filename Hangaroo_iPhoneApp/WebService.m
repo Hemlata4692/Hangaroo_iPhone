@@ -1133,6 +1133,8 @@
 
 }
 #pragma mark- end
+
+#pragma mark- Chat notification
 -(void)chatNotification:(NSString *)userNameTo userNameFrom:(NSString *)userNameFrom messageString:(NSString *)messageString success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"usernameto":userNameTo,@"usernamefrom":userNameFrom,@"msg":messageString};
@@ -1141,11 +1143,12 @@
      {
          NSLog(@"chat Response%@", responseObject);
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
-         
-         if([self isStatusOK:responseObject])
+         NSNumber *number = responseObject[@"isSuccess"];
+         if (number.integerValue!=0)
          {
-             success(responseObject);
-         } else
+              success(responseObject);
+         }
+         else
          {
              [myDelegate StopIndicator];
              failure(nil);
@@ -1157,5 +1160,5 @@
      }];
     
 }
-
+#pragma mark- end
 @end

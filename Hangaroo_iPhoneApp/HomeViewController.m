@@ -882,12 +882,13 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 }
                 else
                 {
-                    viewPost.followedUser=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount],[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
+                    viewPost.followedUser=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount],[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]];
                 }
-                UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
-                [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-                    
-                }];
+//                UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
+//                [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+//                    
+//                }];
+                [self animateViewHeight:viewPost withAnimationType:kCATransitionFromTop];
                // [self.navigationController pushViewController:viewPost animated:YES];
             }
             
@@ -916,10 +917,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@+%@ felt the same way",[[yesterdayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount],[[yesterdayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]];
                 }
-                UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
-                [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-                    
-                }];
+                [self animateViewHeight:viewPost withAnimationType:kCATransitionFromTop];
                 // [self.navigationController pushViewController:viewPost animated:YES];
             }
 
@@ -962,6 +960,17 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         NSLog(@"selected index %ld",(long)indexPath.item);
     }
 }
+- (void)animateViewHeight:(MeTooUserProfileViewController*)animateView withAnimationType:(NSString*)animType {
+    
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.3f;
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromTop;
+    [self.navigationController.view.layer addAnimation:transition
+                                                forKey:kCATransition];
+    [self.navigationController pushViewController:animateView animated:NO];
+}
+
 #pragma mark - end
 #pragma mark - Join post webservice
 -(void)joinPost

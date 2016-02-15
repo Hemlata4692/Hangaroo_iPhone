@@ -12,16 +12,19 @@
 #import "UIView+Toast.h"
 
 @interface SharePostViewController ()
-
+{
+    int Count;
+}
 
 @property (weak, nonatomic) IBOutlet UILabel *seperator;
 @property (weak, nonatomic) IBOutlet UIPlaceHolderTextView *postTextView;
 @property (weak, nonatomic) IBOutlet UIButton *sharePostBtn;
+@property (weak, nonatomic) IBOutlet UILabel *textCount;
 
 @end
 
 @implementation SharePostViewController
-@synthesize postTextView,seperator,sharePostBtn;
+@synthesize postTextView,seperator,sharePostBtn,textCount;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
@@ -54,7 +57,9 @@
     {
         sharePostBtn.enabled=YES;
     }
-    
+    Count=140;
+    textCount.text=[NSString stringWithFormat:@"%d", Count];
+   // textCount.titleLabel.text =[NSString stringWithFormat:@"%d", Count];
 }
 
 #pragma mark - end
@@ -78,7 +83,26 @@
 
     else
     {
+        if([text isEqualToString:@""])
+        {
+            if (Count<140) {
+                Count++;
+               
+                textCount.text=[NSString stringWithFormat:@"%d", Count];
+            }
+           
+            return YES;
+        }
+        else
+        {
+            if (Count>0) {
+                Count--;
+                
+                textCount.text=[NSString stringWithFormat:@"%d", Count];
+            }
+        
         return YES;
+        }
     }
 
     return YES;

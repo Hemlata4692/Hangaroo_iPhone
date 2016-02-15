@@ -66,5 +66,8 @@
 - (BOOL)connect;
 - (void)disconnect;
 -(void)addBadgeIcon:(NSString*)badgeValue;
+-(void)editProfileImageUploading:(UIImage*)editProfileImge;
+-(void)addBadgeIconLastTab;
+-(void)removeBadgeIconLastTab;
 @end
 

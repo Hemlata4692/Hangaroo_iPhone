@@ -12,6 +12,7 @@
 #import "SettingViewController.h"
 #import "UIView+Toast.h"
 #import "PersonalChatViewController.h"
+#import "HomeViewController.h"
 
 @interface MeTooUserProfileViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *postLabel;
@@ -36,7 +37,6 @@
     // Do any additional setup after loading the view.
      self.screenName = @"Me too user profile screen";
     [mainContainerView setCornerRadius:3.0f];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self displayData];
 }
 
@@ -44,7 +44,7 @@
 {
     [super viewWillAppear:YES];
     [[self navigationController] setNavigationBarHidden:YES];
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,6 +66,10 @@
      [super viewWillDisappear:YES];
       [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
+//-(BOOL)hidesBottomBarWhenPushed
+//{
+//    return NO;
+//}
 #pragma mark - end
 
 #pragma mark - Display data
@@ -99,21 +103,48 @@
     }];
 
 }
+- (BOOL) hidesBottomBarWhenPushed
+{
+    return (self.navigationController.topViewController == self);
+}
 #pragma mark - end
 
 #pragma mark - IBActions
 - (IBAction)closeButtonAction:(id)sender
 {
-     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.4f;
+    transition.type = kCATransitionReveal;
+    transition.subtype = kCATransitionFromBottom;
+    [self.navigationController.view.layer addAnimation:transition
+                                                forKey:kCATransition];
+    [self.navigationController popViewControllerAnimated:NO];
+    //[self.navigationController popViewControllerAnimated:NO];
+    // [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)chatButtonAction:(id)sender
 {
+
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     PersonalChatViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
-    otherUserProfile.meeToProfile=@"1";
-    otherUserProfile.userNameProfile=userName;
-    otherUserProfile.hidesBottomBarWhenPushed=NO;
+    NSXMLElement *msg = [NSXMLElement elementWithName:@"message"];
+    [msg addAttributeWithName:@"type" stringValue:@"chat"];
+    
+    [msg addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[userName lowercaseString]]];
+    
+    [msg addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[[UserDefaultManager getValue:@"userName"] lowercaseString]]];
+    
+    [msg addAttributeWithName:@"ToName" stringValue:userName];
+    
+    //    otherUserProfile.meeToProfile=@"1";
+    //    otherUserProfile.userNameProfile=userName;
+    otherUserProfile.userXmlDetail = msg;
+    otherUserProfile.friendProfileImageView = userImageView.image;
+    otherUserProfile.lastView = @"MeTooUserProfile";
+    //     self.hidesBottomBarWhenPushed = NO;
+    //    otherUserProfile.hidesBottomBarWhenPushed=NO;
     [self.navigationController pushViewController:otherUserProfile animated:YES];
+
 }
 - (IBAction)seeOutbutonAction:(id)sender
 {

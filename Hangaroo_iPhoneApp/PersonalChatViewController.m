@@ -37,7 +37,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.screenName=@"Personal Chat";
+    self.screenName=@"Personal Chat";
+    
     userProfileImageView = [[UIImageView alloc] init];
     __weak UIImageView *weakRef = userProfileImageView;
     
@@ -67,7 +68,6 @@
     userData = [NSMutableArray new];
     
     [self registerForKeyboardNotifications];
-    
     
     messageView.translatesAutoresizingMaskIntoConstraints = YES;
     sendMessage.translatesAutoresizingMaskIntoConstraints = YES;
@@ -100,13 +100,14 @@
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     NSLog(@"%@",userXmlDetail);
-    if ([meeToProfile isEqualToString:@"1"]) {
-        self.navigationItem.title=userNameProfile;
-    }
-    else
-    {
     
-    if ([lastView isEqualToString:@"ChatViewController"]) {
+    //    if ([meeToProfile isEqualToString:@"1"]) {
+    //        self.navigationItem.title=userNameProfile;
+    //    }
+    //    else
+    //    {
+    
+    if ([lastView isEqualToString:@"ChatViewController"] || [lastView isEqualToString:@"MeTooUserProfile"]) {
         
         self.title = [userXmlDetail attributeStringValueForName:@"ToName"];
         
@@ -129,13 +130,13 @@
             [myDelegate addBadgeIcon:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] - badgeCount ]];
             [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] - badgeCount ] key:@"BadgeCount"];
         }
-
+        
         NSMutableDictionary *tempDict = [[UserDefaultManager getValue:@"CountData"] mutableCopy];
-     
+        
         [tempDict setObject:[NSString stringWithFormat:@"%d",tempCount] forKey:keyName];
         [UserDefaultManager setValue:tempDict key:@"CountData"];
     }
-    }
+    //    }
     [myDelegate ShowIndicator];
     [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
     
@@ -166,7 +167,7 @@
 }
 
 -(void)print:(NSMutableArray*)messages_arc{
-  
+    
     @autoreleasepool {
         for (XMPPMessageArchiving_Message_CoreDataObject *message in messages_arc) {
             
@@ -181,7 +182,7 @@
             NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
             [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }
-               
+        
     }
 }
 
@@ -246,6 +247,8 @@
         
         // code to execute in case user is using paste
         CGSize size = CGSizeMake(sendMessage.frame.size.height,126);//here (10+50+20+15) = (imageView.x + imageView.width + space b/w imageView and label + time label width(82) and time label trailing(8) + space b/w name label and time label)
+        NSString *string = textView.text;
+        NSString *trimmedString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         text = [NSString stringWithFormat:@"%@%@",sendMessage.text,text];
         CGRect textRect=[text
                          boundingRectWithSize:size
@@ -278,7 +281,14 @@
         }
         
         if (textView.text.length>=1) {
-            sendOutlet.enabled=YES;
+            
+            if (trimmedString.length>=1) {
+                sendOutlet.enabled=YES;
+            }
+            else{
+                sendOutlet.enabled=NO;
+            }
+            
         }
         else if (textView.text.length==0) {
             sendOutlet.enabled=NO;
@@ -317,10 +327,17 @@
             [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }
     }
-
     
+    NSString *string = textView.text;
+    NSString *trimmedString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (textView.text.length>=1) {
-        sendOutlet.enabled=YES;
+        if (trimmedString.length>=1) {
+            sendOutlet.enabled=YES;
+        }
+        else if (trimmedString.length==0) {
+            sendOutlet.enabled=NO;
+        }
+        //        sendOutlet.enabled=YES;
     }
     else if (textView.text.length==0) {
         sendOutlet.enabled=NO;
@@ -356,11 +373,16 @@
 {
     [sendMessage resignFirstResponder];
     
+    
+    
     [myDelegate.xmppMessageArchivingModule setClientSideMessageArchivingOnly:YES];
     [myDelegate.xmppMessageArchivingModule activate:[self xmppStream]];    //By this line all your messages are stored in CoreData
     [myDelegate.xmppMessageArchivingModule addDelegate:self delegateQueue:dispatch_get_main_queue()];
     
-    NSString *messageStr = sendMessage.text;
+    NSString *messageStr = [sendMessage.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    //    NSString *string = textView.text;
+    //    NSString *trimmedString = [string stringByTrimmingCharactersInSet:
+    //                               [NSCharacterSet whitespaceCharacterSet]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"HH:mm:ss"];
@@ -381,7 +403,7 @@
     NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
     [message addAttributeWithName:@"type" stringValue:@"chat"];
     
-    if ([lastView isEqualToString:@"ChatViewController"]) {
+    if ([lastView isEqualToString:@"ChatViewController"] || [lastView isEqualToString:@"MeTooUserProfile"]) {
         
         [message addAttributeWithName:@"to" stringValue:[userXmlDetail attributeStringValueForName:@"to"]];
         [message addAttributeWithName:@"from" stringValue:[userXmlDetail attributeStringValueForName:@"from"]];
@@ -413,12 +435,12 @@
     }] ;
     
     
-//    if ([lastView isEqualToString:@"ChatViewController"]) {
-//        chatVC.isChange = 2;
-//    }
-//    else{
-//        userListVC.isChange = 2;
-//    }
+    //    if ([lastView isEqualToString:@"ChatViewController"]) {
+    //        chatVC.isChange = 2;
+    //    }
+    //    else{
+    //        userListVC.isChange = 2;
+    //    }
     
     [[self xmppStream] sendElement:message];
     
@@ -449,7 +471,7 @@
 }
 
 -(void)messagesData:(NSXMLElement*)myMessage{
-
+    
     [userData addObject:myMessage];
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];

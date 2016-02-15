@@ -279,10 +279,11 @@ id<GAITracker> tracker;
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
      NSLog(@"entered into did recieve log");
+    
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]!=nil)
     {
         [UIApplication sharedApplication].applicationIconBadgeNumber=0;
-         NSString *msg = [self getNotificationMessage:userInfo];
+        // NSString *msg = [self getNotificationMessage:userInfo];
         NSLog(@"Notification userinfo  --------------------->>>%@",userInfo);
 //        aps =     {
 //            alert = "shiven: Hope you have a great weekend too";
@@ -296,9 +297,11 @@ id<GAITracker> tracker;
         if (application.applicationState == UIApplicationStateActive)
         {
             if ([[tempDict objectForKey:@"isChat"]intValue]!=1) {
-                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Alert" message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                //  alert.tag = 1;
-                [alert show];
+//                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Alert" message:msg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//                //  alert.tag = 1;
+//                [alert show];
+                [self addBadgeIconLastTab];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"MyProfileData" object:nil];
 
             }
             
@@ -1002,6 +1005,26 @@ id<GAITracker> tracker;
     //    });
     
 }
+-(void)editProfileImageUploading:(UIImage*)editProfileImge{
+    //    dispatch_queue_t queue = dispatch_queue_create("queue", DISPATCH_QUEUE_PRIORITY_DEFAULT);
+    //    dispatch_async(queue, ^{
+    
+    NSXMLElement *vCardXML = [NSXMLElement elementWithName:@"vCard" xmlns:@"vcard-temp"];
+    XMPPvCardTemp *newvCardTemp = [XMPPvCardTemp vCardTempFromElement:vCardXML];
+    NSData *pictureData = UIImageJPEGRepresentation(editProfileImge, 0.5);
+    //    [UserDefaultManager setValue:pictureData key:@"UserImage"];
+    //        NSData *pictureData = UIImageJPEGRepresentation([UIImage imageNamed:@"myImage.jpeg"], .5);
+    [newvCardTemp setPhoto:pictureData];
+    //    [newvCardTemp setEmailAddresses:[NSMutableArray arrayWithObjects:@"email", nil]];
+    
+    XMPPvCardCoreDataStorage * xmppvCardStorage1 = [XMPPvCardCoreDataStorage sharedInstance];
+    XMPPvCardTempModule * xmppvCardTempModule1 = [[XMPPvCardTempModule alloc] initWithvCardStorage:xmppvCardStorage1];
+    [xmppvCardTempModule1  activate:[self xmppStream]];
+    [xmppvCardTempModule1 updateMyvCardTemp:newvCardTemp];
+    [myDelegate StopIndicator];
+    //    });
+    
+}
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveError:(id)error
 {
@@ -1074,4 +1097,44 @@ id<GAITracker> tracker;
     //[[NSNotificationCenter defaultCenter] postNotificationName:@"UserListValue" object:nil];
 }
 
+
+-(void)addBadgeIconLastTab
+{
+    
+    for (UILabel *subview in myDelegate.tabBarView.tabBar.subviews)
+    {
+        if ([subview isKindOfClass:[UILabel class]])
+        {
+            if (subview.tag == 3365) {
+                [subview removeFromSuperview];
+            }
+        }
+    }
+    
+    UILabel *notificationBadge = [[UILabel alloc] init];
+    notificationBadge.frame = CGRectMake((([UIScreen mainScreen].bounds.size.width/5)*4) + (([UIScreen mainScreen].bounds.size.width/5)/2) + 8 , 8, 8, 8);
+    notificationBadge.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:83.0/255.0 blue:77.0/255.0 alpha:1.0];
+    notificationBadge.layer.cornerRadius = 5;
+    notificationBadge.layer.masksToBounds = YES;
+    notificationBadge.tag = 3365;
+//    notificationBadge.textAlignment = NSTextAlignmentCenter;
+//    [notificationBadge setFont:[UIFont fontWithName:@"Roboto-Regular" size:10.0]];
+//    notificationBadge.textColor = [UIColor whiteColor];
+    [myDelegate.tabBarView.tabBar addSubview:notificationBadge];
+    
+    
+}
+
+-(void)removeBadgeIconLastTab
+{
+    for (UILabel *subview in myDelegate.tabBarView.tabBar.subviews)
+    {
+        if ([subview isKindOfClass:[UILabel class]])
+        {
+            if (subview.tag == 3365) {
+                [subview removeFromSuperview];
+            }
+        }
+    }
+}
 @end

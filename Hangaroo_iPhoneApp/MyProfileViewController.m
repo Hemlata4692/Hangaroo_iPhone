@@ -39,10 +39,14 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     notificationsArray=[[NSMutableArray alloc]init];
     myProfileArray=[[NSMutableArray alloc]init];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myProfileData) name:@"MyProfileData" object:nil];
 }
 
-
+-(void)myProfileData{
+    [myDelegate removeBadgeIconLastTab];
+    [myDelegate ShowIndicator];
+    [self performSelector:@selector(getMyProfileData) withObject:nil afterDelay:0.1];
+}
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
@@ -60,6 +64,7 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [[self navigationController] setNavigationBarHidden:YES];
     [notificationsArray removeAllObjects];
+    [myDelegate removeBadgeIconLastTab];
       [self initFooterView];
     Offset=@"0";
     [myDelegate ShowIndicator];
@@ -353,8 +358,10 @@
         [myDelegate StopIndicator];
         myProfileArray = [profileDataArray mutableCopy];
        
-        headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)backGroudImage:@"" headerImageURL:[[myProfileArray objectAtIndex:0]profileImageUrl] title:[[myProfileArray objectAtIndex:0]userName] facebookBtn:@"facebook_profile.png" instagramBtn:@"insta_profile.png" twitterBtn:@"twit_profile.png" settingsBtn:@"setting_icon.png"];
+//        headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)backGroudImage:@"" headerImageURL:[[myProfileArray objectAtIndex:0]profileImageUrl] title:[[myProfileArray objectAtIndex:0]userName] facebookBtn:@"facebook_profile.png" instagramBtn:@"insta_profile.png" twitterBtn:@"twit_profile.png" settingsBtn:@"setting_icon.png"];
        
+        headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)backGroudImage:[[myProfileArray objectAtIndex:0]profileImageUrl] headerImageURL:[[myProfileArray objectAtIndex:0]profileImageUrl] title:[[myProfileArray objectAtIndex:0]userName] facebookBtn:@"facebook_profile.png" instagramBtn:@"insta_profile.png" twitterBtn:@"twit_profile.png" settingsBtn:@"setting_icon.png"];
+        
         headerView.scrollView = self.myProfileTableView;
        
         if ([[[myProfileArray objectAtIndex:0]fbUrl] isEqualToString:@""]&&[[[myProfileArray objectAtIndex:0]twitUrl] isEqualToString:@""]&&[[[myProfileArray objectAtIndex:0]instaUrl] isEqualToString:@""])
