@@ -25,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *notificationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *noNotificationFound;
 @property (weak, nonatomic) IBOutlet UILabel *seperatorLabel;
+@property (weak, nonatomic) IBOutlet UILabel *notificationPictureLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *notificationPhoto;
 
 -(void)displayData :(MyProfileDataModel *)profileData :(int)indexPath;
 -(void)displayNotificationData :(NotificationDataModel *)profileData :(int)indexPath;

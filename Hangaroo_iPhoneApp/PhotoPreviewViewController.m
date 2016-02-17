@@ -47,7 +47,6 @@
     closeBtn.layer.shadowOffset = CGSizeMake(5, 5);
     closeBtn.layer.shadowRadius = 5;
     closeBtn.layer.shadowOpacity = 0.8;
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self registerForKeyboardNotifications];
 }
 
@@ -55,6 +54,7 @@
 {
     [super viewWillAppear:YES];
     [[self navigationController] setNavigationBarHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
 }
 - (void)didReceiveMemoryWarning {
@@ -253,7 +253,7 @@ replacementString:(NSString *)string{
 #pragma mark - IBActions
 - (IBAction)uploadImagesButtonAction:(id)sender
 {
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(uploadPhoto) withObject:nil afterDelay:.1];
     
 }
@@ -281,7 +281,7 @@ replacementString:(NSString *)string{
     NSLog(@"post id is %@",postID);
     [[WebService sharedManager]uploadPhoto:postID image:newImage success: ^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         NSLog(@"post id is %@",responseObject);
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         

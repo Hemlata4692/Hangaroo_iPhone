@@ -44,6 +44,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[self navigationController] setNavigationBarHidden:NO];
+}
+
 #pragma mark - end
 #pragma mark - Keyboard controls delegate
 - (void)keyboardControls:(BSKeyboardControls *)keyboardControls selectedField:(UIView *)field inDirection:(BSKeyboardControlsDirection)direction
@@ -136,7 +143,7 @@
 {
     [[WebService sharedManager]shareFeedback:subjectTextField.text content:contentTextView.text success: ^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         for (UIViewController *controller in self.navigationController.viewControllers)
         {
             if ([controller isKindOfClass:[SettingViewController class]])
@@ -160,7 +167,7 @@
 {
     [self.keyboardControls.activeField resignFirstResponder];
     if ([self performValidationsForFeedback]) {
-        [myDelegate ShowIndicator];
+        [myDelegate showIndicator];
         [self performSelector:@selector(saveUserFeedback) withObject:nil afterDelay:.1];
     }
     

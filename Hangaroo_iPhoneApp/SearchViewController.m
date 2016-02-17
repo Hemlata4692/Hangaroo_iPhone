@@ -122,7 +122,7 @@
 {
     btnTag=[sender Tag];
     friendId=[[searchResultArray objectAtIndex:btnTag]userId];
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(sendRequestWebservice) withObject:nil afterDelay:0.1];
 }
 
@@ -131,7 +131,7 @@
 {
     [[WebService sharedManager]searchFriends:Offset serachKey:searchTextKey success:^(id searchListDataArray)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          if (searchResultArray.count<=0) {
              searchResultArray=[searchListDataArray mutableCopy];
          }
@@ -160,7 +160,7 @@
     DiscoverTableCell * cell = (DiscoverTableCell *)[searchTableView cellForRowAtIndexPath:index];
     [[WebService sharedManager]sendFriendRequest:friendId success:^(id responseObject)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          
          FriendListDataModel *tempModel = [searchResultArray objectAtIndex:btnTag];
          tempModel.isRequestSent=@"True";
@@ -180,9 +180,11 @@
 {
     if ([searchText length]==0)
     {
-        [searchBar resignFirstResponder];
+        Offset=@"0";
+        [searchResultArray removeAllObjects];
+        [searchTableView reloadData];
     }
-    [searchResultArray removeAllObjects];
+   
     NSLog(@"%@",searchText);
     searchTextKey=searchText;
 }
@@ -194,13 +196,13 @@
     }
     else
     {
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(searchFriend) withObject:nil afterDelay:.1];
     [searchBar resignFirstResponder];
     }
 }
 #pragma mark - end
-#pragma mark - pagignation for table view
+#pragma mark - Pagignation for table view
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *) cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (searchResultArray.count ==totalResults)

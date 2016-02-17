@@ -78,10 +78,10 @@
     manager.securityPolicy.allowInvalidCertificates = YES;
     
     [manager POST:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         success(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         failure(error);
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -110,10 +110,10 @@
         [formData appendPartWithFileData:imageData name:@"files" fileName:@"files.jpg" mimeType:@"image/jpeg"];
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         success(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         failure(error);
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -139,10 +139,10 @@
         [formData appendPartWithFileData:imageData name:@"files[]" fileName:@"files.jpg" mimeType:@"image/jpeg"];
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         success(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         failure(error);
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
@@ -228,12 +228,12 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -256,12 +256,12 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -283,12 +283,12 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -311,12 +311,12 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -395,13 +395,13 @@
              }
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      }
        failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -423,12 +423,12 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -450,19 +450,19 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
 }
 #pragma mark- end
 
-#pragma mark- Photo Listing
+#pragma mark- Photo listing
 -(void)photoListing:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     
@@ -500,19 +500,19 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
 }
 #pragma mark- end
 
-#pragma mark- Like Dislike
+#pragma mark- Like dislike
 
 -(void)likDislikePhoto:(NSString *)imageUrl likeDislike:(NSString *)likeDislike success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -528,19 +528,19 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
 }
 #pragma mark- end
 
-#pragma mark- Edit Profile Photo
+#pragma mark- Edit profile photo
 -(void)editProfilePhoto:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
@@ -555,19 +555,19 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
 }
 #pragma mark- end
 
-#pragma mark- Add User Interest
+#pragma mark- Add user interest
 -(void)addUserInterest:(NSString *)userInterest success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"interest":userInterest};
@@ -582,12 +582,12 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -595,7 +595,7 @@
 }
 #pragma mark- end
 
-#pragma mark- Share Feedback
+#pragma mark- Share feedback
 -(void)shareFeedback:(NSString *)subject content:(NSString *)content success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"subject":subject,@"content":content};
@@ -610,12 +610,12 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -623,7 +623,7 @@
 }
 #pragma mark- end
 
-#pragma mark- Change Password
+#pragma mark- Change password
 -(void)changePassword:(NSString *)oldPassword newPassword:(NSString *)newPassword success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"oldPassword":oldPassword,@"newPassword":newPassword};
@@ -638,12 +638,12 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -651,7 +651,7 @@
 }
 #pragma mark- end
 
-#pragma mark- Register Device
+#pragma mark- Register device
 -(void)registerDeviceForPushNotification:(NSString *)deviceId deviceType:(NSString *)deviceType success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"deviceId":deviceId,@"deviceType":deviceType};
@@ -668,19 +668,19 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
 }
 #pragma mark- end
 
-#pragma mark- See Out Notification
+#pragma mark- See out notification
 -(void)seeOutNotification:(NSString *)joinedUserId success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"joined_userid":joinedUserId};
@@ -695,19 +695,19 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
 }
 #pragma mark- end
 
-#pragma mark- Social Accounts
+#pragma mark- Social accounts
 //Add social account
 -(void)socialAccounts:(NSString *)facebook twitter:(NSString *)twitter instagram:(NSString *)instagram success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -723,19 +723,19 @@
              success(responseObject);
          } else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
 }
 #pragma mark- end
 
-#pragma mark- My Profile
+#pragma mark- My profile
 -(void)myProfile:(void (^)(id data))success failure:(void (^)(NSError *error))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
@@ -767,18 +767,18 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
 }
 #pragma mark- end
-#pragma mark- User Notification
+#pragma mark- User notification
 -(void)getUserNotification:(NSString *)offset success:(void (^)(id))success failure:(void (^)(NSError *error))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"offset":offset};
@@ -804,6 +804,8 @@
                      NSDictionary * notificationDict =[notificationDataArray objectAtIndex:i];
                      notificationData.notificationString =[notificationDict objectForKey:@"notification_text"];
                      notificationData.userImageUrl =[notificationDict objectForKey:@"user_image"];
+                     notificationData.photoLiked =[notificationDict objectForKey:@"image"];
+                     notificationData.username =[notificationDict objectForKey:@"username"];
                      [dataArray addObject:notificationData];
                  }
                  [dataArray addObject:[responseObject objectForKey:@"totalRecords"]];
@@ -815,14 +817,14 @@
          
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
 }
 #pragma mark- end
 
-#pragma mark- Friend List
+#pragma mark- Friend list
 -(void)getFriendList:(NSString *)offset otherUserId:(NSString *)otherUserId success:(void (^)(id))success failure:(void (^)(NSError *error))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"friend_id":otherUserId ,@"offset":offset};
@@ -861,12 +863,12 @@
         }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -907,12 +909,12 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -936,12 +938,12 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -986,12 +988,12 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -1038,12 +1040,12 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -1067,12 +1069,12 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     
@@ -1123,12 +1125,12 @@
 
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(responseObject);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
 
@@ -1151,12 +1153,12 @@
          }
          else
          {
-             [myDelegate StopIndicator];
+             [myDelegate stopIndicator];
              failure(nil);
          }
      } failure:^(NSError *error)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          failure(error);
      }];
     

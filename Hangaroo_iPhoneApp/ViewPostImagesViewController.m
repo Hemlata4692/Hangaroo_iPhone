@@ -50,9 +50,7 @@
     labelArray=[[NSMutableArray alloc]init];
     postImagesArray=[[NSMutableArray alloc]init];
     photoImageView.userInteractionEnabled=YES;
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(getPhotoListing) withObject:nil afterDelay:0.1];
     
     UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeImagesLeft:)];
@@ -80,6 +78,7 @@
 {
     [super viewWillAppear:YES];
     [[self navigationController] setNavigationBarHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     
 }
 
@@ -135,7 +134,7 @@
     image.layer.borderWidth = 1.0;
     
     UILabel* separatorLabel1 =  (UILabel*)[myCell viewWithTag:2];
-   
+    
     UILabel* timeLabel =  (UILabel*)[myCell viewWithTag:3];
     UILabel* separatorLabel2 =  (UILabel*)[myCell viewWithTag:4];
     if (indexPath.row == 0)
@@ -283,7 +282,7 @@
             [likeButton setSelected:NO];
             [dislikeButton setSelected:YES];
         }
-
+        
         
     }
     else
@@ -344,7 +343,7 @@
             [dislikeButton setSelected:YES];
         }
         
-
+        
     }
     
     else
@@ -355,20 +354,20 @@
 
 #pragma mark - end
 
-#pragma mark - Webservice PhotoListing
+#pragma mark - Webservice photoListing
 -(void)getPhotoListing
 {
     [[WebService sharedManager] photoListing:postID success: ^(id dataArray) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         photoListingDataArray=[dataArray mutableCopy];
         for(int i=0;i<photoListingDataArray.count;i++)
         {
             [postImagesArray addObject:[[photoListingDataArray objectAtIndex:i]postImagesUrl]];
             [imageArray addObject:[[photoListingDataArray objectAtIndex:i]userImageUrl]];
             [labelArray addObject:[[photoListingDataArray objectAtIndex:i]uploadedImageTime]];
-          
-                   }
+            
+        }
         if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"0"]) {
             [likeButton setSelected:NO];
             [dislikeButton setSelected:NO];
@@ -383,8 +382,6 @@
             [likeButton setSelected:NO];
             [dislikeButton setSelected:YES];
         }
-        //userCollectionview.scrollEnabled=NO;
-        
         userCollectionview.contentInset = UIEdgeInsetsMake(0, (self.view.frame.size.width/2) - 35, 0, (self.view.frame.size.width/2) - 80);
         int spaceValue = ((selectedIndex*80) + 35) -self.view.frame.size.width/2 ;
         NSLog(@"-----%d---------",spaceValue);
@@ -398,12 +395,9 @@
         else{
             [userCollectionview setContentOffset:CGPointMake(spaceValue, 0) animated:YES];
             [userCollectionview reloadData];
-            
-            
         }
-
-        [self swipeImages];
         
+        [self swipeImages];
     }
                                      failure:^(NSError *error)
      {
@@ -413,29 +407,26 @@
 }
 #pragma mark - end
 
-#pragma mark - Webservice LikeDislike
+#pragma mark - Webservice like dislike
 -(void)likeDislike
 {
     [[WebService sharedManager] likDislikePhoto:[postImagesArray objectAtIndex:selectedIndex] likeDislike:likeDislikeString  success: ^(id responseObject) {
         
-        [myDelegate StopIndicator];
-         photoImageView.userInteractionEnabled=YES;
+        [myDelegate stopIndicator];
+        photoImageView.userInteractionEnabled=YES;
         likeCount.text=[responseObject objectForKey:@"likeCount"];
         dislikeCount.text=[responseObject objectForKey:@"dislikeCount"];
-     //   likeCount.textColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
         PhotoListingModel *photoList;
-
+        
         NSMutableArray *tempArray=[photoListingDataArray mutableCopy];
         photoList=[tempArray objectAtIndex:selectedIndex];
         photoList.likeCountData=[responseObject objectForKey:@"likeCount"];
-         photoList.dislikeCountData=[responseObject objectForKey:@"dislikeCount"];
+        photoList.dislikeCountData=[responseObject objectForKey:@"dislikeCount"];
         photoList.isLike=[responseObject objectForKey:@"is_like"];
         [tempArray replaceObjectAtIndex:selectedIndex withObject:photoList];
         photoListingDataArray=[tempArray mutableCopy];
-      
-        
     }
-    failure:^(NSError *error)
+                                        failure:^(NSError *error)
      {
          [likeButton setSelected:NO];
          [dislikeButton setSelected:NO];
@@ -464,7 +455,7 @@
         [dislikeButton setSelected:YES];
         [likeButton setSelected:NO];
     }
-    //[myDelegate ShowIndicator];
+    //[myDelegate showIndicator];
     [self performSelector:@selector(likeDislike) withObject:nil afterDelay:0.1];
     
 }
@@ -481,8 +472,8 @@
         [likeButton setSelected:YES];
         [dislikeButton setSelected:NO];
     }
-
-    // [myDelegate ShowIndicator];
+    
+    // [myDelegate showIndicator];
     [self performSelector:@selector(likeDislike) withObject:nil afterDelay:0.1];
 }
 #pragma mark - end

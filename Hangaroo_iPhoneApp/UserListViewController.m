@@ -73,7 +73,7 @@
     
     myDelegate.myView = @"UserListView";
   
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
   
     self.title = @"New Chat";
   
@@ -94,7 +94,7 @@
 
 -(void)enterInBackGround{
     if (userListArr.count == 0) {
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
     }
     
 }
@@ -125,8 +125,9 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    
-    
+     noRecordsLabel.hidden=YES;
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[self navigationController] setNavigationBarHidden:NO];
     myDelegate.chatUser = @"";
 //    chatVC.isChange = isChange;
 }
@@ -215,6 +216,7 @@
     {
         if (searchResultArray.count<1) {
             noRecordsLabel.hidden=NO;
+            noRecordsLabel.text=@"No records found.";
             return searchResultArray.count;
         }
         else
@@ -265,6 +267,7 @@
         else
         {
             noRecordsLabel.hidden=NO;
+            noRecordsLabel.text=@"No records found.";
             userListTableView.hidden=YES;
         }
     }
@@ -285,19 +288,38 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 //    isChange = 1;
     PersonalChatViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
-    vc.userDetail = [userListArr objectAtIndex:indexPath.row];
+    if (isSearch)
+    {
+    vc.userDetail = [searchResultArray objectAtIndex:indexPath.row];
     vc.lastView = @"UserListViewController";
-    NSLog(@"%@",[[userListArr objectAtIndex:indexPath.row] jidStr]);
+    NSLog(@"%@",[[searchResultArray objectAtIndex:indexPath.row] jidStr]);
     
-    if ([myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]] == nil) {
+    if ([myDelegate.userProfileImage objectForKey:[[searchResultArray objectAtIndex:indexPath.row] jidStr]] == nil) {
         vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
     }
     else{
-        vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]];
+        vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[searchResultArray objectAtIndex:indexPath.row] jidStr]];
     }
     
     //    vc.userProfileImageView = profileImage.image;
     vc.userListVC = self;
+    }
+    else
+    {
+        vc.userDetail = [userListArr objectAtIndex:indexPath.row];
+        vc.lastView = @"UserListViewController";
+        NSLog(@"%@",[[userListArr objectAtIndex:indexPath.row] jidStr]);
+        
+        if ([myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]] == nil) {
+            vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
+        }
+        else{
+            vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]];
+        }
+        
+        //    vc.userProfileImageView = profileImage.image;
+        vc.userListVC = self;
+    }
     [self.navigationController pushViewController:vc animated:YES];
     
 }

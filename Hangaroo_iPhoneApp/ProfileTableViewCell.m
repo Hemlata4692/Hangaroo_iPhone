@@ -10,7 +10,7 @@
 
 
 @implementation ProfileTableViewCell
-@synthesize interestLabel,notificationLabel,locationLabel,friendsLabel,userImage,titleLabel,seperatorLabel,friendListButton;
+@synthesize interestLabel,notificationLabel,locationLabel,friendsLabel,userImage,titleLabel,seperatorLabel,friendListButton,notificationPhoto,notificationPictureLabel;
 
 - (void)awakeFromNib {
     // Initialization code
@@ -68,8 +68,66 @@
         
     }];
 
-    notificationLabel.text=notificationData.notificationString;
- 
+    if ([notificationData.photoLiked isEqualToString:@""]) {
+              NSString *yourString;
+        
+        yourString = [NSString stringWithFormat:@"%@%@",notificationData.username,notificationData.notificationString];
+        
+        NSRange boldedRange = NSMakeRange(notificationData.username.length, (yourString.length-notificationData.username.length));
+        
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:yourString];
+        
+        [attrString beginEditing];
+        [attrString addAttribute:NSFontAttributeName
+                           value:[UIFont fontWithName:@"Roboto-Regular" size:14.0]
+                           range:boldedRange];
+        [attrString addAttribute:NSForegroundColorAttributeName
+                           value:[UIColor colorWithRed:135.0/255.0 green:135.0/255.0 blue:135.0/255.0 alpha:1.0]
+                           range:NSMakeRange(notificationData.username.length, (yourString.length-notificationData.username.length))];
+        
+        [attrString endEditing];
+        notificationLabel.attributedText=attrString;
+        notificationPhoto.hidden=YES;
+        notificationPictureLabel.hidden=YES;
+    }
+    
+    else
+    {
+         notificationPictureLabel.hidden=NO;
+         notificationPhoto.hidden=NO;
+        notificationLabel.hidden=YES;
+        NSString *yourString;
+        
+        yourString = [NSString stringWithFormat:@"%@%@",notificationData.username,notificationData.notificationString];
+        
+        NSRange boldedRange = NSMakeRange(notificationData.username.length, (yourString.length-notificationData.username.length));
+        
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:yourString];
+        
+        [attrString beginEditing];
+        [attrString addAttribute:NSFontAttributeName
+                           value:[UIFont fontWithName:@"Roboto-Regular" size:14.0]
+                           range:boldedRange];
+        [attrString addAttribute:NSForegroundColorAttributeName
+                           value:[UIColor colorWithRed:135.0/255.0 green:135.0/255.0 blue:135.0/255.0 alpha:1.0]
+                           range:NSMakeRange(notificationData.username.length, (yourString.length-notificationData.username.length))];
+        
+        [attrString endEditing];
+        notificationPictureLabel.attributedText=attrString;
+      __weak UIImageView *weakRef1 = notificationPhoto;
+    NSURLRequest *imageRequest1 = [NSURLRequest requestWithURL:[NSURL URLWithString:notificationData.photoLiked]
+                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                              timeoutInterval:60];
+    
+    [notificationPhoto setImageWithURLRequest:imageRequest1 placeholderImage:[UIImage imageNamed:@"picture.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        weakRef1.contentMode = UIViewContentModeScaleAspectFill;
+        weakRef1.clipsToBounds = YES;
+        weakRef1.image = image;
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        
+    }];
+
+    }
 }
 
 - (IBAction)showFriendListButtonAction:(id)sender

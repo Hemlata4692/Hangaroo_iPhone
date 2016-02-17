@@ -89,10 +89,12 @@
     }];
     if (suggestedData.addFriend==1) {
         [addFriendBtn setImage:[UIImage imageNamed:@"adduser.png"] forState:UIControlStateNormal];
+       addFriendBtn.userInteractionEnabled=YES;
     }
     else
     {
         [addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
+         addFriendBtn.userInteractionEnabled=NO;
     }
     
     

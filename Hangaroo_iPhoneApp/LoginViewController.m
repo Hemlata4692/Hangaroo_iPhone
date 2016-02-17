@@ -14,6 +14,7 @@
 {
     NSArray *textFieldArray;
      UIImageView *userImageview;
+      NSString* userId, *userName, *userImage, *joiningYear;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
@@ -29,6 +30,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     // Set the screen name for automatic screenview tracking.
+    userImage = @"";
+    userName = @"";
+    userId = @"";
+    joiningYear = @"";
     userImageview=[[UIImageView alloc]init];
     self.screenName = @"SignIn screen";
     //Adding textfield to array
@@ -135,7 +140,7 @@
     [self.keyboardControls.activeField resignFirstResponder];
     if([self performValidationsForLogin])
     {
-        [myDelegate ShowIndicator];
+        [myDelegate showIndicator];
         [self performSelector:@selector(loginUser) withObject:nil afterDelay:.1];
     }
 
@@ -149,21 +154,20 @@
 {
     [[WebService sharedManager] userLogin:userNameField.text password:passwordField.text success:^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
          NSDictionary *responseDict = (NSDictionary *)responseObject;
-        [UserDefaultManager setValue:[responseDict objectForKey:@"userId"] key:@"userId"];
-        [UserDefaultManager setValue:[responseDict objectForKey:@"username"] key:@"userName"];
-        [UserDefaultManager setValue:[responseDict objectForKey:@"userImage"] key:@"userImage"];
-        [UserDefaultManager setValue:[responseDict objectForKey:@"joining_year"] key:@"joining_year"];
         
-        [myDelegate ShowIndicator];
-        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]
+       
+        userId = [responseDict objectForKey:@"userId"];
+        userName = [responseDict objectForKey:@"username"];
+        userImage = [responseDict objectForKey:@"userImage"];
+        joiningYear = [responseDict objectForKey:@"joining_year"];
+        
+        [myDelegate showIndicator];
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userImage]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                   timeoutInterval:60];
-        //        UIImageView *userProfileImageView;
         __weak UIImageView *weakRef = userImageview;
-        
-        //        __weak UITableView *weaktable = userTableView;
         __weak typeof(self) weakSelf = self;
         [userImageview setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"user_thumbnail.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             weakRef.contentMode = UIViewContentModeScaleAspectFill;
@@ -189,7 +193,7 @@
 -(void)targetMethod
 {
     myDelegate.userProfileImageDataValue = UIImageJPEGRepresentation(userImageview.image, 1.0);
-    NSString *username = [NSString stringWithFormat:@"%@@52.74.174.129",[UserDefaultManager getValue:@"userName"]]; // OR
+    NSString *username = [NSString stringWithFormat:@"%@@52.74.174.129",userName]; // OR
     NSString *password = passwordField.text;
     
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -201,12 +205,25 @@
     
     if (del.xmppStream.supportsInBandRegistration) {
         NSError *error = nil;
-        if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@52.74.174.129@%@",[UserDefaultManager getValue:@"userName"],[UserDefaultManager getValue:@"joining_year"]] error:&error])
+        if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@52.74.174.129@%@",userName,joiningYear] error:&error])
         {
             NSLog(@"Oops, I forgot something: %@", error);
         }else{
             NSLog(@"No Error");
+            if ([UserDefaultManager getValue:@"CountData"] == nil) {
+                NSMutableDictionary* countData = [NSMutableDictionary new];
+                
+                [UserDefaultManager setValue:countData key:@"CountData"];
+                
+            }
             
+            if ([UserDefaultManager getValue:@"BadgeCount"] == nil) {
+                [UserDefaultManager setValue:@"0" key:@"BadgeCount"];
+            }
+            [UserDefaultManager setValue:userId key:@"userId"];
+            [UserDefaultManager setValue:userName key:@"userName"];
+            [UserDefaultManager setValue:userImage key:@"userImage"];
+            [UserDefaultManager setValue:joiningYear key:@"joining_year"];
             [myDelegate registerDeviceForNotification];
             //            AppDelegate *delegate=[self appDelegate];
             [myDelegate disconnect];

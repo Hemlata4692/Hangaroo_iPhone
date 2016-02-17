@@ -22,26 +22,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    isChange = 1;
+
     self.navigationItem.title = @"Chats";
     historyArray = [NSMutableArray new];
-  // self.screenName=@"Different Chats";
+ 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatScreenHistory) name:@"ChatScreenHistory" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterInBackGround) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatScreenHistory) name:UIApplicationWillEnterForegroundNotification object:nil];
-    
-//    [myDelegate ShowIndicator];
-//    [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
+
     // Do any additional setup after loading the view.
 }
 
 -(void)enterInBackGround{
-    [myDelegate StopIndicator];
+    [myDelegate stopIndicator];
 }
 
 -(void)ChatScreenHistory{
     [historyArray removeAllObjects];
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
 }
 
@@ -52,11 +50,12 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[self navigationController] setNavigationBarHidden:NO];
     myDelegate.chatUser = @"ChatScreen";
 //    if (isChange == 2 ) {
         [historyArray removeAllObjects];
-        [myDelegate ShowIndicator];
+        [myDelegate showIndicator];
         [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
 //    }
 //    else{
@@ -164,7 +163,7 @@
             }
         }
         historyArray=[[[historyArray reverseObjectEnumerator] allObjects] mutableCopy];
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
 //        isChange = 1;
         [historyTableView reloadData];
         //        -----reload table-------

@@ -89,7 +89,7 @@
 }
 
 #pragma mark - end
-#pragma mark - Swipe Images
+#pragma mark - Swipe images
 -(void)swipeImages
 {
     tutorialImageView.image=[tutorialImages objectAtIndex:0];

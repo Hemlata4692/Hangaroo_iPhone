@@ -90,10 +90,11 @@
     [super viewWillAppear:YES];
     //self.tabBarController.tabBar.hidden=NO;
     [[self navigationController] setNavigationBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     posted=@"Today";
     [postListingTableView setContentOffset:CGPointZero animated:YES];
     if (!pickerSelection) {
-        [myDelegate ShowIndicator];
+        [myDelegate showIndicator];
         [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
 
     }
@@ -134,7 +135,7 @@
     tabBarItem5.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
 }
 #pragma mark - end
-#pragma mark - Refresh Table
+#pragma mark - Refresh table
 //Pull to refresh implementation on my submission data
 - (void)refreshTable
 {
@@ -154,7 +155,7 @@
     [postListingArray removeAllObjects];
     [[WebService sharedManager]postListing:^(id dataArray) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         if ([dataArray isKindOfClass:[NSArray class]])
         {
             if ([dataArray count]==0) {
@@ -432,6 +433,10 @@
         {
             followedUserLabel.text=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] joinedUserCount]];
         }
+       else if ([[[todayPostData objectAtIndex:indexPath.row] joinedUserCount]intValue] ==0)
+        {
+            followedUserLabel.text=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
+        }
         else
         {
             followedUserLabel.text=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] joinedUserCount],[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
@@ -466,6 +471,10 @@
         if ([[[yesterdayPostData objectAtIndex:indexPath.row] friendsJoinedCount]intValue] ==0)
         {
             followedUserLabel.text=[NSString stringWithFormat:@"%@ felt the same way",[[yesterdayPostData objectAtIndex:indexPath.row] joinedUserCount]];
+        }
+        else if ([[[yesterdayPostData objectAtIndex:indexPath.row] joinedUserCount]intValue] ==0)
+        {
+            followedUserLabel.text=[NSString stringWithFormat:@"%@ felt the same way",[[yesterdayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
         }
         else
         {
@@ -864,7 +873,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         {
             if (indexPath.item==0 && [[[todayPostData objectAtIndex:collectionView.collectionTag]isUserJoined]isEqualToString:@"No"]) {
                 postId=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
-                [myDelegate ShowIndicator];
+                [myDelegate showIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
             }
             else
@@ -880,6 +889,12 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]];
                 }
+               else if ([[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]intValue] ==0)
+                {
+                    viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]];
+                }
+
+                
                 else
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount],[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]];
@@ -897,7 +912,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         {
             if (indexPath.item==0 && [[[yesterdayPostData objectAtIndex:collectionView.collectionTag]isUserJoined]isEqualToString:@"No"]) {
                 postId=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
-                [myDelegate ShowIndicator];
+                [myDelegate showIndicator];
                 [self performSelector:@selector(joinPost) withObject:nil afterDelay:0.1];
             }
             else
@@ -912,6 +927,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 if ([[[yesterdayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[yesterdayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]];
+                }
+                else if ([[[yesterdayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]intValue] ==0)
+                {
+                    viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[yesterdayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]];
                 }
                 else
                 {
@@ -977,7 +996,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [[WebService sharedManager]joinPost:postId success: ^(id responseObject) {
         
-        [myDelegate ShowIndicator];
+        [myDelegate showIndicator];
         [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
         
     }
@@ -1095,7 +1114,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-   // [myDelegate StopIndicator];
+   // [myDelegate stopIndicator];
     [picker dismissViewControllerAnimated:YES completion:NULL];
     
 }

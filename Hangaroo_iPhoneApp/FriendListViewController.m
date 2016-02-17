@@ -65,12 +65,14 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[self navigationController] setNavigationBarHidden:NO];
     self.navigationItem.title=@"Friends";
     [friendListArray removeAllObjects];
     [friendListTableView setContentOffset:CGPointZero animated:YES];
     [self initFooterView];
     Offset=@"0";
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(getFriendList) withObject:nil afterDelay:0.1];
     
 }
@@ -155,6 +157,25 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (isSearch) {
+        if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[searchArray objectAtIndex:indexPath.row]userId]])
+        {
+            UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+            // otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
+            [self.navigationController pushViewController:otherUserProfile animated:YES];
+        }
+        else
+        {
+            UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+            otherUserProfile.otherUserId=[[searchArray objectAtIndex:indexPath.row]userId];
+            [self.navigationController pushViewController:otherUserProfile animated:YES];
+        }
+
+    }
+    else
+    {
     if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[friendListArray objectAtIndex:indexPath.row]userId]])
     {
         UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -169,10 +190,11 @@
     otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
     [self.navigationController pushViewController:otherUserProfile animated:YES];
     }
+    }
 }
 #pragma mark - end
 
-#pragma mark - pagignation for table view
+#pragma mark - Pagignation for table view
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *) cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (friendListArray.count ==totalFriends)
@@ -221,7 +243,7 @@
 {
     btnTag=[sender Tag];
     friendUserId=[[friendListArray objectAtIndex:btnTag]userId];
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(sendFriendRequestWebservice) withObject:nil afterDelay:0.1];
 
 }
@@ -231,7 +253,7 @@
 {
     [[WebService sharedManager]getFriendList:Offset otherUserId:otherUserId success:^(id friendListDataArray)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
         if (friendListArray.count<=0) {
               friendListArray=[friendListDataArray mutableCopy];
          }
@@ -258,7 +280,7 @@
     FriendListTableCell * cell = (FriendListTableCell *)[friendListTableView cellForRowAtIndexPath:index];
     [[WebService sharedManager]sendFriendRequest:friendUserId success:^(id responseObject)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          FriendListDataModel *tempModel = [friendListArray objectAtIndex:btnTag];
          tempModel.isRequestSent=@"True";
          [friendListArray replaceObjectAtIndex:btnTag withObject:tempModel];

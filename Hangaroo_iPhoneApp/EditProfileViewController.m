@@ -53,6 +53,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[self navigationController] setNavigationBarHidden:NO];
+}
+
 #pragma mark - end
 #pragma mark - Change profile image action
 - (void) imageViewTapped
@@ -110,7 +117,7 @@
 }
 #pragma mark - end
 
-#pragma mark - Image Picker Controller delegate methods
+#pragma mark - Image picker controller delegate methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)info
 {
@@ -134,7 +141,7 @@
 {
     [[WebService sharedManager]editProfilePhoto:userProfileImageView.image success: ^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         userSettingObj.myProfileData.profileImageUrl=[responseObject objectForKey:@"user_image"];
         [UserDefaultManager setValue:[responseObject objectForKey:@"user_image"] key:@"userImage"];
         [myDelegate editProfileImageUploading:userProfileImageView.image];
@@ -159,7 +166,7 @@
 #pragma mark - IBActions
 - (IBAction)saveButtonAction:(id)sender
 {
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(editProfilePhoto) withObject:nil afterDelay:.1];
 
 }

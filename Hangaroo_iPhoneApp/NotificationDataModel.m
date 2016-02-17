@@ -11,5 +11,7 @@
 @implementation NotificationDataModel
 @synthesize userImageUrl;
 @synthesize notificationString;
+@synthesize username;
+@synthesize photoLiked;
 @synthesize totalRecords;
 @end

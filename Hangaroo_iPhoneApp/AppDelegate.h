@@ -31,8 +31,8 @@
 @property (strong, nonatomic) UIWindow *window;
 @property(nonatomic,retain) UINavigationController *navigationController;
 //Indicator
-- (void)ShowIndicator;
-- (void)StopIndicator;
+- (void)showIndicator;
+- (void)stopIndicator;
 -(void)unregisterDeviceForNotification;
 -(void)registerDeviceForNotification;
 @property(nonatomic,retain)NSString * deviceToken;

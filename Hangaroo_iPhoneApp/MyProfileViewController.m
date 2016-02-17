@@ -36,38 +36,44 @@
     // Do any additional setup after loading the view.
      self.screenName = @"Profile screen";
     Offset=@"0";
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     notificationsArray=[[NSMutableArray alloc]init];
     myProfileArray=[[NSMutableArray alloc]init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(myProfileData) name:@"MyProfileData" object:nil];
+    
 }
 
 -(void)myProfileData{
     [myDelegate removeBadgeIconLastTab];
-    [myDelegate ShowIndicator];
+    //[myDelegate showIndicator];
     [self performSelector:@selector(getMyProfileData) withObject:nil afterDelay:0.1];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    [[self navigationController] setNavigationBarHidden:NO];
-     [[UIApplication sharedApplication] setStatusBarHidden:NO];
+//    [[self navigationController] setNavigationBarHidden:NO];
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+//    [[NSNotificationCenter defaultCenter] removeObserver:@"MyProfileData"];
+    myDelegate.myView=@"other";
+    
     [headerView deallocHeaderView];
     headerView.scrollView=Nil;
     [headerView removeFromSuperview];
 
 }
 
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [[self navigationController] setNavigationBarHidden:YES];
+     myDelegate.myView=@"MyProfileViewController";
     [notificationsArray removeAllObjects];
+    [myProfileArray removeAllObjects];
     [myDelegate removeBadgeIconLastTab];
-      [self initFooterView];
+    [self initFooterView];
     Offset=@"0";
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(getMyProfileData) withObject:nil afterDelay:0.1];
     
 }
@@ -275,6 +281,7 @@
         {
             notificationCell.noNotificationFound.hidden=NO;
             notificationCell.notificationLabel.hidden=YES;
+            notificationCell.noNotificationFound.text=@"No notifications found.";
             notificationCell.userImage.hidden=YES;
             notificationCell.seperatorLabel.hidden=YES;
         }
@@ -301,7 +308,7 @@
 
 #pragma mark - end
 
-#pragma mark - pagignation for table view
+#pragma mark - Pagignation for table view
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *) cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (notificationsArray.count ==totalNotifications)
@@ -355,10 +362,8 @@
         
         [self getUserNotification];
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         myProfileArray = [profileDataArray mutableCopy];
-       
-//        headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)backGroudImage:@"" headerImageURL:[[myProfileArray objectAtIndex:0]profileImageUrl] title:[[myProfileArray objectAtIndex:0]userName] facebookBtn:@"facebook_profile.png" instagramBtn:@"insta_profile.png" twitterBtn:@"twit_profile.png" settingsBtn:@"setting_icon.png"];
        
         headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300)backGroudImage:[[myProfileArray objectAtIndex:0]profileImageUrl] headerImageURL:[[myProfileArray objectAtIndex:0]profileImageUrl] title:[[myProfileArray objectAtIndex:0]userName] facebookBtn:@"facebook_profile.png" instagramBtn:@"insta_profile.png" twitterBtn:@"twit_profile.png" settingsBtn:@"setting_icon.png"];
         
@@ -428,7 +433,7 @@
    
     [[WebService sharedManager]getUserNotification:[NSString stringWithFormat:@"%@",Offset] success:^(id notificationDataArray)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          if (notificationsArray.count<=0) {
              notificationsArray =[notificationDataArray mutableCopy];
          }

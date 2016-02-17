@@ -30,7 +30,6 @@
 @implementation CoolNavi
 @synthesize facebookButton,twitterButton,instaButton,settings;
 
-//- (id)initWithFrame:(CGRect)frame backGroudImage:(NSString *)backImageName headerImageURL:(NSString *)headerImageURL title:(NSString *)title facebookBtn:(NSString *)facebookBtn instagramBtn:(NSString *)instagramBtn twitterBtn:(NSString *)twitterBtn settingsBtn:(NSString *)settingsBtn
 - (id)initWithFrame:(CGRect)frame backGroudImage:(NSString *)backImageName headerImageURL:(NSString *)headerImageURL title:(NSString *)title facebookBtn:(NSString *)facebookBtn instagramBtn:(NSString *)instagramBtn twitterBtn:(NSString *)twitterBtn settingsBtn:(NSString *)settingsBtn
 {
     self = [super initWithFrame:frame];
@@ -39,24 +38,23 @@
         
         _backImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -0.5*frame.size.height, frame.size.width, frame.size.height*1.5)];
         _backImageView.backgroundColor=[UIColor whiteColor];
-        _backImageView.image = [UIImage imageNamed:backImageName];
+    
         _backImageView.contentMode = UIViewContentModeScaleAspectFit;
          __weak UIImageView *weakRef1 = _backImageView;
+        __weak id selfWeak = self;
          //__weak UIImageView *weakRef2 = _headerImageView;
-        NSURLRequest *imageRequest1 = [NSURLRequest requestWithURL:[NSURL URLWithString:headerImageURL]
+        NSURLRequest *imageRequest1 = [NSURLRequest requestWithURL:[NSURL URLWithString:backImageName]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                   timeoutInterval:60];
-        [_backImageView setImageWithURLRequest:imageRequest1 placeholderImage:[UIImage imageNamed:@"placeholder.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        [_backImageView setImageWithURLRequest:imageRequest1 placeholderImage:[UIImage imageNamed:@""] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             weakRef1.contentMode = UIViewContentModeScaleAspectFill;
             weakRef1.clipsToBounds = YES;
             weakRef1.image = image;
-//            weakRef2.contentMode = UIViewContentModeScaleAspectFill;
-//            weakRef2.clipsToBounds = YES;
-//            weakRef2.image = image;
+             weakRef1.image=[selfWeak blur: weakRef1.image];
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
         }];
-        _backImageView.image=[self blur:_backImageView.image];
+      
     
         _headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
         _headerImageView.contentMode=UIViewContentModeScaleAspectFit;
@@ -108,7 +106,7 @@
         [self addSubview:twitterButton];
         [self addSubview:instaButton];
         [self addSubview:settings];
-       // [_headerImageView bringSubviewToFront:self];
+     
         self.clipsToBounds = YES;
         
     }
@@ -171,9 +169,6 @@
 
 - (UIImage*) blur:(UIImage*)theImage
 {
-    // ***********If you need re-orienting (e.g. trying to blur a photo taken from the device camera front facing camera in portrait mode)
-    // theImage = [self reOrientIfNeeded:theImage];
-    
     // create our blurred image
     context = [CIContext contextWithOptions:nil];
     inputImage = [CIImage imageWithCGImage:theImage.CGImage];
@@ -183,18 +178,11 @@
     [filter setValue:inputImage forKey:kCIInputImageKey];
     [filter setValue:[NSNumber numberWithFloat:5.0f] forKey:@"inputRadius"];
     result = [filter valueForKey:kCIOutputImageKey];
-    
-    // CIGaussianBlur has a tendency to shrink the image a little,
-    // this ensures it matches up exactly to the bounds of our original image
     cgImage = [context createCGImage:result fromRect:[inputImage extent]];
     
-    returnImage = [UIImage imageWithCGImage:cgImage];//create a UIImage for this function to "return" so that ARC can manage the memory of the blur... ARC can't manage CGImageRefs so we need to release it before this function "returns" and ends.
-    CGImageRelease(cgImage);//release CGImageRef because ARC doesn't manage this on its own.
-    
+    returnImage = [UIImage imageWithCGImage:cgImage];
     return returnImage;
-    
-    // *************** if you need scaling
-    // return [[self class] scaleIfNeeded:cgImage];
+ 
 }
 
 - (void)tapAction:(id)sender

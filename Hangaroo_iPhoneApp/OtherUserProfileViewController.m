@@ -11,6 +11,7 @@
 #import "UIView+Toast.h"
 #import "LoadWebPagesViewController.h"
 #import "FriendListViewController.h"
+#import "PersonalChatViewController.h"
 
 @interface OtherUserProfileViewController ()
 {
@@ -50,6 +51,7 @@
         scrollView.scrollEnabled=NO;
     }
     otherUserProfileArray=[[NSMutableArray alloc]init];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
    
 }
 
@@ -63,15 +65,15 @@
     self.navigationItem.title=@"Profile";
     [[self navigationController] setNavigationBarHidden:YES];
      [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(getOtherUserProfileData) withObject:nil afterDelay:0.1];
    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    [[self navigationController] setNavigationBarHidden:NO];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+//    [[self navigationController] setNavigationBarHidden:NO];
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
 }
 -(BOOL)prefersStatusBarHidden
@@ -130,7 +132,7 @@
 {
     [[WebService sharedManager]otherUserProfile:otherUserId success:^(id otherUserDataArray)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
          otherUserProfileArray=[otherUserDataArray mutableCopy];
          [self displayData];
           [self setFrames];
@@ -146,7 +148,7 @@
 {
     [[WebService sharedManager]sendFriendRequest:otherUserId success:^(id responseObject)
      {
-         [myDelegate StopIndicator];
+         [myDelegate stopIndicator];
         [addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
          [self.view makeToast:@"Request Sent"];
          addFriendBtn.userInteractionEnabled=NO;
@@ -164,7 +166,7 @@
     NSLog(@"user id %@",otherUserId);
     [[WebService sharedManager] seeOutNotification:otherUserId success:^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         
         
         
@@ -325,12 +327,29 @@
 {
     [self performSelector:@selector(seeOutUser) withObject:nil afterDelay:0.1];
 }
-- (IBAction)chatBtnAction:(id)sender {
+- (IBAction)chatBtnAction:(id)sender
+{
+    
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    PersonalChatViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
+    NSXMLElement *msg = [NSXMLElement elementWithName:@"message"];
+    [msg addAttributeWithName:@"type" stringValue:@"chat"];
+    
+    [msg addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[userNameLabel.text lowercaseString]]];
+    
+    [msg addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[[UserDefaultManager getValue:@"userName"] lowercaseString]]];
+    
+    [msg addAttributeWithName:@"ToName" stringValue:userNameLabel.text];
+    otherUserProfile.userXmlDetail = msg;
+    otherUserProfile.friendProfileImageView = profileImage.image;
+    otherUserProfile.lastView = @"MeTooUserProfile";
+   //same functionality as me too 
+    [self.navigationController pushViewController:otherUserProfile animated:YES];
 }
 
 - (IBAction)addFriendBtnAction:(id)sender
 {
-    //[myDelegate ShowIndicator];
+    //[myDelegate showIndicator];
     [self performSelector:@selector(sendFriendRequest) withObject:nil afterDelay:0.1];
 }
 

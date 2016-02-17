@@ -148,7 +148,7 @@
 }
 - (IBAction)seeOutbutonAction:(id)sender
 {
-    //    [myDelegate ShowIndicator];
+    //    [myDelegate showIndicator];
      [self performSelector:@selector(seeOutUser) withObject:nil afterDelay:0.1];
 }
 #pragma mark - end
@@ -158,9 +158,8 @@
     NSLog(@"user id %@",joineUserId);
     [[WebService sharedManager] seeOutNotification:joineUserId success:^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         //[self.view makeToast:@"Notification sent."];
-        
         
     } failure:^(NSError *error) {
         

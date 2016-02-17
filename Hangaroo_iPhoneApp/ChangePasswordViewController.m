@@ -44,6 +44,8 @@
 {
     [super viewWillAppear:YES];
     self.title=@"Change password";
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[self navigationController] setNavigationBarHidden:NO];
     
 }
 #pragma mark - end
@@ -132,7 +134,7 @@
 {
     [[WebService sharedManager]changePassword:oldPasswordField.text newPassword:changePasswordField.text success: ^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
     
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
@@ -175,7 +177,7 @@
     [self.keyboardControls.activeField resignFirstResponder];
     if([self performValidationsForConfirmPassword])
     {
-        [myDelegate ShowIndicator];
+        [myDelegate showIndicator];
         [self performSelector:@selector(changePassword) withObject:nil afterDelay:.1];
     }
 

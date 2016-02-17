@@ -14,7 +14,6 @@
 		B709C52E1C33A5D600300EFF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C52D1C33A5D600300EFF /* LoginViewController.m */; };
 		B709C5311C33A6BD00300EFF /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5301C33A6BD00300EFF /* SignUpViewController.m */; };
 		B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5341C33D28700300EFF /* GlobalBackViewController.m */; };
-		B709C5371C33E92600300EFF /* header.png in Resources */ = {isa = PBXBuildFile; fileRef = B709C5361C33E92600300EFF /* header.png */; };
 		B70AFA811C492D3F0091D570 /* MyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B70AFA801C492D3F0091D570 /* MyButton.m */; };
 		B72ED7F11C5F69BD0084964D /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */; };
 		B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F31C5F6BEF0084964D /* CoolNavi.m */; };
@@ -63,7 +62,6 @@
 		B795B17A1C323CAF007EB2E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B795B1781C323CAF007EB2E6 /* Main.storyboard */; };
 		B795B17C1C323CAF007EB2E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B795B17B1C323CAF007EB2E6 /* Assets.xcassets */; };
 		B795B1931C325CEA007EB2E6 /* NullValueChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = B795B1921C325CEA007EB2E6 /* NullValueChecker.m */; };
-		B795B19F1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = B795B19E1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.m */; };
 		B795B1A51C32605B007EB2E6 /* UITextField+Padding.m in Sources */ = {isa = PBXBuildFile; fileRef = B795B1A41C32605B007EB2E6 /* UITextField+Padding.m */; };
 		B795B1A81C326063007EB2E6 /* UIView+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = B795B1A71C326063007EB2E6 /* UIView+RoundedCorner.m */; };
 		B795B1AB1C326077007EB2E6 /* UITextField+Validations.m in Sources */ = {isa = PBXBuildFile; fileRef = B795B1AA1C326077007EB2E6 /* UITextField+Validations.m */; };
@@ -105,7 +103,6 @@
 		B709C5301C33A6BD00300EFF /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		B709C5331C33D28700300EFF /* GlobalBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalBackViewController.h; sourceTree = "<group>"; };
 		B709C5341C33D28700300EFF /* GlobalBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalBackViewController.m; sourceTree = "<group>"; };
-		B709C5361C33E92600300EFF /* header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = header.png; sourceTree = "<group>"; };
 		B70AFA7F1C492D3F0091D570 /* MyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyButton.h; sourceTree = "<group>"; };
 		B70AFA801C492D3F0091D570 /* MyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyButton.m; sourceTree = "<group>"; };
 		B72ED7EF1C5F69BD0084964D /* ProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewCell.h; sourceTree = "<group>"; };
@@ -201,8 +198,6 @@
 		B795B1801C323CAF007EB2E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B795B1911C325CEA007EB2E6 /* NullValueChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NullValueChecker.h; sourceTree = "<group>"; };
 		B795B1921C325CEA007EB2E6 /* NullValueChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullValueChecker.m; sourceTree = "<group>"; };
-		B795B19D1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+deviceSpecificMedia.h"; sourceTree = "<group>"; };
-		B795B19E1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+deviceSpecificMedia.m"; sourceTree = "<group>"; };
 		B795B1A31C32605B007EB2E6 /* UITextField+Padding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Padding.h"; sourceTree = "<group>"; };
 		B795B1A41C32605B007EB2E6 /* UITextField+Padding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Padding.m"; sourceTree = "<group>"; };
 		B795B1A61C326063007EB2E6 /* UIView+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RoundedCorner.h"; sourceTree = "<group>"; };
@@ -324,7 +319,6 @@
 				B770A0B01C4CED8900B20691 /* profileImage.png */,
 				B747C44E1C43AE9A009601D2 /* picture.png */,
 				B747C44C1C43A341009601D2 /* user_thumbnail.png */,
-				B709C5361C33E92600300EFF /* header.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -865,18 +859,8 @@
 				B795B1A21C32604B007EB2E6 /* CornerRadiusCategory */,
 				B795B1A11C326030007EB2E6 /* PaddingCategory */,
 				B795B1A01C325D8F007EB2E6 /* ValidationCategory */,
-				B795B1991C325D2F007EB2E6 /* UIImageCategory */,
 			);
 			name = Category;
-			sourceTree = "<group>";
-		};
-		B795B1991C325D2F007EB2E6 /* UIImageCategory */ = {
-			isa = PBXGroup;
-			children = (
-				B795B19D1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.h */,
-				B795B19E1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.m */,
-			);
-			name = UIImageCategory;
 			sourceTree = "<group>";
 		};
 		B795B1A01C325D8F007EB2E6 /* ValidationCategory */ = {
@@ -1089,7 +1073,6 @@
 				B795B1C01C329893007EB2E6 /* Roboto-Bold.ttf in Resources */,
 				B795B1C21C329893007EB2E6 /* Roboto-Light.ttf in Resources */,
 				B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */,
-				B709C5371C33E92600300EFF /* header.png in Resources */,
 				B738DF881C607C4500DC6CB4 /* placeholder.png in Resources */,
 				B770A0B11C4CED8900B20691 /* profileImage.png in Resources */,
 				B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */,
@@ -1170,7 +1153,6 @@
 				B7063BB41C340B4D007C9E4D /* ForgotPasswordViewController.m in Sources */,
 				B77D2FE51C3F73C80067BA6C /* JoinedUserDataModel.m in Sources */,
 				B76B69F91C3E423C00A7254D /* PhotoPreviewViewController.m in Sources */,
-				B795B19F1C325D63007EB2E6 /* UIImage+deviceSpecificMedia.m in Sources */,
 				B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */,
 				B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */,
 				B70AFA811C492D3F0091D570 /* MyButton.m in Sources */,

@@ -36,6 +36,8 @@
 {
     [super viewWillAppear:YES];
     self.navigationItem.title=@"Interest";
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[self navigationController] setNavigationBarHidden:NO];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -108,7 +110,7 @@
 {
     [[WebService sharedManager]addUserInterest:interestTextView.text success: ^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         userSettingObj.myProfileData.userInterest=interestTextView.text;
         for (UIViewController *controller in self.navigationController.viewControllers)
         {
@@ -160,7 +162,7 @@
 - (IBAction)saveButtonAction:(id)sender
 {
     [interestTextView resignFirstResponder];
-    [myDelegate ShowIndicator];
+    [myDelegate showIndicator];
     [self performSelector:@selector(saveUserInterest) withObject:nil afterDelay:.1];
 }
 #pragma mark - end

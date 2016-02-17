@@ -194,7 +194,7 @@
     [signUpScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
     if([self performValidationsForSignUp])
     {
-        [myDelegate ShowIndicator];
+        [myDelegate showIndicator];
         [self performSelector:@selector(signupUser) withObject:nil afterDelay:.1];
     }
     
@@ -207,7 +207,7 @@
 {
     [[WebService sharedManager]registerUser:userEmailField.text password:passwordField.text userName:userNameField.text image:profileImageView.image success:^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
                                               message:[responseObject objectForKey:@"message"]
@@ -286,7 +286,7 @@
 }
 #pragma mark - end
 
-#pragma mark - Image Picker Controller delegate methods
+#pragma mark - Image picker controller delegate methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)info
 {

@@ -94,18 +94,54 @@
 }
 
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:YES];
     self.tabBarController.tabBar.hidden=NO;
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    NSLog(@"%@",userXmlDetail);
+    [myDelegate showIndicator];
+//    NSLog(@"%@",userXmlDetail);
+//    
+//    if ([lastView isEqualToString:@"ChatViewController"] || [lastView isEqualToString:@"MeTooUserProfile"]) {
+//        
+//        self.title = [userXmlDetail attributeStringValueForName:@"ToName"];
+//        
+//        myDelegate.chatUser = [userXmlDetail attributeStringValueForName:@"to"];
+//        NSLog(@"%@",myDelegate.chatUser);
+//    }
+//    else{
+//        NSArray* fromUser = [userDetail.jidStr componentsSeparatedByString:@"@52.74.174.129"];
+//        self.title = [fromUser objectAtIndex:0];
+//        
+//        myDelegate.chatUser = [[userDetail.jidStr componentsSeparatedByString:@"/"] objectAtIndex:0];
+//    }
+//    [userData removeAllObjects];
+//    NSString *keyName = myDelegate.chatUser;
+//    if ([[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] != nil) {
+//        int tempCount = 0;
+//        
+//        int badgeCount = [[[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] intValue];
+//        if (badgeCount > 0) {
+//            [myDelegate addBadgeIcon:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] - badgeCount ]];
+//            [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] - badgeCount ] key:@"BadgeCount"];
+//        }
+//        
+//        NSMutableDictionary *tempDict = [[UserDefaultManager getValue:@"CountData"] mutableCopy];
+//        
+//        [tempDict setObject:[NSString stringWithFormat:@"%d",tempCount] forKey:keyName];
+//        [UserDefaultManager setValue:tempDict key:@"CountData"];
+//    }
+//    //    }
+//    [myDelegate showIndicator];
+//    [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
     
-    //    if ([meeToProfile isEqualToString:@"1"]) {
-    //        self.navigationItem.title=userNameProfile;
-    //    }
-    //    else
-    //    {
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:YES];
+    NSLog(@"%@",userXmlDetail);
     
     if ([lastView isEqualToString:@"ChatViewController"] || [lastView isEqualToString:@"MeTooUserProfile"]) {
         
@@ -137,9 +173,8 @@
         [UserDefaultManager setValue:tempDict key:@"CountData"];
     }
     //    }
-    [myDelegate ShowIndicator];
+   // [myDelegate showIndicator];
     [self performSelector:@selector(getHistoryData) withObject:nil afterDelay:.1];
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -161,7 +196,7 @@
     [request setEntity:entityDescription];
     NSError *error;
     NSArray *messages_arc = [moc executeFetchRequest:request error:&error];
-    //
+
     [self print:[[NSMutableArray alloc]initWithArray:messages_arc]];
     
 }
@@ -175,7 +210,7 @@
             [userData addObject:element];
         }
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         [userTableView reloadData];
         
         if (userData.count > 0) {
@@ -428,7 +463,7 @@
     
     [[WebService sharedManager] chatNotification:[message attributeStringValueForName:@"to"] userNameFrom:[message attributeStringValueForName:@"from"] messageString:[[message elementForName:@"body"] stringValue] success:^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         
     } failure:^(NSError *error) {
         

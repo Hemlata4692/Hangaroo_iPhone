@@ -45,9 +45,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[self navigationController] setNavigationBarHidden:NO];
     self.title=@"Settings";
     self.tabBarController.tabBar.hidden=NO;
-    [[self navigationController] setNavigationBarHidden:NO];
+   
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -178,6 +180,57 @@
     
     else if (indexPath.section == 1 && indexPath.row==3)
     {
+//        XMPPMessageArchivingCoreDataStorage *storage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
+//        NSManagedObjectContext *context = [storage mainThreadManagedObjectContext];
+//        NSManagedObjectContext *moc = [storage mainThreadManagedObjectContext];
+//        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
+//                                                             inManagedObjectContext:moc];
+//        NSFetchRequest *request = [[NSFetchRequest alloc]init];
+//        [request setEntity:entityDescription];
+//        NSError *error;
+//        NSArray *messages_new = [moc executeFetchRequest:request error:&error];
+//        
+//        for (NSManagedObject * message in messages_new)
+//        {
+//            [context deleteObject:message];
+//            //        [tableView reloadData];
+//        }
+        XMPPMessageArchivingCoreDataStorage *storage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
+        NSManagedObjectContext *moc = [storage mainThreadManagedObjectContext];
+        NSEntityDescription *messageEntity = [storage messageEntity:moc];
+        
+        //        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"composing == YES"];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        fetchRequest.entity = messageEntity;
+        //        fetchRequest.predicate = predicate;
+        //        fetchRequest.fetchBatchSize = saveThreshold;
+        
+        NSError *error = nil;
+//        NSArray *messages = [moc executeFetchRequest:fetchRequest error:&error];
+//        
+//        if (messages == nil)
+//        {
+//            NSLog(@"errror");
+//        
+//        }
+//
+//        for (XMPPMessageArchiving_Message_CoreDataObject *message in messages)
+//        {
+//            [moc deleteObject:message];
+//            
+//        }
+        
+        NSArray *fetchedObjects = [moc executeFetchRequest:fetchRequest error:&error];
+        
+        for (NSManagedObject *object in fetchedObjects) {
+            [moc deleteObject:object];
+        }
+        
+        if (![moc save:&error]) {
+            NSLog(@"Error in deleting conversation thread %@", error);
+        }
+        
         [myDelegate unregisterDeviceForNotification];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         myDelegate.navigationController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavController"];
@@ -189,6 +242,9 @@
         [UserDefaultManager removeValue:@"userId"];
         [UserDefaultManager removeValue:@"username"];
         [UserDefaultManager removeValue:@"userImage"];
+        [UserDefaultManager removeValue:@"joining_year"];
+        [UserDefaultManager removeValue:@"BadgeCount"];
+        [UserDefaultManager removeValue:@"CountData"];
     }
     
 }
@@ -260,7 +316,7 @@
 }
 #pragma mark - end
 
-#pragma mark - MFMailComposeViewController delegate
+#pragma mark - MFMailcomposeviewcontroller delegate
 - (void)mailComposeController:(MFMailComposeViewController*)controller
           didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError*)error

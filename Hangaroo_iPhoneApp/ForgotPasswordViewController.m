@@ -102,7 +102,7 @@
     [userEmailField resignFirstResponder];
     if([self performValidationsForForgorPassword])
   {
-        [myDelegate ShowIndicator];
+        [myDelegate showIndicator];
         [self performSelector:@selector(forgotPassword) withObject:nil afterDelay:.1];
     }
 
@@ -115,7 +115,7 @@
     
     [[WebService sharedManager] forgotPassword:userEmailField.text success:^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
                                               message:[responseObject objectForKey:@"message"]

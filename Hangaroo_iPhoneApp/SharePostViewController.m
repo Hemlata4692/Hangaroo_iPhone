@@ -14,6 +14,7 @@
 @interface SharePostViewController ()
 {
     int Count;
+    int checker;
 }
 
 @property (weak, nonatomic) IBOutlet UILabel *seperator;
@@ -31,16 +32,16 @@
     [super viewDidLoad];
     // Set the screen name for automatic screenview tracking.
     self.screenName = @"Sharepost screen";
-   
+    
     [postTextView setPlaceholder:@" Do it for the hangaroo!"];
     [postTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:18.0]];
- 
+    
     seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);
-    postTextView.layer.borderWidth=1.0f;
-    postTextView.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor grayColor]);
+//    postTextView.layer.borderWidth=1.0f;
+//    postTextView.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor grayColor]);
     
     
- }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -50,17 +51,21 @@
 {
     [super viewWillAppear:YES];
     self.navigationItem.title=@"Share post";
+    [[self navigationController] setNavigationBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     if ([postTextView.text isEqualToString:@""]) {
         sharePostBtn.enabled=NO;
+        checker=1;
+        Count=140;
+        textCount.text=[NSString stringWithFormat:@"%u",Count - postTextView.text.length];
     }
     else
     {
         sharePostBtn.enabled=YES;
+        textCount.text=[NSString stringWithFormat:@"%u", Count - postTextView.text.length];
     }
-    Count=140;
-    textCount.text=[NSString stringWithFormat:@"%d", Count];
-   // textCount.titleLabel.text =[NSString stringWithFormat:@"%d", Count];
 }
+// NSString *trimmedString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
 #pragma mark - end
 
@@ -68,7 +73,7 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-   
+    
     if(textView.text.length>=140 && range.length == 0)
     {
         [self.view makeToast:@"You have reached 140 characters limit."];
@@ -80,31 +85,25 @@
         [textView resignFirstResponder];
         return NO;
     }
-
+    
     else
     {
-        if([text isEqualToString:@""])
+        if (![text isEqualToString:@" "] && ![text isEqualToString:@""])
         {
-            if (Count<140) {
-                Count++;
-               
-                textCount.text=[NSString stringWithFormat:@"%d", Count];
-            }
-           
-            return YES;
+            checker=2;
+        }
+        if (checker==1)
+        {
+            sharePostBtn.enabled=NO;
         }
         else
         {
-            if (Count>0) {
-                Count--;
-                
-                textCount.text=[NSString stringWithFormat:@"%d", Count];
-            }
-        
-        return YES;
+            sharePostBtn.enabled=YES;
         }
+       
+        return YES;
     }
-
+    
     return YES;
 }
 - (void)textViewDidChange:(UITextView *)textView
@@ -112,16 +111,19 @@
     if (textView.text.length >= 140)
     {
         textView.text = [textView.text substringToIndex:140];
-         sharePostBtn.enabled=YES;
-    }
-    else if (textView.text.length==1) {
         sharePostBtn.enabled=YES;
-       
+      
     }
+    //    else if (textView.text.length==1) {
+    //        sharePostBtn.enabled=YES;
+    //
+    //    }
     else if (textView.text.length==0) {
         sharePostBtn.enabled=NO;
-        
+        checker=1;
     }
+    
+    textCount.text = [NSString stringWithFormat:@"%u", Count - textView.text.length];
 }
 
 #pragma mark - end
@@ -130,8 +132,9 @@
 - (IBAction)sharePostButtonAction:(id)sender
 {
     [postTextView resignFirstResponder];
-   
-    [myDelegate ShowIndicator];
+    NSString *trimmedString = [postTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    postTextView.text=trimmedString;
+    [myDelegate showIndicator];
     [self performSelector:@selector(sharePost) withObject:nil afterDelay:.1];
 }
 #pragma mark - end
@@ -141,15 +144,15 @@
 {
     [[WebService sharedManager] sharePost:postTextView.text success:^(id responseObject) {
         
-        [myDelegate StopIndicator];
+        [myDelegate stopIndicator];
         postTextView.text=@"";
-         [self.tabBarController setSelectedIndex:0];
+        [self.tabBarController setSelectedIndex:0];
         
     } failure:^(NSError *error) {
         
     }] ;
     
-
+    
 }
 #pragma mark - end
 @end
