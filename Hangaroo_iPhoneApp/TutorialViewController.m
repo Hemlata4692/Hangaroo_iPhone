@@ -29,7 +29,7 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
- 
+    
     // Set the screen name for automatic screenview tracking.
     self.screenName = @"Tutorial screen";
     //Adding images to array
@@ -50,19 +50,13 @@
     [tutorialImageView addGestureRecognizer:swipeImageRight];
     imageIndex=0;
     [self swipeImages];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-
-
+    
+    
+    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-}
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:YES];
-    [[self navigationController] setNavigationBarHidden:NO];
     
 }
 
@@ -70,7 +64,7 @@
 {
     [super viewWillAppear:YES];
     [[self navigationController] setNavigationBarHidden:YES];
-
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -108,7 +102,7 @@
     transition.type = kCATransitionPush;
     transition.subtype =kCATransitionFromRight;
     [viewTobeAnimatedLeft.layer addAnimation:transition forKey:nil];
-  
+    
 }
 //Adding right animation to banner images
 - (void)addRightAnimationPresentToView:(UIView *)viewTobeAnimatedRight
@@ -139,10 +133,10 @@
     else
     {
         imageIndex--;
-//        imageIndex=0;
-//        tutorialImageView.image=[tutorialImages objectAtIndex:0];
-//        [self setHeadingText];
-//        pageControl.currentPage=imageIndex;
+        //        imageIndex=0;
+        //        tutorialImageView.image=[tutorialImages objectAtIndex:0];
+        //        [self setHeadingText];
+        //        pageControl.currentPage=imageIndex;
     }
 }
 //Swipe images in right direction
@@ -163,7 +157,7 @@
     else
     {
         imageIndex++;
-       //  pageControl.currentPage=imageIndex;
+        //  pageControl.currentPage=imageIndex;
     }
 }
 
