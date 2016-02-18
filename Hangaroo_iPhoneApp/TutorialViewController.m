@@ -50,14 +50,13 @@
     [tutorialImageView addGestureRecognizer:swipeImageRight];
     imageIndex=0;
     [self swipeImages];
-    
-    
-    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-    
+    [[self navigationController] setNavigationBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated

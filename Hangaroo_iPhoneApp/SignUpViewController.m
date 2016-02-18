@@ -57,7 +57,7 @@
     [super viewWillAppear:YES];
     self.title=@"Sign up";
     [[self navigationController] setNavigationBarHidden:NO];
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 #pragma mark - end

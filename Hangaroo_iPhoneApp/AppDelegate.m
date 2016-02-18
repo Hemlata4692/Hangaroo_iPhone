@@ -19,10 +19,8 @@
 #import "XMPPRosterCoreDataStorage.h"
 #import "XMPPvCardAvatarModule.h"
 #import "XMPPvCardCoreDataStorage.h"
-
 #import "DDLog.h"
 #import "DDTTYLogger.h"
-
 #import <CFNetwork/CFNetwork.h>
 #import "XMPPvCardTemp.h"
 
@@ -38,13 +36,10 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
     UIView *loaderView;
 }
 @property (nonatomic, strong) MMMaterialDesignSpinner *spinnerView;
-
 - (void)setupStream;
 - (void)teardownStream;
-
 - (void)goOnline;
 - (void)goOffline;
-
 @end
 
 @implementation AppDelegate
@@ -76,7 +71,7 @@ id<GAITracker> tracker;
     loaderView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.window.bounds.size.width, self.window.bounds.size.height)];
     loaderView.backgroundColor=[UIColor colorWithRed:63.0/255.0 green:63.0/255.0 blue:63.0/255.0 alpha:0.3];
     [loaderView addSubview:logoImage];
-  
+    
     MMMaterialDesignSpinner *spinnerView = [[MMMaterialDesignSpinner alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     self.spinnerView = spinnerView;
     self.spinnerView.bounds = CGRectMake(0, 0, 40, 40);
@@ -100,18 +95,13 @@ id<GAITracker> tracker;
 #pragma mark - Application life cycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-   userProfileImageData = [[UIImageView alloc] init];
-    // Optional: automatically send uncaught exceptions to Google Analytics.
+    userProfileImageData = [[UIImageView alloc] init];
+    //Google analytics
     [GAI sharedInstance].trackUncaughtExceptions = YES;
-    
-    // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
     [GAI sharedInstance].dispatchInterval = 5;
-    
-    // Optional: set Logger to VERBOSE for debug information.
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
-    
-    // Initialize tracker. Replace with your tracking ID.
     tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-72052944-1"];
+    //end
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0]];
@@ -122,35 +112,21 @@ id<GAITracker> tracker;
     if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
         [UserDefaultManager setValue:@"Hema13245@52.74.174.129" key:@"LoginCred"];
         [UserDefaultManager setValue:@"password" key:@"PassCred"];
-      
+        
     }
     xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
     xmppMessageArchivingModule = [[XMPPMessageArchiving alloc]initWithMessageArchivingStorage:xmppMessageArchivingCoreDataStorage];
-    
-    
     if ([UserDefaultManager getValue:@"CountData"] == nil) {
         NSMutableDictionary* countData = [NSMutableDictionary new];
-        
         [UserDefaultManager setValue:countData key:@"CountData"];
-        
     }
-    
     if ([UserDefaultManager getValue:@"BadgeCount"] == nil) {
         [UserDefaultManager setValue:@"0" key:@"BadgeCount"];
     }
-    
-    
     [DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:XMPP_LOG_FLAG_SEND_RECV];
-    
-    // Setup the XMPP stream
-    
     [self setupStream];
-    
     [self connect];
-
-    
     NSLog(@"customerId %@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]);
-   
     UIStoryboard * storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]!=nil)
     {
@@ -161,22 +137,19 @@ id<GAITracker> tracker;
     }
     else
     {
-     
         TutorialViewController * infoView = [storyboard instantiateViewControllerWithIdentifier:@"TutorialViewController"];
         [self.navigationController setViewControllers: [NSArray arrayWithObject: infoView]
                                              animated: YES];
     }
-   
     NSDictionary *remoteNotifiInfo = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
     //Accept push notification when app is not open
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     if (remoteNotifiInfo)
     {
-         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         [self application:application didReceiveRemoteNotification:remoteNotifiInfo];
     }
-    
     return YES;
 }
 
@@ -246,24 +219,18 @@ id<GAITracker> tracker;
 {
     NSString *token = [[deviceToken1 description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-     NSLog(@"Notification token device ...............................////// info %@",token);
+    NSLog(@"Notification token device ...............................////// info %@",token);
     self.deviceToken = token;
     
     [[WebService sharedManager] registerDeviceForPushNotification:token deviceType:@"ios"  success:^(id responseObject) {
-        
         //[myDelegate stopIndicator];
-        
     } failure:^(NSError *error) {
         
     }] ;
-    
-    
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-     NSLog(@"entered into did recieve log");
-    
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userId"]!=nil)
     {
         [UIApplication sharedApplication].applicationIconBadgeNumber=0;
@@ -274,21 +241,16 @@ id<GAITracker> tracker;
             if ([[tempDict objectForKey:@"isChat"]intValue]!=1) {
                 [self addBadgeIconLastTab];
                 if ([myDelegate.myView isEqualToString:@"MyProfileViewController" ]) {
-                     [[NSNotificationCenter defaultCenter] postNotificationName:@"MyProfileData" object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"MyProfileData" object:nil];
                 }
+            }
         }
-            
-            NSLog(@"push notification user info is active state --------------------->>>%@",userInfo);
-        }
-
     }
     else
     {
         return;
     }
 }
-
-
 - (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err
 {
     NSString *str = [NSString stringWithFormat: @"Error: %@", err];
@@ -317,15 +279,15 @@ id<GAITracker> tracker;
 - (void)setupStream
 {
     NSAssert(xmppStream == nil, @"Method setupStream invoked multiple times");
-     xmppStream = [[XMPPStream alloc] init];
+    xmppStream = [[XMPPStream alloc] init];
     
 #if !TARGET_IPHONE_SIMULATOR
     {
-              xmppStream.enableBackgroundingOnSocket = YES;
+        xmppStream.enableBackgroundingOnSocket = YES;
     }
 #endif
     
-
+    
     xmppRosterStorage = [[XMPPRosterCoreDataStorage alloc] initWithInMemoryStore];
     
     xmppReconnect = [[XMPPReconnect alloc] init];
@@ -358,7 +320,7 @@ id<GAITracker> tracker;
     
     [xmppStream setHostName:@"52.74.174.129"];
     [xmppStream setHostPort:5222];
-   
+    
     customCertEvaluation = YES;
 }
 
@@ -482,7 +444,7 @@ id<GAITracker> tracker;
  completionHandler:(void (^)(BOOL shouldTrustPeer))completionHandler
 {
     DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
-
+    
     dispatch_queue_t bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(bgQueue, ^{
         
@@ -574,19 +536,19 @@ id<GAITracker> tracker;
         
     }
     return NO;
-  }
+}
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
     DDLogVerbose(@"%@: %@", THIS_FILE, THIS_METHOD);
     
-      if ([message isChatMessageWithBody])
+    if ([message isChatMessageWithBody])
     {
         XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[message from]
                                                                  xmppStream:xmppStream
                                                        managedObjectContext:[self managedObjectContext_roster]];
         NSLog(@"%@",user);
-      
+        
         
         [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",[message attributeStringValueForName:@"to"],[[[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0]]];
         
@@ -607,7 +569,7 @@ id<GAITracker> tracker;
             [UserDefaultManager setValue:tempDict key:@"CountData"];
         }
         
-            NSArray* fromUser = [[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"];
+        NSArray* fromUser = [[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"];
         NSLog(@"%@",myDelegate.chatUser);
         if ([myDelegate.chatUser isEqualToString:[fromUser objectAtIndex:0]]){
             [[NSNotificationCenter defaultCenter] postNotificationName:@"UserHistory" object:message];
@@ -621,12 +583,12 @@ id<GAITracker> tracker;
             [self addBadgeIcon:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] + 1 ]];
             [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",[[UserDefaultManager getValue:@"BadgeCount"] intValue] + 1 ] key:@"BadgeCount"];
         }
-      }
+    }
 }
 
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence
 {
-   
+    
     NSString *presenceType = [presence type];
     if  ([presenceType isEqualToString:@"subscribe"]) {
         
@@ -637,19 +599,19 @@ id<GAITracker> tracker;
     NSLog(@"From user %@",[[presence from] full]);
     
     int myCount = [[UserDefaultManager getValue:@"CountValue"] intValue];
-
+    
     if (myCount == 1) {
         [UserDefaultManager setValue:[NSString stringWithFormat:@"%d",myCount+1] key:@"CountValue"];
         [self performSelector:@selector(methodCalling) withObject:nil afterDelay:0.1];
     }
-  
+    
 }
 
 -(void)methodCalling{
     
     NSXMLElement *vCardXML = [NSXMLElement elementWithName:@"vCard" xmlns:@"vcard-temp"];
     XMPPvCardTemp *newvCardTemp = [XMPPvCardTemp vCardTempFromElement:vCardXML];
-       NSData *pictureData = UIImageJPEGRepresentation([UIImage imageWithData:myDelegate.userProfileImageDataValue], 0.5);
+    NSData *pictureData = UIImageJPEGRepresentation([UIImage imageWithData:myDelegate.userProfileImageDataValue], 0.5);
     [newvCardTemp setPhoto:pictureData];
     XMPPvCardCoreDataStorage * xmppvCardStorage1 = [XMPPvCardCoreDataStorage sharedInstance];
     XMPPvCardTempModule * xmppvCardTempModule1 = [[XMPPvCardTempModule alloc] initWithvCardStorage:xmppvCardStorage1];
@@ -662,7 +624,7 @@ id<GAITracker> tracker;
     NSXMLElement *vCardXML = [NSXMLElement elementWithName:@"vCard" xmlns:@"vcard-temp"];
     XMPPvCardTemp *newvCardTemp = [XMPPvCardTemp vCardTempFromElement:vCardXML];
     NSData *pictureData = UIImageJPEGRepresentation(editProfileImge, 0.5);
-
+    
     [newvCardTemp setPhoto:pictureData];
     XMPPvCardCoreDataStorage * xmppvCardStorage1 = [XMPPvCardCoreDataStorage sharedInstance];
     XMPPvCardTempModule * xmppvCardTempModule1 = [[XMPPvCardTempModule alloc] initWithvCardStorage:xmppvCardStorage1];
@@ -808,7 +770,7 @@ id<GAITracker> tracker;
     }
     else
     {
-
+        
         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
         localNotification.alertAction = @"OK";
         localNotification.alertBody = body;

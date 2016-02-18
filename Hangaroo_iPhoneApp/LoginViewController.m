@@ -51,6 +51,7 @@
     [super viewWillAppear:YES];
      self.title=@"Sign in";
     [[self navigationController] setNavigationBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     
 }
 #pragma mark - end

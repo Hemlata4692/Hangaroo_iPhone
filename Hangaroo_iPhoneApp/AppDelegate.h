@@ -26,17 +26,11 @@
     BOOL customCertEvaluation;
     BOOL isXmppConnected;
     NSMutableArray *turnSockets;
-
+    
 }
 @property (strong, nonatomic) UIWindow *window;
 @property(nonatomic,retain) UINavigationController *navigationController;
-//Indicator
-- (void)showIndicator;
-- (void)stopIndicator;
--(void)unregisterDeviceForNotification;
--(void)registerDeviceForNotification;
 @property(nonatomic,retain)NSString * deviceToken;
-
 @property (nonatomic, strong, readonly) XMPPStream *xmppStream;
 @property (nonatomic, strong, readonly) XMPPReconnect *xmppReconnect;
 @property (nonatomic, strong, readonly) XMPPRoster *xmppRoster;
@@ -49,25 +43,25 @@
 @property(strong, nonatomic)NSMutableArray *groupListArray;
 @property(strong, nonatomic)NSString *chatUser;
 @property(nonatomic,retain) UITabBarController *tabBarView;
-- (NSManagedObjectContext *)managedObjectContext_roster;
-- (NSManagedObjectContext *)managedObjectContext_capabilities;
-
-
 @property(strong, nonatomic)XMPPMessageArchivingCoreDataStorage* xmppMessageArchivingCoreDataStorage;
 @property(strong, nonatomic)XMPPMessageArchiving* xmppMessageArchivingModule;
-
-
 @property(strong, nonatomic)NSMutableArray *userHistoryArr;
 @property(strong, nonatomic)NSMutableDictionary *userProfileImage;
 @property(strong, nonatomic)UIImageView *userProfileImageData;
-
 @property(strong, nonatomic)NSData *userProfileImageDataValue;
 @property(strong, nonatomic)NSString *myView;
-- (BOOL)connect;
-- (void)disconnect;
+//Indicator
+-(void)showIndicator;
+-(void)stopIndicator;
+-(void)unregisterDeviceForNotification;
+-(void)registerDeviceForNotification;
+-(BOOL)connect;
+-(void)disconnect;
 -(void)addBadgeIcon:(NSString*)badgeValue;
 -(void)editProfileImageUploading:(UIImage*)editProfileImge;
 -(void)addBadgeIconLastTab;
 -(void)removeBadgeIconLastTab;
+- (NSManagedObjectContext *)managedObjectContext_roster;
+- (NSManagedObjectContext *)managedObjectContext_capabilities;
 @end
 
