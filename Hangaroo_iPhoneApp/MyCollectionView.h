@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MyCollectionView : UICollectionView
-@property int collectionTag;
-@property int sectionTag;
+@property(nonatomic,assign) int collectionTag;
+@property(nonatomic,assign) int sectionTag;
 @end

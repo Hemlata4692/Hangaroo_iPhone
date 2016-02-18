@@ -13,8 +13,6 @@
 #import "PersonalChatViewController.h"
 
 @interface UserListViewController (){
-//    NSURLRequest *imageRequest;
-//    UIImageView* profileImage;
     NSMutableSet* sortArrSet;
     NSMutableArray* userListArr;
     NSString *yearValue, *checkCompare;
@@ -30,14 +28,15 @@
 @implementation UserListViewController
 @synthesize isChange, chatVC,searchBar,userListTableView,noRecordsLabel;
 
+#pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-     self.screenName=@"User list Chat";
+    self.screenName=@"User list Chat";
+    self.title = @"New Chat";
     noRecordsLabel.hidden=YES;
     sortArrSet = [NSMutableSet new];
     userListArr = [NSMutableArray new];
-//    isChange = 1;
-     searchResultArray=[[NSArray alloc]init];
+    searchResultArray=[[NSArray alloc]init];
     searchBar.enablesReturnKeyAutomatically = NO;
     searchBar.returnKeyType=UIReturnKeyDone;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -56,47 +55,30 @@
     
     if ([dateFromString compare:dateFromString1] == NSOrderedDescending) {
         checkCompare = @"L";
-        NSLog(@"date1 is later than date2");
-        
     }
     else if ([dateFromString compare:dateFromString1] == NSOrderedAscending) {
         checkCompare = @"G";
-        NSLog(@"date1 is earlier than date2");
-        
     }
     else {
         checkCompare = @"E";
-        NSLog(@"dates are the same");
-        
     }
-
-    
     myDelegate.myView = @"UserListView";
-  
     [myDelegate showIndicator];
-  
-    self.title = @"New Chat";
-  
     [myDelegate disconnect];
-    
     if ([myDelegate connect])
     {
         [self fetchedResultsController];
-        
         [userListTableView reloadData];
     }
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView) name:@"UserProfile" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterInBackGround) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterInForeGround) name:UIApplicationWillEnterForegroundNotification object:nil];
-    // Do any additional setup after loading the view.
 }
 
 -(void)enterInBackGround{
     if (userListArr.count == 0) {
         [myDelegate stopIndicator];
     }
-    
 }
 
 -(void)enterInForeGround{
@@ -109,27 +91,24 @@
             
             [userListTableView reloadData];
         }
-        
     }
     else{
         [userListTableView reloadData];
     }
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     myDelegate.myView = @"Other";
-
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
-     noRecordsLabel.hidden=YES;
+    noRecordsLabel.hidden=YES;
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [[self navigationController] setNavigationBarHidden:NO];
     myDelegate.chatUser = @"";
-//    chatVC.isChange = isChange;
 }
 
 -(void)updateTableView{
@@ -138,7 +117,14 @@
                        [userListTableView reloadData];
                    });
 }
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
+#pragma mark - end
+
+#pragma mark - XMPP delegates
 - (XMPPStream *)xmppStream
 {
     return [myDelegate xmppStream];
@@ -174,9 +160,7 @@
         {
             NSLog(@"Error performing fetch: %@", error);
         }
-        
     }
-    
     return fetchedResultsController;
 }
 
@@ -187,13 +171,13 @@
     for (int i = 0 ; i< [[[self fetchedResultsController] sections] count];i++) {
         for (int j = 0; j<[[sections objectAtIndex:i] numberOfObjects]; j++) {
             if (([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != nil) && ![[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] isEqualToString:@""] && ([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != NULL)) {
-               
+                
                 NSString *myName = [[[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:1];
                 
                 if (!([myName intValue] < [yearValue intValue] - 3) && [checkCompare isEqualToString:@"L"]) {
                     [sortArrSet addObject:[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]]];
                 }
-               
+                
             }
             
         }
@@ -204,7 +188,9 @@
     
     [self.userListTableView reloadData];
 }
+#pragma mark - end
 
+#pragma mark - Table view delegates
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
 {
     return 0;
@@ -227,7 +213,8 @@
     }
     else
     {
-        if (userListArr.count<1) {
+        if (userListArr.count<1)
+        {
             noRecordsLabel.hidden=NO;
             noRecordsLabel.text=@"No friends added.";
             return userListArr.count;
@@ -237,9 +224,7 @@
             noRecordsLabel.hidden=YES;
             return userListArr.count;
         }
-        
     }
-
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -262,7 +247,7 @@
     {
         if (searchResultArray.count!=0)
         {
-             user = [searchResultArray objectAtIndex:indexPath.row];
+            user = [searchResultArray objectAtIndex:indexPath.row];
         }
         else
         {
@@ -278,7 +263,7 @@
             user = [userListArr objectAtIndex:indexPath.row];
         }
     }
-
+    
     nameLabel.text = [[[user displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0];
     [self configurePhotoForCell:cell user:user];
     
@@ -286,23 +271,21 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    isChange = 1;
+    
     PersonalChatViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
     if (isSearch)
     {
-    vc.userDetail = [searchResultArray objectAtIndex:indexPath.row];
-    vc.lastView = @"UserListViewController";
-    NSLog(@"%@",[[searchResultArray objectAtIndex:indexPath.row] jidStr]);
-    
-    if ([myDelegate.userProfileImage objectForKey:[[searchResultArray objectAtIndex:indexPath.row] jidStr]] == nil) {
-        vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
-    }
-    else{
-        vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[searchResultArray objectAtIndex:indexPath.row] jidStr]];
-    }
-    
-    //    vc.userProfileImageView = profileImage.image;
-    vc.userListVC = self;
+        vc.userDetail = [searchResultArray objectAtIndex:indexPath.row];
+        vc.lastView = @"UserListViewController";
+        NSLog(@"%@",[[searchResultArray objectAtIndex:indexPath.row] jidStr]);
+        
+        if ([myDelegate.userProfileImage objectForKey:[[searchResultArray objectAtIndex:indexPath.row] jidStr]] == nil) {
+            vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
+        }
+        else{
+            vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[searchResultArray objectAtIndex:indexPath.row] jidStr]];
+        }
+        vc.userListVC = self;
     }
     else
     {
@@ -316,18 +299,13 @@
         else{
             vc.friendProfileImageView = [myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]];
         }
-        
-        //    vc.userProfileImageView = profileImage.image;
         vc.userListVC = self;
     }
     [self.navigationController pushViewController:vc animated:YES];
-    
 }
 
 - (void)configurePhotoForCell:(UITableViewCell *)cell user:(XMPPUserCoreDataStorageObject *)user
 {
-    // Our xmppRosterStorage will cache photos as they arrive from the xmppvCardAvatarModule.
-    // We only need to ask the avatar module for a photo, if the roster doesn't have it.
     UIImageView *userImage = (UIImageView*)[cell viewWithTag:2];
     
     if (user.photo != nil)
@@ -346,12 +324,7 @@
         [myDelegate.userProfileImage setObject:userImage.image forKey:[NSString stringWithFormat:@"%@",user.jidStr]];
     }
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+#pragma mark - end
 
 #pragma mark - Search bar delegates
 -(BOOL)searchBar:(UISearchBar *)srchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
@@ -362,28 +335,20 @@
         searchResultArray = [NSArray arrayWithArray:userListArr];
         isSearch = NO;
     }
-    
-    NSLog(@"%@",searchBar.text);
-    //  NSLog(@"check3");
     NSString *searchKey;
     if([text isEqualToString:@"\n"]){
         searchKey = searchBar.text;
-        
     }
     else if(text.length){
         searchKey = [searchBar.text stringByAppendingString:text];
     }
-    
     else if((searchBar.text.length-1)!=0){
         searchKey = [searchBar.text substringWithRange:NSMakeRange(0, searchBar.text.length-1)];
     }
-    
     else{
         searchKey = @"";
     }
-    
     searchResultArray = nil;
-    
     if (searchKey.length)
     {
         noRecordsLabel.hidden=YES;
@@ -392,28 +357,21 @@
         NSArray *subPredicates = [NSArray arrayWithObjects:pred1, nil];
         NSPredicate * orPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:subPredicates];
         searchResultArray=[userListArr filteredArrayUsingPredicate:orPredicate];
-        // NSLog(@"arrFilterSearch count is %lu",(unsigned long)searchArray.count);
     }
-    
-    
     else
     {
         searchResultArray = [NSArray arrayWithArray:userListArr];
         searchBar.text=@"";
         [searchBar resignFirstResponder];
         isSearch = NO;
-        
     }
     [userListTableView reloadData];
-    
     return YES;
 }
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    // NSLog(@"check2");
     return YES;
 }
-
 
 -(BOOL)searchBarShouldEndEditing:(UISearchBar *)srchBar
 {
@@ -421,9 +379,7 @@
         searchResultArray = [userListArr mutableCopy];
         isSearch = NO;
         [userListTableView reloadData];
-        
     }
-    
     return  YES;
 }
 
@@ -435,9 +391,7 @@
         searchResultArray = [userListArr mutableCopy];
         isSearch = NO;
         [userListTableView reloadData];
-        
     }
-    
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)srchBar
 {

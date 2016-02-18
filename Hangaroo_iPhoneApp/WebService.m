@@ -83,7 +83,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [myDelegate stopIndicator];
         failure(error);
-        
+       // if(error.code==-1005)
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
             [alert show];
@@ -95,7 +95,7 @@
 
 - (void)postImage:(NSString *)path parameters:(NSDictionary *)parameters image:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure {
     path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    //  NSLog(@"path: %@, %@", path, parameters);
+
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"parse-application-id-removed" forHTTPHeaderField:@"X-Parse-Application-Id"];
@@ -105,9 +105,7 @@
     manager.securityPolicy.allowInvalidCertificates = YES;
     
     NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
-    [manager POST:path parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        //[formData appendPartWithFormData:imageData name:@"image.png"];
-        [formData appendPartWithFileData:imageData name:@"files" fileName:@"files.jpg" mimeType:@"image/jpeg"];
+    [manager POST:path parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {        [formData appendPartWithFileData:imageData name:@"files" fileName:@"files.jpg" mimeType:@"image/jpeg"];
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [myDelegate stopIndicator];
@@ -124,7 +122,7 @@
 
 - (void)postImageArray:(NSString *)path parameters:(NSDictionary *)parameters image:(UIImage *)image success:(void (^)(id))success failure:(void (^)(NSError *))failure {
     path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    //  NSLog(@"path: %@, %@", path, parameters);
+  
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"parse-application-id-removed" forHTTPHeaderField:@"X-Parse-Application-Id"];
@@ -135,7 +133,6 @@
     
     NSData *imageData = UIImageJPEGRepresentation(image, 0.3);
     [manager POST:path parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        //[formData appendPartWithFormData:imageData name:@"image.png"];
         [formData appendPartWithFileData:imageData name:@"files[]" fileName:@"files.jpg" mimeType:@"image/jpeg"];
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -1018,8 +1015,6 @@
              {
                  NSArray * suggestionArray = [responseObject objectForKey:@"suggestedFriendList"];
                  NSMutableArray *suggestionListDataArray = [NSMutableArray new];
-                 
-                 
                  for (int i =0; i<suggestionArray.count; i++)
                  {
                      DiscoverDataModel *suggestionList = [[DiscoverDataModel alloc]init];
@@ -1035,8 +1030,6 @@
                  
                  success(suggestionListDataArray);
              }
-
-             
          }
          else
          {

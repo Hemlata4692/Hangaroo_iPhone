@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MyButton : UIButton
-
 @property(nonatomic,assign)int Tag;
 @property(nonatomic,assign)int sectionTag;
 @end

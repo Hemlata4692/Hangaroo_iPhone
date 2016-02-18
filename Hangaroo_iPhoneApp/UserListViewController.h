@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
-
 #import "ChatViewController.h"
 @interface UserListViewController : GlobalBackViewController<NSFetchedResultsControllerDelegate>
 {
     NSFetchedResultsController *fetchedResultsController;
     
 }
-@property (nonatomic,assign) int isChange; //isChange = 1, mean no change but isChange = 2, mean change
+@property (nonatomic,assign) int isChange;
 @property (nonatomic,retain) ChatViewController *chatVC;
 @end

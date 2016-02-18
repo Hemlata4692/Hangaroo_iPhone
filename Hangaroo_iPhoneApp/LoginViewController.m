@@ -145,8 +145,7 @@
     }
 
 }
-- (IBAction)forgotPasswordButtonAction:(id)sender {
-}
+
 #pragma mark - end
 
 #pragma mark - Webservice
@@ -176,7 +175,7 @@
             
             [NSTimer scheduledTimerWithTimeInterval:0.1
                                              target:weakSelf
-                                           selector:@selector(targetMethod)
+                                           selector:@selector(registerUserToOpenfire)
                                            userInfo:nil
                                             repeats:NO];
             
@@ -190,19 +189,14 @@
     
    
 }
--(void)targetMethod
+-(void)registerUserToOpenfire
 {
     myDelegate.userProfileImageDataValue = UIImageJPEGRepresentation(userImageview.image, 1.0);
     NSString *username = [NSString stringWithFormat:@"%@@52.74.174.129",userName]; // OR
     NSString *password = passwordField.text;
-    
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
     del.xmppStream.myJID = [XMPPJID jidWithString:username];
-    
-    //    NSLog(@"Does supports registration %ub ", );
     NSLog(@"Attempting registration for username %@",del.xmppStream.myJID.bare);
-    
     if (del.xmppStream.supportsInBandRegistration) {
         NSError *error = nil;
         if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@52.74.174.129@%@",userName,joiningYear] error:&error])
@@ -214,9 +208,7 @@
                 NSMutableDictionary* countData = [NSMutableDictionary new];
                 
                 [UserDefaultManager setValue:countData key:@"CountData"];
-                
             }
-            
             if ([UserDefaultManager getValue:@"BadgeCount"] == nil) {
                 [UserDefaultManager setValue:@"0" key:@"BadgeCount"];
             }
@@ -225,13 +217,11 @@
             [UserDefaultManager setValue:userImage key:@"userImage"];
             [UserDefaultManager setValue:joiningYear key:@"joining_year"];
             [myDelegate registerDeviceForNotification];
-            //            AppDelegate *delegate=[self appDelegate];
             [myDelegate disconnect];
             [UserDefaultManager setValue:username key:@"LoginCred"];
             [UserDefaultManager setValue:password key:@"PassCred"];
             [UserDefaultManager setValue:@"1" key:@"CountValue"];
             [myDelegate connect];
-            
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
             [myDelegate.window setRootViewController:homeView];

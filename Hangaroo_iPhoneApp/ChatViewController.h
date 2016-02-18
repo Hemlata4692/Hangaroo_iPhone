@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ChatViewController : UIViewController
-@property (nonatomic,assign) int isChange; //isChange = 1, mean no change but isChange = 2, mean change
+@property (nonatomic,assign) int isChange;
 @end
