@@ -10,5 +10,4 @@
 
 @interface PostImageDataModel : NSObject
 @property(nonatomic,retain)NSString * postImageUrl;
-
 @end

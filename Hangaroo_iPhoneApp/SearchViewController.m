@@ -178,12 +178,12 @@
 #pragma mark - Search bar delegates
 - (void)searchBar:(UISearchBar *)srchBar textDidChange:(NSString *)searchText
 {
-    if ([searchText length]==0)
-    {
+//    if ([searchText length]==0)
+//    {
         Offset=@"0";
         [searchResultArray removeAllObjects];
         [searchTableView reloadData];
-    }
+   // }
    
     NSLog(@"%@",searchText);
     searchTextKey=searchText;

@@ -44,10 +44,7 @@
     [self.keyboardControls setDelegate:self];
     profileImageView.layer.cornerRadius=50.0f;
     profileImageView.clipsToBounds=YES;
-    
-    
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -66,7 +63,6 @@
 {
     UIView *view;
     view = field.superview.superview.superview;
-    
 }
 
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
@@ -92,7 +88,6 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     
     [signUpScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
-    
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if ( [string isEqualToString:@" "] )
@@ -108,7 +103,6 @@
     
     [textField resignFirstResponder];
     return YES;
-    
 }
 #pragma mark - end
 
@@ -218,36 +212,27 @@
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action)
                                    {
-                                      // [alertController dismissViewControllerAnimated:YES completion:nil];
                                        for (UIViewController *controller in self.navigationController.viewControllers)
                                        {
                                            if ([controller isKindOfClass:[TutorialViewController class]])
                                            {
                                                [self.navigationController popToViewController:controller animated:YES];
-                                               
                                                break;
                                            }
                                        }
-
                                    }];
-        
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
-      
-        
     } failure:^(NSError *error) {
         
     }] ;
-    
 }
 #pragma mark - end
 
 #pragma mark - Action sheet delegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    
     if (buttonIndex==0)
     {
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -257,12 +242,9 @@
                                                                  delegate:nil
                                                         cancelButtonTitle:@"OK"
                                                         otherButtonTitles: nil];
-            
             [myAlertView show];
-            
         }
         else
-            
         {
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
             picker.delegate = self;
@@ -271,7 +253,6 @@
             
             [self presentViewController:picker animated:YES completion:NULL];
         }
-        
     }
     if ([buttonTitle isEqualToString:@"Choose from Gallery"])
     {
@@ -281,7 +262,6 @@
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         
         [self presentViewController:picker animated:YES completion:NULL];
-        
     }
 }
 #pragma mark - end
@@ -298,9 +278,7 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
 }
 #pragma mark - end
 @end

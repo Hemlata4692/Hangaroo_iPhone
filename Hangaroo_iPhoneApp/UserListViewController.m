@@ -240,7 +240,8 @@
     UIImageView *userImage = (UIImageView*)[cell viewWithTag:2];
     userImage.layer.cornerRadius = 20;
     userImage.layer.masksToBounds = YES;
-    
+    userImage.layer.borderWidth=1.5f;
+    userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
     UILabel* nameLabel = (UILabel*)[cell viewWithTag:1];
     XMPPUserCoreDataStorageObject *user;
     if (isSearch)

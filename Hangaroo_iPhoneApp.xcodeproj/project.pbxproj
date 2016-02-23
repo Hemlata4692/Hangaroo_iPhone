@@ -386,6 +386,33 @@
 			name = MyProfileDataModel;
 			sourceTree = "<group>";
 		};
+		B74B8ACE1C75D30700F70AF4 /* PostListingDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				B76B69FC1C3E4A4600A7254D /* PostListingDataModel.h */,
+				B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */,
+			);
+			name = PostListingDataModel;
+			sourceTree = "<group>";
+		};
+		B74B8ACF1C75D31500F70AF4 /* JoinedUserDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				B77D2FE31C3F73C80067BA6C /* JoinedUserDataModel.h */,
+				B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */,
+			);
+			name = JoinedUserDataModel;
+			sourceTree = "<group>";
+		};
+		B74B8AD01C75D32300F70AF4 /* PostImagesDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				B77D2FE61C3F73E00067BA6C /* PostImageDataModel.h */,
+				B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */,
+			);
+			name = PostImagesDataModel;
+			sourceTree = "<group>";
+		};
 		B75450221C50F5CA00C9814D /* SetingsModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -540,12 +567,9 @@
 		B76B69FB1C3E4A2D00A7254D /* PostListingModel */ = {
 			isa = PBXGroup;
 			children = (
-				B76B69FC1C3E4A4600A7254D /* PostListingDataModel.h */,
-				B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */,
-				B77D2FE31C3F73C80067BA6C /* JoinedUserDataModel.h */,
-				B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */,
-				B77D2FE61C3F73E00067BA6C /* PostImageDataModel.h */,
-				B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */,
+				B74B8ACE1C75D30700F70AF4 /* PostListingDataModel */,
+				B74B8ACF1C75D31500F70AF4 /* JoinedUserDataModel */,
+				B74B8AD01C75D32300F70AF4 /* PostImagesDataModel */,
 			);
 			name = PostListingModel;
 			sourceTree = "<group>";

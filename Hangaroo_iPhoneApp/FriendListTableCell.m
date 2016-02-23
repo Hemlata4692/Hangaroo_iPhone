@@ -42,6 +42,8 @@
 
     userImageView.layer.cornerRadius=30.0f;
     userImageView.clipsToBounds=YES;
+    userImageView.layer.borderWidth=1.5f;
+    userImageView.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
     __weak UIImageView *weakRef = userImageView;
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:friendList.userImageUrl]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad

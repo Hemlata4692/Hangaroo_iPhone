@@ -167,8 +167,7 @@
     [[WebService sharedManager] seeOutNotification:otherUserId success:^(id responseObject) {
         
         [myDelegate stopIndicator];
-        
-        
+        [self.view makeToast:@"Sent Successfully"];
         
     } failure:^(NSError *error) {
         
@@ -223,18 +222,15 @@
     {
         twitterBtn.enabled=NO;
     }
-    if(![[[otherUserProfileArray objectAtIndex:0]usertwitUrl] isEqualToString:@""])
+    if(![[[otherUserProfileArray objectAtIndex:0]userInstaUrl] isEqualToString:@""])
     {
         [instagramBtn setImage:[UIImage imageNamed:@"insta_org.png"] forState:UIControlStateNormal];
         instagramBtn.enabled=YES;
-        
     }
     else
     {
         instagramBtn.enabled=NO;
     }
-
-    
     if ([isRequestSent isEqualToString:@"True"])
     {
         friendBtn.hidden=YES;
@@ -247,14 +243,12 @@
         if ([isFriend isEqualToString:@"True"]) {
             friendBtn.hidden=NO;
             addFriendBtn.hidden=YES;
-            
         }
         else if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[otherUserProfileArray objectAtIndex:0]otherUserId]])
         {
             friendBtn.hidden=NO;
             addFriendBtn.hidden=YES;
         }
-
         else
         {
             friendBtn.hidden=YES;
@@ -262,7 +256,6 @@
             addFriendBtn.userInteractionEnabled=YES;
             [addFriendBtn setImage:[UIImage imageNamed:@"adduser.png"] forState:UIControlStateNormal];
         }
-
     }
     NSString *friendString;
     if ([[[otherUserProfileArray objectAtIndex:0]totalFriends] isEqualToString:@"1"] || [[[otherUserProfileArray objectAtIndex:0]totalFriends] isEqualToString:@"0"]) {

@@ -12,7 +12,6 @@
 #import "XMPPMessageArchivingCoreDataStorage.h"
 #import "UIPlaceHolderTextView.h"
 
-
 @interface PersonalChatViewController (){
     CGFloat messageHeight, messageYValue;
     NSMutableArray *userData;
@@ -475,7 +474,8 @@
     
     userImage.layer.cornerRadius = 30;
     userImage.layer.masksToBounds = YES;
-    
+    userImage.layer.borderWidth=1.5f;
+    userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
     NSXMLElement* message = [userData objectAtIndex:indexPath.row];
     
     if ( [[UserDefaultManager getValue:@"userName"] caseInsensitiveCompare:[message attributeStringValueForName:@"Name"]] == NSOrderedSame) {

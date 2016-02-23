@@ -31,6 +31,8 @@
     userNameLabel.text=requestSentData.requestUsername;
     userImageView.layer.cornerRadius=30.0f;
     userImageView.clipsToBounds=YES;
+    userImageView.layer.borderWidth=1.5f;
+    userImageView.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
     __weak UIImageView *weakRef = userImageView;
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:requestSentData.requestFriendImage]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -75,6 +77,8 @@
     }
     userImage.layer.cornerRadius=30.0f;
     userImage.clipsToBounds=YES;
+    userImage.layer.borderWidth=1.5f;
+    userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
     __weak UIImageView *weakRef = userImage;
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:suggestedData.requestFriendImage]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -107,6 +111,8 @@
     userImage.layer.cornerRadius=30.0f;
     userImage.clipsToBounds=YES;
     __weak UIImageView *weakRef = userImage;
+    userImage.layer.borderWidth=1.5f;
+    userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:searchData.userImageUrl]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];

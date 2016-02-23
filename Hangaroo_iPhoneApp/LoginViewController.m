@@ -52,7 +52,6 @@
      self.title=@"Sign in";
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    
 }
 #pragma mark - end
 
@@ -154,16 +153,13 @@
 {
     [[WebService sharedManager] userLogin:userNameField.text password:passwordField.text success:^(id responseObject) {
         
-        [myDelegate stopIndicator];
-         NSDictionary *responseDict = (NSDictionary *)responseObject;
         
-       
+         NSDictionary *responseDict = (NSDictionary *)responseObject;
         userId = [responseDict objectForKey:@"userId"];
         userName = [responseDict objectForKey:@"username"];
         userImage = [responseDict objectForKey:@"userImage"];
         joiningYear = [responseDict objectForKey:@"joining_year"];
-        
-        [myDelegate showIndicator];
+       
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userImage]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                   timeoutInterval:60];
@@ -202,8 +198,10 @@
         NSError *error = nil;
         if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@52.74.174.129@%@",userName,joiningYear] error:&error])
         {
+            [myDelegate stopIndicator];
             NSLog(@"Oops, I forgot something: %@", error);
         }else{
+            [myDelegate stopIndicator];
             NSLog(@"No Error");
             if ([UserDefaultManager getValue:@"CountData"] == nil) {
                 NSMutableDictionary* countData = [NSMutableDictionary new];

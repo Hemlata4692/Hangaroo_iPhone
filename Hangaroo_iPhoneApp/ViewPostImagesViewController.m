@@ -57,13 +57,19 @@
     swipeImageLeft.delegate=self;
     UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeImagesRight:)];
     swipeImageRight.delegate=self;
+    
+//    UISwipeGestureRecognizer *swipeVertical = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeVertical:)];
+//    swipeVertical.delegate=self;
+    
     //  Setting the swipe direction.
+  //  [swipeVertical setDirection:UISwipeGestureRecognizerDirectionDown];
     [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
     [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
     
     // Adding the swipe gesture on image view
     [photoImageView addGestureRecognizer:swipeImageLeft];
     [photoImageView addGestureRecognizer:swipeImageRight];
+   // [photoImageView addGestureRecognizer:swipeVertical];
     
     [likeButton setImage:[UIImage imageNamed:@"like_selected.png"] forState:UIControlStateSelected];
     [likeButton setImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
@@ -234,6 +240,12 @@
     [viewTobeAnimatedRight.layer addAnimation:transition forKey:nil];
 }
 //Swipe images in left direction
+//-(void) swipeVertical:(UISwipeGestureRecognizer *)sender{
+//    NSLog(@"test gesture");
+//    
+//    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+//}
+
 -(void) swipeImagesLeft:(UISwipeGestureRecognizer *)sender
 {
     selectedIndex++;

@@ -22,10 +22,9 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.screenName=@"Chat";
     self.navigationItem.title = @"Chats";
     historyArray = [NSMutableArray new];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatScreenHistory) name:@"ChatScreenHistory" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterInBackGround) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ChatScreenHistory) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -158,6 +157,8 @@
         countLabel.layer.masksToBounds = YES;
         userImage.layer.cornerRadius = 30;
         userImage.layer.masksToBounds = YES;
+        userImage.layer.borderWidth=1.5f;
+        userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
         if ( [[msg attributeStringValueForName:@"ToName"] caseInsensitiveCompare:[UserDefaultManager getValue:@"userName"]] == NSOrderedSame) {
             nameLabel.text = [msg attributeStringValueForName:@"Name"];
         }

@@ -159,7 +159,7 @@
     [[WebService sharedManager] seeOutNotification:joineUserId success:^(id responseObject) {
         
         [myDelegate stopIndicator];
-        //[self.view makeToast:@"Notification sent."];
+        [self.view makeToast:@"Sent Successfully"];
         
     } failure:^(NSError *error) {
         

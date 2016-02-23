@@ -132,10 +132,6 @@
     else
     {
         imageIndex--;
-        //        imageIndex=0;
-        //        tutorialImageView.image=[tutorialImages objectAtIndex:0];
-        //        [self setHeadingText];
-        //        pageControl.currentPage=imageIndex;
     }
 }
 //Swipe images in right direction
@@ -150,9 +146,7 @@
         int page=imageIndex;
         pageControl.currentPage=page;
         [self setHeadingText];
-        
     }
-    
     else
     {
         imageIndex++;
@@ -185,9 +179,6 @@
 }
 
 #pragma mark - end
-
-
-
 #pragma mark - IBActions
 - (IBAction)loginButtonAction:(id)sender
 {

@@ -92,7 +92,7 @@
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     posted=@"Today";
-    [postListingTableView setContentOffset:CGPointZero animated:YES];
+   // [postListingTableView setContentOffset:CGPointZero animated:YES];
     if (!pickerSelection) {
         [myDelegate showIndicator];
         [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
@@ -560,6 +560,8 @@
         userImage.frame=CGRectMake(5, 1, userImage.frame.size.width,  userImage.frame.size.height);
         userImage.layer.cornerRadius=userImage.frame.size.height/2;
         userImage.clipsToBounds=YES;
+        userImage.layer.borderWidth=1.5f;
+        userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
         //[userImage clearImageCacheForURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]];
         UIImageView *meeToo=(UIImageView *)[meTooCell viewWithTag:90];
         
