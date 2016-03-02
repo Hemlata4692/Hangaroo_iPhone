@@ -15,6 +15,8 @@
 		B709C5311C33A6BD00300EFF /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5301C33A6BD00300EFF /* SignUpViewController.m */; };
 		B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5341C33D28700300EFF /* GlobalBackViewController.m */; };
 		B70AFA811C492D3F0091D570 /* MyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B70AFA801C492D3F0091D570 /* MyButton.m */; };
+		B71952A61C86FB96009F7B20 /* gestureImage.png in Resources */ = {isa = PBXBuildFile; fileRef = B71952A51C86FB96009F7B20 /* gestureImage.png */; };
+		B71952A81C86FC55009F7B20 /* gestureImage1.png in Resources */ = {isa = PBXBuildFile; fileRef = B71952A71C86FC55009F7B20 /* gestureImage1.png */; };
 		B72ED7F11C5F69BD0084964D /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */; };
 		B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F31C5F6BEF0084964D /* CoolNavi.m */; };
 		B738DF881C607C4500DC6CB4 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = B738DF871C607C4500DC6CB4 /* placeholder.png */; };
@@ -105,6 +107,8 @@
 		B709C5341C33D28700300EFF /* GlobalBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalBackViewController.m; sourceTree = "<group>"; };
 		B70AFA7F1C492D3F0091D570 /* MyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyButton.h; sourceTree = "<group>"; };
 		B70AFA801C492D3F0091D570 /* MyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyButton.m; sourceTree = "<group>"; };
+		B71952A51C86FB96009F7B20 /* gestureImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gestureImage.png; sourceTree = "<group>"; };
+		B71952A71C86FC55009F7B20 /* gestureImage1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gestureImage1.png; sourceTree = "<group>"; };
 		B72ED7EF1C5F69BD0084964D /* ProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewCell.h; sourceTree = "<group>"; };
 		B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewCell.m; sourceTree = "<group>"; };
 		B72ED7F21C5F6BEF0084964D /* CoolNavi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolNavi.h; sourceTree = "<group>"; };
@@ -319,6 +323,8 @@
 				B770A0B01C4CED8900B20691 /* profileImage.png */,
 				B747C44E1C43AE9A009601D2 /* picture.png */,
 				B747C44C1C43A341009601D2 /* user_thumbnail.png */,
+				B71952A51C86FB96009F7B20 /* gestureImage.png */,
+				B71952A71C86FC55009F7B20 /* gestureImage1.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -1097,7 +1103,9 @@
 				B795B1C01C329893007EB2E6 /* Roboto-Bold.ttf in Resources */,
 				B795B1C21C329893007EB2E6 /* Roboto-Light.ttf in Resources */,
 				B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */,
+				B71952A81C86FC55009F7B20 /* gestureImage1.png in Resources */,
 				B738DF881C607C4500DC6CB4 /* placeholder.png in Resources */,
+				B71952A61C86FB96009F7B20 /* gestureImage.png in Resources */,
 				B770A0B11C4CED8900B20691 /* profileImage.png in Resources */,
 				B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */,
 				B795B17A1C323CAF007EB2E6 /* Main.storyboard in Resources */,

@@ -13,8 +13,9 @@
 #import "UIView+Toast.h"
 #import "PersonalChatViewController.h"
 #import "HomeViewController.h"
+#import "JoinedUserDataModel.h"
 
-@interface MeTooUserProfileViewController ()
+@interface MeTooUserProfileViewController ()<UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *postLabel;
 @property (weak, nonatomic) IBOutlet UILabel *followedUserLabel;
 @property (weak, nonatomic) IBOutlet UIView *mainContainerView;
@@ -23,12 +24,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *chatBtn;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
 @property(nonatomic,retain) NSString * postedPostId;
+@property (weak, nonatomic) IBOutlet UIView *tutorialView;
 @end
 
 @implementation MeTooUserProfileViewController
 @synthesize postLabel,followedUserLabel,userNameLabel,postedPostId;
-@synthesize userImageView,mainContainerView,tapToSeeOutBtn,joineUserId;
-@synthesize userName,userProfileImageUrl,post,postID,followedUser,chatBtn;
+@synthesize userImageView,mainContainerView,tapToSeeOutBtn,joineUserId,userDataArray;
+@synthesize userName,userProfileImageUrl,post,postID,followedUser,chatBtn,selectedIndex,tutorialView;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad
@@ -37,7 +39,35 @@
     // Do any additional setup after loading the view.
      self.screenName = @"Me too user profile screen";
     [mainContainerView setCornerRadius:3.0f];
-    [self displayData];
+    
+     userImageView.userInteractionEnabled=YES;
+  
+    UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeImagesLeft:)];
+    swipeImageLeft.delegate=self;
+    UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeImagesRight:)];
+    swipeImageRight.delegate=self;
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+    tapGesture.delegate=self;
+    [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
+   
+    // Adding the swipe gesture on image view
+    [userImageView addGestureRecognizer:swipeImageLeft];
+    [userImageView addGestureRecognizer:swipeImageRight];
+    [tutorialView addGestureRecognizer:tapGesture];
+    [self swipeImages];
+    
+    if (![[UserDefaultManager getValue:@"tutorialCompleted"] isEqualToString:@"true"]) {
+        myDelegate.tutorialCompleted=@"true";
+        [UserDefaultManager setValue:myDelegate.tutorialCompleted key:@"tutorialCompleted"];
+        tutorialView.hidden=NO;
+    }
+    else
+    {
+        tutorialView.hidden=YES;
+    }
+    //[[UserDefaultManager getValue:@"tutorialCompleted"] isEqualToString:@"true"]
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -66,12 +96,180 @@
      [super viewWillDisappear:YES];
       [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
-//-(BOOL)hidesBottomBarWhenPushed
-//{
-//    return NO;
-//}
-#pragma mark - end
 
+#pragma mark - end
+#pragma mark - Swipe Images
+-(void) tap:(UITapGestureRecognizer *)sender
+{
+    tutorialView.hidden=YES;
+}
+-(void)swipeImages
+{
+    
+    postLabel.text=post;
+    postedPostId=postID;
+    followedUserLabel.text=followedUser;
+    __weak UIImageView *weakRef = userImageView;
+    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[userDataArray objectAtIndex:selectedIndex] joinedUserImage]]
+                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                              timeoutInterval:60];
+    
+    [userImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"picture.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+        weakRef.clipsToBounds = YES;
+        weakRef.image = image;
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        
+    }];
+     userNameLabel.text=[[userDataArray objectAtIndex:selectedIndex] joinedUserName];
+    if ([[[userDataArray objectAtIndex:selectedIndex] joinedUserId] isEqualToString:[UserDefaultManager getValue:@"userId"]]) {
+        tapToSeeOutBtn.enabled=NO;
+        chatBtn.enabled=NO;
+    }
+    else
+    {
+        tapToSeeOutBtn.enabled=YES;
+        chatBtn.enabled=YES;
+        
+    }
+   
+}
+
+//Adding left animation to banner images
+- (void)addLeftAnimationPresentToView:(UIView *)viewTobeAnimatedLeft
+{
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.40;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [transition setValue:@"IntroSwipeIn" forKey:@"IntroAnimation"];
+    transition.fillMode=kCAFillModeForwards;
+    transition.type = kCATransitionPush;
+    transition.subtype =kCATransitionFromRight;
+    [viewTobeAnimatedLeft.layer addAnimation:transition forKey:nil];
+    
+}
+//Adding right animation to banner images
+- (void)addRightAnimationPresentToView:(UIView *)viewTobeAnimatedRight
+{
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.40;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [transition setValue:@"IntroSwipeIn" forKey:@"IntroAnimation"];
+    transition.fillMode=kCAFillModeForwards;
+    transition.type = kCATransitionPush;
+    transition.subtype =kCATransitionFromLeft;
+    [viewTobeAnimatedRight.layer addAnimation:transition forKey:nil];
+}
+
+-(void) swipeImagesLeft:(UISwipeGestureRecognizer *)sender
+{
+    selectedIndex++;
+    if (selectedIndex<userDataArray.count)
+    {
+        __weak UIImageView *weakRef = userImageView;
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[userDataArray objectAtIndex:selectedIndex] joinedUserImage]]
+                                                      cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                  timeoutInterval:60];
+        
+        [userImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"picture.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            weakRef.contentMode = UIViewContentModeScaleAspectFill;
+            weakRef.clipsToBounds = YES;
+            weakRef.image = image;
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            
+        }];
+        
+        UIImageView *moveImageView = userImageView;
+        [self addLeftAnimationPresentToView:moveImageView];
+         //[self setHeadingText];
+        //[[userDataArray objectAtIndex:selectedIndex] joinedUserImage]
+         userNameLabel.text=[[userDataArray objectAtIndex:selectedIndex] joinedUserName];
+        if ([[[userDataArray objectAtIndex:selectedIndex] joinedUserId] isEqualToString:[UserDefaultManager getValue:@"userId"]]) {
+            tapToSeeOutBtn.enabled=NO;
+            chatBtn.enabled=NO;
+        }
+        else
+        {
+            tapToSeeOutBtn.enabled=YES;
+            chatBtn.enabled=YES;
+            
+        }
+
+        
+    }
+    else
+    {
+        selectedIndex--;
+    }
+}
+//Swipe images in right direction
+-(void) swipeImagesRight:(UISwipeGestureRecognizer *)sender
+{
+    selectedIndex--;
+    if (selectedIndex<userDataArray.count)
+    {
+        __weak UIImageView *weakRef = userImageView;
+        NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[userDataArray objectAtIndex:selectedIndex] joinedUserImage]]
+                                                      cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                                  timeoutInterval:60];
+        
+        [userImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"picture.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+            weakRef.contentMode = UIViewContentModeScaleAspectFill;
+            weakRef.clipsToBounds = YES;
+            weakRef.image = image;
+        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            
+        }];
+        UIImageView *moveImageView = userImageView;
+        [self addRightAnimationPresentToView:moveImageView];
+        // [self setHeadingText];
+         userNameLabel.text=[[userDataArray objectAtIndex:selectedIndex] joinedUserName];
+        if ([[[userDataArray objectAtIndex:selectedIndex] joinedUserId] isEqualToString:[UserDefaultManager getValue:@"userId"]]) {
+            tapToSeeOutBtn.enabled=NO;
+            chatBtn.enabled=NO;
+        }
+        else
+        {
+            tapToSeeOutBtn.enabled=YES;
+            chatBtn.enabled=YES;
+            
+        }
+
+    }
+    
+    else
+    {
+        selectedIndex++;
+    }
+}
+//-(void)setHeadingText
+//{
+//    for (int i=0; i<userDataArray.count; i++) {
+//        
+//    }
+//    if (imageIndex==0)
+//    {
+//        headingLabel.text=@"Get connected with people from campus";
+//    }
+//    else  if (imageIndex==1)
+//    {
+//        headingLabel.text=@"Find your Joey";
+//    }
+//    else  if (imageIndex==3)
+//    {
+//        headingLabel.text=@"Share moments with Hangaroo";
+//    }
+//    else  if (imageIndex==2)
+//    {
+//        headingLabel.text=@"Chat with the people you have discovered";
+//    }
+//    else  if (imageIndex==4)
+//    {
+//        headingLabel.text=@"Do it for the Hangaroo";
+//    }
+//}
+//
+#pragma mark - end
 #pragma mark - Display data
 -(void)displayData
 {
@@ -85,22 +283,23 @@
         chatBtn.enabled=YES;
 
     }
-    userNameLabel.text=userName;
+    //[[userDataArray objectAtIndex:selectedIndex] joinedUserImage]
+   // userNameLabel.text=userName;
     postLabel.text=post;
     postedPostId=postID;
     followedUserLabel.text=followedUser;
-    __weak UIImageView *weakRef = userImageView;
-    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userProfileImageUrl]
-                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
-                                              timeoutInterval:60];
-    
-    [userImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"placeholder.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-        weakRef.contentMode = UIViewContentModeScaleAspectFill;
-        weakRef.clipsToBounds = YES;
-        weakRef.image = image;
-    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        
-    }];
+//    __weak UIImageView *weakRef = userImageView;
+//    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userProfileImageUrl]
+//                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
+//                                              timeoutInterval:60];
+//    
+//    [userImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"picture.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+//        weakRef.contentMode = UIViewContentModeScaleAspectFill;
+//        weakRef.clipsToBounds = YES;
+//        weakRef.image = image;
+//    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+//        
+//    }];
 
 }
 - (BOOL) hidesBottomBarWhenPushed
@@ -130,11 +329,11 @@
     NSXMLElement *msg = [NSXMLElement elementWithName:@"message"];
     [msg addAttributeWithName:@"type" stringValue:@"chat"];
     
-    [msg addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[userName lowercaseString]]];
+    [msg addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[[[userDataArray objectAtIndex:selectedIndex] joinedUserName] lowercaseString]]];
     
     [msg addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[[UserDefaultManager getValue:@"userName"] lowercaseString]]];
     
-    [msg addAttributeWithName:@"ToName" stringValue:userName];
+    [msg addAttributeWithName:@"ToName" stringValue:[[userDataArray objectAtIndex:selectedIndex] joinedUserName]];
     
     //    otherUserProfile.meeToProfile=@"1";
     //    otherUserProfile.userNameProfile=userName;
@@ -155,8 +354,9 @@
 #pragma mark - Tap to see out webservice
 -(void)seeOutUser
 {
-    NSLog(@"user id %@",joineUserId);
-    [[WebService sharedManager] seeOutNotification:joineUserId success:^(id responseObject) {
+    NSLog(@"%d",selectedIndex);
+  //  NSLog(@"user id %@",[[userDataArray objectAtIndex:selectedIndex] joineUserId]);
+    [[WebService sharedManager] seeOutNotification:[[userDataArray objectAtIndex:selectedIndex] joinedUserId] success:^(id responseObject) {
         
         [myDelegate stopIndicator];
         [self.view makeToast:@"Sent Successfully"];

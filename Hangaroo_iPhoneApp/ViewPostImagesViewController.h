@@ -10,5 +10,5 @@
 
 @interface ViewPostImagesViewController : GAITrackedViewController
 @property(nonatomic,retain) NSString * postID;
-@property int  selectedIndex;
+@property(nonatomic,assign)int selectedIndex;
 @end

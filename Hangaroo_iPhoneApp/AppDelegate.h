@@ -50,6 +50,7 @@
 @property(strong, nonatomic)UIImageView *userProfileImageData;
 @property(strong, nonatomic)NSData *userProfileImageDataValue;
 @property(strong, nonatomic)NSString *myView;
+@property(nonatomic,assign) NSString* tutorialCompleted;
 //Indicator
 -(void)showIndicator;
 -(void)stopIndicator;

@@ -884,9 +884,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 MeTooUserProfileViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
                 viewPost.postID=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
                 viewPost.post=[[todayPostData objectAtIndex:collectionView.collectionTag]postContent];
-               viewPost.joineUserId=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserId];
-                 viewPost.userName=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
-                viewPost.userProfileImageUrl=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
+//               viewPost.joineUserId=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserId];
+//                 viewPost.userName=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+//                viewPost.userProfileImageUrl=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
+                viewPost.selectedIndex=(int)indexPath.row;
+                viewPost.userDataArray=[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] mutableCopy];
                 if ([[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]];
@@ -923,9 +925,11 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 MeTooUserProfileViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
                 viewPost.postID=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
                 viewPost.post=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postContent];
-                viewPost.joineUserId=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserId];
-                viewPost.userName=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
-                viewPost.userProfileImageUrl=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
+//                viewPost.joineUserId=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserId];
+//                viewPost.userName=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
+//                viewPost.userProfileImageUrl=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
+                viewPost.selectedIndex=(int)indexPath.row;
+                viewPost.userDataArray=[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] mutableCopy];
                 if ([[[yesterdayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[yesterdayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]];

@@ -56,7 +56,7 @@ static const int ddLogLevel = LOG_LEVEL_INFO;
 @synthesize xmppMessageArchivingCoreDataStorage, xmppMessageArchivingModule;
 @synthesize userProfileImageData;
 @synthesize tabBarView;
-
+@synthesize tutorialCompleted;
 @synthesize deviceToken;
 id<GAITracker> tracker;
 #pragma mark - Global indicator view

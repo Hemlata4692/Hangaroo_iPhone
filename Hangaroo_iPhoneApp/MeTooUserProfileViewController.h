@@ -15,4 +15,8 @@
 @property(nonatomic,retain) NSString * userName;
 @property(nonatomic,retain) NSString * joineUserId;
 @property(nonatomic,retain) NSString * followedUser;
+@property(nonatomic,retain) NSArray * userDataArray;
+@property(nonatomic,assign)int selectedIndex;
+
+
 @end
