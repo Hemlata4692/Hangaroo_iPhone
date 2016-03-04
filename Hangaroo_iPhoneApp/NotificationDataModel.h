@@ -14,4 +14,5 @@
 @property(nonatomic,retain)NSString * photoLiked;
 @property(nonatomic,retain)NSString * username;
 @property(nonatomic,retain)NSString * totalRecords;
+@property(nonatomic,retain)NSString * senderId;
 @end

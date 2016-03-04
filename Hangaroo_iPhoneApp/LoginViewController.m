@@ -159,7 +159,6 @@
         userName = [responseDict objectForKey:@"username"];
         userImage = [responseDict objectForKey:@"userImage"];
         joiningYear = [responseDict objectForKey:@"joining_year"];
-       
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userImage]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                   timeoutInterval:60];

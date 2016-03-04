@@ -14,6 +14,8 @@
 #import "PersonalChatViewController.h"
 #import "HomeViewController.h"
 #import "JoinedUserDataModel.h"
+#import "OtherUserProfileViewController.h"
+#import "MyProfileViewController.h"
 
 @interface MeTooUserProfileViewController ()<UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *postLabel;
@@ -39,13 +41,13 @@
     // Do any additional setup after loading the view.
      self.screenName = @"Me too user profile screen";
     [mainContainerView setCornerRadius:3.0f];
-    
      userImageView.userInteractionEnabled=YES;
-  
     UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeImagesLeft:)];
     swipeImageLeft.delegate=self;
     UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeImagesRight:)];
     swipeImageRight.delegate=self;
+    UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImage:)];
+    tapImage.delegate=self;
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
     tapGesture.delegate=self;
@@ -55,6 +57,7 @@
     // Adding the swipe gesture on image view
     [userImageView addGestureRecognizer:swipeImageLeft];
     [userImageView addGestureRecognizer:swipeImageRight];
+    [userImageView addGestureRecognizer:tapImage];
     [tutorialView addGestureRecognizer:tapGesture];
     [self swipeImages];
     
@@ -67,7 +70,6 @@
     {
         tutorialView.hidden=YES;
     }
-    //[[UserDefaultManager getValue:@"tutorialCompleted"] isEqualToString:@"true"]
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -99,13 +101,28 @@
 
 #pragma mark - end
 #pragma mark - Swipe Images
+-(void) tapImage:(UITapGestureRecognizer *)sender
+{
+    if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[userDataArray objectAtIndex:selectedIndex] joinedUserId]])
+    {
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+        [self.navigationController pushViewController:otherUserProfile animated:YES];
+    }
+    else
+    {
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+    otherUserProfile.otherUserId=[[userDataArray objectAtIndex:selectedIndex] joinedUserId];
+    [self.navigationController pushViewController:otherUserProfile animated:YES];
+    }
+}
 -(void) tap:(UITapGestureRecognizer *)sender
 {
     tutorialView.hidden=YES;
 }
 -(void)swipeImages
 {
-    
     postLabel.text=post;
     postedPostId=postID;
     followedUserLabel.text=followedUser;
@@ -130,9 +147,7 @@
     {
         tapToSeeOutBtn.enabled=YES;
         chatBtn.enabled=YES;
-        
     }
-   
 }
 
 //Adding left animation to banner images
@@ -170,7 +185,6 @@
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[userDataArray objectAtIndex:selectedIndex] joinedUserImage]]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                   timeoutInterval:60];
-        
         [userImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"picture.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             weakRef.contentMode = UIViewContentModeScaleAspectFill;
             weakRef.clipsToBounds = YES;
@@ -178,11 +192,8 @@
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
         }];
-        
         UIImageView *moveImageView = userImageView;
         [self addLeftAnimationPresentToView:moveImageView];
-         //[self setHeadingText];
-        //[[userDataArray objectAtIndex:selectedIndex] joinedUserImage]
          userNameLabel.text=[[userDataArray objectAtIndex:selectedIndex] joinedUserName];
         if ([[[userDataArray objectAtIndex:selectedIndex] joinedUserId] isEqualToString:[UserDefaultManager getValue:@"userId"]]) {
             tapToSeeOutBtn.enabled=NO;
@@ -192,10 +203,7 @@
         {
             tapToSeeOutBtn.enabled=YES;
             chatBtn.enabled=YES;
-            
         }
-
-        
     }
     else
     {
@@ -222,7 +230,6 @@
         }];
         UIImageView *moveImageView = userImageView;
         [self addRightAnimationPresentToView:moveImageView];
-        // [self setHeadingText];
          userNameLabel.text=[[userDataArray objectAtIndex:selectedIndex] joinedUserName];
         if ([[[userDataArray objectAtIndex:selectedIndex] joinedUserId] isEqualToString:[UserDefaultManager getValue:@"userId"]]) {
             tapToSeeOutBtn.enabled=NO;
@@ -232,79 +239,12 @@
         {
             tapToSeeOutBtn.enabled=YES;
             chatBtn.enabled=YES;
-            
         }
-
     }
-    
     else
     {
         selectedIndex++;
     }
-}
-//-(void)setHeadingText
-//{
-//    for (int i=0; i<userDataArray.count; i++) {
-//        
-//    }
-//    if (imageIndex==0)
-//    {
-//        headingLabel.text=@"Get connected with people from campus";
-//    }
-//    else  if (imageIndex==1)
-//    {
-//        headingLabel.text=@"Find your Joey";
-//    }
-//    else  if (imageIndex==3)
-//    {
-//        headingLabel.text=@"Share moments with Hangaroo";
-//    }
-//    else  if (imageIndex==2)
-//    {
-//        headingLabel.text=@"Chat with the people you have discovered";
-//    }
-//    else  if (imageIndex==4)
-//    {
-//        headingLabel.text=@"Do it for the Hangaroo";
-//    }
-//}
-//
-#pragma mark - end
-#pragma mark - Display data
--(void)displayData
-{
-    if ([joineUserId isEqualToString:[UserDefaultManager getValue:@"userId"]]) {
-        tapToSeeOutBtn.enabled=NO;
-        chatBtn.enabled=NO;
-    }
-    else
-    {
-        tapToSeeOutBtn.enabled=YES;
-        chatBtn.enabled=YES;
-
-    }
-    //[[userDataArray objectAtIndex:selectedIndex] joinedUserImage]
-   // userNameLabel.text=userName;
-    postLabel.text=post;
-    postedPostId=postID;
-    followedUserLabel.text=followedUser;
-//    __weak UIImageView *weakRef = userImageView;
-//    NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userProfileImageUrl]
-//                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
-//                                              timeoutInterval:60];
-//    
-//    [userImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"picture.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-//        weakRef.contentMode = UIViewContentModeScaleAspectFill;
-//        weakRef.clipsToBounds = YES;
-//        weakRef.image = image;
-//    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-//        
-//    }];
-
-}
-- (BOOL) hidesBottomBarWhenPushed
-{
-    return (self.navigationController.topViewController == self);
 }
 #pragma mark - end
 
@@ -318,9 +258,12 @@
     [self.navigationController.view.layer addAnimation:transition
                                                 forKey:kCATransition];
     [self.navigationController popViewControllerAnimated:NO];
-    //[self.navigationController popViewControllerAnimated:NO];
-    // [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
+- (BOOL) hidesBottomBarWhenPushed
+{
+    return (self.navigationController.topViewController == self);
+}
+
 - (IBAction)chatButtonAction:(id)sender
 {
 
@@ -334,28 +277,20 @@
     [msg addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[[UserDefaultManager getValue:@"userName"] lowercaseString]]];
     
     [msg addAttributeWithName:@"ToName" stringValue:[[userDataArray objectAtIndex:selectedIndex] joinedUserName]];
-    
-    //    otherUserProfile.meeToProfile=@"1";
-    //    otherUserProfile.userNameProfile=userName;
     otherUserProfile.userXmlDetail = msg;
     otherUserProfile.friendProfileImageView = userImageView.image;
     otherUserProfile.lastView = @"MeTooUserProfile";
-    //     self.hidesBottomBarWhenPushed = NO;
-    //    otherUserProfile.hidesBottomBarWhenPushed=NO;
     [self.navigationController pushViewController:otherUserProfile animated:YES];
 
 }
 - (IBAction)seeOutbutonAction:(id)sender
 {
-    //    [myDelegate showIndicator];
      [self performSelector:@selector(seeOutUser) withObject:nil afterDelay:0.1];
 }
 #pragma mark - end
 #pragma mark - Tap to see out webservice
 -(void)seeOutUser
 {
-    NSLog(@"%d",selectedIndex);
-  //  NSLog(@"user id %@",[[userDataArray objectAtIndex:selectedIndex] joineUserId]);
     [[WebService sharedManager] seeOutNotification:[[userDataArray objectAtIndex:selectedIndex] joinedUserId] success:^(id responseObject) {
         
         [myDelegate stopIndicator];
@@ -364,7 +299,6 @@
     } failure:^(NSError *error) {
         
     }] ;
-
 }
 #pragma mark - end
 @end

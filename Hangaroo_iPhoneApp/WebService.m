@@ -489,7 +489,7 @@
                      photoListData.uploadedImageTime =[photoListDict objectForKey:@"uploaded_time"];
                      photoListData.userImageUrl=[photoListDict objectForKey:@"user_image_url"];
                      photoListData.isLike=[photoListDict objectForKey:@"is_like"];
-                     
+                    photoListData.userId=[NSString stringWithFormat:@"%d",[[photoListDict objectForKey:@"upload_userid"] intValue]];
                      [dataArray addObject:photoListData];
                  }
                  success(dataArray);
@@ -803,6 +803,7 @@
                      notificationData.userImageUrl =[notificationDict objectForKey:@"user_image"];
                      notificationData.photoLiked =[notificationDict objectForKey:@"image"];
                      notificationData.username =[notificationDict objectForKey:@"username"];
+                     notificationData.senderId =[notificationDict objectForKey:@"sender_id"];
                      [dataArray addObject:notificationData];
                  }
                  [dataArray addObject:[responseObject objectForKey:@"totalRecords"]];

@@ -15,4 +15,5 @@
 @synthesize userImageUrl;
 @synthesize dislikeCountData;
 @synthesize isLike;
+@synthesize userId;
 @end

@@ -15,4 +15,5 @@
 @property(nonatomic,retain)NSString * uploadedImageTime;
 @property(nonatomic,retain)NSString * userImageUrl;
 @property(nonatomic,retain)NSString * isLike;
+@property(nonatomic,retain)NSString * userId;
 @end

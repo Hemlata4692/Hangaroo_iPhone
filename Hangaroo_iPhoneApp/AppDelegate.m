@@ -110,7 +110,7 @@ id<GAITracker> tracker;
     userHistoryArr = [NSMutableArray new];
     userProfileImage = [NSMutableDictionary new];
     if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
-        [UserDefaultManager setValue:@"Hema13245@52.74.174.129" key:@"LoginCred"];
+        [UserDefaultManager setValue:@"zebra@52.74.174.129" key:@"LoginCred"];
         [UserDefaultManager setValue:@"password" key:@"PassCred"];
         
     }

@@ -10,7 +10,7 @@
 
 
 @implementation ProfileTableViewCell
-@synthesize interestLabel,notificationLabel,locationLabel,friendsLabel,userImage,titleLabel,seperatorLabel,friendListButton,notificationPhoto,notificationPictureLabel;
+@synthesize interestLabel,notificationLabel,locationLabel,friendsLabel,userImage,titleLabel,seperatorLabel,friendListButton,notificationPhoto,notificationPictureLabel,userProfileBtn;
 
 - (void)awakeFromNib {
     // Initialization code
@@ -132,8 +132,4 @@
     }
 }
 
-- (IBAction)showFriendListButtonAction:(id)sender
-{
-    
-}
 @end

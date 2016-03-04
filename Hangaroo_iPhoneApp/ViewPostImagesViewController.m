@@ -11,6 +11,8 @@
 #import "PhotoListingModel.h"
 #import <UIImageView+AFNetworking.h>
 #import "PhotoListingModel.h"
+#import "OtherUserProfileViewController.h"
+#import "MyProfileViewController.h"
 
 #define CategorySliderHeight 120
 
@@ -21,7 +23,7 @@
     int lastIndex;
     UIButton *button;
     CategorySliderView* imageSliderView;
-    NSMutableArray* imageArray,*labelArray;
+    NSMutableArray* imageArray,*labelArray, *userInfoArray;
     int indexValue;
     NSMutableArray *postImagesArray;
 }
@@ -49,6 +51,7 @@
     imageArray=[[NSMutableArray alloc]init];
     labelArray=[[NSMutableArray alloc]init];
     postImagesArray=[[NSMutableArray alloc]init];
+    userInfoArray=[[NSMutableArray alloc]init];
     photoImageView.userInteractionEnabled=YES;
     [myDelegate showIndicator];
     [self performSelector:@selector(getPhotoListing) withObject:nil afterDelay:0.1];
@@ -173,23 +176,22 @@
     
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    //    index = indexPath.row;
-    //    int value = ((index*100) + 40) -self.view.frame.size.width/2 ;
-    //    NSLog(@"-----%d---------",value);
-    //    if (value < 0) {
-    //
-    //        [_myCollectionView setContentOffset:CGPointMake(value, 0) animated:YES];
-    //        [_myCollectionView reloadData];
-    //
-    //    }
-    //    else{
-    //        [_myCollectionView setContentOffset:CGPointMake(value, 0) animated:YES];
-    //        [_myCollectionView reloadData];
-    //
-    //
-    //    }
-    
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([[UserDefaultManager getValue:@"userId"] isEqualToString: [[photoListingDataArray objectAtIndex:indexPath.row]userId]])
+    {
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        MyProfileViewController *userProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+        [self.navigationController pushViewController:userProfile animated:YES];
+    }
+    else
+    {
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+        otherUserProfile.otherUserId=[[photoListingDataArray objectAtIndex:indexPath.row]userId];
+        [self.navigationController pushViewController:otherUserProfile animated:YES];
+    }
+ 
 }
 #pragma mark - end
 #pragma mark - Swipe Images
@@ -239,9 +241,13 @@
 }
 //Swipe images in left direction
 -(void) swipeDown:(UISwipeGestureRecognizer *)sender{
-    NSLog(@"test gesture");
-    
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.4f;
+    transition.type = kCATransitionReveal;
+    transition.subtype = kCATransitionFromBottom;
+    [self.navigationController.view.layer addAnimation:transition
+                                                forKey:kCATransition];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 -(void) swipeImagesLeft:(UISwipeGestureRecognizer *)sender
@@ -376,6 +382,7 @@
             [postImagesArray addObject:[[photoListingDataArray objectAtIndex:i]postImagesUrl]];
             [imageArray addObject:[[photoListingDataArray objectAtIndex:i]userImageUrl]];
             [labelArray addObject:[[photoListingDataArray objectAtIndex:i]uploadedImageTime]];
+            [userInfoArray addObject:[[photoListingDataArray objectAtIndex:i]userId]];
             
         }
         if ([[[photoListingDataArray objectAtIndex:selectedIndex]isLike] isEqualToString:@"0"]) {
@@ -450,9 +457,20 @@
 #pragma mark - IBActions
 - (IBAction)closeButtonAction:(id)sender
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-}
+    //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.4f;
+    transition.type = kCATransitionReveal;
+    transition.subtype = kCATransitionFromBottom;
+    [self.navigationController.view.layer addAnimation:transition
+                                                forKey:kCATransition];
+    [self.navigationController popViewControllerAnimated:NO];
 
+}
+- (BOOL) hidesBottomBarWhenPushed
+{
+    return (self.navigationController.topViewController == self);
+}
 - (IBAction)dislikePhotoButtonAction:(id)sender
 {
     likeDislikeString=@"F";

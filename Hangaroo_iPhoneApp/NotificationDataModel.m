@@ -14,4 +14,5 @@
 @synthesize username;
 @synthesize photoLiked;
 @synthesize totalRecords;
+@synthesize senderId;
 @end

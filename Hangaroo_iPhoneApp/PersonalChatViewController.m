@@ -11,16 +11,20 @@
 #import "XMPP.h"
 #import "XMPPMessageArchivingCoreDataStorage.h"
 #import "UIPlaceHolderTextView.h"
+#import "OtherUserProfileViewController.h"
+#import "MyProfileViewController.h"
+#import "MyButton.h"
 
 @interface PersonalChatViewController (){
     CGFloat messageHeight, messageYValue;
     NSMutableArray *userData;
+    NSString *otherUserId;
+    int btnTag;
 }
 
 @property (strong, nonatomic) IBOutlet UIPlaceHolderTextView *sendMessage;
 @property (strong, nonatomic) IBOutlet UIButton *sendOutlet;
 @property (strong, nonatomic) IBOutlet UIView *messageView;
-
 @property (strong, nonatomic) IBOutlet UITableView *userTableView;
 @end
 
@@ -329,18 +333,12 @@
 
 #pragma mark - XMPP delegates
 - (void)turnSocket:(TURNSocket *)sender didSucceed:(GCDAsyncSocket *)socket {
-    
-    NSLog(@"TURN Connection succeeded!");
-    NSLog(@"You now have a socket that you can use to send/receive data to/from the other person.");
-    
     [turnSockets removeObject:sender];
 }
 
 - (void)turnSocketDidFail:(TURNSocket *)sender {
     
-    NSLog(@"TURN Connection failed!");
     [turnSockets removeObject:sender];
-    
 }
 
 - (XMPPStream *)xmppStream
@@ -351,9 +349,6 @@
 -(IBAction)sendMessage:(id)sender
 {
     [sendMessage resignFirstResponder];
-    
-    
-    
     [myDelegate.xmppMessageArchivingModule setClientSideMessageArchivingOnly:YES];
     [myDelegate.xmppMessageArchivingModule activate:[self xmppStream]];    //By this line all your messages are stored in CoreData
     [myDelegate.xmppMessageArchivingModule addDelegate:self delegateQueue:dispatch_get_main_queue()];
@@ -385,6 +380,7 @@
         [message addAttributeWithName:@"Date" stringValue:formattedDate];
         [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",[userXmlDetail attributeStringValueForName:@"to"],[userXmlDetail attributeStringValueForName:@"from"]]];
         [message addAttributeWithName:@"ToName" stringValue:[userXmlDetail attributeStringValueForName:@"ToName"]];
+        [message addAttributeWithName:@"senderUserId" stringValue:[UserDefaultManager getValue:@"userId"]];
     }
     else{
         [message addAttributeWithName:@"to" stringValue:userDetail.jidStr];
@@ -395,6 +391,7 @@
         [message addAttributeWithName:@"Date" stringValue:formattedDate];
         [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",userDetail.streamBareJidStr,userDetail.jidStr]];
         [message addAttributeWithName:@"ToName" stringValue:[[[userDetail displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0]];
+        [message addAttributeWithName:@"senderUserId" stringValue:[UserDefaultManager getValue:@"userId"]];
     }
     [message addChild:body];
     
@@ -463,26 +460,31 @@
     {
         cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cell"];
     }
-    
     UIImageView *userImage = (UIImageView*)[cell viewWithTag:1];
     UILabel *userName = (UILabel*)[cell viewWithTag:2];
     UILabel *userChat = (UILabel*)[cell viewWithTag:3];
     UILabel *chatTime = (UILabel*)[cell viewWithTag:4];
-    
+    MyButton *userImageBtn = (MyButton*)[cell viewWithTag:10];
+    MyButton *nameButton = (MyButton*)[cell viewWithTag:20];
     userName.translatesAutoresizingMaskIntoConstraints = YES;
     userChat.translatesAutoresizingMaskIntoConstraints = YES;
-    
+    userImageBtn.translatesAutoresizingMaskIntoConstraints = YES;
+    nameButton.translatesAutoresizingMaskIntoConstraints = YES;
     userImage.layer.cornerRadius = 30;
     userImage.layer.masksToBounds = YES;
     userImage.layer.borderWidth=1.5f;
     userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
     NSXMLElement* message = [userData objectAtIndex:indexPath.row];
     
-    if ( [[UserDefaultManager getValue:@"userName"] caseInsensitiveCompare:[message attributeStringValueForName:@"Name"]] == NSOrderedSame) {
+    if ( [[UserDefaultManager getValue:@"userName"] caseInsensitiveCompare:[message attributeStringValueForName:@"Name"]] == NSOrderedSame)
+    {
         userName.text = [UserDefaultManager getValue:@"userName"];
+        
     }
-    else{
+    else
+    {
         userName.text = [message attributeStringValueForName:@"Name"];
+        otherUserId=[message attributeStringValueForName:@"senderUserId"];
     }
     
     userChat.text = [[message elementForName:@"body"] stringValue];
@@ -514,7 +516,11 @@
     userNameHeight = textRect.size.height;
     
     userName.frame = CGRectMake(82, 25, userTableView.frame.size.width - (10+50+20+10), userNameHeight);
-    
+    nameButton.frame = userName.frame;
+    [nameButton addTarget:self action:@selector(openProfileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [userImageBtn addTarget:self action:@selector(openProfileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    userImageBtn.Tag=(int)indexPath.row;
+    nameButton.Tag=(int)indexPath.row;
     NSString *body = [[message elementForName:@"body"] stringValue];
     
     size = CGSizeMake(userTableView.frame.size.width - (10+50+20+10),2000);
@@ -529,7 +535,8 @@
         userChat.frame = CGRectMake(82,  userName.frame.origin.y + userNameHeight + 15, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
         userImage.hidden = NO;
         userName.hidden = NO;
-        
+        nameButton.hidden=NO;
+        userImageBtn.hidden=NO;
     }
     else{
         NSXMLElement* message1;
@@ -541,13 +548,15 @@
             
             userImage.hidden = YES;
             userName.hidden = YES;
-            
+            nameButton.hidden=YES;
+            userImageBtn.hidden=YES;
         }
         else{
             userChat.frame = CGRectMake(82,  userName.frame.origin.y + userNameHeight + 15, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
             userImage.hidden = NO;
             userName.hidden = NO;
-            
+            nameButton.hidden=NO;
+            userImageBtn.hidden=NO;
         }
     }
     chatTime.hidden = NO;
@@ -572,8 +581,7 @@
     
     NSString *body = [[message elementForName:@"body"] stringValue];
     
-    size = CGSizeMake(userTableView.frame.size.width - (10+50+20+10),2000);//here (10+50+20+15) = (imageView.x + imageView.width + space b/w imageView and label + label trailing)
-    
+    size = CGSizeMake(userTableView.frame.size.width - (10+50+20+10),2000);
     textRect=[body
               boundingRectWithSize:size
               options:NSStringDrawingUsesLineFragmentOrigin
@@ -581,7 +589,6 @@
               context:nil];\
     if (userData.count==1 || indexPath.row == 0) {
         if (textRect.size.height > 20) {
-            //            return textRect.size.height + 25 + userNameHeight + 5 + 25;
             return textRect.size.height + 25 + userNameHeight + 10 + 16 + 20;
         }
         else{
@@ -595,7 +602,6 @@
         }
         else{
             if (textRect.size.height > 20) {
-                //                return textRect.size.height + 25 + userNameHeight + 5 + 25;
                 return textRect.size.height + 25 + userNameHeight + 10 + 16 + 20;
             }
             else{
@@ -638,5 +644,25 @@
     return [NSIndexPath indexPathForRow:numberOfMessages-1 inSection:lastSection];
 }
 #pragma mark - end
+- (IBAction)openProfileButtonAction:(MyButton *)sender
+{
+    btnTag=[sender Tag];
+    NSXMLElement* message = [userData objectAtIndex:btnTag];
+    if ( [[UserDefaultManager getValue:@"userName"] caseInsensitiveCompare:[message attributeStringValueForName:@"Name"]] == NSOrderedSame)
+    {
+
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        MyProfileViewController *userProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+        [self.navigationController pushViewController:userProfile animated:YES];
+    }
+    else
+    {
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+    otherUserProfile.otherUserId=otherUserId;
+    [self.navigationController pushViewController:otherUserProfile animated:YES];
+    }
+    
+}
 
 @end

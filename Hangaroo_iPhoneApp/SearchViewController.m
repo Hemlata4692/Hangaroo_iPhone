@@ -118,6 +118,7 @@
 
 
 #pragma mark - end
+#pragma mark - IBActions
 - (IBAction)sendFriendRequest:(MyButton *)sender
 {
     btnTag=[sender Tag];
@@ -125,7 +126,11 @@
     [myDelegate showIndicator];
     [self performSelector:@selector(sendRequestWebservice) withObject:nil afterDelay:0.1];
 }
-
+-(void)backButtonAction :(id)sender
+{
+    [self.navigationController popViewControllerAnimated:NO];
+}
+#pragma mark - end
 #pragma mark - Search webservice
 -(void)searchFriend
 {

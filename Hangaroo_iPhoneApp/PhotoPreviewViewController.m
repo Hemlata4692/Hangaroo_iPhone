@@ -259,8 +259,20 @@ replacementString:(NSString *)string{
 }
 - (IBAction)closeButtonAction:(id)sender
 {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+  //  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.4f;
+    transition.type = kCATransitionReveal;
+    transition.subtype = kCATransitionFromBottom;
+    [self.navigationController.view.layer addAnimation:transition
+                                                forKey:kCATransition];
+    [self.navigationController popViewControllerAnimated:NO];
 }
+- (BOOL) hidesBottomBarWhenPushed
+{
+    return (self.navigationController.topViewController == self);
+}
+
 #pragma mark - end
 
 #pragma mark - Webservice
@@ -283,8 +295,22 @@ replacementString:(NSString *)string{
         
         [myDelegate stopIndicator];
         NSLog(@"post id is %@",responseObject);
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-        
+      //  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        for (UIViewController *controller in self.navigationController.viewControllers)
+        {
+            if ([controller isKindOfClass:[HomeViewController class]])
+            {
+                CATransition* transition = [CATransition animation];
+                transition.duration = 0.4f;
+                transition.type = kCATransitionReveal;
+                transition.subtype = kCATransitionFromBottom;
+                [self.navigationController.view.layer addAnimation:transition
+                                                                    forKey:kCATransition];
+                [self.navigationController popToViewController:controller animated:NO];
+                
+                break;
+            }
+        }        
     }
                                    failure:^(NSError *error)
      {

@@ -32,15 +32,11 @@
     [super viewDidLoad];
     // Set the screen name for automatic screenview tracking.
     self.screenName = @"Sharepost screen";
-    
     [postTextView setPlaceholder:@" Do it for the hangaroo!"];
-    [postTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:18.0]];
+    [postTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:20.0]];
     
-    seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);
-//    postTextView.layer.borderWidth=1.0f;
-//    postTextView.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor grayColor]);
-    
-    
+    postTextView.translatesAutoresizingMaskIntoConstraints = YES;
+     seperator.translatesAutoresizingMaskIntoConstraints = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,15 +61,18 @@
         textCount.text=[NSString stringWithFormat:@"%u", Count - postTextView.text.length];
     }
 }
-// NSString *trimmedString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
 #pragma mark - end
 
 #pragma mark - Textfield delegates
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    
+    if (([postTextView sizeThatFits:postTextView.frame.size].height < 250) && ([postTextView sizeThatFits:postTextView.frame.size].height > 50)) {
+        
+        postTextView.frame = CGRectMake(postTextView.frame.origin.x, postTextView.frame.origin.y, postTextView.frame.size.width, [postTextView sizeThatFits:postTextView.frame.size].height);
+        seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);
+    }
+
     if(textView.text.length>=140 && range.length == 0)
     {
         [self.view makeToast:@"You have reached 140 characters limit."];
@@ -108,16 +107,23 @@
 }
 - (void)textViewDidChange:(UITextView *)textView
 {
+    if (([postTextView sizeThatFits:postTextView.frame.size].height < 250) && ([postTextView sizeThatFits:postTextView.frame.size].height > 50)) {
+        
+        postTextView.frame = CGRectMake(postTextView.frame.origin.x, postTextView.frame.origin.y, postTextView.frame.size.width, [postTextView sizeThatFits:postTextView.frame.size].height);
+        seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);
+    }
+    else if([postTextView sizeThatFits:postTextView.frame.size].height <= 50){
+       
+        postTextView.frame = CGRectMake(postTextView.frame.origin.x, postTextView.frame.origin.y, postTextView.frame.size.width, 50);
+        seperator.frame=CGRectMake(self.view.frame.origin.x, self.postTextView.frame.size.height+1, self.view.frame.size.width, 1);
+    }
+
     if (textView.text.length >= 140)
     {
         textView.text = [textView.text substringToIndex:140];
         sharePostBtn.enabled=YES;
       
     }
-    //    else if (textView.text.length==1) {
-    //        sharePostBtn.enabled=YES;
-    //
-    //    }
     else if (textView.text.length==0) {
         sharePostBtn.enabled=NO;
         checker=1;

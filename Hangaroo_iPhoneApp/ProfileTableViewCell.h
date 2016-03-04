@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MyProfileDataModel.h"
 #import "NotificationDataModel.h"
+#import "MyButton.h"
 
 @interface ProfileTableViewCell : UITableViewCell
 //locationCell
@@ -27,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *seperatorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *notificationPictureLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *notificationPhoto;
+@property (weak, nonatomic) IBOutlet MyButton *userProfileBtn;
 
 -(void)displayData :(MyProfileDataModel *)profileData :(int)indexPath;
 -(void)displayNotificationData :(NotificationDataModel *)profileData :(int)indexPath;

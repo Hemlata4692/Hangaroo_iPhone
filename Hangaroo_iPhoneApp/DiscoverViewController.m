@@ -41,7 +41,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
      self.screenName = @"Discover screen";
-     self.navigationItem.title = @"Discover";
+    
     Offset=@"0";
     requestBtn.selected=YES;
     [requestBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
@@ -54,12 +54,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-   [friendRequestArray removeAllObjects];
+    self.navigationItem.title = @"Discover";
+    [serachBar resignFirstResponder];
+    [friendRequestArray removeAllObjects];
     [friendSuggestionArray removeAllObjects];
     [discoverTableView setContentOffset:CGPointZero animated:YES];
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-
     [self initFooterView];
     Offset=@"0";
     if (suggestionBtn.selected==YES) {
@@ -358,7 +359,8 @@
     // called only once
         UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         SearchViewController *searchView =[storyboard instantiateViewControllerWithIdentifier:@"SearchViewController"];
-        [self.navigationController pushViewController:searchView animated:YES];
+        [self.navigationController pushViewController:searchView animated:NO];
+     [searchBar resignFirstResponder];
     return YES;
 }
 

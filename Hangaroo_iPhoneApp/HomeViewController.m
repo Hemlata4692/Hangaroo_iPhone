@@ -18,6 +18,7 @@
 #import "MyButton.h"
 #import "MeTooUserProfileViewController.h"
 #import "ViewPostImagesViewController.h"
+#import "CameraViewController.h"
 
 #define kCellsPerRow 3
 
@@ -29,7 +30,6 @@
     UIRefreshControl *refreshControl;
     bool pickerSelection;
     NSString *postId;
-    int btnTag;
     int tableSection;
 }
 @property (weak, nonatomic) IBOutlet UISegmentedControl *hotNewPostSegment;
@@ -956,30 +956,19 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         {
            
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                ViewPostImagesViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"ViewPostImagesViewController"];
-              viewPost.postID=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
-            viewPost.selectedIndex=(int)indexPath.row;
-                UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
-                [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-                    
-                }];
-                // [self.navigationController pushViewController:viewPost animated:YES];
-          
-            
+                ViewPostImagesViewController * viewPostImages = [storyboard instantiateViewControllerWithIdentifier:@"ViewPostImagesViewController"];
+              viewPostImages.postID=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
+            viewPostImages.selectedIndex=(int)indexPath.row;
+               [self animateView:viewPostImages withAnimationType:kCATransitionFromTop];
         }
         else
         {
            
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            ViewPostImagesViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"ViewPostImagesViewController"];
-              viewPost.postID=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
-            viewPost.selectedIndex=(int)indexPath.row;
-            UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
-            [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-                
-            }];
-                // [self.navigationController pushViewController:viewPost animated:YES];
-            
+            ViewPostImagesViewController * viewPostImages = [storyboard instantiateViewControllerWithIdentifier:@"ViewPostImagesViewController"];
+              viewPostImages.postID=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
+            viewPostImages.selectedIndex=(int)indexPath.row;
+            [self animateView:viewPostImages withAnimationType:kCATransitionFromTop];
         }
 
         NSLog(@"selected index %ld",(long)indexPath.item);
@@ -995,7 +984,26 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                                                 forKey:kCATransition];
     [self.navigationController pushViewController:animateView animated:NO];
 }
-
+- (void)animateView:(ViewPostImagesViewController*)animateView withAnimationType:(NSString*)animType {
+    
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.3f;
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromTop;
+    [self.navigationController.view.layer addAnimation:transition
+                                                forKey:kCATransition];
+    [self.navigationController pushViewController:animateView animated:NO];
+}
+- (void)openCamera:(CameraViewController*)animateView withAnimationType:(NSString*)animType {
+    
+    CATransition* transition = [CATransition animation];
+    transition.duration = 0.3f;
+    transition.type = kCATransitionMoveIn;
+    transition.subtype = kCATransitionFromTop;
+    [self.navigationController.view.layer addAnimation:transition
+                                                forKey:kCATransition];
+    [self.navigationController pushViewController:animateView animated:NO];
+}
 #pragma mark - end
 #pragma mark - Join post webservice
 -(void)joinPost
@@ -1031,13 +1039,23 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     {
         postId=[[yesterdayPostData objectAtIndex:sender.Tag]postID];
     }
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                                 delegate:self
-                                                        cancelButtonTitle:@"Cancel"
-                                                   destructiveButtonTitle:nil
-                                                        otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
-    
-        [actionSheet showInView:self.view];
+    // pickerSelection=true;
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    CameraViewController * cameraView = [storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
+    cameraView.postId=postId;
+    [self openCamera:cameraView withAnimationType:kCATransitionFromTop];
+//    UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:cameraView];
+//    [self.navigationController presentViewController:navBar animated: YES completion: ^ {
+//       /// pickerSelection=false;
+//    }];
+//
+//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+//                                                                 delegate:self
+//                                                        cancelButtonTitle:@"Cancel"
+//                                                   destructiveButtonTitle:nil
+//                                                        otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
+//    
+//        [actionSheet showInView:self.view];
     
     
 }

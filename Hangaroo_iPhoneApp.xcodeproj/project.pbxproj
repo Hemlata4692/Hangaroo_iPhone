@@ -17,6 +17,12 @@
 		B70AFA811C492D3F0091D570 /* MyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B70AFA801C492D3F0091D570 /* MyButton.m */; };
 		B71952A61C86FB96009F7B20 /* gestureImage.png in Resources */ = {isa = PBXBuildFile; fileRef = B71952A51C86FB96009F7B20 /* gestureImage.png */; };
 		B71952A81C86FC55009F7B20 /* gestureImage1.png in Resources */ = {isa = PBXBuildFile; fileRef = B71952A71C86FC55009F7B20 /* gestureImage1.png */; };
+		B723B0F21C883F32001B055A /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B723B0F11C883F32001B055A /* CameraViewController.m */; };
+		B723B0F71C88417A001B055A /* PreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = B723B0F61C88417A001B055A /* PreviewView.m */; };
+		B723B0FE1C884964001B055A /* flash_0n.png in Resources */ = {isa = PBXBuildFile; fileRef = B723B0FC1C884964001B055A /* flash_0n.png */; };
+		B723B0FF1C884964001B055A /* flash_off.png in Resources */ = {isa = PBXBuildFile; fileRef = B723B0FD1C884964001B055A /* flash_off.png */; };
+		B723B1031C884EF9001B055A /* Camera_Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B723B1021C884EF9001B055A /* Camera_Default.png */; };
+		B723B1051C88508B001B055A /* c.png in Resources */ = {isa = PBXBuildFile; fileRef = B723B1041C88508B001B055A /* c.png */; };
 		B72ED7F11C5F69BD0084964D /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */; };
 		B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F31C5F6BEF0084964D /* CoolNavi.m */; };
 		B738DF881C607C4500DC6CB4 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = B738DF871C607C4500DC6CB4 /* placeholder.png */; };
@@ -109,6 +115,14 @@
 		B70AFA801C492D3F0091D570 /* MyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyButton.m; sourceTree = "<group>"; };
 		B71952A51C86FB96009F7B20 /* gestureImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gestureImage.png; sourceTree = "<group>"; };
 		B71952A71C86FC55009F7B20 /* gestureImage1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gestureImage1.png; sourceTree = "<group>"; };
+		B723B0F01C883F32001B055A /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
+		B723B0F11C883F32001B055A /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
+		B723B0F51C88417A001B055A /* PreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreviewView.h; sourceTree = "<group>"; };
+		B723B0F61C88417A001B055A /* PreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewView.m; sourceTree = "<group>"; };
+		B723B0FC1C884964001B055A /* flash_0n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash_0n.png; sourceTree = "<group>"; };
+		B723B0FD1C884964001B055A /* flash_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash_off.png; sourceTree = "<group>"; };
+		B723B1021C884EF9001B055A /* Camera_Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Camera_Default.png; sourceTree = "<group>"; };
+		B723B1041C88508B001B055A /* c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c.png; sourceTree = "<group>"; };
 		B72ED7EF1C5F69BD0084964D /* ProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewCell.h; sourceTree = "<group>"; };
 		B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewCell.m; sourceTree = "<group>"; };
 		B72ED7F21C5F6BEF0084964D /* CoolNavi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoolNavi.h; sourceTree = "<group>"; };
@@ -325,6 +339,10 @@
 				B747C44C1C43A341009601D2 /* user_thumbnail.png */,
 				B71952A51C86FB96009F7B20 /* gestureImage.png */,
 				B71952A71C86FC55009F7B20 /* gestureImage1.png */,
+				B723B0FC1C884964001B055A /* flash_0n.png */,
+				B723B0FD1C884964001B055A /* flash_off.png */,
+				B723B1021C884EF9001B055A /* Camera_Default.png */,
+				B723B1041C88508B001B055A /* c.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -336,6 +354,33 @@
 				B70AFA801C492D3F0091D570 /* MyButton.m */,
 			);
 			name = MyButton;
+			sourceTree = "<group>";
+		};
+		B723B0EF1C883F1A001B055A /* CameraViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B723B0F01C883F32001B055A /* CameraViewController.h */,
+				B723B0F11C883F32001B055A /* CameraViewController.m */,
+			);
+			name = CameraViewController;
+			sourceTree = "<group>";
+		};
+		B723B0F31C884153001B055A /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				B78EB4171C6DC3900078A4D1 /* XMPPFramework.h */,
+				B7DDDA491C6DCDB900727879 /* libidn.a */,
+			);
+			name = Chat;
+			sourceTree = "<group>";
+		};
+		B723B0F41C88415B001B055A /* CustomCameraView */ = {
+			isa = PBXGroup;
+			children = (
+				B723B0F51C88417A001B055A /* PreviewView.h */,
+				B723B0F61C88417A001B055A /* PreviewView.m */,
+			);
+			name = CustomCameraView;
 			sourceTree = "<group>";
 		};
 		B72ED7EC1C5F62750084964D /* CustomTableView */ = {
@@ -664,6 +709,7 @@
 		B785D5DD1C3A6FF0007A4056 /* PostListingModule */ = {
 			isa = PBXGroup;
 			children = (
+				B723B0EF1C883F1A001B055A /* CameraViewController */,
 				B7642E331C6B024700A8055D /* HomeViewCell */,
 				B795B18D1C325B12007EB2E6 /* HomeViewController */,
 				B76B69F61C3E41DA00A7254D /* PhotoPreviewViewController */,
@@ -849,8 +895,8 @@
 		B795B18F1C325CC4007EB2E6 /* HelperClasses */ = {
 			isa = PBXGroup;
 			children = (
-				B78EB4171C6DC3900078A4D1 /* XMPPFramework.h */,
-				B7DDDA491C6DCDB900727879 /* libidn.a */,
+				B723B0F41C88415B001B055A /* CustomCameraView */,
+				B723B0F31C884153001B055A /* Chat */,
 				B72ED7EC1C5F62750084964D /* CustomTableView */,
 				B7EFD47F1C4F9C9500B8D8D5 /* ImageSlider */,
 				B70AFA821C492D420091D570 /* MyButton */,
@@ -1099,12 +1145,16 @@
 				B7712BD61C58B55700C956DD /* me_too.png in Resources */,
 				B795B1C11C329893007EB2E6 /* Roboto-Italic.ttf in Resources */,
 				B747C44F1C43AE9A009601D2 /* picture.png in Resources */,
+				B723B0FF1C884964001B055A /* flash_off.png in Resources */,
 				B795B17C1C323CAF007EB2E6 /* Assets.xcassets in Resources */,
 				B795B1C01C329893007EB2E6 /* Roboto-Bold.ttf in Resources */,
 				B795B1C21C329893007EB2E6 /* Roboto-Light.ttf in Resources */,
 				B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */,
+				B723B1051C88508B001B055A /* c.png in Resources */,
 				B71952A81C86FC55009F7B20 /* gestureImage1.png in Resources */,
+				B723B1031C884EF9001B055A /* Camera_Default.png in Resources */,
 				B738DF881C607C4500DC6CB4 /* placeholder.png in Resources */,
+				B723B0FE1C884964001B055A /* flash_0n.png in Resources */,
 				B71952A61C86FB96009F7B20 /* gestureImage.png in Resources */,
 				B770A0B11C4CED8900B20691 /* profileImage.png in Resources */,
 				B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */,
@@ -1205,6 +1255,7 @@
 				B75450251C50F5ED00C9814D /* SettingViewController.m in Sources */,
 				B785D5EC1C3A7214007A4056 /* SharePostViewController.m in Sources */,
 				B77EDECF1C6898C8007AABA4 /* DiscoverDataModel.m in Sources */,
+				B723B0F71C88417A001B055A /* PreviewView.m in Sources */,
 				B7EFD4861C4FA6D200B8D8D5 /* PhotoListingModel.m in Sources */,
 				B795B1931C325CEA007EB2E6 /* NullValueChecker.m in Sources */,
 				B795B1711C323CAF007EB2E6 /* main.m in Sources */,
@@ -1218,6 +1269,7 @@
 				B78EB4101C6DC2490078A4D1 /* ChatViewController.m in Sources */,
 				B7050D341C4D0F6600E95FCA /* ViewPostImagesViewController.m in Sources */,
 				B7A727721C6375520055CA6E /* FriendListTableCell.m in Sources */,
+				B723B0F21C883F32001B055A /* CameraViewController.m in Sources */,
 				B795B1A81C326063007EB2E6 /* UIView+RoundedCorner.m in Sources */,
 				B75450311C510D0700C9814D /* ChangePasswordViewController.m in Sources */,
 				B7636C311C4531D90009F01D /* MyCollectionView.m in Sources */,

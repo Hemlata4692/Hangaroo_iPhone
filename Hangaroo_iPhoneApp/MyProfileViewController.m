@@ -14,6 +14,8 @@
 #import "LoadWebPagesViewController.h"
 #import "NotificationDataModel.h"
 #import "FriendListViewController.h"
+#import "OtherUserProfileViewController.h"
+#import "MyButton.h"
 
 @interface MyProfileViewController ()
 {
@@ -22,6 +24,7 @@
     CoolNavi *headerView;
     UIView * footerView;
     int totalNotifications;
+    int btnTag;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myProfileTableView;
 @property(nonatomic, strong) NSString *Offset;
@@ -50,11 +53,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-//    [[self navigationController] setNavigationBarHidden:NO];
-//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-//    [[NSNotificationCenter defaultCenter] removeObserver:@"MyProfileData"];
     myDelegate.myView=@"other";
-    
     [headerView deallocHeaderView];
     headerView.scrollView=Nil;
     [headerView removeFromSuperview];
@@ -71,6 +70,7 @@
     [notificationsArray removeAllObjects];
     [myProfileArray removeAllObjects];
     [(UIActivityIndicatorView *)[footerView viewWithTag:10] setHidden:true];
+     myProfileTableView.tableFooterView = nil;
     [myProfileTableView reloadData];
     [myDelegate removeBadgeIconLastTab];
     [self initFooterView];
@@ -161,7 +161,6 @@
         ProfileTableViewCell *notificationCell ;
         NSString *simpleTableIdentifier = @"notificationCell";
         notificationCell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-        //  NSMutableDictionary * dataDict = [cartArray objectAtIndex:indexPath.row];
         if (notificationCell == nil)
         {
             notificationCell = [[ProfileTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
@@ -183,14 +182,34 @@
             notificationCell.userImage.hidden=YES;
             notificationCell.seperatorLabel.hidden=YES;
         }
-        
+        [notificationCell.userProfileBtn addTarget:self action:@selector(openUserProfileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        notificationCell.userProfileBtn.Tag=(int)indexPath.row;
         return notificationCell;
     }
     
     
     
 }
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section==1) {
+    ProfileTableViewCell *notificationCell ;
+    NSString *simpleTableIdentifier = @"notificationCell";
+    notificationCell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+     NotificationDataModel *data=[notificationsArray objectAtIndex:indexPath.row];
+    if ([data.notificationString rangeOfString:@"wants to see you out"].location == NSNotFound)
+    {
+        NSLog(@"string does not contain bla");
+    }
+    else
+    {
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+        otherUserProfile.otherUserId=[[notificationsArray objectAtIndex:indexPath.row]senderId];
+        [self.navigationController pushViewController:otherUserProfile animated:YES];
+    }
+    }
+}
 #pragma mark - end
 
 #pragma mark - Pagignation for table view
@@ -207,14 +226,12 @@
         if(notificationsArray.count <= totalNotifications)
         {
             tableView.tableFooterView = footerView;
-            //[(UIActivityIndicatorView *)[footerView viewWithTag:10] setHidden:false];
             [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
             [self getUserNotification];
         }
         else
         {
             myProfileTableView.tableFooterView = nil;
-            //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
         }
     }
 }
@@ -224,29 +241,19 @@
     footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];
     UIActivityIndicatorView * actInd = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     actInd.color=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
-    UILabel *footerLabel=[[UILabel alloc]init];
-    footerLabel.tag=11;
-    footerLabel.frame=CGRectMake(self.view.frame.size.width/2, 10.0, 80.0, 20.0);
-    footerLabel.text=@"Loading...";
-    footerLabel.font=[UIFont fontWithName:@"Roboto-Regular" size:12.0];
-    footerLabel.textColor=[UIColor grayColor];
     actInd.tag = 10;
     actInd.frame = CGRectMake(self.view.frame.size.width/2-10, 10.0, 20.0, 20.0);
     actInd.hidesWhenStopped = YES;
     [footerView addSubview:actInd];
-    //  [footerView addSubview:footerLabel];
-    footerLabel=nil;
     actInd = nil;
 }
 #pragma mark - end
-
 
 #pragma mark - My profile webservice
 -(void)getMyProfileData
 {
     [[WebService sharedManager]myProfile:^(id profileDataArray)
      {
-         
          [self getUserNotification];
          myProfileArray = [profileDataArray mutableCopy];
          MyProfileDataModel *profileData;
@@ -297,9 +304,6 @@
          headerView.interestLabel.numberOfLines = 0;
          headerView.interestLabel.text=profileData.userInterest;
          headerView.interestLabel.frame=textRect;
-         
-         
-         
          if ([[[myProfileArray objectAtIndex:0]fbUrl] isEqualToString:@""]&&[[[myProfileArray objectAtIndex:0]twitUrl] isEqualToString:@""]&&[[[myProfileArray objectAtIndex:0]instaUrl] isEqualToString:@""])
          {
              headerView.facebookButton.enabled=NO;
@@ -334,8 +338,6 @@
          {
              headerView.instaButton.enabled=NO;
          }
-         
-         
          [headerView.settings addTarget:self action:@selector(settingsBtnAction:) forControlEvents:UIControlEventTouchUpInside];
          [headerView.facebookButton addTarget:self action:@selector(facebookBtnAction:) forControlEvents:UIControlEventTouchUpInside];
          [headerView.instaButton addTarget:self action:@selector(instagramBtnAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -352,10 +354,7 @@
      }
                                  failure:^(NSError *error)
      {
-         
      }] ;
-    
-    
 }
 #pragma mark - end
 
@@ -389,6 +388,15 @@
 
 
 #pragma mark - IBActions
+- (IBAction)openUserProfileButtonAction:(id)sender
+{
+        btnTag=[sender Tag];
+        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+        otherUserProfile.otherUserId=[[notificationsArray objectAtIndex:btnTag]senderId];
+        [self.navigationController pushViewController:otherUserProfile animated:YES];
+
+}
 - (IBAction)showFriendListButtonAction:(id)sender
 {
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

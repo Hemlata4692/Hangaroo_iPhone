@@ -32,6 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *twitterBtn;
 @property (weak, nonatomic) IBOutlet UIButton *facebookBtn;
 @property (weak, nonatomic) IBOutlet UIButton *addFriendBtn;
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
 @property(nonatomic,retain)NSString * isFriend;
 @property(nonatomic,retain)NSString * isRequestSent;
 @end
@@ -39,7 +40,7 @@
 @implementation OtherUserProfileViewController
 @synthesize scrollView,mainContainerView;
 @synthesize profileImage,userNameLabel,userInterestLabel,userLocationLabel,seperatorLabel,interestTitle;
-@synthesize facebookBtn,friendBtn,instagramBtn,chatBtn,tapToSeeOutBtn,twitterBtn,addFriendBtn;
+@synthesize facebookBtn,friendBtn,instagramBtn,chatBtn,tapToSeeOutBtn,twitterBtn,addFriendBtn,backBtn;
 @synthesize otherUserId,isFriend,isRequestSent;
 
 #pragma mark - View life cycle
@@ -51,6 +52,12 @@
         scrollView.scrollEnabled=NO;
     }
     otherUserProfileArray=[[NSMutableArray alloc]init];
+    backBtn.layer.shadowRadius = 5.0f;
+    backBtn.layer.shadowColor = [UIColor blackColor].CGColor;
+    backBtn.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
+    backBtn.layer.shadowOpacity = 0.5f;
+    backBtn.layer.masksToBounds = NO;
+    
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
    
 }
@@ -284,6 +291,10 @@
 #pragma mark - end
 
 #pragma mark - IBActions
+- (IBAction)backButtonAction:(id)sender
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 
 - (IBAction)instagramBtnAction:(id)sender
 {
