@@ -15,7 +15,6 @@
 		B709C5311C33A6BD00300EFF /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5301C33A6BD00300EFF /* SignUpViewController.m */; };
 		B709C5351C33D28700300EFF /* GlobalBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B709C5341C33D28700300EFF /* GlobalBackViewController.m */; };
 		B70AFA811C492D3F0091D570 /* MyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B70AFA801C492D3F0091D570 /* MyButton.m */; };
-		B71952A61C86FB96009F7B20 /* gestureImage.png in Resources */ = {isa = PBXBuildFile; fileRef = B71952A51C86FB96009F7B20 /* gestureImage.png */; };
 		B71952A81C86FC55009F7B20 /* gestureImage1.png in Resources */ = {isa = PBXBuildFile; fileRef = B71952A71C86FC55009F7B20 /* gestureImage1.png */; };
 		B723B0F21C883F32001B055A /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B723B0F11C883F32001B055A /* CameraViewController.m */; };
 		B723B0F71C88417A001B055A /* PreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = B723B0F61C88417A001B055A /* PreviewView.m */; };
@@ -113,7 +112,6 @@
 		B709C5341C33D28700300EFF /* GlobalBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalBackViewController.m; sourceTree = "<group>"; };
 		B70AFA7F1C492D3F0091D570 /* MyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyButton.h; sourceTree = "<group>"; };
 		B70AFA801C492D3F0091D570 /* MyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyButton.m; sourceTree = "<group>"; };
-		B71952A51C86FB96009F7B20 /* gestureImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gestureImage.png; sourceTree = "<group>"; };
 		B71952A71C86FC55009F7B20 /* gestureImage1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gestureImage1.png; sourceTree = "<group>"; };
 		B723B0F01C883F32001B055A /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		B723B0F11C883F32001B055A /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
@@ -337,7 +335,6 @@
 				B770A0B01C4CED8900B20691 /* profileImage.png */,
 				B747C44E1C43AE9A009601D2 /* picture.png */,
 				B747C44C1C43A341009601D2 /* user_thumbnail.png */,
-				B71952A51C86FB96009F7B20 /* gestureImage.png */,
 				B71952A71C86FC55009F7B20 /* gestureImage1.png */,
 				B723B0FC1C884964001B055A /* flash_0n.png */,
 				B723B0FD1C884964001B055A /* flash_off.png */,
@@ -1155,7 +1152,6 @@
 				B723B1031C884EF9001B055A /* Camera_Default.png in Resources */,
 				B738DF881C607C4500DC6CB4 /* placeholder.png in Resources */,
 				B723B0FE1C884964001B055A /* flash_0n.png in Resources */,
-				B71952A61C86FB96009F7B20 /* gestureImage.png in Resources */,
 				B770A0B11C4CED8900B20691 /* profileImage.png in Resources */,
 				B747C44D1C43A341009601D2 /* user_thumbnail.png in Resources */,
 				B795B17A1C323CAF007EB2E6 /* Main.storyboard in Resources */,

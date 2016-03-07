@@ -10,9 +10,9 @@
 
 @implementation DiscoverTableCell
 //SuggestionCell
-@synthesize userImage,userNameLbl,addFriendBtn,sepratorLbl,mutualFriendLbl;
+@synthesize userImage,userNameLbl,addFriendBtn,sepratorLbl,mutualFriendLbl,noRecordLabel;
 //RequestCell
-@synthesize userImageView,userNameLabel,acceptRequestBtn,declineRequestBtn,separatorLabel,reuestLabel;
+@synthesize userImageView,userNameLabel,acceptRequestBtn,declineRequestBtn,separatorLabel,reuestLabel,noNewRequest;
 //search
 @synthesize isRequestSent,isFriend;
 - (void)awakeFromNib {

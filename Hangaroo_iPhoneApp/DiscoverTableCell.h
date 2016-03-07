@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet MyButton *declineRequestBtn;
 @property (weak, nonatomic) IBOutlet UILabel *separatorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *reuestLabel;
+@property (weak, nonatomic) IBOutlet UILabel *noNewRequest;
 
 //SuggestionCell
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
@@ -26,6 +27,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *sepratorLbl;
 @property (weak, nonatomic) IBOutlet UILabel *userNameLbl;
 @property (weak, nonatomic) IBOutlet UILabel *mutualFriendLbl;
+@property (weak, nonatomic) IBOutlet UILabel *noRecordLabel;
+//load more
+@property (weak, nonatomic) IBOutlet UIButton *loadMoreData;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadIndicator;
 
 //search
 @property(nonatomic, strong) NSString *isFriend;
