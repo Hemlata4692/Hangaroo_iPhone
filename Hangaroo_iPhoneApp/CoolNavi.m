@@ -91,17 +91,15 @@
         [settings setImage:[UIImage imageNamed:settingsBtn] forState:UIControlStateNormal];
         
         
-        facebookButton = [[UIButton alloc] initWithFrame:CGRectMake(20, _headerImageView.frame.size.height-110, 30, 30)];
+        facebookButton = [[UIButton alloc] initWithFrame:CGRectMake(20, _headerImageView.frame.size.height-120, 35, 35)];
         [facebookButton setImage:[UIImage imageNamed:facebookBtn] forState:UIControlStateNormal];
         
-        
-        twitterButton = [[UIButton alloc] initWithFrame:CGRectMake(20, _headerImageView.frame.size.height-80, 30, 30)];
+        twitterButton = [[UIButton alloc] initWithFrame:CGRectMake(20, _headerImageView.frame.size.height-85, 35, 35)];
         [twitterButton setImage:[UIImage imageNamed:twitterBtn] forState:UIControlStateNormal];
         
-        
-        instaButton = [[UIButton alloc] initWithFrame:CGRectMake(20, _headerImageView.frame.size.height-50, 30, 30)];
+        instaButton = [[UIButton alloc] initWithFrame:CGRectMake(20, _headerImageView.frame.size.height-50, 35, 35)];
         [instaButton setImage:[UIImage imageNamed:instagramBtn] forState:UIControlStateNormal];
-        
+
         _titleLabel.textColor = [UIColor whiteColor];
         
         locationView = [[UIView alloc] initWithFrame:CGRectMake(0, _headerImageView.frame.size.height, frame.size.width, 45)];

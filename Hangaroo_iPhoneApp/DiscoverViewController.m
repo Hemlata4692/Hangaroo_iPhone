@@ -20,20 +20,21 @@
     NSMutableArray *friendRequestArray;
     NSMutableArray *friendSuggestionArray;
     int totalRequests;
+    int totalSuggestions;
     int btnTag;
     UIView *footerView;
+    int pagination;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *serachBar;
-@property (weak, nonatomic) IBOutlet UIButton *suggestionBtn;
-@property (weak, nonatomic) IBOutlet UIButton *requestBtn;
 @property (weak, nonatomic) IBOutlet UITableView *discoverTableView;
 @property(nonatomic, strong) NSString *Offset;
+@property(nonatomic, strong) NSString *suggestionOffset;
 @property(nonatomic, strong) NSString *requestFriendId;
 @property(nonatomic, strong) NSString *isAccept;
 @end
 
 @implementation DiscoverViewController
-@synthesize serachBar,suggestionBtn,requestBtn,discoverTableView,Offset,requestFriendId,isAccept;
+@synthesize serachBar,discoverTableView,Offset,requestFriendId,isAccept,suggestionOffset;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad {
@@ -41,10 +42,12 @@
     // Do any additional setup after loading the view.
     self.screenName = @"Discover screen";
     Offset=@"0";
-    requestBtn.selected=YES;
-    [requestBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
+    suggestionOffset=@"0";
+    pagination=0;
     friendRequestArray=[[NSMutableArray alloc]init];
     friendSuggestionArray=[[NSMutableArray alloc]init];
+    [myDelegate showIndicator];
+    [self performSelector:@selector(suggestedFriendList) withObject:nil afterDelay:.1];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -52,22 +55,10 @@
     [super viewWillAppear:YES];
     self.navigationItem.title = @"Discover";
     [serachBar resignFirstResponder];
-    [friendRequestArray removeAllObjects];
-    [friendSuggestionArray removeAllObjects];
-    [discoverTableView setContentOffset:CGPointZero animated:YES];
+    //[discoverTableView setContentOffset:CGPointZero animated:YES];
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [self initFooterView];
-    Offset=@"0";
-    //    if (suggestionBtn.selected==YES) {
-    [myDelegate showIndicator];
-    [self performSelector:@selector(suggestedFriendList) withObject:nil afterDelay:.1];
-    //    }
-    //    else
-    //    {
-    //    [myDelegate showIndicator];
-    //    [self performSelector:@selector(requestFriendList) withObject:nil afterDelay:0.1];
-    //    }
     
 }
 
@@ -83,7 +74,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30;
+    return 35;
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -100,7 +91,7 @@
 {
     UIView * headerView;
     
-    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30.0)];
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 35.0)];
     
     headerView.backgroundColor = [UIColor colorWithRed:(228.0/255.0) green:(228.0/255.0) blue:(228.0/255.0) alpha:1];
     
@@ -116,7 +107,7 @@
     float width =  [categoryLabel.text boundingRectWithSize:categoryLabel.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName:categoryLabel.font } context:nil]
     .size.width;
     
-    categoryLabel.frame = CGRectMake(15, 0, width,30.0);
+    categoryLabel.frame = CGRectMake(15, 0, width,35.0);
     categoryLabel.textColor=[UIColor colorWithRed:(113.0/255.0) green:(113.0/255.0) blue:(113.0/255.0) alpha:1];
     [headerView addSubview:categoryLabel];
     return headerView;
@@ -313,14 +304,18 @@
     
     
 }
-
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    
+    //Set the background color of the View
+    view.tintColor = [UIColor whiteColor];
+}
 
 #pragma mark - end
 
 #pragma mark - IBActions
 - (IBAction)loadMore:(UIButton *)sender
 {
-     btnTag=[sender tag];
+     btnTag=(int)[sender tag];
     NSIndexPath *myIP = [NSIndexPath indexPathForRow:btnTag inSection:0];
     //Type cast it to CustomCell
    
@@ -358,36 +353,7 @@
     [self performSelector:@selector(acceptFriendRequest) withObject:nil afterDelay:.1];
     
 }
-- (IBAction)suggestionBtnAction:(id)sender
-{
-    discoverTableView.hidden=NO;
-    [friendRequestArray removeAllObjects];
-    [friendSuggestionArray removeAllObjects];
-    [discoverTableView reloadData];
-    Offset=@"0";
-    [discoverTableView setContentOffset:CGPointZero animated:YES];
-    [suggestionBtn setSelected:YES];
-    [requestBtn setSelected:NO];
-    [suggestionBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
-    [requestBtn setTitleColor:[UIColor colorWithRed:135.0/255.0 green:135.0/255.0 blue:135.0/255.0 alpha:1.0] forState:UIControlStateSelected];
-    [myDelegate showIndicator];
-    [self performSelector:@selector(suggestedFriendList) withObject:nil afterDelay:.1];
-}
-- (IBAction)requestBtnAction:(id)sender
-{
-    Offset=@"0";
-    discoverTableView.hidden=NO;
-    [friendRequestArray removeAllObjects];
-    [friendSuggestionArray removeAllObjects];
-    [discoverTableView reloadData];
-    [discoverTableView setContentOffset:CGPointZero animated:YES];
-    [suggestionBtn setSelected:NO];
-    [requestBtn setSelected:YES];
-    [requestBtn setTitleColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] forState:UIControlStateSelected];
-    [suggestionBtn setTitleColor:[UIColor colorWithRed:135.0/255.0 green:135.0/255.0 blue:135.0/255.0 alpha:1.0] forState:UIControlStateSelected];
-    [myDelegate showIndicator];
-    [self performSelector:@selector(requestFriendList) withObject:nil afterDelay:.1];
-}
+
 #pragma mark - end
 #pragma mark - Send request webservice
 -(void)sendRequestWebservice
@@ -423,7 +389,6 @@
          //Type cast it to CustomCell
          
          DiscoverTableCell *loadMore = (DiscoverTableCell*)[discoverTableView cellForRowAtIndexPath:myIP];
-         // DiscoverTableCell *loadMore = [discoverTableView dequeueReusableCellWithIdentifier:@"loadMore"];
          loadMore.loadIndicator.hidden=YES;
          loadMore.loadMoreData.hidden=NO;
          [loadMore.loadIndicator stopAnimating];
@@ -434,7 +399,6 @@
          {
              [friendRequestArray addObjectsFromArray:friendRequestListDataArray];
          }
-         
          totalRequests= [[friendRequestArray objectAtIndex:friendRequestArray.count-1]intValue];
          [friendRequestArray removeLastObject];
          Offset=[NSString stringWithFormat:@"%lu",(unsigned long)friendRequestArray.count];
@@ -451,10 +415,11 @@
 #pragma mark - Suggested friend webservice
 -(void)suggestedFriendList
 {
-    [[WebService sharedManager]suggestedFriendList:Offset success:^(id suggestionListDataArray)
+    [[WebService sharedManager]suggestedFriendList:suggestionOffset success:^(id suggestionListDataArray)
      {
-         [self requestFriendList];
-         [myDelegate stopIndicator];
+         if (pagination==0) {
+             [self requestFriendList];
+         }
          if (friendSuggestionArray.count<=0) {
              friendSuggestionArray=[suggestionListDataArray mutableCopy];
          }
@@ -462,10 +427,9 @@
          {
              [friendSuggestionArray addObjectsFromArray:suggestionListDataArray];
          }
-         
-         totalRequests= [[friendSuggestionArray objectAtIndex:friendSuggestionArray.count-1]intValue];
+         totalSuggestions= [[friendSuggestionArray objectAtIndex:friendSuggestionArray.count-1]intValue];
          [friendSuggestionArray removeLastObject];
-         Offset=[NSString stringWithFormat:@"%lu",(unsigned long)friendSuggestionArray.count];
+         suggestionOffset=[NSString stringWithFormat:@"%lu",(unsigned long)friendSuggestionArray.count];
          [discoverTableView reloadData];
      }
                                            failure:^(NSError *error)
@@ -530,19 +494,18 @@
 #pragma mark - Pagignation for table view
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *) cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//        if (suggestionBtn.selected==YES)
-//        {
-        if (friendSuggestionArray.count ==totalRequests)
+        if (friendSuggestionArray.count ==totalSuggestions)
         {
             [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
             [(UILabel *)[footerView viewWithTag:11] setHidden:true];
         }
         else if(indexPath.row==[friendSuggestionArray count]-1) //self.array is the array of items you are displaying
         {
-            if(friendSuggestionArray.count <= totalRequests)
+            if(friendSuggestionArray.count <= totalSuggestions)
             {
                 tableView.tableFooterView = footerView;
                 [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
+                pagination=1;
                 [self suggestedFriendList];
             }
             else
@@ -551,30 +514,6 @@
                 //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
             }
         }
-      //  }
-//        else
-//        {
-//            if (friendRequestArray.count ==totalRequests)
-//            {
-//                [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
-//                [(UILabel *)[footerView viewWithTag:11] setHidden:true];
-//            }
-//            else if(indexPath.row==[friendRequestArray count]-1) //self.array is the array of items you are displaying
-//            {
-//                if(friendRequestArray.count <= totalRequests)
-//                {
-//                    tableView.tableFooterView = footerView;
-//                    [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
-//                    [self requestFriendList];
-//                }
-//                else
-//                {
-//                    discoverTableView.tableFooterView = nil;
-//                    //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
-//                }
-//            }
-//    
-//        }
 }
 
 -(void)initFooterView
@@ -582,18 +521,10 @@
     footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];
     UIActivityIndicatorView * actInd = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     actInd.color=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
-    UILabel *footerLabel=[[UILabel alloc]init];
-    footerLabel.tag=11;
-    footerLabel.frame=CGRectMake(self.view.frame.size.width/2, 10.0, 80.0, 20.0);
-    footerLabel.text=@"Loading...";
-    footerLabel.font=[UIFont fontWithName:@"Roboto-Regular" size:12.0];
-    footerLabel.textColor=[UIColor grayColor];
     actInd.tag = 10;
     actInd.frame = CGRectMake(self.view.frame.size.width/2-10, 10.0, 20.0, 20.0);
     actInd.hidesWhenStopped = YES;
     [footerView addSubview:actInd];
-    //  [footerView addSubview:footerLabel];
-    footerLabel=nil;
     actInd = nil;
 }
 #pragma mark - end

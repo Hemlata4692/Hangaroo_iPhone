@@ -106,6 +106,21 @@
         interestTitle.hidden=YES;
         chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+10, self.view.frame.size.width/2, chatBtn.frame.size.height);
         tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+10, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
+//        if([[UIScreen mainScreen] bounds].size.height==568)
+//        {
+//            chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+30, self.view.frame.size.width/2, chatBtn.frame.size.height);
+//            tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+30, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
+//        }
+//        else if([[UIScreen mainScreen] bounds].size.height==667)
+//        {
+//            chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+80, self.view.frame.size.width/2, chatBtn.frame.size.height);
+//            tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+80, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
+//        }
+//        else if([[UIScreen mainScreen] bounds].size.height==736)
+//        {
+//            chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+120, self.view.frame.size.width/2, chatBtn.frame.size.height);
+//            tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+120, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
+//        }
     }
 
     else
@@ -210,6 +225,9 @@
         facebookBtn.enabled=NO;
         twitterBtn.enabled=NO;
         instagramBtn.enabled=NO;
+        facebookBtn.adjustsImageWhenDisabled=NO;
+        twitterBtn.adjustsImageWhenDisabled=NO;
+        instagramBtn.adjustsImageWhenDisabled=NO;
     }
     if(![[[otherUserProfileArray objectAtIndex:0]userFbUrl] isEqualToString:@""])
     {
@@ -219,6 +237,7 @@
     else
     {
        facebookBtn.enabled=NO;
+        facebookBtn.adjustsImageWhenDisabled=NO;
     }
     if(![[[otherUserProfileArray objectAtIndex:0]usertwitUrl] isEqualToString:@""])
     {
@@ -228,6 +247,7 @@
     else
     {
         twitterBtn.enabled=NO;
+        twitterBtn.adjustsImageWhenDisabled=NO;
     }
     if(![[[otherUserProfileArray objectAtIndex:0]userInstaUrl] isEqualToString:@""])
     {
@@ -237,6 +257,7 @@
     else
     {
         instagramBtn.enabled=NO;
+        instagramBtn.adjustsImageWhenDisabled=NO;
     }
     if ([isRequestSent isEqualToString:@"True"])
     {

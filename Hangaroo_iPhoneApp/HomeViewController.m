@@ -562,7 +562,6 @@
         userImage.clipsToBounds=YES;
         userImage.layer.borderWidth=1.5f;
         userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
-        //[userImage clearImageCacheForURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]];
         UIImageView *meeToo=(UIImageView *)[meTooCell viewWithTag:90];
         
         meeToo.translatesAutoresizingMaskIntoConstraints=YES;
@@ -582,7 +581,7 @@
             {
                 if (indexPath.item==0)
                 {
-                     meeToo.hidden=NO;
+                    meeToo.hidden=NO;
                     nameLabel.text=@"";
                     __weak UIImageView *weakRef = userImage;
                     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:0] joinedUserImage]]

@@ -36,7 +36,10 @@
     [postTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:20.0]];
     
     postTextView.translatesAutoresizingMaskIntoConstraints = YES;
-     seperator.translatesAutoresizingMaskIntoConstraints = YES;
+    seperator.translatesAutoresizingMaskIntoConstraints = YES;
+    postTextView.frame=CGRectMake(0, 0, self.view.frame.size.width, postTextView.frame.size.height);
+     seperator.frame=CGRectMake(0, seperator.frame.origin.y , self.view.frame.size.width, 1);
+   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,12 +56,12 @@
         sharePostBtn.enabled=NO;
         checker=1;
         Count=140;
-        textCount.text=[NSString stringWithFormat:@"%u",Count - postTextView.text.length];
+        textCount.text=[NSString stringWithFormat:@"%lu",Count - postTextView.text.length];
     }
     else
     {
         sharePostBtn.enabled=YES;
-        textCount.text=[NSString stringWithFormat:@"%u", Count - postTextView.text.length];
+        textCount.text=[NSString stringWithFormat:@"%lu", Count - postTextView.text.length];
     }
 }
 #pragma mark - end
@@ -129,7 +132,7 @@
         checker=1;
     }
     
-    textCount.text = [NSString stringWithFormat:@"%u", Count - textView.text.length];
+    textCount.text = [NSString stringWithFormat:@"%lu", Count - textView.text.length];
 }
 
 #pragma mark - end

@@ -50,7 +50,6 @@
 		B76B69FE1C3E4A4600A7254D /* PostListingDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B69FD1C3E4A4600A7254D /* PostListingDataModel.m */; };
 		B76B6A081C3E952500A7254D /* MeTooUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B76B6A071C3E952500A7254D /* MeTooUserProfileViewController.m */; };
 		B770A0B11C4CED8900B20691 /* profileImage.png in Resources */ = {isa = PBXBuildFile; fileRef = B770A0B01C4CED8900B20691 /* profileImage.png */; };
-		B7712BD61C58B55700C956DD /* me_too.png in Resources */ = {isa = PBXBuildFile; fileRef = B7712BD51C58B55700C956DD /* me_too.png */; };
 		B77D2FE51C3F73C80067BA6C /* JoinedUserDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */; };
 		B77D2FE81C3F73E00067BA6C /* PostImageDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B77D2FE71C3F73E00067BA6C /* PostImageDataModel.m */; };
 		B77DA94D1C6355C600003639 /* FriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B77DA94C1C6355C600003639 /* FriendListViewController.m */; };
@@ -82,6 +81,7 @@
 		B795B1C31C329893007EB2E6 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B795B1BD1C329893007EB2E6 /* Roboto-Medium.ttf */; };
 		B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B795B1BE1C329893007EB2E6 /* Roboto-Regular.ttf */; };
 		B795B1CC1C32A5C5007EB2E6 /* FXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = B795B1CB1C32A5C5007EB2E6 /* FXPageControl.m */; };
+		B79EA5E71C8ECCDD00F50AAA /* me_too.png in Resources */ = {isa = PBXBuildFile; fileRef = B79EA5E61C8ECCDD00F50AAA /* me_too.png */; };
 		B7A727721C6375520055CA6E /* FriendListTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A727711C6375520055CA6E /* FriendListTableCell.m */; };
 		B7A727761C6378F60055CA6E /* FriendListDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A727751C6378F60055CA6E /* FriendListDataModel.m */; };
 		B7A7277A1C6382100055CA6E /* OtherUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7A727791C6382100055CA6E /* OtherUserProfileViewController.m */; };
@@ -177,7 +177,6 @@
 		B76B6A061C3E952500A7254D /* MeTooUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeTooUserProfileViewController.h; sourceTree = "<group>"; };
 		B76B6A071C3E952500A7254D /* MeTooUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeTooUserProfileViewController.m; sourceTree = "<group>"; };
 		B770A0B01C4CED8900B20691 /* profileImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profileImage.png; sourceTree = "<group>"; };
-		B7712BD51C58B55700C956DD /* me_too.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_too.png; sourceTree = "<group>"; };
 		B77D2FE31C3F73C80067BA6C /* JoinedUserDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JoinedUserDataModel.h; sourceTree = "<group>"; };
 		B77D2FE41C3F73C80067BA6C /* JoinedUserDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JoinedUserDataModel.m; sourceTree = "<group>"; };
 		B77D2FE61C3F73E00067BA6C /* PostImageDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostImageDataModel.h; sourceTree = "<group>"; };
@@ -235,6 +234,7 @@
 		B795B1BE1C329893007EB2E6 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		B795B1CA1C32A5C5007EB2E6 /* FXPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXPageControl.h; sourceTree = "<group>"; };
 		B795B1CB1C32A5C5007EB2E6 /* FXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXPageControl.m; sourceTree = "<group>"; };
+		B79EA5E61C8ECCDD00F50AAA /* me_too.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = me_too.png; sourceTree = "<group>"; };
 		B7A727701C6375520055CA6E /* FriendListTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListTableCell.h; sourceTree = "<group>"; };
 		B7A727711C6375520055CA6E /* FriendListTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendListTableCell.m; sourceTree = "<group>"; };
 		B7A727741C6378F60055CA6E /* FriendListDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendListDataModel.h; sourceTree = "<group>"; };
@@ -331,7 +331,6 @@
 			isa = PBXGroup;
 			children = (
 				B738DF871C607C4500DC6CB4 /* placeholder.png */,
-				B7712BD51C58B55700C956DD /* me_too.png */,
 				B770A0B01C4CED8900B20691 /* profileImage.png */,
 				B747C44E1C43AE9A009601D2 /* picture.png */,
 				B747C44C1C43A341009601D2 /* user_thumbnail.png */,
@@ -340,6 +339,7 @@
 				B723B0FD1C884964001B055A /* flash_off.png */,
 				B723B1021C884EF9001B055A /* Camera_Default.png */,
 				B723B1041C88508B001B055A /* c.png */,
+				B79EA5E61C8ECCDD00F50AAA /* me_too.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -1139,10 +1139,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B795B1C31C329893007EB2E6 /* Roboto-Medium.ttf in Resources */,
-				B7712BD61C58B55700C956DD /* me_too.png in Resources */,
 				B795B1C11C329893007EB2E6 /* Roboto-Italic.ttf in Resources */,
 				B747C44F1C43AE9A009601D2 /* picture.png in Resources */,
 				B723B0FF1C884964001B055A /* flash_off.png in Resources */,
+				B79EA5E71C8ECCDD00F50AAA /* me_too.png in Resources */,
 				B795B17C1C323CAF007EB2E6 /* Assets.xcassets in Resources */,
 				B795B1C01C329893007EB2E6 /* Roboto-Bold.ttf in Resources */,
 				B795B1C21C329893007EB2E6 /* Roboto-Light.ttf in Resources */,

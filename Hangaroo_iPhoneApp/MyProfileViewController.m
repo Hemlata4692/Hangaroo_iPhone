@@ -197,7 +197,7 @@
     NSString *simpleTableIdentifier = @"notificationCell";
     notificationCell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
      NotificationDataModel *data=[notificationsArray objectAtIndex:indexPath.row];
-    if ([data.notificationString rangeOfString:@"wants to see you out"].location == NSNotFound)
+    if ([data.notificationString rangeOfString:@"wants to see you out"].location == NSNotFound && [data.notificationString rangeOfString:@"shares your sentiments"].location==NSNotFound && [data.notificationString rangeOfString:@"liked your photo"].location == NSNotFound)
     {
         NSLog(@"string does not contain bla");
     }
@@ -309,6 +309,9 @@
              headerView.facebookButton.enabled=NO;
              headerView.twitterButton.enabled=NO;
              headerView.instaButton.enabled=NO;
+             headerView.facebookButton.adjustsImageWhenDisabled=NO;
+             headerView.twitterButton.adjustsImageWhenDisabled=NO;
+             headerView.instaButton.adjustsImageWhenDisabled=NO;
          }
          if(![[[myProfileArray objectAtIndex:0]fbUrl] isEqualToString:@""])
          {
@@ -318,6 +321,7 @@
          else
          {
              headerView.facebookButton.enabled=NO;
+             headerView.facebookButton.adjustsImageWhenDisabled=NO;
          }
          if(![[[myProfileArray objectAtIndex:0]twitUrl] isEqualToString:@""])
          {
@@ -327,6 +331,7 @@
          else
          {
              headerView.twitterButton.enabled=NO;
+             headerView.twitterButton.adjustsImageWhenDisabled=NO;
          }
          if(![[[myProfileArray objectAtIndex:0]instaUrl] isEqualToString:@""])
          {
@@ -337,6 +342,7 @@
          else
          {
              headerView.instaButton.enabled=NO;
+             headerView.instaButton.adjustsImageWhenDisabled=NO;
          }
          [headerView.settings addTarget:self action:@selector(settingsBtnAction:) forControlEvents:UIControlEventTouchUpInside];
          [headerView.facebookButton addTarget:self action:@selector(facebookBtnAction:) forControlEvents:UIControlEventTouchUpInside];
