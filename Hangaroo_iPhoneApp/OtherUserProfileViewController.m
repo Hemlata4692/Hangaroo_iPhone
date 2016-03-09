@@ -59,6 +59,12 @@
     backBtn.layer.masksToBounds = NO;
     
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
+//    [[chatBtn layer] setBorderWidth:1.0f];
+//    [[chatBtn layer] setBorderColor:[UIColor lightGrayColor].CGColor];
+//    
+//    [[tapToSeeOutBtn layer] setBorderWidth:1.0f];
+//    [[tapToSeeOutBtn layer] setBorderColor:[UIColor lightGrayColor].CGColor];
    
 }
 
@@ -104,8 +110,8 @@
     if ([[[otherUserProfileArray objectAtIndex:0]userInterest] isEqualToString:@""]) {
         userInterestLabel.hidden=YES;
         interestTitle.hidden=YES;
-        chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+10, self.view.frame.size.width/2, chatBtn.frame.size.height);
-        tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+10, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
+        chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+30, self.view.frame.size.width/2, chatBtn.frame.size.height);
+        tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+30, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
 //        if([[UIScreen mainScreen] bounds].size.height==568)
 //        {
 //            chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+30, self.view.frame.size.width/2, chatBtn.frame.size.height);
@@ -157,7 +163,7 @@
          [myDelegate stopIndicator];
          otherUserProfileArray=[otherUserDataArray mutableCopy];
          [self displayData];
-          [self setFrames];
+         [self setFrames];
          
      }                                     failure:^(NSError *error)
      {

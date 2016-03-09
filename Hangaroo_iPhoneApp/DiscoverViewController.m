@@ -151,15 +151,22 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==0) {
-        if (indexPath.row ==([friendRequestArray count]))
-        {
-            if (indexPath.row==totalRequests) {
-                return 0;
+        if (friendRequestArray.count!=0) {
+            if (indexPath.row ==([friendRequestArray count]))
+            {
+                if (indexPath.row==totalRequests) {
+                    return 0;
+                }
+                else
+                {
+                    return 35;
+                }
             }
             else
             {
-            return 35;
+                return 80;
             }
+
         }
         else
         {

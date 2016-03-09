@@ -68,14 +68,16 @@
     [[self navigationController] setNavigationBarHidden:YES];
      myDelegate.myView=@"MyProfileViewController";
     [notificationsArray removeAllObjects];
+    [myProfileTableView reloadData];
     [myProfileArray removeAllObjects];
     [(UIActivityIndicatorView *)[footerView viewWithTag:10] setHidden:true];
      myProfileTableView.tableFooterView = nil;
-    [myProfileTableView reloadData];
+    
     [myDelegate removeBadgeIconLastTab];
     [self initFooterView];
     Offset=@"0";
     [myDelegate showIndicator];
+    myProfileTableView.hidden=YES;
     [self performSelector:@selector(getMyProfileData) withObject:nil afterDelay:0.1];
     
 }
@@ -178,9 +180,11 @@
         {
             notificationCell.noNotificationFound.hidden=NO;
             notificationCell.notificationLabel.hidden=YES;
+            notificationCell.notificationLabel.text=@"";
             notificationCell.noNotificationFound.text=@"No notifications found.";
             notificationCell.userImage.hidden=YES;
             notificationCell.seperatorLabel.hidden=YES;
+            notificationCell.notificationPhoto.hidden=YES;
         }
         [notificationCell.userProfileBtn addTarget:self action:@selector(openUserProfileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         notificationCell.userProfileBtn.Tag=(int)indexPath.row;
@@ -371,6 +375,7 @@
     [[WebService sharedManager]getUserNotification:[NSString stringWithFormat:@"%@",Offset] success:^(id notificationDataArray)
      {
          [myDelegate stopIndicator];
+         myProfileTableView.hidden=NO;
          if (notificationsArray.count<=0) {
              notificationsArray =[notificationDataArray mutableCopy];
          }
