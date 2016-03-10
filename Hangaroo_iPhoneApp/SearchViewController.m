@@ -101,10 +101,11 @@
 {
     if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[searchResultArray objectAtIndex:indexPath.row]userId]])
     {
-        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-        // otherUserProfile.otherUserId=[[searchResultArray objectAtIndex:indexPath.row]userId];
-        [self.navigationController pushViewController:otherUserProfile animated:YES];
+//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+//        // otherUserProfile.otherUserId=[[searchResultArray objectAtIndex:indexPath.row]userId];
+//        [self.navigationController pushViewController:otherUserProfile animated:YES];
+        [self.tabBarController setSelectedIndex:4];
     }
     else
     {

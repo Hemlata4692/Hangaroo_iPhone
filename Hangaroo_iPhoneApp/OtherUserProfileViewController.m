@@ -320,7 +320,7 @@
 #pragma mark - IBActions
 - (IBAction)backButtonAction:(id)sender
 {
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)instagramBtnAction:(id)sender

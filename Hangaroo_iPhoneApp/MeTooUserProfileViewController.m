@@ -105,9 +105,10 @@
 {
     if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[userDataArray objectAtIndex:selectedIndex] joinedUserId]])
     {
-        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-        [self.navigationController pushViewController:otherUserProfile animated:YES];
+//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+//        [self.navigationController pushViewController:otherUserProfile animated:YES];
+        [self.tabBarController setSelectedIndex:4];
     }
     else
     {

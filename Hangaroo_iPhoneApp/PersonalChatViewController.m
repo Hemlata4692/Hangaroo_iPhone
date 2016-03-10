@@ -651,9 +651,10 @@
     if ( [[UserDefaultManager getValue:@"userName"] caseInsensitiveCompare:[message attributeStringValueForName:@"Name"]] == NSOrderedSame)
     {
 
-        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        MyProfileViewController *userProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-        [self.navigationController pushViewController:userProfile animated:YES];
+//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        MyProfileViewController *userProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+//        [self.navigationController pushViewController:userProfile animated:YES];
+        [self.tabBarController setSelectedIndex:4];
     }
     else
     {

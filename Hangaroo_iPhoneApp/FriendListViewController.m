@@ -160,10 +160,11 @@
     if (isSearch) {
         if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[searchArray objectAtIndex:indexPath.row]userId]])
         {
-            UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-            // otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
-            [self.navigationController pushViewController:otherUserProfile animated:YES];
+             [self.tabBarController setSelectedIndex:4];
+//            UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+//            // otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
+//            [self.navigationController pushViewController:otherUserProfile animated:YES];
         }
         else
         {
@@ -178,10 +179,11 @@
     {
     if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[friendListArray objectAtIndex:indexPath.row]userId]])
     {
-        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-       // otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
-        [self.navigationController pushViewController:otherUserProfile animated:YES];
+        [self.tabBarController setSelectedIndex:4];
+//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
+//       // otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
+//        [self.navigationController pushViewController:otherUserProfile animated:YES];
     }
     else
     {

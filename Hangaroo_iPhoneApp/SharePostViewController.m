@@ -132,7 +132,7 @@
         checker=1;
     }
     
-    textCount.text = [NSString stringWithFormat:@"%lu", Count - textView.text.length];
+    textCount.text = [NSString stringWithFormat:@"%u", Count - textView.text.length];
 }
 
 #pragma mark - end
