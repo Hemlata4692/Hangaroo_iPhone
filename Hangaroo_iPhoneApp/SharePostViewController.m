@@ -34,11 +34,10 @@
     self.screenName = @"Sharepost screen";
     [postTextView setPlaceholder:@" Do it for the hangaroo!"];
     [postTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:20.0]];
-    
     postTextView.translatesAutoresizingMaskIntoConstraints = YES;
     seperator.translatesAutoresizingMaskIntoConstraints = YES;
     postTextView.frame=CGRectMake(0, 0, self.view.frame.size.width, postTextView.frame.size.height);
-     seperator.frame=CGRectMake(0, seperator.frame.origin.y , self.view.frame.size.width, 1);
+    seperator.frame=CGRectMake(0, seperator.frame.origin.y , self.view.frame.size.width, 1);
    
 }
 
@@ -56,12 +55,12 @@
         sharePostBtn.enabled=NO;
         checker=1;
         Count=140;
-        textCount.text=[NSString stringWithFormat:@"%lu",Count - postTextView.text.length];
+        textCount.text=[NSString stringWithFormat:@"%u",Count - postTextView.text.length];
     }
     else
     {
         sharePostBtn.enabled=YES;
-        textCount.text=[NSString stringWithFormat:@"%lu", Count - postTextView.text.length];
+        textCount.text=[NSString stringWithFormat:@"%u", Count - postTextView.text.length];
     }
 }
 #pragma mark - end

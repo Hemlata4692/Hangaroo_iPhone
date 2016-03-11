@@ -31,8 +31,8 @@
 
 @implementation MeTooUserProfileViewController
 @synthesize postLabel,followedUserLabel,userNameLabel,postedPostId;
-@synthesize userImageView,mainContainerView,tapToSeeOutBtn,joineUserId,userDataArray;
-@synthesize userName,userProfileImageUrl,post,postID,followedUser,chatBtn,selectedIndex,tutorialView;
+@synthesize userImageView,mainContainerView,tapToSeeOutBtn,userDataArray;
+@synthesize post,postID,followedUser,chatBtn,selectedIndex,tutorialView;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad
@@ -53,14 +53,12 @@
     tapGesture.delegate=self;
     [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
     [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
-   
     // Adding the swipe gesture on image view
     [userImageView addGestureRecognizer:swipeImageLeft];
     [userImageView addGestureRecognizer:swipeImageRight];
     [userImageView addGestureRecognizer:tapImage];
     [tutorialView addGestureRecognizer:tapGesture];
     [self swipeImages];
-    
     if (![[UserDefaultManager getValue:@"tutorialCompleted"] isEqualToString:@"true"]) {
         myDelegate.tutorialCompleted=@"true";
         [UserDefaultManager setValue:myDelegate.tutorialCompleted key:@"tutorialCompleted"];
@@ -105,9 +103,6 @@
 {
     if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[userDataArray objectAtIndex:selectedIndex] joinedUserId]])
     {
-//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-//        [self.navigationController pushViewController:otherUserProfile animated:YES];
         [self.tabBarController setSelectedIndex:4];
     }
     else

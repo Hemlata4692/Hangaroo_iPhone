@@ -211,7 +211,6 @@
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[[otherUserProfileArray objectAtIndex:0]userImageUrl]]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
-    
     [profileImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"placeholder.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         weakRef.contentMode = UIViewContentModeScaleAspectFill;
         weakRef.clipsToBounds = YES;
@@ -219,13 +218,11 @@
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
     }];
-
     userNameLabel.text=[[otherUserProfileArray objectAtIndex:0]userName];
     otherUserId=[[otherUserProfileArray objectAtIndex:0]otherUserId];
     isFriend=[[otherUserProfileArray objectAtIndex:0]isFriend];
     isRequestSent=[[otherUserProfileArray objectAtIndex:0]isRequestSent];
     userLocationLabel.text=[[[otherUserProfileArray objectAtIndex:0]userLocation] uppercaseString];
-   
     if ([[[otherUserProfileArray objectAtIndex:0]userFbUrl] isEqualToString:@""]&&[[[otherUserProfileArray objectAtIndex:0]usertwitUrl] isEqualToString:@""]&&[[[otherUserProfileArray objectAtIndex:0]userInstaUrl] isEqualToString:@""])
     {
         facebookBtn.enabled=NO;
@@ -312,7 +309,6 @@
                        range:NSMakeRange([[otherUserProfileArray objectAtIndex:0]totalFriends].length, (friendString.length-[[otherUserProfileArray objectAtIndex:0]totalFriends].length))];
     
     [attrString endEditing];
-  //  friendBtn.titleLabel.attributedText=attrString;
     [friendBtn setAttributedTitle:attrString forState:UIControlStateNormal];
 }
 #pragma mark - end
@@ -374,13 +370,11 @@
     otherUserProfile.userXmlDetail = msg;
     otherUserProfile.friendProfileImageView = profileImage.image;
     otherUserProfile.lastView = @"MeTooUserProfile";
-   //same functionality as me too 
     [self.navigationController pushViewController:otherUserProfile animated:YES];
 }
 
 - (IBAction)addFriendBtnAction:(id)sender
 {
-    //[myDelegate showIndicator];
     [self performSelector:@selector(sendFriendRequest) withObject:nil afterDelay:0.1];
 }
 

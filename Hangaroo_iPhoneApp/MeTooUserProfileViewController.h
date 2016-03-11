@@ -9,14 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface MeTooUserProfileViewController : GAITrackedViewController
-@property(nonatomic,retain) NSString * userProfileImageUrl;
 @property(nonatomic,retain) NSString * postID;
 @property(nonatomic,retain) NSString * post;
-@property(nonatomic,retain) NSString * userName;
-@property(nonatomic,retain) NSString * joineUserId;
 @property(nonatomic,retain) NSString * followedUser;
 @property(nonatomic,retain) NSArray * userDataArray;
 @property(nonatomic,assign)int selectedIndex;
-
-
 @end

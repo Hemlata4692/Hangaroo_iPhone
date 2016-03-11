@@ -260,111 +260,115 @@
      {
          [self getUserNotification];
          myProfileArray = [profileDataArray mutableCopy];
-         MyProfileDataModel *profileData;
-         profileData=[myProfileArray objectAtIndex:0];
-         CGSize size = CGSizeMake(self.view.bounds.size.width-76,999);
-         CGRect textRect = [profileData.userInterest
-                            boundingRectWithSize:size
-                            options:NSStringDrawingUsesLineFragmentOrigin
-                            attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Regular" size:14.0]}
-                            context:nil];
-         
-         if ([profileData.userInterest isEqualToString:@""]) {
-             textRect.size.height=0.0;
-         }
-         else
-         {
-             textRect.size.height=10+textRect.size.height;
-         }
-         headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300 + textRect.size.height + 45)backGroudImage:[[myProfileArray objectAtIndex:0]profileImageUrl] headerImageURL:[[myProfileArray objectAtIndex:0]profileImageUrl] title:[[myProfileArray objectAtIndex:0]userName] facebookBtn:@"facebook_profile.png" instagramBtn:@"insta_profile.png" twitterBtn:@"twit_profile.png" settingsBtn:@"setting_icon.png" interestLabelFrame:textRect interestText:profileData.userInterest];
-         
-         headerView.scrollView = self.myProfileTableView;
-         
-         headerView.locationLabel.text=[profileData.university uppercaseString];
-         NSString *yourString;
-         if ([profileData.totalFriends isEqualToString:@"1"] || [profileData.totalFriends isEqualToString:@"0"]) {
-             yourString = [NSString stringWithFormat:@"%@ %@",profileData.totalFriends,@"FRIEND"];
-         }
-         else
-         {
-             yourString = [NSString stringWithFormat:@"%@ %@",profileData.totalFriends,@"FRIENDS"];
-         }
-         NSRange boldedRange = NSMakeRange(profileData.totalFriends.length, (yourString.length-profileData.totalFriends.length));
-         
-         NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:yourString];
-         
-         [attrString beginEditing];
-         [attrString addAttribute:NSFontAttributeName
-                            value:[UIFont fontWithName:@"Roboto-Regular" size:14.0]
-                            range:boldedRange];
-         [attrString addAttribute:NSForegroundColorAttributeName
-                            value:[UIColor blackColor]
-                            range:NSMakeRange(profileData.totalFriends.length, (yourString.length-profileData.totalFriends.length))];
-         
-         [attrString endEditing];
-         [headerView.friendsListButton setAttributedTitle:attrString forState:UIControlStateNormal];
-         textRect.origin.x = headerView.interestLabel.frame.origin.x;
-         textRect.origin.y = headerView.interestLabel.frame.origin.y;
-         headerView.interestLabel.numberOfLines = 0;
-         headerView.interestLabel.text=profileData.userInterest;
-         headerView.interestLabel.frame=textRect;
-         if ([[[myProfileArray objectAtIndex:0]fbUrl] isEqualToString:@""]&&[[[myProfileArray objectAtIndex:0]twitUrl] isEqualToString:@""]&&[[[myProfileArray objectAtIndex:0]instaUrl] isEqualToString:@""])
-         {
-             headerView.facebookButton.enabled=NO;
-             headerView.twitterButton.enabled=NO;
-             headerView.instaButton.enabled=NO;
-             headerView.facebookButton.adjustsImageWhenDisabled=NO;
-             headerView.twitterButton.adjustsImageWhenDisabled=NO;
-             headerView.instaButton.adjustsImageWhenDisabled=NO;
-         }
-         if(![[[myProfileArray objectAtIndex:0]fbUrl] isEqualToString:@""])
-         {
-             [headerView.facebookButton setImage:[UIImage imageNamed:@"facebook_org.png"] forState:UIControlStateNormal];
-             headerView.facebookButton.enabled=YES;
-         }
-         else
-         {
-             headerView.facebookButton.enabled=NO;
-             headerView.facebookButton.adjustsImageWhenDisabled=NO;
-         }
-         if(![[[myProfileArray objectAtIndex:0]twitUrl] isEqualToString:@""])
-         {
-             [headerView.twitterButton setImage:[UIImage imageNamed:@"twit_org.png"] forState:UIControlStateNormal];
-             headerView.twitterButton.enabled=YES;
-         }
-         else
-         {
-             headerView.twitterButton.enabled=NO;
-             headerView.twitterButton.adjustsImageWhenDisabled=NO;
-         }
-         if(![[[myProfileArray objectAtIndex:0]instaUrl] isEqualToString:@""])
-         {
-             [headerView.instaButton setImage:[UIImage imageNamed:@"insta_org.png"] forState:UIControlStateNormal];
-             headerView.instaButton.enabled=YES;
-             
-         }
-         else
-         {
-             headerView.instaButton.enabled=NO;
-             headerView.instaButton.adjustsImageWhenDisabled=NO;
-         }
-         [headerView.settings addTarget:self action:@selector(settingsBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-         [headerView.facebookButton addTarget:self action:@selector(facebookBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-         [headerView.instaButton addTarget:self action:@selector(instagramBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-         [headerView.twitterButton addTarget:self action:@selector(twitterBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-         [headerView.friendsListButton addTarget:self action:@selector(showFriendListButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-         
-         headerView.imgActionBlock = ^(){
-             NSLog(@"headerImageAction");
-         };
-         
-         [self.view addSubview:headerView];
-         [myProfileTableView reloadData];
+         [self addHeaderView];
          
      }
                                  failure:^(NSError *error)
      {
      }] ;
+}
+-(void)addHeaderView
+{
+    MyProfileDataModel *profileData;
+    profileData=[myProfileArray objectAtIndex:0];
+    CGSize size = CGSizeMake(self.view.bounds.size.width-76,999);
+    CGRect textRect = [profileData.userInterest
+                       boundingRectWithSize:size
+                       options:NSStringDrawingUsesLineFragmentOrigin
+                       attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Regular" size:14.0]}
+                       context:nil];
+    
+    if ([profileData.userInterest isEqualToString:@""]) {
+        textRect.size.height=0.0;
+    }
+    else
+    {
+        textRect.size.height=10+textRect.size.height;
+    }
+    headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300 + textRect.size.height + 45)backGroudImage:[[myProfileArray objectAtIndex:0]profileImageUrl] headerImageURL:[[myProfileArray objectAtIndex:0]profileImageUrl] title:[[myProfileArray objectAtIndex:0]userName] facebookBtn:@"facebook_profile.png" instagramBtn:@"insta_profile.png" twitterBtn:@"twit_profile.png" settingsBtn:@"setting_icon.png" interestLabelFrame:textRect interestText:profileData.userInterest];
+    
+    headerView.scrollView = self.myProfileTableView;
+    
+    headerView.locationLabel.text=[profileData.university uppercaseString];
+    NSString *yourString;
+    if ([profileData.totalFriends isEqualToString:@"1"] || [profileData.totalFriends isEqualToString:@"0"]) {
+        yourString = [NSString stringWithFormat:@"%@ %@",profileData.totalFriends,@"FRIEND"];
+    }
+    else
+    {
+        yourString = [NSString stringWithFormat:@"%@ %@",profileData.totalFriends,@"FRIENDS"];
+    }
+    NSRange boldedRange = NSMakeRange(profileData.totalFriends.length, (yourString.length-profileData.totalFriends.length));
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:yourString];
+    
+    [attrString beginEditing];
+    [attrString addAttribute:NSFontAttributeName
+                       value:[UIFont fontWithName:@"Roboto-Regular" size:14.0]
+                       range:boldedRange];
+    [attrString addAttribute:NSForegroundColorAttributeName
+                       value:[UIColor blackColor]
+                       range:NSMakeRange(profileData.totalFriends.length, (yourString.length-profileData.totalFriends.length))];
+    
+    [attrString endEditing];
+    [headerView.friendsListButton setAttributedTitle:attrString forState:UIControlStateNormal];
+    textRect.origin.x = headerView.interestLabel.frame.origin.x;
+    textRect.origin.y = headerView.interestLabel.frame.origin.y;
+    headerView.interestLabel.numberOfLines = 0;
+    headerView.interestLabel.text=profileData.userInterest;
+    headerView.interestLabel.frame=textRect;
+    if ([[[myProfileArray objectAtIndex:0]fbUrl] isEqualToString:@""]&&[[[myProfileArray objectAtIndex:0]twitUrl] isEqualToString:@""]&&[[[myProfileArray objectAtIndex:0]instaUrl] isEqualToString:@""])
+    {
+        headerView.facebookButton.enabled=NO;
+        headerView.twitterButton.enabled=NO;
+        headerView.instaButton.enabled=NO;
+        headerView.facebookButton.adjustsImageWhenDisabled=NO;
+        headerView.twitterButton.adjustsImageWhenDisabled=NO;
+        headerView.instaButton.adjustsImageWhenDisabled=NO;
+    }
+    if(![[[myProfileArray objectAtIndex:0]fbUrl] isEqualToString:@""])
+    {
+        [headerView.facebookButton setImage:[UIImage imageNamed:@"facebook_org.png"] forState:UIControlStateNormal];
+        headerView.facebookButton.enabled=YES;
+    }
+    else
+    {
+        headerView.facebookButton.enabled=NO;
+        headerView.facebookButton.adjustsImageWhenDisabled=NO;
+    }
+    if(![[[myProfileArray objectAtIndex:0]twitUrl] isEqualToString:@""])
+    {
+        [headerView.twitterButton setImage:[UIImage imageNamed:@"twit_org.png"] forState:UIControlStateNormal];
+        headerView.twitterButton.enabled=YES;
+    }
+    else
+    {
+        headerView.twitterButton.enabled=NO;
+        headerView.twitterButton.adjustsImageWhenDisabled=NO;
+    }
+    if(![[[myProfileArray objectAtIndex:0]instaUrl] isEqualToString:@""])
+    {
+        [headerView.instaButton setImage:[UIImage imageNamed:@"insta_org.png"] forState:UIControlStateNormal];
+        headerView.instaButton.enabled=YES;
+        
+    }
+    else
+    {
+        headerView.instaButton.enabled=NO;
+        headerView.instaButton.adjustsImageWhenDisabled=NO;
+    }
+    [headerView.settings addTarget:self action:@selector(settingsBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [headerView.facebookButton addTarget:self action:@selector(facebookBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [headerView.instaButton addTarget:self action:@selector(instagramBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [headerView.twitterButton addTarget:self action:@selector(twitterBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [headerView.friendsListButton addTarget:self action:@selector(showFriendListButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    headerView.imgActionBlock = ^(){
+        NSLog(@"headerImageAction");
+    };
+    
+    [self.view addSubview:headerView];
+    [myProfileTableView reloadData];
 }
 #pragma mark - end
 

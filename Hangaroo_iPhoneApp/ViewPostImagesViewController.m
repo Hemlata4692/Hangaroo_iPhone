@@ -180,9 +180,6 @@
 {
     if ([[UserDefaultManager getValue:@"userId"] isEqualToString: [[photoListingDataArray objectAtIndex:indexPath.row]userId]])
     {
-//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        MyProfileViewController *userProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-//        [self.navigationController pushViewController:userProfile animated:YES];
         [self.tabBarController setSelectedIndex:4];
     }
     else

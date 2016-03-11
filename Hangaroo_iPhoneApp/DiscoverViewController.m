@@ -125,7 +125,7 @@
         {
             if(totalRequests>=3)
             {
-            return [friendRequestArray count]+1;
+                return [friendRequestArray count]+1;
             }
             else
             {
@@ -166,7 +166,7 @@
             {
                 return 80;
             }
-
+            
         }
         else
         {
@@ -177,13 +177,11 @@
     {
         return 80;
     }
-   
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    // if (suggestionBtn.selected==YES)
     if (indexPath.section==1)
         
     {
@@ -229,10 +227,10 @@
         {
             requestCell = [[DiscoverTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
-    
+        
         if (friendRequestArray.count!=0)
         {
-             DiscoverTableCell *loadMore;
+            DiscoverTableCell *loadMore;
             if(indexPath.row ==([friendRequestArray count]))
             {
                 if (indexPath.row==totalRequests) {
@@ -240,21 +238,21 @@
                 }
                 else
                 {
-                NSLog(@"true");
-                NSString *simpleTableIdentifier = @"loadMore";
-                loadMore = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-                if (loadMore == nil)
-                {
-                    loadMore = [[DiscoverTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-                }
+                    NSLog(@"true");
+                    NSString *simpleTableIdentifier = @"loadMore";
+                    loadMore = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+                    if (loadMore == nil)
+                    {
+                        loadMore = [[DiscoverTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+                    }
                     loadMore.loadIndicator.hidden=YES;
-                [loadMore.loadMoreData addTarget:self action:@selector(loadMore:) forControlEvents:
-                 UIControlEventTouchUpInside];
+                    [loadMore.loadMoreData addTarget:self action:@selector(loadMore:) forControlEvents:
+                     UIControlEventTouchUpInside];
                     loadMore.loadMoreData.tag=indexPath.row;
-                return loadMore;
+                    return loadMore;
                 }
             }
-           
+            
             else{
                 requestCell.noNewRequest.hidden=YES;
                 requestCell.userImageView.hidden=NO;
@@ -278,24 +276,19 @@
             requestCell.reuestLabel.hidden=YES;
             
         }
-
+        
         requestCell.acceptRequestBtn.Tag=(int)indexPath.row;
         requestCell.declineRequestBtn.Tag=(int)indexPath.row;
         [requestCell.acceptRequestBtn addTarget:self action:@selector(acceptFriendRequest:) forControlEvents:UIControlEventTouchUpInside];
         [requestCell.declineRequestBtn addTarget:self action:@selector(declineFriendRequest:) forControlEvents:UIControlEventTouchUpInside];
         return requestCell;
-        
-        
     }
-    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     if (indexPath.section==1) {
-        
-        
         UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
         otherUserProfile.otherUserId=[[friendSuggestionArray objectAtIndex:indexPath.row]requestFriendId];
@@ -308,11 +301,8 @@
         otherUserProfile.otherUserId=[[friendRequestArray objectAtIndex:indexPath.row]requestFriendId];
         [self.navigationController pushViewController:otherUserProfile animated:YES];
     }
-    
-    
 }
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    
     //Set the background color of the View
     view.tintColor = [UIColor whiteColor];
 }
@@ -322,16 +312,13 @@
 #pragma mark - IBActions
 - (IBAction)loadMore:(UIButton *)sender
 {
-     btnTag=(int)[sender tag];
+    btnTag=(int)[sender tag];
     NSIndexPath *myIP = [NSIndexPath indexPathForRow:btnTag inSection:0];
-    //Type cast it to CustomCell
-   
     DiscoverTableCell *loadMore = (DiscoverTableCell*)[discoverTableView cellForRowAtIndexPath:myIP];
-   // DiscoverTableCell *loadMore = [discoverTableView dequeueReusableCellWithIdentifier:@"loadMore"];
     loadMore.loadIndicator.hidden=NO;
     loadMore.loadMoreData.hidden=YES;
     [loadMore.loadIndicator startAnimating];
-     [self performSelector:@selector(requestFriendList) withObject:nil afterDelay:.1];
+    [self performSelector:@selector(requestFriendList) withObject:nil afterDelay:.1];
 }
 - (IBAction)sendRequest:(MyButton *)sender
 {
@@ -369,8 +356,6 @@
     DiscoverTableCell * cell = (DiscoverTableCell *)[discoverTableView cellForRowAtIndexPath:index];
     [[WebService sharedManager]sendFriendRequest:requestFriendId success:^(id responseObject)
      {
-        // [myDelegate stopIndicator];
-         
          DiscoverDataModel *tempModel = [friendSuggestionArray objectAtIndex:btnTag];
          tempModel.addFriend=2;
          [friendSuggestionArray replaceObjectAtIndex:btnTag withObject:tempModel];
@@ -393,8 +378,6 @@
      {
          [myDelegate stopIndicator];
          NSIndexPath *myIP = [NSIndexPath indexPathForRow:btnTag inSection:0];
-         //Type cast it to CustomCell
-         
          DiscoverTableCell *loadMore = (DiscoverTableCell*)[discoverTableView cellForRowAtIndexPath:myIP];
          loadMore.loadIndicator.hidden=YES;
          loadMore.loadMoreData.hidden=NO;
@@ -409,7 +392,7 @@
          totalRequests= [[friendRequestArray objectAtIndex:friendRequestArray.count-1]intValue];
          [friendRequestArray removeLastObject];
          Offset=[NSString stringWithFormat:@"%lu",(unsigned long)friendRequestArray.count];
-      
+         
          [discoverTableView reloadData];
          
      }
@@ -441,7 +424,7 @@
      }
                                            failure:^(NSError *error)
      {
-
+         
      }] ;
     
 }
@@ -501,26 +484,25 @@
 #pragma mark - Pagignation for table view
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *) cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        if (friendSuggestionArray.count ==totalSuggestions)
+    if (friendSuggestionArray.count ==totalSuggestions)
+    {
+        [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
+        [(UILabel *)[footerView viewWithTag:11] setHidden:true];
+    }
+    else if(indexPath.row==[friendSuggestionArray count]-1)
+    {
+        if(friendSuggestionArray.count <= totalSuggestions)
         {
-            [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
-            [(UILabel *)[footerView viewWithTag:11] setHidden:true];
+            tableView.tableFooterView = footerView;
+            [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
+            pagination=1;
+            [self suggestedFriendList];
         }
-        else if(indexPath.row==[friendSuggestionArray count]-1) //self.array is the array of items you are displaying
+        else
         {
-            if(friendSuggestionArray.count <= totalSuggestions)
-            {
-                tableView.tableFooterView = footerView;
-                [(UIActivityIndicatorView *)[footerView viewWithTag:10] startAnimating];
-                pagination=1;
-                [self suggestedFriendList];
-            }
-            else
-            {
-                discoverTableView.tableFooterView = nil;
-                //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
-            }
+            discoverTableView.tableFooterView = nil;
         }
+    }
 }
 
 -(void)initFooterView

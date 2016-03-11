@@ -55,7 +55,7 @@
     // Set the screen name for automatic screenview tracking.
     self.screenName = @"Home screen";
     [self setTabBarImages];
-     myDelegate.tabBarView = (UITabBarController *)self.tabBarController;
+    myDelegate.tabBarView = (UITabBarController *)self.tabBarController;
     postListingArray=[[NSMutableArray alloc]init];
     todayPostData = [[NSMutableArray alloc]init];
     yesterdayPostData = [[NSMutableArray alloc]init];
@@ -82,24 +82,19 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    //self.tabBarController.tabBar.hidden=NO;
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     posted=@"Today";
-   // [postListingTableView setContentOffset:CGPointZero animated:YES];
     if (!pickerSelection) {
         [myDelegate showIndicator];
         [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
-
     }
-   }
-
+}
 #pragma mark - end
 
 #pragma mark - Set tabbar images
@@ -139,22 +134,18 @@
 //Pull to refresh implementation on my submission data
 - (void)refreshTable
 {
-    
     [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
     [refreshControl endRefreshing];
     [self.postListingTableView reloadData];
-    
 }
 #pragma mark - end
 
 #pragma mark - Post listing webservice
 -(void)getPostListing
 {
-     flag=true;
-    
+    flag=true;
     [postListingArray removeAllObjects];
     [[WebService sharedManager]postListing:^(id dataArray) {
-        
         [myDelegate stopIndicator];
         if ([dataArray isKindOfClass:[NSArray class]])
         {
@@ -165,18 +156,14 @@
             else
             {
                 postListingArray = [dataArray mutableCopy];
-                
                 [self filterData];
             }
-            
         }
     }
                                    failure:^(NSError *error)
      {
          [postListingArray removeAllObjects];
          [postListingTableView reloadData];
-//         noResultFound.hidden=NO;
-//         postListingTableView.hidden=YES;
      }] ;
     
 }
@@ -184,24 +171,18 @@
 {
     [todayPostData removeAllObjects];
     [yesterdayPostData removeAllObjects];
-    
     for (int i =0; i<postListingArray.count; i++)
     {
-        
         PostListingDataModel *posListData = [postListingArray objectAtIndex:i];
         
         if ([posListData.postedDay isEqualToString:@"today"] )
         {
             [todayPostData addObject:posListData];
-            
-            
         }
         else if ([posListData.postedDay isEqualToString:@"yesterday"] )
         {
             [yesterdayPostData addObject:posListData];
-            
         }
-        
     }
     if (todayPostData.count==0) {
         flag=false;
@@ -214,8 +195,6 @@
         flag=false;
     }
     [postListingTableView reloadData];
-    
-    
 }
 
 #pragma mark - end
@@ -225,27 +204,23 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (postListingArray.count>0) {
-        
-            if (flag)
-            {
-                return 2;
-            }
-            else
-            {
-                return 1;
-            }
-
+        if (flag)
+        {
+            return 2;
+        }
+        else
+        {
+            return 1;
+        }
     }
     else
     {
         return 0;
     }
-     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
     if(section==0)
     {
         return todayPostData.count;
@@ -260,38 +235,29 @@
     UIView * headerView;
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 40.0)];
     headerView.backgroundColor=[UIColor whiteColor];
-    
     UILabel *headerLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 5, tableView.frame.size.width, 30)];
     headerLabel.textAlignment=NSTextAlignmentCenter;
     headerLabel.font=[UIFont fontWithName:@"Roboto-Light" size:16.0];
     headerLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
     [headerView addSubview:headerLabel];
-    
     UILabel *seperatorLabel=[[UILabel alloc]initWithFrame:CGRectMake(20, headerLabel.frame.origin.y+headerLabel.frame.size.height+5, tableView.frame.size.width-40, 1)];
     seperatorLabel.backgroundColor=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
     [headerView addSubview:seperatorLabel];
     if (flag) {
         if (section==0)
         {
-            
             headerLabel.text=@"Today";
-            
         }
         else
         {
-            
             headerLabel.text=@"Yesterday";
-            
         }
-        
     }
     else
     {
         headerLabel.text=posted;
     }
-    
-    
-    return headerView;
+     return headerView;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
@@ -301,7 +267,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PostListingDataModel *postListData;
-    
     if (indexPath.section==0) {
         postListData=[todayPostData objectAtIndex:indexPath.row];
         CGSize size = CGSizeMake(postListingTableView.frame.size.width-70,999);
@@ -320,7 +285,6 @@
         {
             return 286+textRect.size.height;
         }
-        
     }
     else
     {
@@ -353,8 +317,6 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
-    
-    
     UILabel *postLabel=(UILabel *)[cell viewWithTag:1];
     UILabel *followedUserLabel=(UILabel *)[cell viewWithTag:2];
     UILabel *seperatorLabel=(UILabel *)[cell viewWithTag:7];
@@ -396,24 +358,19 @@
     textRect.origin.x = postLabel.frame.origin.x;
     textRect.origin.y = 19;
     postLabel.frame = textRect;
-    
+    //dynamic framing of objects
     postLabel.frame =CGRectMake(8, postLabel.frame.origin.y, postListingTableView.frame.size.width-70, postLabel.frame.size.height);
-
     followedUserLabel.frame =CGRectMake(8, postLabel.frame.origin.y+postLabel.frame.size.height+7, postListingTableView.frame.size.width-70, followedUserLabel.frame.size.height);
     tickIcon.frame =CGRectMake(postListingTableView.frame.size.width-18, -1, tickIcon.frame.size.width, tickIcon.frame.size.height);
     cameraIcon.frame =CGRectMake(postListingTableView.frame.size.width-(cameraIcon.frame.size.width+5), cameraIcon.frame.origin.y, cameraIcon.frame.size.width, cameraIcon.frame.size.height);
     cameraButton.frame =CGRectMake(postListingTableView.frame.size.width-(cameraButton.frame.size.width+5), cameraButton.frame.origin.y, cameraButton.frame.size.width, cameraButton.frame.size.height);
     cameraButton.Tag=(int)indexPath.row;
     cameraButton.sectionTag=(int)indexPath.section;
-    
     meTooCollectionView.frame =CGRectMake(8, followedUserLabel.frame.origin.y+followedUserLabel.frame.size.height+12, postListingTableView.frame.size.width-16, meTooCollectionView.frame.size.height);
-    
     photoCollectionView.frame =CGRectMake(8, meTooCollectionView.frame.origin.y+meTooCollectionView.frame.size.height, postListingTableView.frame.size.width-16, photoCollectionView.frame.size.height);
-    
     [cameraButton addTarget:self action:@selector(openCameraAction:) forControlEvents:UIControlEventTouchUpInside];
     meTooCollectionView.collectionTag = (int)indexPath.row;
     photoCollectionView.collectionTag = (int)indexPath.row;
-  
     meTooCollectionView.sectionTag = (int)indexPath.section;
     photoCollectionView.sectionTag = (int)indexPath.section;
     if (indexPath.section==0)
@@ -428,12 +385,11 @@
             photoCollectionView.hidden=NO;
             seperatorLabel.frame =CGRectMake(0, photoCollectionView.frame.origin.y+photoCollectionView.frame.size.height+15, postListingTableView.frame.size.width, 2);
         }
-        
         if ([[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]intValue] ==0)
         {
             followedUserLabel.text=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] joinedUserCount]];
         }
-       else if ([[[todayPostData objectAtIndex:indexPath.row] joinedUserCount]intValue] ==0)
+        else if ([[[todayPostData objectAtIndex:indexPath.row] joinedUserCount]intValue] ==0)
         {
             followedUserLabel.text=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
         }
@@ -441,7 +397,6 @@
         {
             followedUserLabel.text=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:indexPath.row] joinedUserCount],[[todayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
         }
-        
         if ([[[todayPostData objectAtIndex:indexPath.row] isUserJoined] isEqualToString:@"No"]) {
             cameraButton.hidden=YES;
             cameraIcon.hidden=YES;
@@ -453,7 +408,6 @@
             cameraIcon.hidden=NO;
             tickIcon.hidden=NO;
         }
-        
     }
     else
     {
@@ -480,8 +434,6 @@
         {
             followedUserLabel.text=[NSString stringWithFormat:@"%@+%@ felt the same way",[[yesterdayPostData objectAtIndex:indexPath.row] joinedUserCount],[[yesterdayPostData objectAtIndex:indexPath.row] friendsJoinedCount]];
         }
-        
-        
         if ([[[yesterdayPostData objectAtIndex:indexPath.row] isUserJoined] isEqualToString:@"No"]) {
             cameraButton.hidden=YES;
             cameraIcon.hidden=YES;
@@ -494,56 +446,46 @@
             tickIcon.hidden=NO;
         }
     }
-    
-
     [meTooCollectionView reloadData];
     [photoCollectionView reloadData];
-    
-    
-    
     return cell;
-    
 }
 
 #pragma mark - end
 
 #pragma mark- Cell collection view delegate
 
-
 - (NSInteger)collectionView:(MyCollectionView *)view numberOfItemsInSection:(NSInteger)section {
-
+    
     NSLog(@"cell tag %d %d",view.collectionTag, view.sectionTag);
     
     if (view.sectionTag==0)
     {
         if (view.tag==50)
         {
-           
+            
             return [[todayPostData objectAtIndex:view.collectionTag]joinedUserArray].count;
             
         }
         else
         {
-          
+            
             return [[todayPostData objectAtIndex:view.collectionTag]uploadedPhotoArray].count;
         }
-        
     }
     else
     {
         if (view.tag==50)
         {
-         
+            
             return [[yesterdayPostData objectAtIndex:view.collectionTag]joinedUserArray].count;
         }
         else
         {
-           
+            
             return [[yesterdayPostData objectAtIndex:view.collectionTag]uploadedPhotoArray].count;
         }
-        
     }
-    
 }
 
 - (UICollectionViewCell *)collectionView:(MyCollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -563,18 +505,15 @@
         userImage.layer.borderWidth=1.5f;
         userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
         UIImageView *meeToo=(UIImageView *)[meTooCell viewWithTag:90];
-        
         meeToo.translatesAutoresizingMaskIntoConstraints=YES;
         meeToo.frame=CGRectMake(5, 1, meeToo.frame.size.width,  meeToo.frame.size.height);
         meeToo.layer.cornerRadius=meeToo.frame.size.height/2;
         meeToo.clipsToBounds=YES;
         meeToo.image=[UIImage imageNamed:@"me_too.png"];
-        
         UILabel *nameLabel=(UILabel *)[meTooCell viewWithTag:21];
         nameLabel.translatesAutoresizingMaskIntoConstraints=YES;
         nameLabel.frame=CGRectMake(3, userImage.frame.origin.y+userImage.frame.size.height, nameLabel.frame.size.width,  nameLabel.frame.size.height);
         nameLabel.textAlignment=NSTextAlignmentCenter;
-        
         if (cv.sectionTag==0)
         {
             if ([[[todayPostData objectAtIndex:cv.collectionTag] isUserJoined] isEqualToString:@"No"])
@@ -595,8 +534,6 @@
                     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                         
                     }];
-                    
-                    
                 }
                 else
                 {
@@ -671,7 +608,6 @@
                     {
                         nameLabel.textColor=[UIColor colorWithRed:126.0/255.0 green:126.0/255.0 blue:126.0/255.0 alpha:1.0];
                     }
-                    
                     nameLabel.text=[[[[todayPostData objectAtIndex:cv.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
                     
                     __weak UIImageView *weakRef = userImage;
@@ -686,12 +622,9 @@
                     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                         
                     }];
-                    
                 }
             }
         }
-        
-        
         else if (cv.sectionTag==1)
         {
             if ([[[yesterdayPostData objectAtIndex:cv.collectionTag] isUserJoined] isEqualToString:@"No"])
@@ -713,8 +646,6 @@
                     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                         
                     }];
-                    
-                    
                 }
                 else
                 {
@@ -733,7 +664,6 @@
                     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                         
                     }];
-                    
                 }
             }
             else
@@ -757,7 +687,6 @@
                         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                             
                         }];
-                        
                     }
                     else
                     {
@@ -776,7 +705,6 @@
                         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                             
                         }];
-                        
                     }
                 }
                 else
@@ -805,14 +733,10 @@
                     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                         
                     }];
-                    
                 }
-                
             }
-            
         }
         return meTooCell;
-        
     }
     else
     {
@@ -883,33 +807,22 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 MeTooUserProfileViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
                 viewPost.postID=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
                 viewPost.post=[[todayPostData objectAtIndex:collectionView.collectionTag]postContent];
-//               viewPost.joineUserId=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserId];
-//                 viewPost.userName=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
-//                viewPost.userProfileImageUrl=[[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
                 viewPost.selectedIndex=(int)indexPath.row;
                 viewPost.userDataArray=[[[todayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] mutableCopy];
                 if ([[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]];
                 }
-               else if ([[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]intValue] ==0)
+                else if ([[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount]intValue] ==0)
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]];
                 }
-
-                
                 else
                 {
                     viewPost.followedUser=[NSString stringWithFormat:@"%@+%@ felt the same way",[[todayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount],[[todayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]];
                 }
-//                UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:viewPost];
-//                [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-//                    
-//                }];
                 [self animateViewHeight:viewPost withAnimationType:kCATransitionFromTop];
-               // [self.navigationController pushViewController:viewPost animated:YES];
             }
-            
         }
         else
         {
@@ -924,9 +837,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                 MeTooUserProfileViewController * viewPost = [storyboard instantiateViewControllerWithIdentifier:@"MeTooUserProfileViewController"];
                 viewPost.postID=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
                 viewPost.post=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postContent];
-//                viewPost.joineUserId=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserId];
-//                viewPost.userName=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserName];
-//                viewPost.userProfileImageUrl=[[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] objectAtIndex:indexPath.item] joinedUserImage];
                 viewPost.selectedIndex=(int)indexPath.row;
                 viewPost.userDataArray=[[[yesterdayPostData objectAtIndex:collectionView.collectionTag]joinedUserArray] mutableCopy];
                 if ([[[yesterdayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]intValue] ==0)
@@ -942,35 +852,29 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                     viewPost.followedUser=[NSString stringWithFormat:@"%@+%@ felt the same way",[[yesterdayPostData objectAtIndex:collectionView.collectionTag] joinedUserCount],[[yesterdayPostData objectAtIndex:collectionView.collectionTag] friendsJoinedCount]];
                 }
                 [self animateViewHeight:viewPost withAnimationType:kCATransitionFromTop];
-                // [self.navigationController pushViewController:viewPost animated:YES];
             }
-
-            
-            
         }
     }
     else
     {
         if (collectionView.sectionTag==0)
         {
-           
-                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                ViewPostImagesViewController * viewPostImages = [storyboard instantiateViewControllerWithIdentifier:@"ViewPostImagesViewController"];
-              viewPostImages.postID=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
-            viewPostImages.selectedIndex=(int)indexPath.row;
-               [self animateView:viewPostImages withAnimationType:kCATransitionFromTop];
-        }
-        else
-        {
-           
+            
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             ViewPostImagesViewController * viewPostImages = [storyboard instantiateViewControllerWithIdentifier:@"ViewPostImagesViewController"];
-              viewPostImages.postID=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
+            viewPostImages.postID=[[todayPostData objectAtIndex:collectionView.collectionTag]postID];
             viewPostImages.selectedIndex=(int)indexPath.row;
             [self animateView:viewPostImages withAnimationType:kCATransitionFromTop];
         }
-
-        NSLog(@"selected index %ld",(long)indexPath.item);
+        else
+        {
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            ViewPostImagesViewController * viewPostImages = [storyboard instantiateViewControllerWithIdentifier:@"ViewPostImagesViewController"];
+            viewPostImages.postID=[[yesterdayPostData objectAtIndex:collectionView.collectionTag]postID];
+            viewPostImages.selectedIndex=(int)indexPath.row;
+            [self animateView:viewPostImages withAnimationType:kCATransitionFromTop];
+        }
     }
 }
 - (void)animateViewHeight:(MeTooUserProfileViewController*)animateView withAnimationType:(NSString*)animType {
@@ -1015,7 +919,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     }
                                 failure:^(NSError *error)
      {
-         
      }] ;
     
 }
@@ -1029,7 +932,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)openCameraAction:(MyButton *)sender
 {
-       
     if (sender.sectionTag==0) {
         
         postId=[[todayPostData objectAtIndex:sender.Tag]postID];
@@ -1038,25 +940,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     {
         postId=[[yesterdayPostData objectAtIndex:sender.Tag]postID];
     }
-    // pickerSelection=true;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     CameraViewController * cameraView = [storyboard instantiateViewControllerWithIdentifier:@"CameraViewController"];
     cameraView.postId=postId;
     [self openCamera:cameraView withAnimationType:kCATransitionFromTop];
-//    UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:cameraView];
-//    [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-//       /// pickerSelection=false;
-//    }];
-//
-//        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-//                                                                 delegate:self
-//                                                        cancelButtonTitle:@"Cancel"
-//                                                   destructiveButtonTitle:nil
-//                                                        otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
-//    
-//        [actionSheet showInView:self.view];
-    
-    
 }
 #pragma mark - end
 
@@ -1077,7 +964,6 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
                                                         otherButtonTitles: nil];
             
             [myAlertView show];
-            
         }
         else
             
@@ -1090,23 +976,19 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
             
             [self presentViewController:picker animated:YES completion:NULL];
         }
-        
     }
     if ([buttonTitle isEqualToString:@"Choose from Gallery"])
     {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
         picker.delegate = self;
         picker.allowsEditing = YES;
-        
         picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-        
         [self presentViewController:picker animated:YES completion:NULL];
-       // [self presentViewController:imagePickerController animated:YES completion:NULL];
     }
 }
 #pragma mark - end
 
-#pragma mark - Image Picker Controller delegate methods
+#pragma mark - Image picker controller delegate methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -1114,16 +996,13 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     pickerSelection=true;
     [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
-        photoView.postImage=image;
+    PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
+    photoView.postImage=image;
     photoView.postID=postId;
- 
     UINavigationController *navBar=[[UINavigationController alloc]initWithRootViewController:photoView];
     [self.navigationController presentViewController:navBar animated: YES completion: ^ {
-         pickerSelection=false;
+        pickerSelection=false;
     }];
-
-    
 }
 - (void)dismissImagePickerController
 {
@@ -1133,13 +1012,9 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         [self.navigationController popToViewController:self animated:YES];
     }
 }
-
-
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-   // [myDelegate stopIndicator];
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
 }
 #pragma mark - end
 @end

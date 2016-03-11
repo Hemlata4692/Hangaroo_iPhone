@@ -134,7 +134,6 @@
         }
         else
         {
-            
             caption.center = CGPointMake([UIScreen mainScreen].bounds.size.width/2,  translation.y);
             
         }
@@ -259,7 +258,6 @@ replacementString:(NSString *)string{
 }
 - (IBAction)closeButtonAction:(id)sender
 {
-  //  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     CATransition* transition = [CATransition animation];
     transition.duration = 0.4f;
     transition.type = kCATransitionReveal;
@@ -278,24 +276,16 @@ replacementString:(NSString *)string{
 #pragma mark - Webservice
 -(void)uploadPhoto
 {
-    
     UIGraphicsBeginImageContextWithOptions(previewImageView.frame.size, YES, 0.0);
     
     for (UIView * view in [previewImageView subviews]){
         [view removeFromSuperview];
     }
-    
     [previewImageView addSubview:caption];
     [previewImageView.layer renderInContext:UIGraphicsGetCurrentContext()];
-    //
     UIImage * newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    NSLog(@"post id is %@",postID);
     [[WebService sharedManager]uploadPhoto:postID image:newImage success: ^(id responseObject) {
-        
         [myDelegate stopIndicator];
-        NSLog(@"post id is %@",responseObject);
-      //  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         for (UIViewController *controller in self.navigationController.viewControllers)
         {
             if ([controller isKindOfClass:[HomeViewController class]])
@@ -305,12 +295,11 @@ replacementString:(NSString *)string{
                 transition.type = kCATransitionReveal;
                 transition.subtype = kCATransitionFromBottom;
                 [self.navigationController.view.layer addAnimation:transition
-                                                                    forKey:kCATransition];
+                                                            forKey:kCATransition];
                 [self.navigationController popToViewController:controller animated:NO];
-                
                 break;
             }
-        }        
+        }
     }
                                    failure:^(NSError *error)
      {
