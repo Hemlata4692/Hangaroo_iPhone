@@ -34,7 +34,6 @@
 		133D4E32805A4604983BF698F05DD814 /* XMPPUserCoreDataStorageObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 05FC15E0AED7155BDC28444FA52FA99E /* XMPPUserCoreDataStorageObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		13FEA9ACD4A5D76E6BB66E5A53219276 /* XMPPvCardTempModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 093010AE98E4A48DAFD5DC5E39CB44A9 /* XMPPvCardTempModule.m */; };
 		140F7327F234847C482D8151238B5196 /* XMPPResource.h in Headers */ = {isa = PBXBuildFile; fileRef = 952CB11885919640C5318B67203B79EF /* XMPPResource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		14F0B590159BC1506DCF6D0A23F0A7C4 /* module.modulemap in Sources */ = {isa = PBXBuildFile; fileRef = B486272C0D2C378D574708981299CD08 /* module.modulemap */; };
 		1571888C4CBDCC942EA0EE7B3402013A /* XMPPRoomHybridStorageProtected.h in Headers */ = {isa = PBXBuildFile; fileRef = 16C28DDC33F5C20FFB116188C5F0FDF2 /* XMPPRoomHybridStorageProtected.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		15AC82A3FB738C6372B853FB252EFE27 /* XEP_0223.m in Sources */ = {isa = PBXBuildFile; fileRef = A10140EB02694133D09A6A0883F24A6B /* XEP_0223.m */; };
 		16BB6272FC3A5AF238DC17F9C57532CE /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = D6C52D3B05B2380600E40E8B6383C92E /* DDLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -2062,7 +2061,6 @@
 				79FD006BB2D08EED198763B48A6BE2A5 /* DDXMLElement.m in Sources */,
 				6BD24DF6426EE82C9EC39FD8F0DD0EB7 /* DDXMLNode.m in Sources */,
 				1E6E9FE90E3BBC186705123F6247A88D /* GCDMulticastDelegate.m in Sources */,
-				14F0B590159BC1506DCF6D0A23F0A7C4 /* module.modulemap in Sources */,
 				27724A3D1FDF47CDA6F7BF473CC09C7C /* NSData+XMPP.m in Sources */,
 				57039E567B77503E60B5CE681ADF3792 /* NSDate+XMPPDateTimeProfiles.m in Sources */,
 				4B0E9E59E4979C2D64CAC8BC6D9EC904 /* NSNumber+XMPP.m in Sources */,

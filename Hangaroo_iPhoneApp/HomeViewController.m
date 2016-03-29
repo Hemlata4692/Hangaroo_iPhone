@@ -46,7 +46,7 @@
 @end
 
 @implementation HomeViewController
-@synthesize postListingTableView,todayPostData,yesterdayPostData,joinedUserInfoArray,postPhotoArray,postPhotoTodayArray,joinedUserInfoTodayArray,noResultFound,postImagesArray;
+@synthesize postListingTableView,todayPostData,yesterdayPostData,joinedUserInfoArray,postPhotoArray,postPhotoTodayArray,joinedUserInfoTodayArray,noResultFound,postImagesArray,hotNewPostSegment;
 
 #pragma mark - View life cycle
 - (void)viewDidLoad
@@ -67,6 +67,7 @@
     flag=true;
     noResultFound.hidden=YES;
     posted=@"Today";
+    hotNewPostSegment.selectedSegmentIndex=0;
     pickerSelection=false;
     // Pull To Refresh
     refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 10, 10)];
@@ -90,10 +91,21 @@
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     posted=@"Today";
-    if (!pickerSelection) {
-        [myDelegate showIndicator];
-        [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
+    if (hotNewPostSegment.selectedSegmentIndex==0) {
+        if (!pickerSelection) {
+            [myDelegate showIndicator];
+            [self performSelector:@selector(getPostListing) withObject:nil afterDelay:.1];
+        }
     }
+    else
+    {
+        if (!pickerSelection) {
+            [myDelegate showIndicator];
+            [self performSelector:@selector(hotPostListing) withObject:nil afterDelay:.1];
+        }
+    }
+
+    
 }
 #pragma mark - end
 
@@ -134,7 +146,13 @@
 //Pull to refresh implementation on my submission data
 - (void)refreshTable
 {
-    [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
+    if (hotNewPostSegment.selectedSegmentIndex==0) {
+         [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
+    }
+   else
+   {
+        [self performSelector:@selector(hotPostListing) withObject:nil afterDelay:0.1];
+   }
     [refreshControl endRefreshing];
     [self.postListingTableView reloadData];
 }
@@ -167,6 +185,31 @@
      }] ;
     
 }
+-(void)hotPostListing
+{
+    [[WebService sharedManager]hotPostListing:^(id dataArray) {
+        [myDelegate stopIndicator];
+        if ([dataArray isKindOfClass:[NSArray class]])
+        {
+            if ([dataArray count]==0) {
+                noResultFound.hidden=NO;
+                postListingTableView.hidden=YES;
+            }
+            else
+            {
+                postListingArray = [dataArray mutableCopy];
+                [self filterData];
+            }
+        }
+    }
+                                      failure:^(NSError *error)
+     {
+         [postListingArray removeAllObjects];
+         [postListingTableView reloadData];
+     }] ;
+    [postListingTableView reloadData];
+}
+
 -(void)filterData
 {
     [todayPostData removeAllObjects];
@@ -914,7 +957,14 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     [[WebService sharedManager]joinPost:postId success: ^(id responseObject) {
         
         [myDelegate showIndicator];
-        [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
+        if (hotNewPostSegment.selectedSegmentIndex==0) {
+            [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
+        }
+        else
+        {
+            [self performSelector:@selector(hotPostListing) withObject:nil afterDelay:0.1];
+        }
+
         
     }
                                 failure:^(NSError *error)
@@ -924,12 +974,21 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 }
 #pragma mark - end
 #pragma mark - IBActions
-- (IBAction)hotNewPostSegmentAction:(id)sender
+- (IBAction)hotNewPostSegmentAction:(UISegmentedControl *)sender
 {
-    NSLog(@"segment button clicked.");
+    [postListingArray removeAllObjects];
     [postListingTableView reloadData];
+     [myDelegate showIndicator];
+    if (sender.selectedSegmentIndex==0)
+    {
+        
+        [self performSelector:@selector(getPostListing) withObject:nil afterDelay:0.1];
+    }
+    else
+    {
+        [self performSelector:@selector(hotPostListing) withObject:nil afterDelay:0.1];
+    }
 }
-
 -(void)openCameraAction:(MyButton *)sender
 {
     if (sender.sectionTag==0) {

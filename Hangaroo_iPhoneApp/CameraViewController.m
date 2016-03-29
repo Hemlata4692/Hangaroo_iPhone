@@ -20,7 +20,9 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 {
     int flashMode;
     BOOL frontCameraChecker;
+    NSTimer *focusTimer;
 }
+@property (weak, nonatomic) IBOutlet UIView *focusView;
 @property (weak, nonatomic) IBOutlet UIButton *flashButton;
 @property (weak, nonatomic) IBOutlet UIButton *cameraModeButton;
 @property (weak, nonatomic) IBOutlet UIButton *openGallertyButton;
@@ -46,7 +48,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 
 @implementation CameraViewController
 @synthesize flashButton,cameraModeButton,openGallertyButton,captureImageButton,closeCameraViewButton,previewView;
-@synthesize postId;
+@synthesize postId,focusView;
 
 #pragma mark - View life cycle
 
@@ -73,9 +75,22 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     openGallertyButton.layer.borderColor=[UIColor whiteColor].CGColor;
     closeCameraViewButton.layer.cornerRadius=closeCameraViewButton.frame.size.width/2;
     closeCameraViewButton.clipsToBounds=YES;
+    focusView.translatesAutoresizingMaskIntoConstraints=YES;
+    focusView.frame=CGRectMake((self.view.frame.size.width/2)-(focusView.frame.size.width/2), (self.view.frame.size.height/2)-(focusView.frame.size.height/2), focusView.frame.size.width, focusView.frame.size.height);
+    focusView.backgroundColor=[UIColor clearColor];
+    focusView.layer.borderColor=[UIColor colorWithRed:255.0/255.0 green:180.0/255.0 blue:33.0/255.0 alpha:1.0].CGColor;
+    focusView.layer.borderWidth=1.0f;
+    focusTimer=[NSTimer scheduledTimerWithTimeInterval:2.0
+                                                target:self
+                                              selector:@selector(targetMethod:)
+                                              userInfo:nil
+                                               repeats:NO];
+
+    
     // Create the AVCaptureSession
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
     [self setSession:session];
+    self.session.sessionPreset = AVCaptureSessionPresetPhoto;
     self.prevLayer = [AVCaptureVideoPreviewLayer layerWithSession:session];
     self.prevLayer.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.prevLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
@@ -127,6 +142,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         AVCaptureStillImageOutput *stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
         if ([session canAddOutput:stillImageOutput])
         {
+            
             [stillImageOutput setOutputSettings:@{AVVideoCodecKey : AVVideoCodecJPEG}];
             [session addOutput:stillImageOutput];
             [self setStillImageOutput:stillImageOutput];
@@ -488,7 +504,25 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 {
     return (self.navigationController.topViewController == self);
 }
+- (IBAction)focusAndExposeTap:(UITapGestureRecognizer *)gestureRecognizer
+{
+    [focusTimer invalidate];
+    CGPoint devicePoint = [(AVCaptureVideoPreviewLayer *)[[self previewView] layer] captureDevicePointOfInterestForPoint:[gestureRecognizer locationInView:[gestureRecognizer view]]];
+    [self focusWithMode:AVCaptureFocusModeAutoFocus exposeWithMode:AVCaptureExposureModeAutoExpose atDevicePoint:devicePoint monitorSubjectAreaChange:YES];
+    CGPoint translation = [gestureRecognizer locationInView:previewView];
+   focusView.frame=CGRectMake(translation.x-(focusView.frame.size.width/2), translation.y-(focusView.frame.size.height/2), focusView.frame.size.width, focusView.frame.size.height);
+    focusView.hidden=NO;
+    focusTimer= [NSTimer scheduledTimerWithTimeInterval:5.0
+                                                 target:self
+                                               selector:@selector(targetMethod:)
+                                               userInfo:nil
+                                                repeats:NO];
+    
+}
 
+-(void)targetMethod:(NSTimer *)timer {
+    focusView.hidden=YES;
+}
 - (IBAction)closeCameraButtonAction:(id)sender
 {
     //  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

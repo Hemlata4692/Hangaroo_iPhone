@@ -39,6 +39,9 @@
 //Post listing method
 -(void)postListing:(void (^)(id data))success failure:(void (^)(NSError *error))failure;
 
+//Hot post listing
+-(void)hotPostListing:(void (^)(id data))success failure:(void (^)(NSError *error))failure;
+
 //Join post method
 -(void)joinPost:(NSString *)postID success:(void (^)(id))success failure:(void (^)(NSError *))failure;
 

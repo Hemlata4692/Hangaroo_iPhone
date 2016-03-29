@@ -102,6 +102,7 @@ id<GAITracker> tracker;
     [[[GAI sharedInstance] logger] setLogLevel:kGAILogLevelVerbose];
     tracker = [[GAI sharedInstance] trackerWithTrackingId:@"UA-72052944-1"];
     //end
+    
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0]];

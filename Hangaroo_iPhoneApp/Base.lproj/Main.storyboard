@@ -868,6 +868,7 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="qFt-tP-4Vo" secondAttribute="bottom" constant="20" id="Bap-Hv-L5B"/>
                                     <constraint firstItem="wlI-zs-v3d" firstAttribute="leading" secondItem="aII-Gp-yvt" secondAttribute="leading" constant="24" id="Qq1-mj-lw8"/>
@@ -882,9 +883,17 @@
                                     <constraint firstAttribute="trailing" secondItem="Cre-20-iJo" secondAttribute="trailing" constant="26" id="z5F-nd-sOV"/>
                                     <constraint firstItem="qFt-tP-4Vo" firstAttribute="leading" secondItem="wlI-zs-v3d" secondAttribute="trailing" constant="56" id="zlg-rl-t7J"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="jHv-GB-Iwg" appends="YES" id="94w-kh-2uq"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fZ2-ng-AFm">
+                                <rect key="frame" x="120" y="244" width="80" height="80"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="aII-Gp-yvt" firstAttribute="leading" secondItem="yK5-kU-4Bs" secondAttribute="leading" id="Nl4-4F-FzE"/>
                             <constraint firstItem="aII-Gp-yvt" firstAttribute="top" secondItem="yK5-kU-4Bs" secondAttribute="top" id="hVg-5a-0Cy"/>
@@ -898,11 +907,17 @@
                         <outlet property="captureImageButton" destination="qFt-tP-4Vo" id="Zkw-Ad-6Vx"/>
                         <outlet property="closeCameraViewButton" destination="wlI-zs-v3d" id="1Gz-56-AyA"/>
                         <outlet property="flashButton" destination="dl1-u6-i7c" id="lpY-sz-KkO"/>
+                        <outlet property="focusView" destination="fZ2-ng-AFm" id="6yL-Pe-1oC"/>
                         <outlet property="openGallertyButton" destination="Cre-20-iJo" id="AFn-Lc-5Gx"/>
                         <outlet property="previewView" destination="aII-Gp-yvt" id="xR1-n8-hWr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zyy-Rg-yz8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="jHv-GB-Iwg">
+                    <connections>
+                        <action selector="focusAndExposeTap:" destination="Mge-6w-uaN" id="Uux-9h-zXi"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-2099" y="135"/>
         </scene>
@@ -918,8 +933,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IZZ-SI-yOr">
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IZZ-SI-yOr">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="IZZ-SI-yOr" secondAttribute="height" multiplier="64:91" constant="-79.472527472527531" id="LED-Vc-0nL"/>
                                 </constraints>
@@ -947,7 +963,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="n3H-0F-Emg" firstAttribute="top" secondItem="GjU-ji-SBR" secondAttribute="top" constant="6" id="1uq-Qu-1kN"/>
                             <constraint firstItem="n3H-0F-Emg" firstAttribute="leading" secondItem="GjU-ji-SBR" secondAttribute="leading" constant="6" id="HZy-wC-Zl2"/>
@@ -1074,7 +1090,7 @@
                                             <action selector="seeOutbutonAction:" destination="FPJ-D2-Zkh" eventType="touchUpInside" id="2ME-Xo-zu7"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAP TO SEE OUT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cdp-FX-t54">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POKE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cdp-FX-t54">
                                         <rect key="frame" x="158" y="384" width="136" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="Lio-Lv-tWf"/>

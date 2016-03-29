@@ -348,7 +348,7 @@
 
 -(IBAction)sendMessage:(id)sender
 {
-    [sendMessage resignFirstResponder];
+   // [sendMessage resignFirstResponder];
     [myDelegate.xmppMessageArchivingModule setClientSideMessageArchivingOnly:YES];
     [myDelegate.xmppMessageArchivingModule activate:[self xmppStream]];    //By this line all your messages are stored in CoreData
     [myDelegate.xmppMessageArchivingModule addDelegate:self delegateQueue:dispatch_get_main_queue()];
@@ -411,12 +411,12 @@
     
     NSLog(@"%f,%f",[UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.height - messageHeight - 2);
     
-    sendMessage.frame = CGRectMake(sendMessage.frame.origin.x, sendMessage.frame.origin.y, sendMessage.frame.size.width, 32);
-    
-    messageHeight = 40;
-    messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -10, self.view.bounds.size.width, messageHeight+ 10);
-    messageYValue = [UIScreen mainScreen].bounds.size.height -64 -49;
-    userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -14);
+//    sendMessage.frame = CGRectMake(sendMessage.frame.origin.x, sendMessage.frame.origin.y, sendMessage.frame.size.width, 32);
+//    
+//    messageHeight = 40;
+//    messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -10, self.view.bounds.size.width, messageHeight+ 10);
+//    messageYValue = [UIScreen mainScreen].bounds.size.height -64 -49;
+//    userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -14);
     if (userData.count > 0) {
         NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
         [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
@@ -644,6 +644,7 @@
     return [NSIndexPath indexPathForRow:numberOfMessages-1 inSection:lastSection];
 }
 #pragma mark - end
+#pragma mark - IBActions
 - (IBAction)openProfileButtonAction:(MyButton *)sender
 {
     btnTag=[sender Tag];
@@ -665,5 +666,6 @@
     }
     
 }
+#pragma mark - end
 
 @end

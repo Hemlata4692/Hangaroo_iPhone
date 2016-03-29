@@ -24,6 +24,7 @@
 #define kUrlForgotPassword              @"forgotpassword"
 #define kUrlSharePost                   @"sharepost"
 #define kUrlPostListing                 @"postlisting"
+#define kUrlHotPostListing              @"hotfeeds"
 #define kUrlJoinPost                    @"joinpost"
 #define kUrlUploadPhoto                 @"uploadphoto"
 #define kUrlPhotoListing                @"photolisting"
@@ -163,7 +164,6 @@
             });
             return NO;
         }
-            
         case 1:
             return YES;
             break;
@@ -190,7 +190,6 @@
             return NO;
             break;
     }
-    
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -402,6 +401,87 @@
          failure(error);
      }];
     
+}
+-(void)hotPostListing:(void (^)(id data))success failure:(void (^)(NSError *error))failure
+{
+    NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
+    NSLog(@"post listing request%@", requestDict);
+    [self post:kUrlHotPostListing parameters:requestDict success:^(id responseObject)
+     {
+         responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         NSLog(@"postlisting User Response%@", responseObject);
+         if([self isStatusOK:responseObject])
+         {
+             id array =[responseObject objectForKey:@"posts"];
+             if (([array isKindOfClass:[NSArray class]]))
+             {
+                 NSArray * postListingArray = [responseObject objectForKey:@"posts"];
+                 NSMutableArray *dataArray = [NSMutableArray new];
+                 
+                 
+                 for (int i =0; i<postListingArray.count; i++)
+                 {
+                     PostListingDataModel *postListData = [[PostListingDataModel alloc]init];
+                     NSDictionary * postListDict =[postListingArray objectAtIndex:i];
+                     postListData.joinedUserArray = [[NSMutableArray alloc]init];
+                     postListData.uploadedPhotoArray = [[NSMutableArray alloc]init];
+                     postListData.postContent =[postListDict objectForKey:@"post_content"];
+                     postListData.postedDay =[postListDict objectForKey:@"posted"];
+                     postListData.postID =[postListDict objectForKey:@"post_id"];
+                     postListData.creatorOfPost=[postListDict objectForKey:@"createOfPost"];
+                     postListData.friendsJoinedCount =[postListDict objectForKey:@"friends_joined"];
+                     postListData.joinedUserCount=[postListDict objectForKey:@"joined_users_count"];
+                     postListData.isUserJoined = [postListDict objectForKey:@"is_joined"];
+                     postListData.creatorOfPostName = [postListDict objectForKey:@"PostCreatorName"];
+                     postListData.creatorOfPostUserId=[postListDict objectForKey:@"user_id"];
+                     NSArray *joinedArray=[postListDict objectForKey:@"joined_users"];
+                     
+                     for (int j =0; j<joinedArray.count; j++)
+                     {
+                         JoinedUserDataModel * joinedUserList = [[JoinedUserDataModel alloc]init];
+                         NSDictionary * joinedUserDict =[joinedArray objectAtIndex:j];
+                         
+                         joinedUserList.joinedUserName = [joinedUserDict objectForKey:@"username"];
+                         joinedUserList.joinedUserImage =[joinedUserDict objectForKey:@"image_url"];
+                         joinedUserList.joinedUserId=[joinedUserDict objectForKey:@"id"];
+                         
+                         [postListData.joinedUserArray addObject:joinedUserList];
+                         
+                     }
+                     
+                     NSArray *postImagesArray=[postListDict objectForKey:@"post_images"];
+                     for (int k =0; k<postImagesArray.count; k++)
+                     {
+                         NSDictionary * postImagesDict =[postImagesArray objectAtIndex:k];
+                         PostImageDataModel * postImagesList = [[PostImageDataModel alloc]init];
+                         postImagesList.postImageUrl = [postImagesDict objectForKey:@"image"];
+                         
+                         [postListData.uploadedPhotoArray addObject:postImagesList];
+                         
+                     }
+                     
+                     [dataArray addObject:postListData];
+                 }
+                 success(dataArray);
+             }
+             else
+             {
+                 PostListingDataModel *postListData = [[PostListingDataModel alloc]init];
+                 postListData.message =[responseObject objectForKey:@"message"];
+                 success(postListData);
+             }
+         } else
+         {
+             [myDelegate stopIndicator];
+             failure(responseObject);
+         }
+     }
+       failure:^(NSError *error)
+     {
+         [myDelegate stopIndicator];
+         failure(error);
+     }];
+
 }
 #pragma mark- end
 
