@@ -1012,7 +1012,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="I had a bad day today" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RV6-b9-X4U">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I had a bad day today" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RV6-b9-X4U">
                                 <rect key="frame" x="52" y="55" width="216" height="29"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1023,7 +1023,7 @@
                                 <color key="textColor" red="0.050980392159999999" green="0.83529411760000005" blue="0.69803921570000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E8p-hh-qYH">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E8p-hh-qYH">
                                 <rect key="frame" x="52" y="84" width="216" height="18"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -1034,7 +1034,7 @@
                                 <color key="textColor" red="0.4941176471" green="0.4941176471" blue="0.4941176471" alpha="0.70320930755395683" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ENx-ye-J00">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ENx-ye-J00">
                                 <rect key="frame" x="10" y="110" width="301" height="416"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9of-78-dTR">
@@ -2932,7 +2932,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xsB-7L-Yia">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="173"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="312"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebook" translatesAutoresizingMaskIntoConstraints="NO" id="2Kk-He-5c9">
                                         <rect key="frame" x="15" y="22" width="21" height="21"/>
@@ -3035,7 +3035,7 @@
                                     <constraint firstItem="VBo-Y7-jYd" firstAttribute="leading" secondItem="xsB-7L-Yia" secondAttribute="leading" constant="17" id="Oko-CC-6i3"/>
                                     <constraint firstAttribute="trailing" secondItem="Cxq-m9-wgE" secondAttribute="trailing" id="PDc-fB-8fW"/>
                                     <constraint firstItem="wGD-4X-ZBI" firstAttribute="top" secondItem="FHg-HS-OUI" secondAttribute="bottom" id="Px9-f0-gyK"/>
-                                    <constraint firstAttribute="width" secondItem="xsB-7L-Yia" secondAttribute="height" multiplier="320:173" id="S2W-XL-I1E"/>
+                                    <constraint firstAttribute="width" secondItem="xsB-7L-Yia" secondAttribute="height" multiplier="320:173" constant="-257.1098265895954" id="S2W-XL-I1E"/>
                                     <constraint firstItem="FHg-HS-OUI" firstAttribute="leading" secondItem="nMn-3H-HMY" secondAttribute="trailing" constant="18" id="ZoL-Rm-hJw"/>
                                     <constraint firstAttribute="trailing" secondItem="FHg-HS-OUI" secondAttribute="trailing" constant="16" id="Zp3-E0-kAD"/>
                                     <constraint firstItem="7OQ-xw-Rzb" firstAttribute="leading" secondItem="VBo-Y7-jYd" secondAttribute="trailing" constant="18" id="c2c-oM-WnF"/>
@@ -3052,7 +3052,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="xsB-7L-Yia" firstAttribute="leading" secondItem="jSc-RJ-F3y" secondAttribute="leading" id="7aY-IM-Y08"/>
-                            <constraint firstItem="EmG-fh-E7p" firstAttribute="top" secondItem="xsB-7L-Yia" secondAttribute="bottom" constant="282" id="BmW-dR-r8A"/>
+                            <constraint firstItem="EmG-fh-E7p" firstAttribute="top" secondItem="xsB-7L-Yia" secondAttribute="bottom" constant="143" id="BmW-dR-r8A"/>
                             <constraint firstItem="xsB-7L-Yia" firstAttribute="top" secondItem="3ir-sh-NzE" secondAttribute="bottom" id="Ugs-SO-vKE"/>
                             <constraint firstAttribute="trailing" secondItem="xsB-7L-Yia" secondAttribute="trailing" id="acH-gS-fBJ"/>
                         </constraints>
