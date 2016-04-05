@@ -1,6 +1,5 @@
 //
 //  WebService.h
-//  ActorsCam
 //
 //  Created by Hema on 19/08/15.
 //  Copyright (c) 2015 Ranosys. All rights reserved.
@@ -8,18 +7,15 @@
 
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
-
-//clients link
+//client link
 #define BASE_URL                                  @"http://52.74.174.129/admin/api/"
 
 //testing link
 //#define BASE_URL                                @"http://52.74.174.129/beta/admin/api"
 
 @interface WebService : NSObject
-
 @property(nonatomic,retain)AFHTTPRequestOperationManager *manager;
 + (id)sharedManager;
-
 
 //Login screen method
 - (void)userLogin:(NSString *)email password:(NSString *)password success:(void (^)(id))success failure:(void (^)(NSError *))failure;

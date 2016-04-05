@@ -15,6 +15,7 @@
 @synthesize userImageView,userNameLabel,acceptRequestBtn,declineRequestBtn,separatorLabel,reuestLabel,noNewRequest;
 //search
 @synthesize isRequestSent,isFriend;
+#pragma mark - Load nib
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -24,7 +25,9 @@
 
     // Configure the view for the selected state
 }
+#pragma mark - end
 //RequestCell
+#pragma mark - Display request cell data
 -(void)displayData :(DiscoverDataModel *)requestSentData :(int)indexPath
 {
     reuestLabel.hidden=YES;
@@ -56,9 +59,10 @@
         declineRequestBtn.hidden=YES;
          reuestLabel.hidden=NO;
     }
-    
 }
+#pragma mark - end
 //SuggestionCell
+#pragma mark - Display suggestion cell data
 -(void)displaySuggestedListData :(DiscoverDataModel *)suggestedData :(int)indexPath
 {
     userNameLbl.text=suggestedData.requestUsername;
@@ -83,7 +87,6 @@
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:suggestedData.requestFriendImage]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
-    
     [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"profileImage.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         weakRef.contentMode = UIViewContentModeScaleAspectFill;
         weakRef.clipsToBounds = YES;
@@ -100,13 +103,12 @@
         [addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
          addFriendBtn.userInteractionEnabled=NO;
     }
-    
-    
 }
+#pragma mark - end
 //Search
+#pragma mark - Display search cell data
 -(void)displaySearchData :(FriendListDataModel *)searchData :(int)indexPath
 {
-    
     userNameLbl.text=searchData.userName;
     userImage.layer.cornerRadius=30.0f;
     userImage.clipsToBounds=YES;
@@ -116,7 +118,6 @@
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:searchData.userImageUrl]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
-    
     [userImage setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"profileImage.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         weakRef.contentMode = UIViewContentModeScaleAspectFill;
         weakRef.clipsToBounds = YES;
@@ -124,10 +125,8 @@
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
     }];
-    
     isFriend=searchData.isFriend;
     isRequestSent=searchData.isRequestSent;
-    
     if ([isRequestSent isEqualToString:@"True"])
     {
         addFriendBtn.hidden=NO;
@@ -146,7 +145,6 @@
             mutualFriendLbl.hidden=NO;
             mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",searchData.mutualFriends,@"mutual friends"];
         }
-
     }
     else
     {
@@ -166,8 +164,6 @@
                 mutualFriendLbl.hidden=NO;
                 mutualFriendLbl.text= [NSString stringWithFormat:@"%@ %@",searchData.mutualFriends,@"mutual friends"];
             }
-
-            
         }
         else if ([[UserDefaultManager getValue:@"userId"] isEqualToString:searchData.userId])
         {
@@ -194,9 +190,7 @@
             addFriendBtn.userInteractionEnabled=YES;
             [addFriendBtn setImage:[UIImage imageNamed:@"adduser.png"] forState:UIControlStateNormal];
         }
-        
     }
-
-
 }
+#pragma mark - end
 @end

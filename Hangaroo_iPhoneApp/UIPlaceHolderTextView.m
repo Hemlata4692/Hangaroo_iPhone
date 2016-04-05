@@ -120,8 +120,14 @@
         
 		// Draw the text
 		[_placeholderTextColor set];
+        
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_6_0
-		[_placeholder drawInRect:rect withFont:self.font lineBreakMode:NSLineBreakByTruncatingTail alignment:self.textAlignment];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+        paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+        paragraphStyle.alignment = self.textAlignment;
+        [_placeholder drawInRect:rect withAttributes: @{NSFontAttributeName: self.font,
+                                                        NSParagraphStyleAttributeName: paragraphStyle,NSForegroundColorAttributeName:[UIColor colorWithRed:196.0/255.0 green:196.0/255.0 blue:196.0/255.0 alpha:1.0] }];
+	//	[_placeholder drawInRect:rect withFont:self.font lineBreakMode:NSLineBreakByTruncatingTail alignment:self.textAlignment];
 #else
 		[_placeholder drawInRect:rect withFont:self.font lineBreakMode:UILineBreakModeTailTruncation alignment:self.textAlignment];
 #endif

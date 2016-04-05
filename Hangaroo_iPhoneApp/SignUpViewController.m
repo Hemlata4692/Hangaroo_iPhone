@@ -12,13 +12,10 @@
 #import "TutorialViewController.h"
 #import "GAI.h"
 #import "GAIDictionaryBuilder.h"
-
-
 @interface SignUpViewController ()<UITextFieldDelegate,BSKeyboardControlsDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     NSArray *textFieldArray;
 }
-
 @property (weak, nonatomic) IBOutlet UIScrollView *signUpScrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (weak, nonatomic) IBOutlet UIButton *profileImageBtn;
@@ -27,11 +24,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *userEmailField;
 @property (nonatomic, strong) BSKeyboardControls *keyboardControls;
 @end
-
 @implementation SignUpViewController
 @synthesize signUpScrollView,profileImageBtn,profileImageView;
 @synthesize userNameField,userEmailField,passwordField;
-
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,7 +51,6 @@
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
-
 #pragma mark - end
 #pragma mark - Keyboard controls delegate
 - (void)keyboardControls:(BSKeyboardControls *)keyboardControls selectedField:(UIView *)field inDirection:(BSKeyboardControlsDirection)direction
@@ -64,16 +58,13 @@
     UIView *view;
     view = field.superview.superview.superview;
 }
-
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
 {
     [keyboardControls.activeField resignFirstResponder];
     [signUpScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 #pragma mark - end
-
 #pragma mark - Textfield delegates
-
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self.keyboardControls setActiveField:textField];
@@ -100,19 +91,16 @@
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    
     [textField resignFirstResponder];
     return YES;
 }
 #pragma mark - end
-
 #pragma mark - Email validation
 - (BOOL)performValidationsForSignUp
 {
     UIImage* placeholderImage = [UIImage imageNamed:@"thumb"];
     NSData *placeholderImageData = UIImagePNGRepresentation(placeholderImage);
     NSData *profileImageData = UIImagePNGRepresentation(profileImageView.image);
-    
     if ([profileImageData isEqualToData:placeholderImageData])
     {
         [self showAlertMessage:@"Please upload an image."];
@@ -131,7 +119,6 @@
             {
                 [self showAlertMessage:@"Your password must be atleast 6 characters long."];
                 return NO;
-                
             }
             else
             {
@@ -144,7 +131,6 @@
             return NO;
         }
     }
-    
 }
 #pragma mark - end
 
@@ -155,7 +141,6 @@
                                           alertControllerWithTitle:@"Alert"
                                           message:message
                                           preferredStyle:UIAlertControllerStyleAlert];
-    
     UIAlertAction *okAction = [UIAlertAction
                                actionWithTitle:@"OK"
                                style:UIAlertActionStyleDefault
@@ -163,12 +148,10 @@
                                {
                                    [alertController dismissViewControllerAnimated:YES completion:nil];
                                }];
-    
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
     
 }
-
 #pragma mark - end
 #pragma mark - IBActions
 - (IBAction)selectImageButtonAction:(id)sender
@@ -179,7 +162,6 @@
                                                     cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:@"Take Photo", @"Choose from Gallery", nil];
-    
     [actionSheet showInView:self.view];
 }
 - (IBAction)doneButtonAction:(id)sender
@@ -191,22 +173,17 @@
         [myDelegate showIndicator];
         [self performSelector:@selector(signupUser) withObject:nil afterDelay:.1];
     }
-    
 }
-
 #pragma mark - end
-
 #pragma mark - Webservice
 -(void) signupUser
 {
     [[WebService sharedManager]registerUser:userEmailField.text password:passwordField.text userName:userNameField.text image:profileImageView.image success:^(id responseObject) {
-        
         [myDelegate stopIndicator];
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
                                               message:[responseObject objectForKey:@"message"]
                                               preferredStyle:UIAlertControllerStyleAlert];
-        
         UIAlertAction *okAction = [UIAlertAction
                                    actionWithTitle:@"OK"
                                    style:UIAlertActionStyleDefault
@@ -228,7 +205,6 @@
     }] ;
 }
 #pragma mark - end
-
 #pragma mark - Action sheet delegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -267,7 +243,6 @@
 #pragma mark - end
 
 #pragma mark - Image picker controller delegate methods
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)info
 {
     profileImageView.image = image;
@@ -275,7 +250,6 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:YES];
 }
-
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [picker dismissViewControllerAnimated:YES completion:NULL];

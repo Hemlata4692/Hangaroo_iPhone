@@ -21,16 +21,13 @@
 @synthesize interestTextView,saveBtn;
 @synthesize userProfileData,userSettingObj;
 #pragma mark - View life cycle
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.screenName = @"Add Interest screen";
-  
     [interestTextView setPlaceholder:@"  Add your interest"];
     [interestTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:14.0]];
-    [self loadData];
-    
+    [self loadUserData];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -44,7 +41,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)loadData
+-(void)loadUserData
 {
     if ([userSettingObj.myProfileData.userInterest isEqualToString:@""])
     {
@@ -58,32 +55,25 @@
         saveBtn.userInteractionEnabled=YES;
         saveBtn.titleLabel.alpha=1.0f;
     }
-
 }
-
 #pragma mark - end
 #pragma mark - Textfield delegates
-
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    
     if(textView.text.length>=100 && range.length == 0)
     {
         [self.view makeToast:@"You have reached 100 characters limit."];
         [textView resignFirstResponder];
         return NO;
-        
     }
     else if ([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         return NO;
     }
-    
     else
     {
         return YES;
     }
-    
     return YES;
 }
 - (void)textViewDidChange:(UITextView *)textView
@@ -100,7 +90,6 @@
 -(void)saveUserInterest
 {
     [[WebService sharedManager]addUserInterest:interestTextView.text success: ^(id responseObject) {
-        
         [myDelegate stopIndicator];
         userSettingObj.myProfileData.userInterest=interestTextView.text;
         for (UIViewController *controller in self.navigationController.viewControllers)
@@ -112,13 +101,11 @@
                 break;
             }
         }
-        
     }
                                        failure:^(NSError *error)
      {
          
      }] ;
-
 }
 #pragma mark - end
 #pragma mark - IBActions

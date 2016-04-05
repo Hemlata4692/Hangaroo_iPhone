@@ -20,7 +20,7 @@
 @interface MyProfileViewController ()
 {
     NSMutableArray *notificationsArray;
-     NSMutableArray *myProfileArray;
+    NSMutableArray *myProfileArray;
     CoolNavi *headerView;
     UIView * footerView;
     int totalNotifications;
@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-     self.screenName = @"Profile screen";
+    self.screenName = @"Profile screen";
     Offset=@"0";
     notificationsArray=[[NSMutableArray alloc]init];
     myProfileArray=[[NSMutableArray alloc]init];
@@ -47,7 +47,6 @@
 
 -(void)myProfileData{
     [myDelegate removeBadgeIconLastTab];
-    //[myDelegate showIndicator];
     [self performSelector:@selector(getMyProfileData) withObject:nil afterDelay:0.1];
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -57,29 +56,25 @@
     [headerView deallocHeaderView];
     headerView.scrollView=Nil;
     [headerView removeFromSuperview];
-
 }
-
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-     [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [[self navigationController] setNavigationBarHidden:YES];
-     myDelegate.myView=@"MyProfileViewController";
+    myDelegate.myView=@"MyProfileViewController";
     [notificationsArray removeAllObjects];
     [myProfileTableView reloadData];
     [myProfileArray removeAllObjects];
     [(UIActivityIndicatorView *)[footerView viewWithTag:10] setHidden:true];
-     myProfileTableView.tableFooterView = nil;
-    
+    myProfileTableView.tableFooterView = nil;
     [myDelegate removeBadgeIconLastTab];
     [self initFooterView];
     Offset=@"0";
     [myDelegate showIndicator];
     myProfileTableView.hidden=YES;
     [self performSelector:@selector(getMyProfileData) withObject:nil afterDelay:0.1];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -96,11 +91,9 @@
         [self setNeedsStatusBarAppearanceUpdate];
     }completion:^(BOOL finished){}];
 }
-
 #pragma mark - end
 
-
-
+#pragma mark - Table view delegate methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 2;
@@ -125,28 +118,21 @@
             return notificationsArray.count;
         }
     }
-    
 }
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-       if (indexPath.section == 0)
+    if (indexPath.section == 0)
     {
         return 35;
     }
     else{
         return 70;
     }
-    
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
- 
     if (indexPath.section==0)
     {
-        
         ProfileTableViewCell *titleCell ;
         NSString *simpleTableIdentifier = @"titleCell";
         titleCell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
@@ -155,9 +141,7 @@
             titleCell = [[ProfileTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
         return titleCell;
-        
     }
-    
     else
     {
         ProfileTableViewCell *notificationCell ;
@@ -190,28 +174,25 @@
         notificationCell.userProfileBtn.Tag=(int)indexPath.row;
         return notificationCell;
     }
-    
-    
-    
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1) {
-    ProfileTableViewCell *notificationCell ;
-    NSString *simpleTableIdentifier = @"notificationCell";
-    notificationCell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-     NotificationDataModel *data=[notificationsArray objectAtIndex:indexPath.row];
-    if ([data.notificationString rangeOfString:@"wants to see you out"].location == NSNotFound && [data.notificationString rangeOfString:@"shares your sentiments"].location==NSNotFound && [data.notificationString rangeOfString:@"liked your photo"].location == NSNotFound)
-    {
-        NSLog(@"string does not contain bla");
-    }
-    else
-    {
-        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
-        otherUserProfile.otherUserId=[[notificationsArray objectAtIndex:indexPath.row]senderId];
-        [self.navigationController pushViewController:otherUserProfile animated:YES];
-    }
+        ProfileTableViewCell *notificationCell ;
+        NSString *simpleTableIdentifier = @"notificationCell";
+        notificationCell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+        NotificationDataModel *data=[notificationsArray objectAtIndex:indexPath.row];
+        if ([data.notificationString rangeOfString:@"wants to see you out"].location == NSNotFound && [data.notificationString rangeOfString:@"shares your sentiments"].location==NSNotFound && [data.notificationString rangeOfString:@"liked your photo"].location == NSNotFound)
+        {
+            //string not match
+        }
+        else
+        {
+            UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+            otherUserProfile.otherUserId=[[notificationsArray objectAtIndex:indexPath.row]senderId];
+            [self.navigationController pushViewController:otherUserProfile animated:YES];
+        }
     }
 }
 #pragma mark - end
@@ -239,7 +220,7 @@
         }
     }
 }
-
+//Load footer view in table
 -(void)initFooterView
 {
     footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];
@@ -267,6 +248,9 @@
      {
      }] ;
 }
+#pragma mark - end
+
+#pragma mark - Add header view
 -(void)addHeaderView
 {
     MyProfileDataModel *profileData;
@@ -277,7 +261,6 @@
                        options:NSStringDrawingUsesLineFragmentOrigin
                        attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Regular" size:14.0]}
                        context:nil];
-    
     if ([profileData.userInterest isEqualToString:@""]) {
         textRect.size.height=0.0;
     }
@@ -286,30 +269,25 @@
         textRect.size.height=10+textRect.size.height;
     }
     headerView = [[CoolNavi alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 300 + textRect.size.height + 45)backGroudImage:[[myProfileArray objectAtIndex:0]profileImageUrl] headerImageURL:[[myProfileArray objectAtIndex:0]profileImageUrl] title:[[myProfileArray objectAtIndex:0]userName] facebookBtn:@"facebook_profile.png" instagramBtn:@"insta_profile.png" twitterBtn:@"twit_profile.png" settingsBtn:@"setting_icon.png" interestLabelFrame:textRect interestText:profileData.userInterest];
-    
     headerView.scrollView = self.myProfileTableView;
-    
     headerView.locationLabel.text=[profileData.university uppercaseString];
-    NSString *yourString;
+    NSString *attributedString;
     if ([profileData.totalFriends isEqualToString:@"1"] || [profileData.totalFriends isEqualToString:@"0"]) {
-        yourString = [NSString stringWithFormat:@"%@ %@",profileData.totalFriends,@"FRIEND"];
+        attributedString = [NSString stringWithFormat:@"%@ %@",profileData.totalFriends,@"FRIEND"];
     }
     else
     {
-        yourString = [NSString stringWithFormat:@"%@ %@",profileData.totalFriends,@"FRIENDS"];
+        attributedString = [NSString stringWithFormat:@"%@ %@",profileData.totalFriends,@"FRIENDS"];
     }
-    NSRange boldedRange = NSMakeRange(profileData.totalFriends.length, (yourString.length-profileData.totalFriends.length));
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:yourString];
-    
+    NSRange boldedRange = NSMakeRange(profileData.totalFriends.length, (attributedString.length-profileData.totalFriends.length));
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:attributedString];
     [attrString beginEditing];
     [attrString addAttribute:NSFontAttributeName
                        value:[UIFont fontWithName:@"Roboto-Regular" size:14.0]
                        range:boldedRange];
     [attrString addAttribute:NSForegroundColorAttributeName
                        value:[UIColor blackColor]
-                       range:NSMakeRange(profileData.totalFriends.length, (yourString.length-profileData.totalFriends.length))];
-    
+                       range:NSMakeRange(profileData.totalFriends.length, (attributedString.length-profileData.totalFriends.length))];
     [attrString endEditing];
     [headerView.friendsListButton setAttributedTitle:attrString forState:UIControlStateNormal];
     textRect.origin.x = headerView.interestLabel.frame.origin.x;
@@ -350,7 +328,6 @@
     {
         [headerView.instaButton setImage:[UIImage imageNamed:@"insta_org.png"] forState:UIControlStateNormal];
         headerView.instaButton.enabled=YES;
-        
     }
     else
     {
@@ -362,9 +339,8 @@
     [headerView.instaButton addTarget:self action:@selector(instagramBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [headerView.twitterButton addTarget:self action:@selector(twitterBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [headerView.friendsListButton addTarget:self action:@selector(showFriendListButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    
     headerView.imgActionBlock = ^(){
-        NSLog(@"headerImageAction");
+        //image action
     };
     
     [self.view addSubview:headerView];
@@ -375,7 +351,6 @@
 #pragma mark - User notification webservice
 -(void)getUserNotification
 {
-   
     [[WebService sharedManager]getUserNotification:[NSString stringWithFormat:@"%@",Offset] success:^(id notificationDataArray)
      {
          [myDelegate stopIndicator];
@@ -387,30 +362,26 @@
          {
              [notificationsArray addObjectsFromArray:notificationDataArray];
          }
-         
          totalNotifications= [[notificationsArray objectAtIndex:notificationsArray.count-1]intValue];
          [notificationsArray removeLastObject];
          Offset=[NSString stringWithFormat:@"%lu",(unsigned long)notificationsArray.count];
          [myProfileTableView reloadData];
      }
-        failure:^(NSError *error)
+                                           failure:^(NSError *error)
      {
          
      }] ;
-    
 }
 #pragma mark - end
-
-
 #pragma mark - IBActions
 - (IBAction)openUserProfileButtonAction:(id)sender
 {
-        btnTag=[sender Tag];
-        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
-        otherUserProfile.otherUserId=[[notificationsArray objectAtIndex:btnTag]senderId];
-        [self.navigationController pushViewController:otherUserProfile animated:YES];
-
+    btnTag=[sender Tag];
+    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+    otherUserProfile.otherUserId=[[notificationsArray objectAtIndex:btnTag]senderId];
+    [self.navigationController pushViewController:otherUserProfile animated:YES];
+    
 }
 - (IBAction)showFriendListButtonAction:(id)sender
 {
@@ -422,7 +393,7 @@
 - (IBAction)settingsBtnAction:(UIButton *)sender
 {
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        SettingViewController *settingsView =[storyboard instantiateViewControllerWithIdentifier:@"SettingViewController"];
+    SettingViewController *settingsView =[storyboard instantiateViewControllerWithIdentifier:@"SettingViewController"];
     settingsView.myProfileData=[myProfileArray objectAtIndex:0];
     [self.navigationController pushViewController:settingsView animated:YES];
 }

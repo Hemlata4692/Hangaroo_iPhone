@@ -280,7 +280,6 @@
     if (self.sliderDirection == SliderDirectionHorizontal) {
         if (velocity.x == 0)
         {
-            NSLog(@"---------%f---------",scrollView.contentOffset.x);
             float x = scrollView.contentOffset.x + [self width]/2;
             float distance = 1000;
             int closest = -1;

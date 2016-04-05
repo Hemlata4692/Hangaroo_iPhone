@@ -13,8 +13,8 @@
 @interface LoginViewController ()<UITextFieldDelegate,BSKeyboardControlsDelegate>
 {
     NSArray *textFieldArray;
-     UIImageView *userImageview;
-      NSString* userId, *userName, *userImage, *joiningYear;
+    UIImageView *userImageview;
+    NSString* userId, *userName, *userImage, *joiningYear;
 }
 
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
@@ -49,7 +49,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-     self.title=@"Sign in";
+    self.title=@"Sign in";
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
@@ -65,9 +65,7 @@
 
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
 {
-    
     [keyboardControls.activeField resignFirstResponder];
-    
 }
 #pragma mark - end
 
@@ -80,10 +78,8 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    
     [textField resignFirstResponder];
     return YES;
-    
 }
 #pragma mark - end
 
@@ -101,15 +97,13 @@
         {
             [self showAlertMessage:@"Your password must be atleast 6 characters long."];
             return NO;
-            
         }
         else
         {
             return YES;
         }
+    }
 }
-   
- }
 #pragma mark - end
 
 #pragma mark - Alert message
@@ -119,7 +113,6 @@
                                           alertControllerWithTitle:@"Alert"
                                           message:message
                                           preferredStyle:UIAlertControllerStyleAlert];
-    
     UIAlertAction *okAction = [UIAlertAction
                                actionWithTitle:@"OK"
                                style:UIAlertActionStyleDefault
@@ -127,7 +120,6 @@
                                {
                                    [alertController dismissViewControllerAnimated:YES completion:nil];
                                }];
-    
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
     
@@ -143,7 +135,6 @@
         [myDelegate showIndicator];
         [self performSelector:@selector(loginUser) withObject:nil afterDelay:.1];
     }
-
 }
 
 #pragma mark - end
@@ -152,9 +143,7 @@
 -(void)loginUser
 {
     [[WebService sharedManager] userLogin:userNameField.text password:passwordField.text success:^(id responseObject) {
-        
-        
-         NSDictionary *responseDict = (NSDictionary *)responseObject;
+        NSDictionary *responseDict = (NSDictionary *)responseObject;
         userId = [responseDict objectForKey:@"userId"];
         userName = [responseDict objectForKey:@"username"];
         userImage = [responseDict objectForKey:@"userImage"];
@@ -168,23 +157,18 @@
             weakRef.contentMode = UIViewContentModeScaleAspectFill;
             weakRef.clipsToBounds = YES;
             weakRef.image = image;
-            
             [NSTimer scheduledTimerWithTimeInterval:0.1
                                              target:weakSelf
                                            selector:@selector(registerUserToOpenfire)
                                            userInfo:nil
                                             repeats:NO];
-            
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-            
         }];
-
     } failure:^(NSError *error) {
         
     }] ;
-    
-   
 }
+//User registration to openfire
 -(void)registerUserToOpenfire
 {
     myDelegate.userProfileImageDataValue = UIImageJPEGRepresentation(userImageview.image, 1.0);
@@ -192,19 +176,15 @@
     NSString *password = passwordField.text;
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     del.xmppStream.myJID = [XMPPJID jidWithString:username];
-    NSLog(@"Attempting registration for username %@",del.xmppStream.myJID.bare);
     if (del.xmppStream.supportsInBandRegistration) {
         NSError *error = nil;
         if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@52.74.174.129@%@",userName,joiningYear] error:&error])
         {
             [myDelegate stopIndicator];
-            NSLog(@"Oops, I forgot something: %@", error);
         }else{
             [myDelegate stopIndicator];
-            NSLog(@"No Error");
             if ([UserDefaultManager getValue:@"CountData"] == nil) {
                 NSMutableDictionary* countData = [NSMutableDictionary new];
-                
                 [UserDefaultManager setValue:countData key:@"CountData"];
             }
             if ([UserDefaultManager getValue:@"BadgeCount"] == nil) {
@@ -224,10 +204,8 @@
             HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
             [myDelegate.window setRootViewController:homeView];
             [myDelegate.window makeKeyAndVisible];
-            
         }
     }
 }
-
 #pragma mark - end
 @end

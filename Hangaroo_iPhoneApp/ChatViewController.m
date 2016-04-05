@@ -62,7 +62,6 @@
 #pragma mark - end
 
 #pragma mark - Fetch chat hiostory
-
 -(void)getHistoryData{
     NSManagedObjectContext *moc = [myDelegate.xmppMessageArchivingCoreDataStorage mainThreadManagedObjectContext];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
@@ -78,7 +77,6 @@
     int i = 0;
     @autoreleasepool {
         for (XMPPMessageArchiving_Message_CoreDataObject *message in messages_arc) {
-            
             NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
             if ( [[element attributeStringValueForName:@"ToName"] caseInsensitiveCompare:[UserDefaultManager getValue:@"userName"]] == NSOrderedSame) {
                 if ([tempArray containsObject:[[element attributeStringValueForName:@"Name"] lowercaseString]]) {
@@ -91,7 +89,6 @@
                 else{
                     [tempArray addObject:[[element attributeStringValueForName:@"Name"] lowercaseString]];
                     [historyArray addObject:element];
-                    
                 }
             }
             else{
@@ -113,8 +110,6 @@
         [historyTableView reloadData];
     }
 }
-
-
 #pragma mark - end
 
 #pragma mark - IBActions
@@ -221,7 +216,6 @@
     vc.userXmlDetail = msg;
     vc.chatVC = self;
     [self.navigationController pushViewController:vc animated:YES];
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -232,7 +226,6 @@
 - (void)configurePhotoForCell:(UITableViewCell *)cell user:(XMPPJID *)user
 {
     UIImageView *userImage = (UIImageView*)[cell viewWithTag:1];
-    
     if ([myDelegate.userProfileImage objectForKey:[NSString stringWithFormat:@"%@",user]] == nil) {
         NSData *photoData = [myDelegate.xmppvCardAvatarModule photoDataForJID:user];
         
@@ -241,7 +234,6 @@
         else
             userImage.image = [UIImage imageNamed:@"user_thumbnail.png"];
         [myDelegate.userProfileImage setObject:userImage.image forKey:[NSString stringWithFormat:@"%@",user]];
-        NSLog(@"%@",[NSString stringWithFormat:@"%@",user]);
     }
     else{
         userImage.image = [myDelegate.userProfileImage objectForKey:[NSString stringWithFormat:@"%@",user]];

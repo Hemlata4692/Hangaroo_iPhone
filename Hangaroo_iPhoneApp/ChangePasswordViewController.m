@@ -32,7 +32,6 @@
     textFieldArray = @[oldPasswordField,changePasswordField,confirmPasswordField];
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:textFieldArray]];
     [self.keyboardControls setDelegate:self];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,13 +53,11 @@
 {
     UIView *view;
     view = field.superview.superview.superview;
-    
 }
 
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
 {
     [keyboardControls.activeField resignFirstResponder];
-    //[signUpScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 #pragma mark - end
 
@@ -72,10 +69,8 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    
     [textField resignFirstResponder];
     return YES;
-    
 }
 #pragma mark - end
 
@@ -91,13 +86,11 @@
     {
         [self showAlertMessage:@"Your password must be atleast 6 characters long."];
         return NO;
-        
     }
     else if (![changePasswordField.text isEqualToString:confirmPasswordField.text])
     {
         [self showAlertMessage:@"Passwords do not match."];
         return NO;
-        
     }
     else
     {
@@ -113,8 +106,7 @@
                                           alertControllerWithTitle:@"Alert"
                                           message:message
                                           preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *okAction = [UIAlertAction
+        UIAlertAction *okAction = [UIAlertAction
                                actionWithTitle:@"OK"
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction *action)
@@ -124,23 +116,18 @@
     
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
-    
 }
-
 #pragma mark - end
 
 #pragma mark - Webservice
 -(void)changePassword
 {
     [[WebService sharedManager]changePassword:oldPasswordField.text newPassword:changePasswordField.text success: ^(id responseObject) {
-        
         [myDelegate stopIndicator];
-    
         UIAlertController *alertController = [UIAlertController
                                               alertControllerWithTitle:@"Alert"
                                               message:[responseObject objectForKey:@"message"]
                                               preferredStyle:UIAlertControllerStyleAlert];
-        
         UIAlertAction *okAction = [UIAlertAction
                                    actionWithTitle:@"OK"
                                    style:UIAlertActionStyleDefault
@@ -158,10 +145,8 @@
                                        }
                                        
                                    }];
-        
         [alertController addAction:okAction];
         [self presentViewController:alertController animated:YES completion:nil];
-
     }
         failure:^(NSError *error)
      {
@@ -179,9 +164,7 @@
     {
         [myDelegate showIndicator];
         [self performSelector:@selector(changePassword) withObject:nil afterDelay:.1];
-    }
-
-    
+    }    
 }
 #pragma mark - end
 @end

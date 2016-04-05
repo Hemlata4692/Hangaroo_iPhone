@@ -35,7 +35,6 @@
 
 @implementation DiscoverViewController
 @synthesize serachBar,discoverTableView,Offset,requestFriendId,isAccept,suggestionOffset;
-
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,19 +54,16 @@
     [super viewWillAppear:YES];
     self.navigationItem.title = @"Discover";
     [serachBar resignFirstResponder];
-    //[discoverTableView setContentOffset:CGPointZero animated:YES];
     [[self navigationController] setNavigationBarHidden:NO];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [self initFooterView];
-    
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - Table view methods
+#pragma mark - end
+#pragma mark - Table view delegate methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 2;
@@ -75,7 +71,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 35;
-    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
@@ -85,16 +80,12 @@
     else{
         return 0;
     }
-    
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView * headerView;
-    
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 35.0)];
-    
     headerView.backgroundColor = [UIColor colorWithRed:(228.0/255.0) green:(228.0/255.0) blue:(228.0/255.0) alpha:1];
-    
     UILabel * categoryLabel = [[UILabel alloc] init];
     categoryLabel.font = [UIFont fontWithName:@"Roboto-Regular" size:14.0];
     if (section==0) {
@@ -106,7 +97,6 @@
     }
     float width =  [categoryLabel.text boundingRectWithSize:categoryLabel.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{ NSFontAttributeName:categoryLabel.font } context:nil]
     .size.width;
-    
     categoryLabel.frame = CGRectMake(15, 0, width,35.0);
     categoryLabel.textColor=[UIColor colorWithRed:(113.0/255.0) green:(113.0/255.0) blue:(113.0/255.0) alpha:1];
     [headerView addSubview:categoryLabel];
@@ -131,7 +121,6 @@
             {
                 return friendRequestArray.count;
             }
-            
         }
     }
     else
@@ -143,10 +132,8 @@
         {
             return friendSuggestionArray.count;
         }
-        
     }
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -166,7 +153,6 @@
             {
                 return 80;
             }
-            
         }
         else
         {
@@ -177,13 +163,11 @@
     {
         return 80;
     }
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section==1)
-        
     {
         DiscoverTableCell *suggestionCell ;
         NSString *simpleTableIdentifier = @"suggestionCell";
@@ -192,7 +176,6 @@
         {
             suggestionCell = [[DiscoverTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
-        
         if (friendSuggestionArray.count!=0)
         {
             suggestionCell.noRecordLabel.hidden=YES;
@@ -211,7 +194,6 @@
             suggestionCell.userNameLbl.hidden=YES;
             suggestionCell.mutualFriendLbl.hidden=YES;
             suggestionCell.addFriendBtn.hidden=YES;
-            
         }
         suggestionCell.addFriendBtn.Tag=(int)indexPath.row;
         [suggestionCell.addFriendBtn addTarget:self action:@selector(sendRequest:) forControlEvents:UIControlEventTouchUpInside];
@@ -219,7 +201,6 @@
     }
     else
     {
-        
         DiscoverTableCell *requestCell;
         NSString *simpleTableIdentifier = @"requestCell";
         requestCell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
@@ -227,7 +208,6 @@
         {
             requestCell = [[DiscoverTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
         }
-        
         if (friendRequestArray.count!=0)
         {
             DiscoverTableCell *loadMore;
@@ -238,7 +218,6 @@
                 }
                 else
                 {
-                    NSLog(@"true");
                     NSString *simpleTableIdentifier = @"loadMore";
                     loadMore = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
                     if (loadMore == nil)
@@ -252,7 +231,6 @@
                     return loadMore;
                 }
             }
-            
             else{
                 requestCell.noNewRequest.hidden=YES;
                 requestCell.userImageView.hidden=NO;
@@ -260,7 +238,6 @@
                 requestCell.acceptRequestBtn.hidden=NO;
                 requestCell.declineRequestBtn.hidden=NO;
                 requestCell.reuestLabel.hidden=NO;
-                
                 DiscoverDataModel *data=[friendRequestArray objectAtIndex:indexPath.row];
                 [requestCell displayData:data :(int)indexPath.row];
             }
@@ -274,9 +251,7 @@
             requestCell.acceptRequestBtn.hidden=YES;
             requestCell.declineRequestBtn.hidden=YES;
             requestCell.reuestLabel.hidden=YES;
-            
         }
-        
         requestCell.acceptRequestBtn.Tag=(int)indexPath.row;
         requestCell.declineRequestBtn.Tag=(int)indexPath.row;
         [requestCell.acceptRequestBtn addTarget:self action:@selector(acceptFriendRequest:) forControlEvents:UIControlEventTouchUpInside];
@@ -287,7 +262,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (indexPath.section==1) {
         UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
@@ -306,7 +280,6 @@
     //Set the background color of the View
     view.tintColor = [UIColor whiteColor];
 }
-
 #pragma mark - end
 
 #pragma mark - IBActions
@@ -347,7 +320,6 @@
     [self performSelector:@selector(acceptFriendRequest) withObject:nil afterDelay:.1];
     
 }
-
 #pragma mark - end
 #pragma mark - Send request webservice
 -(void)sendRequestWebservice
@@ -504,7 +476,7 @@
         }
     }
 }
-
+//Load footer view in table
 -(void)initFooterView
 {
     footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];

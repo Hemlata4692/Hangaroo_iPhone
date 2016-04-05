@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CameraViewController : UIViewController
+@interface CameraViewController : GAITrackedViewController
 @property(nonatomic,retain) NSString * postId;
 @end

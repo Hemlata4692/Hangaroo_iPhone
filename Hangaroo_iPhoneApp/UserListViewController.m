@@ -42,17 +42,12 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy"];
     NSString *dateString = [NSString stringWithFormat:@"01-05-%@",[dateFormatter stringFromDate:[NSDate date]]];
-    NSLog(@"%@", dateString);
-    
     yearValue = [dateFormatter stringFromDate:[NSDate date]];
     [dateFormatter setDateFormat:@"dd-MM-yyyy"];
     NSDate *dateFromString = [[NSDate alloc] init];
-    // voila!
     dateFromString = [dateFormatter dateFromString:dateString];
-    
     NSDate *dateFromString1 = [NSDate date];
     dateFromString1 = [dateFormatter dateFromString:[dateFormatter stringFromDate:dateFromString1]];
-    
     if ([dateFromString compare:dateFromString1] == NSOrderedDescending) {
         checkCompare = @"L";
     }
@@ -80,7 +75,6 @@
         [myDelegate stopIndicator];
     }
 }
-
 -(void)enterInForeGround{
     if (userListArr.count == 0) {
         [myDelegate disconnect];
@@ -96,13 +90,11 @@
         [userListTableView reloadData];
     }
 }
-
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     myDelegate.myView = @"Other";
     
 }
-
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
     noRecordsLabel.hidden=YES;
@@ -121,7 +113,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 #pragma mark - end
 
 #pragma mark - XMPP delegates
@@ -129,36 +120,29 @@
 {
     return [myDelegate xmppStream];
 }
-
 - (NSFetchedResultsController *)fetchedResultsController
 {
     if (fetchedResultsController == nil)
     {
         NSManagedObjectContext *moc = [myDelegate managedObjectContext_roster];
-        
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"XMPPUserCoreDataStorageObject"
                                                   inManagedObjectContext:moc];
-        
         NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"sectionNum" ascending:YES];
         NSSortDescriptor *sd2 = [[NSSortDescriptor alloc] initWithKey:@"displayName" ascending:YES];
-        
         NSArray *sortDescriptors = [NSArray arrayWithObjects:sd1, sd2, nil];
-        
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         [fetchRequest setEntity:entity];
         [fetchRequest setSortDescriptors:sortDescriptors];
         [fetchRequest setFetchBatchSize:10];
-        
         fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                        managedObjectContext:moc
                                                                          sectionNameKeyPath:@"sectionNum"
                                                                                   cacheName:nil];
         [fetchedResultsController setDelegate:self];
-        
         NSError *error = nil;
         if (![fetchedResultsController performFetch:&error])
         {
-            NSLog(@"Error performing fetch: %@", error);
+            //error
         }
     }
     return fetchedResultsController;
@@ -177,15 +161,11 @@
                 if (!([myName intValue] < [yearValue intValue] - 3) && [checkCompare isEqualToString:@"L"]) {
                     [sortArrSet addObject:[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]]];
                 }
-                
             }
-            
         }
     }
-    
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"displayName" ascending:YES];
     userListArr = [[sortArrSet sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]] mutableCopy];
-    
     [self.userListTableView reloadData];
 }
 #pragma mark - end
@@ -230,7 +210,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
@@ -267,19 +246,15 @@
     
     nameLabel.text = [[[user displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0];
     [self configurePhotoForCell:cell user:user];
-    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     PersonalChatViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
     if (isSearch)
     {
         vc.userDetail = [searchResultArray objectAtIndex:indexPath.row];
         vc.lastView = @"UserListViewController";
-        NSLog(@"%@",[[searchResultArray objectAtIndex:indexPath.row] jidStr]);
-        
         if ([myDelegate.userProfileImage objectForKey:[[searchResultArray objectAtIndex:indexPath.row] jidStr]] == nil) {
             vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
         }
@@ -292,8 +267,6 @@
     {
         vc.userDetail = [userListArr objectAtIndex:indexPath.row];
         vc.lastView = @"UserListViewController";
-        NSLog(@"%@",[[userListArr objectAtIndex:indexPath.row] jidStr]);
-        
         if ([myDelegate.userProfileImage objectForKey:[[userListArr objectAtIndex:indexPath.row] jidStr]] == nil) {
             vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
         }
@@ -330,7 +303,6 @@
 #pragma mark - Search bar delegates
 -(BOOL)searchBar:(UISearchBar *)srchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    
     if (text.length<1) {
         noRecordsLabel.hidden=YES;
         searchResultArray = [NSArray arrayWithArray:userListArr];

@@ -2,7 +2,7 @@
 //  PersonalChatViewController.m
 //  Hangaroo_iPhoneApp
 //
-//  Created by Monika on 2/3/16.
+//  Created by Hema on 2/3/16.
 //  Copyright © 2016 Ranosys. All rights reserved.
 //
 
@@ -45,10 +45,10 @@
     userProfileImageView = [[UIImageView alloc] init];
     [self setUserData];
 }
+
 -(void)setUserData
 {
     __weak UIImageView *weakRef = userProfileImageView;
-    
     __weak UITableView *weaktable = userTableView;
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[UserDefaultManager getValue:@"userImage"]]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -59,7 +59,6 @@
         weakRef.image = image;
         [weaktable reloadData];
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        
     }];
     sendMessage.text = @"";
     [sendMessage setPlaceholder:@"Type a message here..."];
@@ -76,7 +75,6 @@
     messageHeight = 40;
     messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 - 10, self.view.bounds.size.width, messageHeight + 10);
     sendMessage.frame = CGRectMake(15, 4, messageView.frame.size.width - 8 - 15 - 52, messageHeight - 8);
-    
     messageYValue = messageView.frame.origin.y;
     if ([sendMessage.text isEqualToString:@""] || sendMessage.text.length == 0) {
         sendOutlet.enabled = NO;
@@ -101,18 +99,13 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:YES];
-    NSLog(@"%@",userXmlDetail);
     if ([lastView isEqualToString:@"ChatViewController"] || [lastView isEqualToString:@"MeTooUserProfile"]) {
-        
         self.title = [userXmlDetail attributeStringValueForName:@"ToName"];
-        
         myDelegate.chatUser = [userXmlDetail attributeStringValueForName:@"to"];
-        NSLog(@"%@",myDelegate.chatUser);
     }
     else{
         NSArray* fromUser = [userDetail.jidStr componentsSeparatedByString:@"@52.74.174.129"];
         self.title = [fromUser objectAtIndex:0];
-        
         myDelegate.chatUser = [[userDetail.jidStr componentsSeparatedByString:@"/"] objectAtIndex:0];
     }
     [userData removeAllObjects];
@@ -152,18 +145,15 @@
     NSString *predicateFrmt = @"bareJidStr == %@ ";
     NSPredicate *predicate = [NSPredicate predicateWithFormat:predicateFrmt, myDelegate.chatUser];
     request.predicate = predicate;
-    NSLog(@"%@",[UserDefaultManager getValue:@"LoginCred"]);
     [request setEntity:entityDescription];
     NSError *error;
     NSArray *messages_arc = [moc executeFetchRequest:request error:&error];
     [self print:[[NSMutableArray alloc]initWithArray:messages_arc]];
 }
-
 -(void)print:(NSMutableArray*)messages_arc{
     
     @autoreleasepool {
         for (XMPPMessageArchiving_Message_CoreDataObject *message in messages_arc) {
-            
             NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:message.messageStr error:nil];
             [userData addObject:element];
         }
@@ -175,7 +165,6 @@
         }
     }
 }
-
 - (void)historUpdated:(NSNotification *)notification {
     NSString *keyName = myDelegate.chatUser;
     if ([[UserDefaultManager getValue:@"CountData"] objectForKey:keyName] != nil) {
@@ -184,7 +173,6 @@
         [tempDict setObject:[NSString stringWithFormat:@"%d",tempCount] forKey:keyName];
         [UserDefaultManager setValue:tempDict key:@"CountData"];
     }
-    NSLog(@"%@",[notification object]);
     NSXMLElement* message = [notification object];
     [self messagesData:message];
 }
@@ -200,16 +188,11 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification object:nil];
 }
-
 - (void)keyboardWillShow:(NSNotification *)notification {
     NSDictionary* info = [notification userInfo];
     NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
-    NSLog(@"%f,%f",[UIScreen mainScreen].bounds.size.height,[UIScreen mainScreen].bounds.size.height-[aValue CGRectValue].size.height - messageHeight + 50);
-    
     messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- [aValue CGRectValue].size.height -messageHeight -64 -10 , [aValue CGRectValue].size.width, messageHeight+ 10);
     messageYValue = [UIScreen mainScreen].bounds.size.height- [aValue CGRectValue].size.height  -50 -10;
-    
-    NSLog(@"%f,%f",userTableView.frame.size.height,[UIScreen mainScreen].bounds.size.height - [aValue CGRectValue].size.height  -50 -10);
     userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height- [aValue CGRectValue].size.height -messageHeight -64 -14);
     
     if (userData.count > 0) {
@@ -218,7 +201,6 @@
     }
 }
 - (void)keyboardWillHide:(NSNotification *)notification {
-    NSLog(@"%f,%f",[UIScreen mainScreen].bounds.size.height,[UIScreen mainScreen].bounds.size.height - messageHeight);
     messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -10, self.view.bounds.size.width, messageHeight+ 10);
     messageYValue = [UIScreen mainScreen].bounds.size.height -64 -49 -10;
     
@@ -258,7 +240,6 @@
         }
         else if(textRect.size.height <= 50){
             messageHeight = 40;
-            
             sendMessage.frame = CGRectMake(sendMessage.frame.origin.x, sendMessage.frame.origin.y, sendMessage.frame.size.width, messageHeight-8);
             messageView.frame = CGRectMake(0, messageYValue-messageHeight - 14  , self.view.bounds.size.width, messageHeight + 10);
             userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  messageYValue-messageHeight - 18);
@@ -282,14 +263,11 @@
     }
     return YES;
 }
-
 - (void)textViewDidChange:(UITextView *)textView
 {
-    
     if (([sendMessage sizeThatFits:sendMessage.frame.size].height < 126) && ([sendMessage sizeThatFits:sendMessage.frame.size].height > 50)) {
         
         sendMessage.frame = CGRectMake(sendMessage.frame.origin.x, sendMessage.frame.origin.y, sendMessage.frame.size.width, [sendMessage sizeThatFits:sendMessage.frame.size].height);
-        
         messageHeight = [sendMessage sizeThatFits:sendMessage.frame.size].height + 8;
         messageView.frame = CGRectMake(0, messageYValue-messageHeight - 14 , self.view.bounds.size.width, messageHeight +10 );
         userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  messageYValue-messageHeight - 18);
@@ -300,7 +278,6 @@
     }
     else if([sendMessage sizeThatFits:sendMessage.frame.size].height <= 50){
         messageHeight = 40;
-        
         sendMessage.frame = CGRectMake(sendMessage.frame.origin.x, sendMessage.frame.origin.y, sendMessage.frame.size.width, messageHeight-8);
         messageView.frame = CGRectMake(0, messageYValue-messageHeight - 14  , self.view.bounds.size.width, messageHeight + 10);
         userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  messageYValue-messageHeight - 18 );
@@ -309,7 +286,6 @@
             [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
         }
     }
-    
     NSString *string = textView.text;
     NSString *trimmedString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (textView.text.length>=1) {
@@ -323,7 +299,6 @@
     else if (textView.text.length==0) {
         sendOutlet.enabled=NO;
     }
-    
 }
 - (IBAction)tapGestureOnView:(UITapGestureRecognizer *)sender {
     [sendMessage resignFirstResponder];
@@ -345,10 +320,10 @@
 {
     return [myDelegate xmppStream];
 }
-
+#pragma mark - end
+#pragma mark - IBAction
 -(IBAction)sendMessage:(id)sender
 {
-   // [sendMessage resignFirstResponder];
     [myDelegate.xmppMessageArchivingModule setClientSideMessageArchivingOnly:YES];
     [myDelegate.xmppMessageArchivingModule activate:[self xmppStream]];    //By this line all your messages are stored in CoreData
     [myDelegate.xmppMessageArchivingModule addDelegate:self delegateQueue:dispatch_get_main_queue()];
@@ -359,22 +334,17 @@
     [dateFormatter setDateFormat:@"hh:mm a"];
     [dateFormatter setAMSymbol:@"am"];
     [dateFormatter setPMSymbol:@"pm"];
-    
     NSString *formattedTime = [dateFormatter stringFromDate:date];
     [dateFormatter setDateFormat:@"dd/MM/yy"];
     NSString *formattedDate = [dateFormatter stringFromDate:date];
-    NSLog(@"%@",formattedTime);
-    
     NSXMLElement *body = [NSXMLElement elementWithName:@"body"];
     [body setStringValue:messageStr];
     NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
     [message addAttributeWithName:@"type" stringValue:@"chat"];
     
     if ([lastView isEqualToString:@"ChatViewController"] || [lastView isEqualToString:@"MeTooUserProfile"]) {
-        
         [message addAttributeWithName:@"to" stringValue:[userXmlDetail attributeStringValueForName:@"to"]];
         [message addAttributeWithName:@"from" stringValue:[userXmlDetail attributeStringValueForName:@"from"]];
-        
         [message addAttributeWithName:@"time" stringValue:formattedTime];
         [message addAttributeWithName:@"Name" stringValue:[UserDefaultManager getValue:@"userName"]];
         [message addAttributeWithName:@"Date" stringValue:formattedDate];
@@ -385,7 +355,6 @@
     else{
         [message addAttributeWithName:@"to" stringValue:userDetail.jidStr];
         [message addAttributeWithName:@"from" stringValue:userDetail.streamBareJidStr];
-        
         [message addAttributeWithName:@"time" stringValue:formattedTime];
         [message addAttributeWithName:@"Name" stringValue:[UserDefaultManager getValue:@"userName"]];
         [message addAttributeWithName:@"Date" stringValue:formattedDate];
@@ -394,65 +363,40 @@
         [message addAttributeWithName:@"senderUserId" stringValue:[UserDefaultManager getValue:@"userId"]];
     }
     [message addChild:body];
-    
     [[WebService sharedManager] chatNotification:[message attributeStringValueForName:@"to"] userNameFrom:[message attributeStringValueForName:@"from"] messageString:[[message elementForName:@"body"] stringValue] success:^(id responseObject) {
-        
         [myDelegate stopIndicator];
-        
     } failure:^(NSError *error) {
-        
     }] ;
-    
     [[self xmppStream] sendElement:message];
-    
     [self messagesData:message];
-    
     sendMessage.text=@"";
-    
-    NSLog(@"%f,%f",[UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.height - messageHeight - 2);
-    
-//    sendMessage.frame = CGRectMake(sendMessage.frame.origin.x, sendMessage.frame.origin.y, sendMessage.frame.size.width, 32);
-//    
-//    messageHeight = 40;
-//    messageView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -10, self.view.bounds.size.width, messageHeight+ 10);
-//    messageYValue = [UIScreen mainScreen].bounds.size.height -64 -49;
-//    userTableView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,  [UIScreen mainScreen].bounds.size.height- messageHeight -64 -49 -14);
     if (userData.count > 0) {
         NSIndexPath* ip = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
         [userTableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:NO];
     }
-    
     if (sendMessage.text.length>=1) {
         sendOutlet.enabled=YES;
     }
     else if (sendMessage.text.length==0) {
         sendOutlet.enabled=NO;
-        
     }
 }
-
 -(void)messagesData:(NSXMLElement*)myMessage{
-    
     [userData addObject:myMessage];
-    
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:userData.count-1 inSection:0];
     [userTableView beginUpdates];
     [userTableView insertRowsAtIndexPaths:@[indexPath]
                          withRowAnimation:UITableViewRowAnimationBottom];
     [userTableView endUpdates];
-    
     [userTableView scrollToRowAtIndexPath:[self indexPathForLastMessage]
                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    
 }
 #pragma mark - end
-
 #pragma mark - Table view delegates
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return userData.count;
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell=[userTableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -475,35 +419,25 @@
     userImage.layer.borderWidth=1.5f;
     userImage.layer.borderColor=[UIColor colorWithRed:236.0/255.0 green:236.0/255.0 blue:236.0/255.0 alpha:1.0].CGColor;
     NSXMLElement* message = [userData objectAtIndex:indexPath.row];
-    
     if ( [[UserDefaultManager getValue:@"userName"] caseInsensitiveCompare:[message attributeStringValueForName:@"Name"]] == NSOrderedSame)
     {
         userName.text = [UserDefaultManager getValue:@"userName"];
-        
     }
     else
     {
         userName.text = [message attributeStringValueForName:@"Name"];
         otherUserId=[message attributeStringValueForName:@"senderUserId"];
     }
-    
     userChat.text = [[message elementForName:@"body"] stringValue];
-    
     NSArray* fromUser = [[message attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"];
-    
-    NSLog(@"%@,%@",[UserDefaultManager getValue:@"LoginCred"],[fromUser objectAtIndex:0]);
-    
     if ( [[UserDefaultManager getValue:@"LoginCred"] caseInsensitiveCompare:[fromUser objectAtIndex:0]] == NSOrderedSame) {
-        
         userImage.image = userProfileImageView.image;
         userName.textColor = [UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
-        
     }
     else{
         userName.textColor = [UIColor blackColor];
         userImage.image = friendProfileImageView;
     }
-    
     NSString *userNameValue = [message attributeStringValueForName:@"Name"];
     float userNameHeight;
     CGSize size = CGSizeMake(userTableView.frame.size.width - (10+50+20+10),50);
@@ -514,7 +448,6 @@
                      context:nil];
     userName.numberOfLines = 0;
     userNameHeight = textRect.size.height;
-    
     userName.frame = CGRectMake(82, 25, userTableView.frame.size.width - (10+50+20+10), userNameHeight);
     nameButton.frame = userName.frame;
     [nameButton addTarget:self action:@selector(openProfileButtonAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -522,7 +455,6 @@
     userImageBtn.Tag=(int)indexPath.row;
     nameButton.Tag=(int)indexPath.row;
     NSString *body = [[message elementForName:@"body"] stringValue];
-    
     size = CGSizeMake(userTableView.frame.size.width - (10+50+20+10),2000);
     textRect=[body
               boundingRectWithSize:size
@@ -530,7 +462,6 @@
               attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Regular" size:14]}
               context:nil];
     userChat.numberOfLines = 0;
-    
     if (userData.count == 1 || indexPath.row == 0) {
         userChat.frame = CGRectMake(82,  userName.frame.origin.y + userNameHeight + 15, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
         userImage.hidden = NO;
@@ -540,12 +471,9 @@
     }
     else{
         NSXMLElement* message1;
-        
         message1 = [userData objectAtIndex:(int)indexPath.row - 1];
-        
         if ([[message attributeStringValueForName:@"Name"] isEqualToString:[message1 attributeStringValueForName:@"Name"]]) {
             userChat.frame = CGRectMake(82, 10, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
-            
             userImage.hidden = YES;
             userName.hidden = YES;
             nameButton.hidden=YES;
@@ -564,23 +492,19 @@
     return cell;
 }
 
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSXMLElement* message = [userData objectAtIndex:indexPath.row];
     NSString *userName = [message attributeStringValueForName:@"Name"];
     float userNameHeight;
     CGSize size = CGSizeMake(userTableView.frame.size.width - (10+50+20+10),50);//here (10+50+20+15) = (imageView.x + imageView.width + space b/w imageView and label + label trailing)
-    
     CGRect textRect=[userName
                      boundingRectWithSize:size
                      options:NSStringDrawingUsesLineFragmentOrigin
                      attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Medium" size:14]}
                      context:nil];
     userNameHeight = textRect.size.height;
-    
     NSString *body = [[message elementForName:@"body"] stringValue];
-    
     size = CGSizeMake(userTableView.frame.size.width - (10+50+20+10),2000);
     textRect=[body
               boundingRectWithSize:size
@@ -614,7 +538,6 @@
 - (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     return (action == @selector(copy:));
 }
-
 - (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     if (action == @selector(copy:)) {
         UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -622,7 +545,6 @@
         [[UIPasteboard generalPasteboard] setString:userChat.text];
     }
 }
-
 - (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 1;
 }
@@ -636,7 +558,6 @@
                              atScrollPosition:UITableViewScrollPositionBottom animated:animated];
     }
 }
-
 -(NSIndexPath *)indexPathForLastMessage
 {
     NSInteger lastSection = 0;
@@ -651,10 +572,6 @@
     NSXMLElement* message = [userData objectAtIndex:btnTag];
     if ( [[UserDefaultManager getValue:@"userName"] caseInsensitiveCompare:[message attributeStringValueForName:@"Name"]] == NSOrderedSame)
     {
-
-//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        MyProfileViewController *userProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-//        [self.navigationController pushViewController:userProfile animated:YES];
         [self.tabBarController setSelectedIndex:4];
     }
     else

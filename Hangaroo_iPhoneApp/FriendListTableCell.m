@@ -12,6 +12,7 @@
 @synthesize userImageView,userNameLabel,mutualFriendsLabel,seperatorLabel,requestSentButton;
 @synthesize isFriend,isRequestSent;
 
+#pragma mark - Load nib
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -21,7 +22,9 @@
 
     // Configure the view for the selected state
 }
+#pragma mark - end
 
+#pragma mark - Display friend list data
 -(void)displayData :(FriendListDataModel *)friendList :(int)indexPath
 {
     userNameLabel.text=friendList.userName;
@@ -38,8 +41,6 @@
         mutualFriendsLabel.hidden=NO;
         mutualFriendsLabel.text= [NSString stringWithFormat:@"%@ %@",friendList.mutualFriends,@"mutual friends"];
     }
-    
-
     userImageView.layer.cornerRadius=30.0f;
     userImageView.clipsToBounds=YES;
     userImageView.layer.borderWidth=1.5f;
@@ -48,7 +49,6 @@
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:friendList.userImageUrl]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
-    
     [userImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"profileImage.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         weakRef.contentMode = UIViewContentModeScaleAspectFill;
         weakRef.clipsToBounds = YES;
@@ -58,7 +58,6 @@
     }];
     isFriend=friendList.isFriend;
     isRequestSent=friendList.isRequestSent;
-    
     if ([isRequestSent isEqualToString:@"True"])
     {
         requestSentButton.hidden=NO;
@@ -71,7 +70,6 @@
         {
             requestSentButton.hidden=YES;
             mutualFriendsLabel.hidden=YES;
-            
         }
         else if ([[UserDefaultManager getValue:@"userId"] isEqualToString:friendList.userId])
         {
@@ -85,10 +83,7 @@
             requestSentButton.userInteractionEnabled=YES;
             [requestSentButton setImage:[UIImage imageNamed:@"adduser.png"] forState:UIControlStateNormal];
         }
-        
     }
-    
-  
 }
-
+#pragma mark - end
 @end

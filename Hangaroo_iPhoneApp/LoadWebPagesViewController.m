@@ -14,7 +14,6 @@
 }
 @property (weak, nonatomic) IBOutlet UIWebView *loadWebView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-
 @end
 
 @implementation LoadWebPagesViewController
@@ -22,25 +21,22 @@
 @synthesize facebookString,instagramString,twitterString,navigationTitle;
 
 #pragma mark - View life cycle
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.screenName=@"Load web view";
     [activityIndicator startAnimating];
-  self.navigationItem.title=navigationTitle;
-    
+    self.navigationItem.title=navigationTitle;
     if ([navigationTitle isEqualToString:@"Facebook"]) {
         url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.facebook.com/%@",facebookString]];
     }
     else if ([navigationTitle isEqualToString:@"Instagram"])
     {
-         url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/%@",instagramString]];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/%@",instagramString]];
     }
     else if ([navigationTitle isEqualToString:@"Twitter"])
     {
         url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.twitter.com/%@",twitterString]];
     }
-
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     [loadWebView loadRequest:requestObj];
 }
@@ -54,9 +50,7 @@
     [super viewWillAppear:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [[self navigationController] setNavigationBarHidden:NO];
-    
 }
-
 #pragma mark - end
 
 #pragma mark - Webview delegate

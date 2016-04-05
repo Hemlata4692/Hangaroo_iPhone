@@ -29,7 +29,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @property (weak, nonatomic) IBOutlet UIButton *captureImageButton;
 @property (weak, nonatomic) IBOutlet UIButton *closeCameraViewButton;
 @property (weak, nonatomic) IBOutlet PreviewView *previewView;
-
 // Session management.
 @property (nonatomic) dispatch_queue_t sessionQueue;
 // Communicate with the session and other session objects on this queue.
@@ -51,7 +50,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 @synthesize postId,focusView;
 
 #pragma mark - View life cycle
-
 - (BOOL)isSessionRunningAndDeviceAuthorized
 {
     return [[self session] isRunning] && [self isDeviceAuthorized];
@@ -61,7 +59,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 {
     return [NSSet setWithObjects:@"session.running", @"deviceAuthorized", nil];
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -82,11 +79,9 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     focusView.layer.borderWidth=1.0f;
     focusTimer=[NSTimer scheduledTimerWithTimeInterval:2.0
                                                 target:self
-                                              selector:@selector(targetMethod:)
+                                              selector:@selector(focusCameraMethod:)
                                               userInfo:nil
                                                repeats:NO];
-
-    
     // Create the AVCaptureSession
     AVCaptureSession *session = [[AVCaptureSession alloc] init];
     [self setSession:session];
@@ -124,7 +119,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         {
             NSLog(@"%@", error);
         }
-        
         if ([session canAddInput:audioDeviceInput])
         {
             [session addInput:audioDeviceInput];
@@ -142,7 +136,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         AVCaptureStillImageOutput *stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
         if ([session canAddOutput:stillImageOutput])
         {
-            
             [stillImageOutput setOutputSettings:@{AVVideoCodecKey : AVVideoCodecJPEG}];
             [session addOutput:stillImageOutput];
             [self setStillImageOutput:stillImageOutput];
@@ -176,7 +169,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
     [library enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
         [group setAssetsFilter:[ALAssetsFilter allPhotos]];
-        
         // Chooses the photo at the last index
         [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *alAsset, NSUInteger index, BOOL *innerStop) {
             if (alAsset) {
@@ -187,7 +179,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
             }
         }];
     } failureBlock: ^(NSError *error) {
-        NSLog(@"No groups");
     }];
 }
 -(void)viewWillDisappear:(BOOL)animated
@@ -212,7 +203,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 #pragma mark - end
 
 #pragma mark - Custom camera delegates
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == CapturingStillImageContext)
@@ -246,17 +236,13 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
-
 - (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
 {
     if (error)
         NSLog(@"%@", error);
-    
     [self setLockInterfaceRotation:NO];
-    
     UIBackgroundTaskIdentifier backgroundRecordingID = [self backgroundRecordingID];
     [self setBackgroundRecordingID:UIBackgroundTaskInvalid];
-    
     [[[ALAssetsLibrary alloc] init] writeVideoAtPathToSavedPhotosAlbum:outputFileURL completionBlock:^(NSURL *assetURL, NSError *error) {
         if (error)
             NSLog(@"%@", error);
@@ -325,7 +311,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
             break;
         }
     }
-    
     return captureDevice;
 }
 
@@ -382,10 +367,17 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
             {
                 NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
                 UIImage *image = [[UIImage alloc] initWithData:imageData];
-                //                [[[ALAssetsLibrary alloc] init] writeImageToSavedPhotosAlbum:[image CGImage] orientation:(ALAssetOrientation)[image imageOrientation] completionBlock:nil];
+                UIImage *  flippedImage;
+                if (frontCameraChecker==YES) {
+                flippedImage = [UIImage imageWithCGImage:image.CGImage scale:image.scale orientation:UIImageOrientationLeftMirrored];
+                }
+                else
+                {
+                    flippedImage=image;
+                }
                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                 PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
-                photoView.postImage=image;
+                photoView.postImage=flippedImage;
                 photoView.postID=postId;
                 [self openPreview:photoView withAnimationType:kCATransitionFromTop];
             }
@@ -416,7 +408,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
             flashButton.selected=YES;
             flashMode=1;
             [flashButton setImage:[UIImage imageNamed:@"flash_0n.png"] forState:UIControlStateNormal];
-            
         }
     }
     else
@@ -446,7 +437,6 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         AVCaptureDevice *currentVideoDevice = [[self videoDeviceInput] device];
         AVCaptureDevicePosition preferredPosition = AVCaptureDevicePositionUnspecified;
         AVCaptureDevicePosition currentPosition = [currentVideoDevice position];
-        
         switch (currentPosition)
         {
             case AVCaptureDevicePositionUnspecified:
@@ -459,20 +449,15 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
                 preferredPosition = AVCaptureDevicePositionBack;
                 break;
         }
-        
         AVCaptureDevice *videoDevice = [CameraViewController deviceWithMediaType:AVMediaTypeVideo preferringPosition:preferredPosition];
         AVCaptureDeviceInput *videoDeviceInput = [AVCaptureDeviceInput deviceInputWithDevice:videoDevice error:nil];
-        
         [[self session] beginConfiguration];
-        
         [[self session] removeInput:[self videoDeviceInput]];
         if ([[self session] canAddInput:videoDeviceInput])
         {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:AVCaptureDeviceSubjectAreaDidChangeNotification object:currentVideoDevice];
-            
             [CameraViewController setFlashMode:AVCaptureFlashModeAuto forDevice:videoDevice];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:videoDevice];
-            
             [[self session] addInput:videoDeviceInput];
             [self setVideoDeviceInput:videoDeviceInput];
         }
@@ -480,24 +465,19 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
         {
             [[self session] addInput:[self videoDeviceInput]];
         }
-        
         [[self session] commitConfiguration];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [[self cameraModeButton] setEnabled:YES];
             [[self captureImageButton] setEnabled:YES];
         });
     });
-    
 }
 - (IBAction)openGallerybuttonClicked:(id)sender
 {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.allowsEditing = NO;
-    
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    
     [self presentViewController:picker animated:YES completion:NULL];
 }
 - (BOOL) hidesBottomBarWhenPushed
@@ -514,18 +494,16 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
     focusView.hidden=NO;
     focusTimer= [NSTimer scheduledTimerWithTimeInterval:5.0
                                                  target:self
-                                               selector:@selector(targetMethod:)
+                                               selector:@selector(focusCameraMethod:)
                                                userInfo:nil
                                                 repeats:NO];
-    
 }
 
--(void)targetMethod:(NSTimer *)timer {
+-(void)focusCameraMethod:(NSTimer *)timer {
     focusView.hidden=YES;
 }
 - (IBAction)closeCameraButtonAction:(id)sender
 {
-    //  [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     CATransition* transition = [CATransition animation];
     transition.duration = 0.4f;
     transition.type = kCATransitionReveal;
@@ -536,12 +514,11 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 }
 #pragma mark - end
 #pragma mark - Image picker controller delegate methods
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     UIImage *image=[info valueForKey:UIImagePickerControllerOriginalImage];
     [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     PhotoPreviewViewController * photoView = [storyboard instantiateViewControllerWithIdentifier:@"PhotoPreviewViewController"];
     photoView.postImage=image;
     photoView.postID=postId;
@@ -557,9 +534,7 @@ static void * SessionRunningAndDeviceAuthorizedContext = &SessionRunningAndDevic
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    // [myDelegate stopIndicator];
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
 }
 #pragma mark - end
 

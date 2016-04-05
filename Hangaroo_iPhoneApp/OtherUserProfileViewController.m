@@ -57,15 +57,6 @@
     backBtn.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
     backBtn.layer.shadowOpacity = 0.5f;
     backBtn.layer.masksToBounds = NO;
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
-//    [[chatBtn layer] setBorderWidth:1.0f];
-//    [[chatBtn layer] setBorderColor:[UIColor lightGrayColor].CGColor];
-//    
-//    [[tapToSeeOutBtn layer] setBorderWidth:1.0f];
-//    [[tapToSeeOutBtn layer] setBorderColor:[UIColor lightGrayColor].CGColor];
-   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -85,9 +76,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:YES];
-//    [[self navigationController] setNavigationBarHidden:NO];
-//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    
 }
 -(BOOL)prefersStatusBarHidden
 {
@@ -106,29 +94,12 @@
     userInterestLabel.translatesAutoresizingMaskIntoConstraints=YES;
     chatBtn.translatesAutoresizingMaskIntoConstraints=YES;
     tapToSeeOutBtn.translatesAutoresizingMaskIntoConstraints=YES;
-   
     if ([[[otherUserProfileArray objectAtIndex:0]userInterest] isEqualToString:@""]) {
         userInterestLabel.hidden=YES;
         interestTitle.hidden=YES;
         chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+30, self.view.frame.size.width/2, chatBtn.frame.size.height);
         tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+30, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
-//        if([[UIScreen mainScreen] bounds].size.height==568)
-//        {
-//            chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+30, self.view.frame.size.width/2, chatBtn.frame.size.height);
-//            tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+30, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
-//        }
-//        else if([[UIScreen mainScreen] bounds].size.height==667)
-//        {
-//            chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+80, self.view.frame.size.width/2, chatBtn.frame.size.height);
-//            tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+80, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
-//        }
-//        else if([[UIScreen mainScreen] bounds].size.height==736)
-//        {
-//            chatBtn.frame=CGRectMake(0, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+120, self.view.frame.size.width/2, chatBtn.frame.size.height);
-//            tapToSeeOutBtn.frame=CGRectMake(self.view.frame.size.width/2, seperatorLabel.frame.origin.y+seperatorLabel.frame.size.height+120, self.view.frame.size.width/2, tapToSeeOutBtn.frame.size.height);
-//        }
     }
-
     else
     {
         userInterestLabel.hidden=NO;
@@ -176,7 +147,7 @@
 {
     [[WebService sharedManager]sendFriendRequest:otherUserId success:^(id responseObject)
      {
-         [myDelegate stopIndicator];
+        [myDelegate stopIndicator];
         [addFriendBtn setImage:[UIImage imageNamed:@"user_accepted.png"] forState:UIControlStateNormal];
          [self.view makeToast:@"Request Sent"];
          addFriendBtn.userInteractionEnabled=NO;
@@ -191,16 +162,11 @@
 #pragma mark - Tap to see out webservice
 -(void)seeOutUser
 {
-    NSLog(@"user id %@",otherUserId);
     [[WebService sharedManager] seeOutNotification:otherUserId success:^(id responseObject) {
-        
         [myDelegate stopIndicator];
         [self.view makeToast:@"Sent Successfully"];
-        
     } failure:^(NSError *error) {
-        
     }] ;
-    
 }
 #pragma mark - end
 
@@ -216,7 +182,6 @@
         weakRef.clipsToBounds = YES;
         weakRef.image = image;
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-        
     }];
     userNameLabel.text=[[otherUserProfileArray objectAtIndex:0]userName];
     otherUserId=[[otherUserProfileArray objectAtIndex:0]otherUserId];
@@ -356,16 +321,12 @@
 }
 - (IBAction)chatBtnAction:(id)sender
 {
-    
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     PersonalChatViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
     NSXMLElement *msg = [NSXMLElement elementWithName:@"message"];
     [msg addAttributeWithName:@"type" stringValue:@"chat"];
-    
     [msg addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[userNameLabel.text lowercaseString]]];
-    
     [msg addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[[UserDefaultManager getValue:@"userName"] lowercaseString]]];
-    
     [msg addAttributeWithName:@"ToName" stringValue:userNameLabel.text];
     otherUserProfile.userXmlDetail = msg;
     otherUserProfile.friendProfileImageView = profileImage.image;
@@ -377,6 +338,5 @@
 {
     [self performSelector:@selector(sendFriendRequest) withObject:nil afterDelay:0.1];
 }
-
 #pragma mark - end
 @end

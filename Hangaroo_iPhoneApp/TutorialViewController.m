@@ -20,8 +20,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *headingLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *tutorialImageView;
 @property (weak, nonatomic) IBOutlet FXPageControl *pageControl;
-
-
 @end
 
 @implementation TutorialViewController
@@ -29,22 +27,19 @@
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // Set the screen name for automatic screenview tracking.
     self.screenName = @"Tutorial screen";
     //Adding images to array
     tutorialImages=[[NSMutableArray alloc]initWithObjects:[UIImage imageNamed:@"image1.png"],[UIImage imageNamed:@"image2.png"],[UIImage imageNamed:@"image3.png"],[UIImage imageNamed:@"image4.png"],[UIImage imageNamed:@"image5.png"], nil];
-    
     [tutorialImageView setUserInteractionEnabled:YES];
+    //Swipe gesture
     UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageLeft:)];
     swipeImageLeft.delegate=self;
     UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeBannerImageRight:)];
     swipeImageRight.delegate=self;
-    
     // Setting the swipe direction.
     [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
     [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
-    
     // Adding the swipe gesture on image view
     [tutorialImageView addGestureRecognizer:swipeImageLeft];
     [tutorialImageView addGestureRecognizer:swipeImageRight];
@@ -80,7 +75,6 @@
         [self setNeedsStatusBarAppearanceUpdate];
     }completion:^(BOOL finished){}];
 }
-
 #pragma mark - end
 #pragma mark - Swipe images
 -(void)swipeImages
@@ -88,8 +82,6 @@
     tutorialImageView.image=[tutorialImages objectAtIndex:0];
     pageControl.numberOfPages = [tutorialImages count];
 }
-
-
 //Adding left animation to banner images
 - (void)addLeftAnimationPresentToView:(UIView *)viewTobeAnimatedLeft
 {
@@ -101,7 +93,6 @@
     transition.type = kCATransitionPush;
     transition.subtype =kCATransitionFromRight;
     [viewTobeAnimatedLeft.layer addAnimation:transition forKey:nil];
-    
 }
 //Adding right animation to banner images
 - (void)addRightAnimationPresentToView:(UIView *)viewTobeAnimatedRight
@@ -127,7 +118,6 @@
         int page=imageIndex;
         pageControl.currentPage=page;
         [self setHeadingText];
-        
     }
     else
     {
@@ -150,10 +140,9 @@
     else
     {
         imageIndex++;
-        //  pageControl.currentPage=imageIndex;
     }
 }
-
+//Set text on heading label
 -(void)setHeadingText
 {
     if (imageIndex==0)
@@ -177,7 +166,6 @@
         headingLabel.text=@"Do it for the Hangaroo";
     }
 }
-
 #pragma mark - end
 #pragma mark - IBActions
 - (IBAction)loginButtonAction:(id)sender
@@ -186,14 +174,12 @@
     LoginViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     [self.navigationController pushViewController:loginView animated:YES];
 }
-
 - (IBAction)signUpButtonAction:(id)sender
 {
     UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     SignUpViewController *loginView =[storyboard instantiateViewControllerWithIdentifier:@"SignUpViewController"];
     [self.navigationController pushViewController:loginView animated:YES];
 }
-
 #pragma mark - end
 
 @end

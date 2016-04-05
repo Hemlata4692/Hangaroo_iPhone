@@ -16,7 +16,7 @@
 
 @interface FriendListViewController ()
 {
-   NSMutableArray* friendListArray;
+    NSMutableArray* friendListArray;
     UIRefreshControl *refreshControl;
     NSArray* searchArray;
     UIView *footerView;
@@ -43,9 +43,8 @@
     friendListArray=[[NSMutableArray alloc]init];
     searchArray=[[NSArray alloc]init];
     noRecordLbl.hidden=YES;
-     searchBar.enablesReturnKeyAutomatically = NO;
+    searchBar.enablesReturnKeyAutomatically = NO;
     searchBar.returnKeyType=UIReturnKeyDone;
-    
     // Pull To Refresh
     refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 10, 10)];
     [self.friendListTableView addSubview:refreshControl];
@@ -54,14 +53,11 @@
     refreshControl.attributedTitle = refreshString;
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
     self.friendListTableView.alwaysBounceVertical = YES;
-
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
@@ -74,7 +70,6 @@
     Offset=@"0";
     [myDelegate showIndicator];
     [self performSelector:@selector(getFriendList) withObject:nil afterDelay:0.1];
-    
 }
 #pragma mark - end
 #pragma mark - Refresh Table
@@ -90,10 +85,8 @@
 #pragma mark - end
 
 #pragma mark - Table view methods
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
     if (isSearch)
     {
         if (searchArray.count<1) {
@@ -108,16 +101,13 @@
     }
     else
     {
-    return friendListArray.count;
+        return friendListArray.count;
     }
 }
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 70;
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     FriendListTableCell *friendCell ;
@@ -127,31 +117,30 @@
     {
         friendCell = [[FriendListTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
-     if (isSearch)
-     {
-         if (searchArray.count!=0)
-         {
-         FriendListDataModel *data=[searchArray objectAtIndex:indexPath.row];
-         [friendCell displayData:data :(int)indexPath.row];
-         }
-         else
-         {
+    if (isSearch)
+    {
+        if (searchArray.count!=0)
+        {
+            FriendListDataModel *data=[searchArray objectAtIndex:indexPath.row];
+            [friendCell displayData:data :(int)indexPath.row];
+        }
+        else
+        {
             noRecordLbl.hidden=NO;
-             friendListTableView.hidden=YES;
-         }
-     }
+            friendListTableView.hidden=YES;
+        }
+    }
     else
     {
-    if (friendListArray.count!=0)
-    {
-        FriendListDataModel *data=[friendListArray objectAtIndex:indexPath.row];
-        [friendCell displayData:data :(int)indexPath.row];
-    }
+        if (friendListArray.count!=0)
+        {
+            FriendListDataModel *data=[friendListArray objectAtIndex:indexPath.row];
+            [friendCell displayData:data :(int)indexPath.row];
+        }
     }
     friendCell.requestSentButton.Tag=(int)indexPath.row;
     [friendCell.requestSentButton addTarget:self action:@selector(sendRequest:) forControlEvents:UIControlEventTouchUpInside];
     return friendCell;
-    
     
 }
 
@@ -160,11 +149,7 @@
     if (isSearch) {
         if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[searchArray objectAtIndex:indexPath.row]userId]])
         {
-             [self.tabBarController setSelectedIndex:4];
-//            UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//            MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-//            // otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
-//            [self.navigationController pushViewController:otherUserProfile animated:YES];
+            [self.tabBarController setSelectedIndex:4];
         }
         else
         {
@@ -173,25 +158,20 @@
             otherUserProfile.otherUserId=[[searchArray objectAtIndex:indexPath.row]userId];
             [self.navigationController pushViewController:otherUserProfile animated:YES];
         }
-
     }
     else
     {
-    if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[friendListArray objectAtIndex:indexPath.row]userId]])
-    {
-        [self.tabBarController setSelectedIndex:4];
-//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-//       // otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
-//        [self.navigationController pushViewController:otherUserProfile animated:YES];
-    }
-    else
-    {
-    UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
-    otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
-    [self.navigationController pushViewController:otherUserProfile animated:YES];
-    }
+        if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[friendListArray objectAtIndex:indexPath.row]userId]])
+        {
+            [self.tabBarController setSelectedIndex:4];
+        }
+        else
+        {
+            UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            OtherUserProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"OtherUserProfileViewController"];
+            otherUserProfile.otherUserId=[[friendListArray objectAtIndex:indexPath.row]userId];
+            [self.navigationController pushViewController:otherUserProfile animated:YES];
+        }
     }
 }
 #pragma mark - end
@@ -204,7 +184,7 @@
         [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
         [(UILabel *)[footerView viewWithTag:11] setHidden:true];
     }
-    else if(indexPath.row==[friendListArray count]-1) //self.array is the array of items you are displaying
+    else if(indexPath.row==[friendListArray count]-1)
     {
         if(friendListArray.count <= totalFriends)
         {
@@ -215,28 +195,18 @@
         else
         {
             friendListTableView.tableFooterView = nil;
-            //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
         }
     }
 }
-
 -(void)initFooterView
 {
     footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];
     UIActivityIndicatorView * actInd = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     actInd.color=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
-    UILabel *footerLabel=[[UILabel alloc]init];
-    footerLabel.tag=11;
-    footerLabel.frame=CGRectMake(self.view.frame.size.width/2, 10.0, 80.0, 20.0);
-    footerLabel.text=@"Loading...";
-    footerLabel.font=[UIFont fontWithName:@"Roboto-Regular" size:12.0];
-    footerLabel.textColor=[UIColor grayColor];
     actInd.tag = 10;
     actInd.frame = CGRectMake(self.view.frame.size.width/2-10, 10.0, 20.0, 20.0);
     actInd.hidesWhenStopped = YES;
     [footerView addSubview:actInd];
-    //  [footerView addSubview:footerLabel];
-    footerLabel=nil;
     actInd = nil;
 }
 #pragma mark - end
@@ -247,7 +217,6 @@
     friendUserId=[[friendListArray objectAtIndex:btnTag]userId];
     [myDelegate showIndicator];
     [self performSelector:@selector(sendFriendRequestWebservice) withObject:nil afterDelay:0.1];
-
 }
 #pragma mark - end
 #pragma mark - Friend list webservice
@@ -256,8 +225,8 @@
     [[WebService sharedManager]getFriendList:Offset otherUserId:otherUserId success:^(id friendListDataArray)
      {
          [myDelegate stopIndicator];
-        if (friendListArray.count<=0) {
-              friendListArray=[friendListDataArray mutableCopy];
+         if (friendListArray.count<=0) {
+             friendListArray=[friendListDataArray mutableCopy];
          }
          else
          {
@@ -268,7 +237,6 @@
          [friendListArray removeLastObject];
          Offset=[NSString stringWithFormat:@"%lu",(unsigned long)friendListArray.count];
          [friendListTableView reloadData];
-         
      }                                     failure:^(NSError *error)
      {
          
@@ -287,10 +255,10 @@
          tempModel.isRequestSent=@"True";
          [friendListArray replaceObjectAtIndex:btnTag withObject:tempModel];
          [friendListTableView reloadData];
-
+         
          [self.view makeToast:@"Request Sent"];
      }
-        failure:^(NSError *error)
+                                         failure:^(NSError *error)
      {
          [cell.requestSentButton setImage:[UIImage imageNamed:@"adduser.png"] forState:UIControlStateNormal];
          cell.requestSentButton.userInteractionEnabled=YES;
@@ -301,34 +269,25 @@
 #pragma mark - Search bar delegates
 -(BOOL)searchBar:(UISearchBar *)srchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-
     if (text.length<1) {
         noRecordLbl.hidden=YES;
         searchArray = [NSArray arrayWithArray:friendListArray];
         isSearch = NO;
     }
-    
-    NSLog(@"%@",searchBar.text);
-  //  NSLog(@"check3");
     NSString *searchKey;
     if([text isEqualToString:@"\n"]){
         searchKey = searchBar.text;
-        
     }
     else if(text.length){
         searchKey = [searchBar.text stringByAppendingString:text];
     }
-    
     else if((searchBar.text.length-1)!=0){
         searchKey = [searchBar.text substringWithRange:NSMakeRange(0, searchBar.text.length-1)];
     }
-    
     else{
         searchKey = @"";
     }
-    
     searchArray = nil;
-    
     if (searchKey.length)
     {
         noRecordLbl.hidden=YES;
@@ -337,38 +296,28 @@
         NSArray *subPredicates = [NSArray arrayWithObjects:pred1, nil];
         NSPredicate * orPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:subPredicates];
         searchArray=[friendListArray filteredArrayUsingPredicate:orPredicate];
-       // NSLog(@"arrFilterSearch count is %lu",(unsigned long)searchArray.count);
     }
-    
-    
     else
     {
         searchArray = [NSArray arrayWithArray:friendListArray];
         searchBar.text=@"";
-         [searchBar resignFirstResponder];
+        [searchBar resignFirstResponder];
         isSearch = NO;
-        
     }
     [friendListTableView reloadData];
-   
     return YES;
 }
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-   // NSLog(@"check2");
     return YES;
 }
-
-
 -(BOOL)searchBarShouldEndEditing:(UISearchBar *)srchBar
 {
     if ([srchBar.text isEqualToString:@""]) {
         searchArray = [friendListArray mutableCopy];
         isSearch = NO;
         [friendListTableView reloadData];
-
     }
-    
     return  YES;
 }
 
@@ -380,9 +329,7 @@
         searchArray = [friendListArray mutableCopy];
         isSearch = NO;
         [friendListTableView reloadData];
-    
     }
-   
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)srchBar
 {

@@ -58,7 +58,6 @@
 #pragma mark - end
 
 #pragma mark - Table view methods
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
@@ -136,7 +135,6 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if (indexPath.section == 0 && indexPath.row==0) {
         UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         EditProfileViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"EditProfileViewController"];
@@ -148,7 +146,6 @@
     {
         UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         AddInterestViewController *view =[storyboard instantiateViewControllerWithIdentifier:@"AddInterestViewController"];
-       // view.userProfileData=myProfileData;
         view.userSettingObj=self;
         [self.navigationController pushViewController:view animated:YES];
     }
@@ -180,47 +177,12 @@
     
     else if (indexPath.section == 1 && indexPath.row==3)
     {
-//        XMPPMessageArchivingCoreDataStorage *storage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
-//        NSManagedObjectContext *context = [storage mainThreadManagedObjectContext];
-//        NSManagedObjectContext *moc = [storage mainThreadManagedObjectContext];
-//        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"XMPPMessageArchiving_Message_CoreDataObject"
-//                                                             inManagedObjectContext:moc];
-//        NSFetchRequest *request = [[NSFetchRequest alloc]init];
-//        [request setEntity:entityDescription];
-//        NSError *error;
-//        NSArray *messages_new = [moc executeFetchRequest:request error:&error];
-//        
-//        for (NSManagedObject * message in messages_new)
-//        {
-//            [context deleteObject:message];
-//            //        [tableView reloadData];
-//        }
         XMPPMessageArchivingCoreDataStorage *storage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
         NSManagedObjectContext *moc = [storage mainThreadManagedObjectContext];
         NSEntityDescription *messageEntity = [storage messageEntity:moc];
-        
-        //        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"composing == YES"];
-        
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         fetchRequest.entity = messageEntity;
-        //        fetchRequest.predicate = predicate;
-        //        fetchRequest.fetchBatchSize = saveThreshold;
-        
         NSError *error = nil;
-//        NSArray *messages = [moc executeFetchRequest:fetchRequest error:&error];
-//        
-//        if (messages == nil)
-//        {
-//            NSLog(@"errror");
-//        
-//        }
-//
-//        for (XMPPMessageArchiving_Message_CoreDataObject *message in messages)
-//        {
-//            [moc deleteObject:message];
-//            
-//        }
-        
         NSArray *fetchedObjects = [moc executeFetchRequest:fetchRequest error:&error];
         
         for (NSManagedObject *object in fetchedObjects) {
@@ -228,9 +190,8 @@
         }
         
         if (![moc save:&error]) {
-            NSLog(@"Error in deleting conversation thread %@", error);
+            //error
         }
-        
         [myDelegate unregisterDeviceForNotification];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         myDelegate.navigationController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavController"];
@@ -246,9 +207,7 @@
         [UserDefaultManager removeValue:@"BadgeCount"];
         [UserDefaultManager removeValue:@"CountData"];
     }
-    
 }
-
 #pragma mark - end
 
 #pragma mark - IBActions
@@ -287,9 +246,7 @@
         [mc.navigationBar setTintColor:[UIColor whiteColor]];
         mc.mailComposeDelegate = self;
         [mc setSubject:emailTitle];
-       // [mc setMessageBody:[NSString stringWithFormat:@"Explore Hangaroo!! To get to know more, please download the application from the given link."] isHTML:NO];
         [mc setToRecipients:toRecipents];
-        
         [self presentViewController: mc animated:YES completion:^{
             [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleLightContent];
         }];
@@ -304,12 +261,7 @@
                                   otherButtonTitles:nil];
         [alertView show];
     }
-    
-    
 }
-
-
-
 - (IBAction)closeFindTheRooViewButtonAction:(id)sender
 {
     findtheRooView.hidden=YES;
@@ -324,21 +276,16 @@
     switch (result)
     {
         case MFMailComposeResultCancelled:
-            NSLog(@"Mail cancelled: you cancelled the operation and no email message was queued.");
             break;
         case MFMailComposeResultSaved:
-            NSLog(@"Mail saved: you saved the email message in the drafts folder.");
             break;
         case MFMailComposeResultSent:
-            NSLog(@"Mail send: the email message is queued in the outbox. It is ready to send.");
             break;
         case MFMailComposeResultFailed:
             [self.view makeToast:@"Your email was not sent."];
-            NSLog(@"Mail failed: the email message was not saved or queued, possibly due to an error.");
             break;
         default:
             [self.view makeToast:@"Your email was not sent."];
-            NSLog(@"Mail not sent.");
             break;
     }
     [self dismissViewControllerAnimated:YES completion:NULL];

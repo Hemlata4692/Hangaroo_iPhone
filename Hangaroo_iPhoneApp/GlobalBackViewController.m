@@ -12,18 +12,15 @@
 {
     UIBarButtonItem *barButton;
 }
-
 @end
 
 @implementation GlobalBackViewController
-
 #pragma mark - View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self addLeftBarButtonWithImage:[UIImage imageNamed:@"back"]];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -13,9 +13,7 @@
 #import "PhotoListingModel.h"
 #import "OtherUserProfileViewController.h"
 #import "MyProfileViewController.h"
-
 #define CategorySliderHeight 120
-
 @interface ViewPostImagesViewController ()<UIGestureRecognizerDelegate>
 {
     NSMutableArray *photoListingDataArray;
@@ -55,7 +53,6 @@
     photoImageView.userInteractionEnabled=YES;
     [myDelegate showIndicator];
     [self performSelector:@selector(getPhotoListing) withObject:nil afterDelay:0.1];
-    
     UISwipeGestureRecognizer *swipeImageLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeImagesLeft:)];
     swipeImageLeft.delegate=self;
     UISwipeGestureRecognizer *swipeImageRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeImagesRight:)];
@@ -66,16 +63,13 @@
     [swipeVertical setDirection:UISwipeGestureRecognizerDirectionDown];
     [swipeImageLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
     [swipeImageRight setDirection:UISwipeGestureRecognizerDirectionRight];
-    
     // Adding the swipe gesture on image view
     [photoImageView addGestureRecognizer:swipeImageLeft];
     [photoImageView addGestureRecognizer:swipeImageRight];
     [photoImageView addGestureRecognizer:swipeVertical];
-    
     [likeButton setImage:[UIImage imageNamed:@"like_selected.png"] forState:UIControlStateSelected];
     [likeButton setImage:[UIImage imageNamed:@"like.png"] forState:UIControlStateNormal];
     likeButton.selected=NO;
-    
     [dislikeButton setImage:[UIImage imageNamed:@"dislike_selected.png"] forState:UIControlStateSelected];
     [dislikeButton setImage:[UIImage imageNamed:@"dislike.png"] forState:UIControlStateNormal];
     dislikeButton.selected=NO;
@@ -86,7 +80,6 @@
     [super viewWillAppear:YES];
     [[self navigationController] setNavigationBarHidden:YES];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,14 +115,11 @@
     UICollectionViewCell *myCell = [collectionView1
                                     dequeueReusableCellWithReuseIdentifier:@"userCell"
                                     forIndexPath:indexPath];
-    
-    
     UIImageView *image = (UIImageView*)[myCell viewWithTag:1];
     __weak UIImageView *weakRef = image;
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[imageArray objectAtIndex:indexPath.row]]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
-    
     [image setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"profileImage.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         weakRef.contentMode = UIViewContentModeScaleAspectFill;
         weakRef.clipsToBounds = YES;
@@ -139,9 +129,7 @@
     }];
     image.layer.borderColor = [UIColor whiteColor].CGColor;
     image.layer.borderWidth = 1.0;
-    
     UILabel* separatorLabel1 =  (UILabel*)[myCell viewWithTag:2];
-    
     UILabel* timeLabel =  (UILabel*)[myCell viewWithTag:3];
     UILabel* separatorLabel2 =  (UILabel*)[myCell viewWithTag:4];
     if (indexPath.row == 0)
@@ -157,13 +145,10 @@
         separatorLabel2.hidden = NO;
         separatorLabel1.hidden = NO;
     }
-    
     timeLabel.text=[labelArray objectAtIndex:indexPath.row];
     timeLabel.shadowColor = [UIColor blackColor];
     timeLabel.shadowOffset = CGSizeMake(0.0, 1.5);
     image.translatesAutoresizingMaskIntoConstraints = YES;
-    
-    
     if ((int)selectedIndex == indexPath.row) {
         image.frame = CGRectMake((80/2) - 35, 0 , 70, 70);
         image.layer.cornerRadius = 35;
@@ -175,7 +160,6 @@
     return myCell;
     
 }
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UserDefaultManager getValue:@"userId"] isEqualToString: [[photoListingDataArray objectAtIndex:indexPath.row]userId]])
@@ -189,7 +173,6 @@
         otherUserProfile.otherUserId=[[photoListingDataArray objectAtIndex:indexPath.row]userId];
         [self.navigationController pushViewController:otherUserProfile animated:YES];
     }
- 
 }
 #pragma mark - end
 #pragma mark - Swipe Images
@@ -210,8 +193,6 @@
     likeCount.text=[[photoListingDataArray objectAtIndex:selectedIndex]likeCountData];
     dislikeCount.text=[[photoListingDataArray objectAtIndex:selectedIndex]dislikeCountData];
 }
-
-
 //Adding left animation to banner images
 - (void)addLeftAnimationPresentToView:(UIView *)viewTobeAnimatedLeft
 {
@@ -237,7 +218,7 @@
     transition.subtype =kCATransitionFromLeft;
     [viewTobeAnimatedRight.layer addAnimation:transition forKey:nil];
 }
-//Swipe images in left direction
+//Swipe down to close
 -(void) swipeDown:(UISwipeGestureRecognizer *)sender{
     CATransition* transition = [CATransition animation];
     transition.duration = 0.4f;
@@ -247,7 +228,7 @@
                                                 forKey:kCATransition];
     [self.navigationController popViewControllerAnimated:NO];
 }
-
+//Swipe images in left direction
 -(void) swipeImagesLeft:(UISwipeGestureRecognizer *)sender
 {
     selectedIndex++;
@@ -257,7 +238,6 @@
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[postImagesArray objectAtIndex:selectedIndex]]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                   timeoutInterval:60];
-        
         [photoImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@""] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             weakRef.contentMode = UIViewContentModeScaleAspectFill;
             weakRef.clipsToBounds = YES;
@@ -265,7 +245,6 @@
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
         }];
-        
         int value = ((selectedIndex*80) + 35) -self.view.frame.size.width/2 ;
         if (value < 0) {
             [userCollectionview setContentOffset:CGPointMake(value, 0) animated:YES];
@@ -276,8 +255,6 @@
             [userCollectionview reloadData];
             
         }
-        //    }
-        
         UIImageView *moveImageView = photoImageView;
         [self addLeftAnimationPresentToView:moveImageView];
         likeCount.text=[[photoListingDataArray objectAtIndex:selectedIndex]likeCountData];
@@ -296,8 +273,6 @@
             [likeButton setSelected:NO];
             [dislikeButton setSelected:YES];
         }
-        
-        
     }
     else
     {
@@ -314,7 +289,6 @@
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:[postImagesArray objectAtIndex:selectedIndex]]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                   timeoutInterval:60];
-        
         [photoImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@""] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             weakRef.contentMode = UIViewContentModeScaleAspectFill;
             weakRef.clipsToBounds = YES;
@@ -322,21 +296,14 @@
         } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
             
         }];
-        
         int value = ((selectedIndex*80) + 35) -self.view.frame.size.width/2 ;
-        NSLog(@"-----%d---------",value);
-        
         if (value < 0) {
-            
             [userCollectionview setContentOffset:CGPointMake(value, 0) animated:YES];
             [userCollectionview reloadData];
-            
         }
         else{
             [userCollectionview setContentOffset:CGPointMake(value, 0) animated:YES];
             [userCollectionview reloadData];
-            
-            
         }
         UIImageView *moveImageView = photoImageView;
         [self addRightAnimationPresentToView:moveImageView];
@@ -356,10 +323,7 @@
             [likeButton setSelected:NO];
             [dislikeButton setSelected:YES];
         }
-        
-        
     }
-    
     else
     {
         selectedIndex++;
@@ -372,7 +336,6 @@
 -(void)getPhotoListing
 {
     [[WebService sharedManager] photoListing:postID success: ^(id dataArray) {
-        
         [myDelegate stopIndicator];
         photoListingDataArray=[dataArray mutableCopy];
         for(int i=0;i<photoListingDataArray.count;i++)
@@ -399,19 +362,15 @@
         }
         userCollectionview.contentInset = UIEdgeInsetsMake(0, (self.view.frame.size.width/2) - 35, 0, (self.view.frame.size.width/2) - 80);
         int spaceValue = ((selectedIndex*80) + 35) -self.view.frame.size.width/2 ;
-        NSLog(@"-----%d---------",spaceValue);
-        
         if (spaceValue < 0) {
             
             [userCollectionview setContentOffset:CGPointMake(spaceValue, 0) animated:YES];
             [userCollectionview reloadData];
-            
         }
         else{
             [userCollectionview setContentOffset:CGPointMake(spaceValue, 0) animated:YES];
             [userCollectionview reloadData];
         }
-        
         [self swipeImages];
     }
                                      failure:^(NSError *error)
@@ -426,13 +385,11 @@
 -(void)likeDislike
 {
     [[WebService sharedManager] likDislikePhoto:[postImagesArray objectAtIndex:selectedIndex] likeDislike:likeDislikeString  success: ^(id responseObject) {
-        
         [myDelegate stopIndicator];
         photoImageView.userInteractionEnabled=YES;
         likeCount.text=[responseObject objectForKey:@"likeCount"];
         dislikeCount.text=[responseObject objectForKey:@"dislikeCount"];
         PhotoListingModel *photoList;
-        
         NSMutableArray *tempArray=[photoListingDataArray mutableCopy];
         photoList=[tempArray objectAtIndex:selectedIndex];
         photoList.likeCountData=[responseObject objectForKey:@"likeCount"];
@@ -446,16 +403,11 @@
          [likeButton setSelected:NO];
          [dislikeButton setSelected:NO];
      }] ;
-    
-    
 }
 #pragma mark - end
-
-
 #pragma mark - IBActions
 - (IBAction)closeButtonAction:(id)sender
 {
-    //[self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     CATransition* transition = [CATransition animation];
     transition.duration = 0.4f;
     transition.type = kCATransitionReveal;
@@ -463,11 +415,6 @@
     [self.navigationController.view.layer addAnimation:transition
                                                 forKey:kCATransition];
     [self.navigationController popViewControllerAnimated:NO];
-
-}
-- (BOOL) hidesBottomBarWhenPushed
-{
-    return (self.navigationController.topViewController == self);
 }
 - (IBAction)dislikePhotoButtonAction:(id)sender
 {
@@ -481,9 +428,7 @@
         [dislikeButton setSelected:YES];
         [likeButton setSelected:NO];
     }
-    //[myDelegate showIndicator];
     [self performSelector:@selector(likeDislike) withObject:nil afterDelay:0.1];
-    
 }
 - (IBAction)likePhotoButtonAction:(id)sender
 {
@@ -498,10 +443,13 @@
         [likeButton setSelected:YES];
         [dislikeButton setSelected:NO];
     }
-    
-    // [myDelegate showIndicator];
     [self performSelector:@selector(likeDislike) withObject:nil afterDelay:0.1];
 }
+- (BOOL) hidesBottomBarWhenPushed
+{
+    return (self.navigationController.topViewController == self);
+}
+
 #pragma mark - end
 
 @end

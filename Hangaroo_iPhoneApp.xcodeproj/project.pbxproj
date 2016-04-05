@@ -20,7 +20,6 @@
 		B723B0F71C88417A001B055A /* PreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = B723B0F61C88417A001B055A /* PreviewView.m */; };
 		B723B0FE1C884964001B055A /* flash_0n.png in Resources */ = {isa = PBXBuildFile; fileRef = B723B0FC1C884964001B055A /* flash_0n.png */; };
 		B723B0FF1C884964001B055A /* flash_off.png in Resources */ = {isa = PBXBuildFile; fileRef = B723B0FD1C884964001B055A /* flash_off.png */; };
-		B723B1031C884EF9001B055A /* Camera_Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B723B1021C884EF9001B055A /* Camera_Default.png */; };
 		B723B1051C88508B001B055A /* c.png in Resources */ = {isa = PBXBuildFile; fileRef = B723B1041C88508B001B055A /* c.png */; };
 		B72ED7F11C5F69BD0084964D /* ProfileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */; };
 		B72ED7F41C5F6BEF0084964D /* CoolNavi.m in Sources */ = {isa = PBXBuildFile; fileRef = B72ED7F31C5F6BEF0084964D /* CoolNavi.m */; };
@@ -119,7 +118,6 @@
 		B723B0F61C88417A001B055A /* PreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreviewView.m; sourceTree = "<group>"; };
 		B723B0FC1C884964001B055A /* flash_0n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash_0n.png; sourceTree = "<group>"; };
 		B723B0FD1C884964001B055A /* flash_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = flash_off.png; sourceTree = "<group>"; };
-		B723B1021C884EF9001B055A /* Camera_Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Camera_Default.png; sourceTree = "<group>"; };
 		B723B1041C88508B001B055A /* c.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = c.png; sourceTree = "<group>"; };
 		B72ED7EF1C5F69BD0084964D /* ProfileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileTableViewCell.h; sourceTree = "<group>"; };
 		B72ED7F01C5F69BD0084964D /* ProfileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileTableViewCell.m; sourceTree = "<group>"; };
@@ -337,7 +335,6 @@
 				B71952A71C86FC55009F7B20 /* gestureImage1.png */,
 				B723B0FC1C884964001B055A /* flash_0n.png */,
 				B723B0FD1C884964001B055A /* flash_off.png */,
-				B723B1021C884EF9001B055A /* Camera_Default.png */,
 				B723B1041C88508B001B055A /* c.png */,
 				B79EA5E61C8ECCDD00F50AAA /* me_too.png */,
 			);
@@ -1149,7 +1146,6 @@
 				B795B1C41C329893007EB2E6 /* Roboto-Regular.ttf in Resources */,
 				B723B1051C88508B001B055A /* c.png in Resources */,
 				B71952A81C86FC55009F7B20 /* gestureImage1.png in Resources */,
-				B723B1031C884EF9001B055A /* Camera_Default.png in Resources */,
 				B738DF881C607C4500DC6CB4 /* placeholder.png in Resources */,
 				B723B0FE1C884964001B055A /* flash_0n.png in Resources */,
 				B770A0B11C4CED8900B20691 /* profileImage.png in Resources */,

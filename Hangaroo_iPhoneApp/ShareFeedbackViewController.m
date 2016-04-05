@@ -28,16 +28,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-     self.screenName = @"Share feedback screen";
+    self.screenName = @"Share feedback screen";
     self.title = @"Share feedback";
     //Adding textfield to array
     textFieldArray = @[subjectTextField,contentTextView];
     [self setKeyboardControls:[[BSKeyboardControls alloc] initWithFields:textFieldArray]];
     [self.keyboardControls setDelegate:self];
-    
     [contentTextView setPlaceholder:@" Content:"];
     [contentTextView setFont:[UIFont fontWithName:@"Roboto-Regular" size:14.0]];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,19 +55,15 @@
 {
     UIView *view;
     view = field.superview.superview.superview;
-    
 }
 
 - (void)keyboardControlsDonePressed:(BSKeyboardControls *)keyboardControls
 {
-    
     [keyboardControls.activeField resignFirstResponder];
-    
 }
 #pragma mark - end
 
 #pragma mark - Textfield delegates
-
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self.keyboardControls setActiveField:textField];
@@ -78,13 +72,10 @@
 {
     [self.keyboardControls setActiveField:textView];
 }
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    
     [textField resignFirstResponder];
     return YES;
-    
 }
 #pragma mark - end
 #pragma mark - Email validation
@@ -101,20 +92,17 @@
         {
             [self showAlertMessage:@"Please enter a subject."];
             return NO;
-            
         }
         else if (contentTextView.text.length<=0)
         {
             [self showAlertMessage:@"Please enter content in the body."];
             return NO;
-            
         }
         else
         {
             return YES;
         }
     }
-    
 }
 #pragma mark - end
 #pragma mark - Alert message
@@ -124,7 +112,6 @@
                                           alertControllerWithTitle:@"Alert"
                                           message:message
                                           preferredStyle:UIAlertControllerStyleAlert];
-    
     UIAlertAction *okAction = [UIAlertAction
                                actionWithTitle:@"OK"
                                style:UIAlertActionStyleDefault
@@ -132,17 +119,14 @@
                                {
                                    [alertController dismissViewControllerAnimated:YES completion:nil];
                                }];
-    
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
-    
 }
 
 #pragma mark - Webservice
 -(void)saveUserFeedback
 {
     [[WebService sharedManager]shareFeedback:subjectTextField.text content:contentTextView.text success: ^(id responseObject) {
-        
         [myDelegate stopIndicator];
         for (UIViewController *controller in self.navigationController.viewControllers)
         {
@@ -154,11 +138,10 @@
             }
         }
     }
-                                       failure:^(NSError *error)
+                                     failure:^(NSError *error)
      {
          
      }] ;
-    
 }
 #pragma mark - end
 

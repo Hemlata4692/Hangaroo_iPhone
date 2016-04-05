@@ -101,10 +101,6 @@
 {
     if ([[UserDefaultManager getValue:@"userId"] isEqualToString:[[searchResultArray objectAtIndex:indexPath.row]userId]])
     {
-//        UIStoryboard * storyboard=storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        MyProfileViewController *otherUserProfile =[storyboard instantiateViewControllerWithIdentifier:@"MyProfileViewController"];
-//        // otherUserProfile.otherUserId=[[searchResultArray objectAtIndex:indexPath.row]userId];
-//        [self.navigationController pushViewController:otherUserProfile animated:YES];
         [self.tabBarController setSelectedIndex:4];
     }
     else
@@ -184,14 +180,9 @@
 #pragma mark - Search bar delegates
 - (void)searchBar:(UISearchBar *)srchBar textDidChange:(NSString *)searchText
 {
-//    if ([searchText length]==0)
-//    {
-        Offset=@"0";
-        [searchResultArray removeAllObjects];
-        [searchTableView reloadData];
-   // }
-   
-    NSLog(@"%@",searchText);
+    Offset=@"0";
+    [searchResultArray removeAllObjects];
+    [searchTableView reloadData];
     searchTextKey=searchText;
 }
 - (void)searchBarSearchButtonClicked:(UISearchBar *)srchBar
@@ -216,7 +207,7 @@
         [(UIActivityIndicatorView *)[footerView viewWithTag:10] stopAnimating];
         [(UILabel *)[footerView viewWithTag:11] setHidden:true];
     }
-    else if(indexPath.row==[searchResultArray count]-1) //self.array is the array of items you are displaying
+    else if(indexPath.row==[searchResultArray count]-1)
     {
         if(searchResultArray.count <= totalResults)
         {
@@ -227,7 +218,6 @@
         else
         {
             searchTableView.tableFooterView = nil;
-            //You can add an activity indicator in tableview's footer in viewDidLoad to show a loading status to user.
         }
     }
 }
@@ -237,18 +227,10 @@
     footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];
     UIActivityIndicatorView * actInd = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     actInd.color=[UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0];
-    UILabel *footerLabel=[[UILabel alloc]init];
-    footerLabel.tag=11;
-    footerLabel.frame=CGRectMake(self.view.frame.size.width/2, 10.0, 80.0, 20.0);
-    footerLabel.text=@"Loading...";
-    footerLabel.font=[UIFont fontWithName:@"Roboto-Regular" size:12.0];
-    footerLabel.textColor=[UIColor grayColor];
     actInd.tag = 10;
     actInd.frame = CGRectMake(self.view.frame.size.width/2-10, 10.0, 20.0, 20.0);
     actInd.hidesWhenStopped = YES;
     [footerView addSubview:actInd];
-    //  [footerView addSubview:footerLabel];
-    footerLabel=nil;
     actInd = nil;
 }
 #pragma mark - end

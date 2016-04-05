@@ -34,11 +34,11 @@
     // Do any additional setup after loading the view.
     self.screenName = @"Social media accounts screen";
     self.title = @"Social media accounts";
-    [self loadData];
-        [facebookTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-        [twitterTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-        [instaTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [facebookTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [twitterTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [instaTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     checker=1;
+    [self displayData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,7 +52,7 @@
     [[self navigationController] setNavigationBarHidden:NO];
 }
 
--(void)loadData
+-(void)displayData
 {
     facebookTextField.text=userSettingObj.myProfileData.fbUrl;
     twitterTextField.text=userSettingObj.myProfileData.twitUrl;
@@ -66,9 +66,6 @@
     {
         facebookImageView.image=[UIImage imageNamed:@"facebook.png"];
     }
-    
-    
-    
     if (twitterTextField.text.length >= 1)
     {
         twitterImageView.image=[UIImage imageNamed:@"twit_org.png"];
@@ -77,9 +74,6 @@
     {
         twitterImageView.image=[UIImage imageNamed:@"twit.png"];
     }
-    
-    
-    
     if (instaTextField.text.length >= 1)
     {
         instaImageView.image=[UIImage imageNamed:@"insta_org.png"];
@@ -88,8 +82,6 @@
     {
         instaImageView.image=[UIImage imageNamed:@"insta.png"];
     }
-    
-    
 }
 #pragma mark - end
 #pragma mark - Webservice
@@ -97,7 +89,6 @@
 {
     
     [[WebService sharedManager]socialAccounts:facebookTextField.text twitter:twitterTextField.text instagram:instaTextField.text success: ^(id responseObject) {
-        
         [myDelegate stopIndicator];
         userSettingObj.myProfileData.fbUrl=facebookTextField.text;
         userSettingObj.myProfileData.twitUrl=twitterTextField.text;
@@ -122,7 +113,6 @@
 #pragma mark - end
 #pragma mark - Textfield delegate methods
 -(void)textFieldDidChange :(UITextField *)theTextField{
-
     if (theTextField==facebookTextField) {
         if (facebookTextField.text.length >= 1 && ![facebookTextField.text isEqualToString:@" "])
         {
@@ -132,7 +122,6 @@
         {
             facebookImageView.image=[UIImage imageNamed:@"facebook.png"];
         }
-
     }
     else if (theTextField==twitterTextField) {
         if (twitterTextField.text.length >= 1 && ![twitterTextField.text isEqualToString:@" "])
@@ -143,7 +132,7 @@
         {
             twitterImageView.image=[UIImage imageNamed:@"twit.png"];
         }
-
+        
     }
     else if (theTextField==instaTextField) {
         if (instaTextField.text.length >= 1 && ![instaTextField.text isEqualToString:@" "])
@@ -155,59 +144,12 @@
             instaImageView.image=[UIImage imageNamed:@"insta.png"];
         }
     }
-
+    
 }
-//- (BOOL) textField: (UITextField *)theTextField shouldChangeCharactersInRange: (NSRange)range replacementString: (NSString *)text
-//{
-//    
-//    
-//    if (![text isEqualToString:@" "] && ![text isEqualToString:@""])
-//    {
-//        checker=2;
-//    }
-//   
-//    if (checker==1)
-//    {
-//        if (theTextField==facebookTextField)
-//        {
-//            facebookImageView.image=[UIImage imageNamed:@"facebook.png"];
-//        }
-//        else if (theTextField==twitterTextField)
-//        {
-//            twitterImageView.image=[UIImage imageNamed:@"twit.png"];
-//        }
-//        else if (theTextField==instaTextField)
-//        {
-//            instaImageView.image=[UIImage imageNamed:@"insta.png"];
-//        }
-//    }
-//    else
-//    {
-//        if (theTextField==facebookTextField)
-//        {
-//            facebookImageView.image=[UIImage imageNamed:@"facebook_org.png"];
-//        }
-//        else if (theTextField==twitterTextField)
-//        {
-//            twitterImageView.image=[UIImage imageNamed:@"twit_org.png"];
-//        }
-//        else if (theTextField==instaTextField)
-//        {
-//            instaImageView.image=[UIImage imageNamed:@"insta_org.png"];
-//        }
-//    }
-//    
-//    return YES;
-//    
-//    
-//}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    
     [textField resignFirstResponder];
     return YES;
-    
 }
 #pragma mark - end
 #pragma mark - IBActions

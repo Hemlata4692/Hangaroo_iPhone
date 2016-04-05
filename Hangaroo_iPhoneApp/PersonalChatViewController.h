@@ -2,7 +2,7 @@
 //  PersonalChatViewController.h
 //  Hangaroo_iPhoneApp
 //
-//  Created by Monika on 2/3/16.
+//  Created by Hema on 2/3/16.
 //  Copyright © 2016 Ranosys. All rights reserved.
 //
 
@@ -28,5 +28,4 @@
 @property (nonatomic,retain) NSString *userNameProfile;
 @property (nonatomic,retain) ChatViewController *chatVC;
 @property (nonatomic,retain) UserListViewController *userListVC;
-
 @end

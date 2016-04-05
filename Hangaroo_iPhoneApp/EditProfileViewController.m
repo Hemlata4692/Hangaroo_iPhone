@@ -23,16 +23,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    //have to clear cache
     self.screenName = @"Edit profile photo screen";
     self.title=@"Edit profile photo";
-    
-   
     __weak UIImageView *weakRef = userProfileImageView;
     NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userSettingObj.myProfileData.profileImageUrl]
                                                   cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                               timeoutInterval:60];
-    
     [userProfileImageView setImageWithURLRequest:imageRequest placeholderImage:[UIImage imageNamed:@"placeholder.png"] success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         weakRef.contentMode = UIViewContentModeScaleAspectFill;
         weakRef.clipsToBounds = YES;
@@ -40,15 +36,10 @@
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
         
     }];
-
-    
     UITapGestureRecognizer *imageViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTapped)];
     imageViewTap.delegate = self;
-    
-      [userProfileImageView addGestureRecognizer:imageViewTap];
-
+    [userProfileImageView addGestureRecognizer:imageViewTap];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -59,7 +50,6 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [[self navigationController] setNavigationBarHidden:NO];
 }
-
 #pragma mark - end
 #pragma mark - Change profile image action
 - (void) imageViewTapped
@@ -76,9 +66,7 @@
 #pragma mark - Action sheet delegate
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
     NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
-    
     if (buttonIndex==0)
     {
         if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -90,7 +78,6 @@
                                                         otherButtonTitles: nil];
             
             [myAlertView show];
-            
         }
         else
             
@@ -99,10 +86,8 @@
             picker.delegate = self;
             picker.allowsEditing = YES;
             picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            
             [self presentViewController:picker animated:YES completion:NULL];
         }
-        
     }
     if ([buttonTitle isEqualToString:@"Choose from Gallery"])
     {
@@ -110,15 +95,12 @@
         picker.delegate = self;
         picker.allowsEditing = YES;
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-        
         [self presentViewController:picker animated:YES completion:NULL];
-        
     }
 }
 #pragma mark - end
 
 #pragma mark - Image picker controller delegate methods
-
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)image editingInfo:(NSDictionary *)info
 {
     userProfileImageView.image = image;
@@ -129,18 +111,14 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    
     [picker dismissViewControllerAnimated:YES completion:NULL];
-    
 }
 #pragma mark - end
 
 #pragma mark - Webservice
-
 -(void) editProfilePhoto
 {
     [[WebService sharedManager]editProfilePhoto:userProfileImageView.image success: ^(id responseObject) {
-        
         [myDelegate stopIndicator];
         userSettingObj.myProfileData.profileImageUrl=[responseObject objectForKey:@"user_image"];
         [UserDefaultManager setValue:[responseObject objectForKey:@"user_image"] key:@"userImage"];
@@ -154,7 +132,6 @@
                 break;
             }
         }
-
     }
                                         failure:^(NSError *error)
      {
@@ -168,7 +145,7 @@
 {
     [myDelegate showIndicator];
     [self performSelector:@selector(editProfilePhoto) withObject:nil afterDelay:.1];
-
+    
 }
 #pragma mark - end
 @end

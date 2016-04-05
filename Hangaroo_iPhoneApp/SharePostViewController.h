@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GAITrackedViewController.h"
-
 @interface SharePostViewController : GAITrackedViewController
 
 @end
