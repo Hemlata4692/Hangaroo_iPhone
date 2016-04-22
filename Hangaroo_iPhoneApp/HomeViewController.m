@@ -120,6 +120,10 @@
     UITabBarItem *tabBarItem4 = [tabBar.items objectAtIndex:3];
     UITabBarItem *tabBarItem5 = [tabBar.items objectAtIndex:4];
     tabBar.clipsToBounds=YES;
+    
+    [[UITabBarItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:142.0/255.0 green:142.0/255.0 blue:142.0/255.0 alpha:1.0] } forState:UIControlStateNormal];
+    [[UITabBarItem appearance] setTitleTextAttributes:@{ NSForegroundColorAttributeName : [UIColor colorWithRed:13.0/255.0 green:213.0/255.0 blue:178.0/255.0 alpha:1.0] } forState:UIControlStateSelected];
+    
     [tabBarItem1 setImage:[[UIImage imageNamed:@"Home.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [tabBarItem1 setSelectedImage:[[UIImage imageNamed:@"Home_selected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     

@@ -91,6 +91,7 @@
     caption.scrollEnabled=NO;
     caption.keyboardAppearance = UIKeyboardAppearanceDefault;
     caption.alpha = 0;
+    caption.autocorrectionType=UITextAutocorrectionTypeYes;
     caption.tintColor = [UIColor whiteColor];
     caption.delegate = self;
     [previewImageView addSubview:caption];

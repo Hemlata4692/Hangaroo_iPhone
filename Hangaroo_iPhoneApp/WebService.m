@@ -64,6 +64,7 @@
     if (self = [super init])
     {
         manager = [[AFHTTPRequestOperationManager manager] initWithBaseURL:[NSURL URLWithString:BASE_URL]];
+        
     }
     return self;
 }
@@ -76,6 +77,8 @@
     [manager.requestSerializer setValue:@"parse-application-id-removed" forHTTPHeaderField:@"X-Parse-Application-Id"];
     [manager.requestSerializer setValue:@"parse-rest-api-key-removed" forHTTPHeaderField:@"X-Parse-REST-API-Key"];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+////    [self.requestSerializer setValue:[NSString stringWithFormat:@"Token token=101010"] forHTTPHeaderField:@"Authorization"];
+//    [manager.requestSerializer setValue:@"Token token=token_name" forHTTPHeaderField:@"Authorization"];
     manager.securityPolicy.allowInvalidCertificates = YES;
     
     [manager POST:path parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -332,7 +335,10 @@
                      NSDictionary * postListDict =[postListingArray objectAtIndex:i];
                      postListData.joinedUserArray = [[NSMutableArray alloc]init];
                      postListData.uploadedPhotoArray = [[NSMutableArray alloc]init];
-                     postListData.postContent =[postListDict objectForKey:@"post_content"];
+                     NSString *goodValue = [postListDict objectForKey:@"post_content"];
+                     NSData *newdata=[goodValue dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+                     NSString *mystring=[[NSString alloc] initWithData:newdata encoding:NSNonLossyASCIIStringEncoding];
+                     postListData.postContent =mystring;
                      postListData.postedDay =[postListDict objectForKey:@"posted"];
                      postListData.postID =[postListDict objectForKey:@"post_id"];
                      postListData.creatorOfPost=[postListDict objectForKey:@"createOfPost"];
@@ -513,6 +519,7 @@
     [self post:kUrlPhotoListing parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+         NSLog(@"post listing %@",responseObject);
          if([self isStatusOK:responseObject])
          {
              id array =[responseObject objectForKey:@"photoListing"];

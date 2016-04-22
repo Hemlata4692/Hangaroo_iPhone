@@ -57,6 +57,8 @@
     backBtn.layer.shadowOffset = CGSizeMake(0.0f, 1.0f);
     backBtn.layer.shadowOpacity = 0.5f;
     backBtn.layer.masksToBounds = NO;
+    [myDelegate showIndicator];
+    [self performSelector:@selector(getOtherUserProfileData) withObject:nil afterDelay:0.1];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,8 +71,7 @@
     self.navigationItem.title=@"Profile";
     [[self navigationController] setNavigationBarHidden:YES];
      [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    [myDelegate showIndicator];
-    [self performSelector:@selector(getOtherUserProfileData) withObject:nil afterDelay:0.1];
+   
    
 }
 -(void)viewWillDisappear:(BOOL)animated

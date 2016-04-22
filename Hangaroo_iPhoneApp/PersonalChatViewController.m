@@ -380,6 +380,7 @@
     else if (sendMessage.text.length==0) {
         sendOutlet.enabled=NO;
     }
+    [userTableView reloadData];
 }
 -(void)messagesData:(NSXMLElement*)myMessage{
     [userData addObject:myMessage];
@@ -390,6 +391,7 @@
     [userTableView endUpdates];
     [userTableView scrollToRowAtIndexPath:[self indexPathForLastMessage]
                          atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    [userTableView reloadData];
 }
 #pragma mark - end
 #pragma mark - Table view delegates
@@ -408,6 +410,7 @@
     UILabel *userName = (UILabel*)[cell viewWithTag:2];
     UILabel *userChat = (UILabel*)[cell viewWithTag:3];
     UILabel *chatTime = (UILabel*)[cell viewWithTag:4];
+    UILabel *seperatorLabel = (UILabel*)[cell viewWithTag:5];
     MyButton *userImageBtn = (MyButton*)[cell viewWithTag:10];
     MyButton *nameButton = (MyButton*)[cell viewWithTag:20];
     userName.translatesAutoresizingMaskIntoConstraints = YES;
@@ -486,6 +489,26 @@
             nameButton.hidden=NO;
             userImageBtn.hidden=NO;
         }
+        
+        
+        
+    }
+      NSXMLElement *nextMessage;
+    
+    if (userData.count>indexPath.row+1) {
+        nextMessage = [userData objectAtIndex:(int)indexPath.row + 1];
+        if (![[message attributeStringValueForName:@"Name"] isEqualToString:[nextMessage attributeStringValueForName:@"Name"]]) {
+            seperatorLabel.hidden=NO;
+        }
+        else
+        {
+            seperatorLabel.hidden=YES;
+        }
+        
+    }
+    else
+    {
+        seperatorLabel.hidden=NO;
     }
     chatTime.hidden = NO;
     chatTime.text = [message attributeStringValueForName:@"time"];

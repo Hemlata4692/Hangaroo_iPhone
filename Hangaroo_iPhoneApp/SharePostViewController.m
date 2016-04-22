@@ -150,7 +150,19 @@
 #pragma mark - Webservice
 -(void)sharePost
 {
-    [[WebService sharedManager] sharePost:postTextView.text success:^(id responseObject) {
+  //  NSString *utf = [postTextView.text stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+//    NSString *uniText = [NSString stringWithUTF8String:[postTextView.text UTF8String]];
+//    
+//    NSData *msgData = [uniText dataUsingEncoding:NSNonLossyASCIIStringEncoding];
+//    
+//    NSString *str = [[NSString alloc] initWithData:msgData encoding:NSUTF8StringEncoding];
+    NSData *data = [postTextView.text dataUsingEncoding:NSNonLossyASCIIStringEncoding];
+    NSString *goodValue = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] ;
+    
+    goodValue = [goodValue stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    
+    [[WebService sharedManager] sharePost:goodValue success:^(id responseObject) {
         
         [myDelegate stopIndicator];
         postTextView.text=@"";

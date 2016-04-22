@@ -27,18 +27,35 @@
     [activityIndicator startAnimating];
     self.navigationItem.title=navigationTitle;
     if ([navigationTitle isEqualToString:@"Facebook"]) {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.facebook.com/%@",facebookString]];
+        NSArray* words = [facebookString componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString* fbString = [words componentsJoinedByString:@""];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.facebook.com/%@",fbString]];
     }
     else if ([navigationTitle isEqualToString:@"Instagram"])
     {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/%@",instagramString]];
+        NSArray* words = [instagramString componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString* instaString = [words componentsJoinedByString:@""];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.instagram.com/%@",instaString]];
     }
     else if ([navigationTitle isEqualToString:@"Twitter"])
     {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.twitter.com/%@",twitterString]];
+        NSArray* words = [twitterString componentsSeparatedByCharactersInSet :[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString* twitString = [words componentsJoinedByString:@""];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.twitter.com/%@",twitString]];
     }
+    if (url==nil)
+    {
+        [activityIndicator stopAnimating];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Alert" message:@"Invalid username." delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
+        });
+    }
+    else
+    {
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     [loadWebView loadRequest:requestObj];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,6 +75,21 @@
 {
     [activityIndicator stopAnimating];
     
+}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error
+{
+    NSString *errorMsg;
+    if (error==nil) {
+        errorMsg=@"Request time out.";
+    }
+    else
+    {
+        errorMsg=error.localizedDescription;
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Alert" message:errorMsg delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+    });
 }
 #pragma mark - end
 @end
