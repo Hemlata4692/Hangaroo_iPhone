@@ -210,6 +210,7 @@ id<GAITracker> tracker;
     NSString *token = [[deviceToken1 description] stringByTrimmingCharactersInSet: [NSCharacterSet characterSetWithCharactersInString:@"<>"]];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     self.deviceToken = token;
+    NSLog(@"device token ....%@",token);
     //register device for push notification
     [[WebService sharedManager] registerDeviceForPushNotification:token deviceType:@"ios"  success:^(id responseObject) {
     } failure:^(NSError *error) {

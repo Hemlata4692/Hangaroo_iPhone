@@ -157,8 +157,8 @@
             if (([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != nil) && ![[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] isEqualToString:@""] && ([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != NULL)) {
                 
                 NSString *myName = [[[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:1];
-                
-                if (!([myName intValue] < [yearValue intValue] - 3) && [checkCompare isEqualToString:@"L"]) {
+
+                if (!([myName intValue] <= [yearValue intValue] - 3) || ((([yearValue intValue] - 3) == [myName intValue]) && [checkCompare isEqualToString:@"L"])) {
                     [sortArrSet addObject:[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]]];
                 }
             }

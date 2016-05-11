@@ -408,7 +408,11 @@
                      NSDictionary * postListDict =[postListingArray objectAtIndex:i];
                      postListData.joinedUserArray = [[NSMutableArray alloc]init];
                      postListData.uploadedPhotoArray = [[NSMutableArray alloc]init];
-                     postListData.postContent =[postListDict objectForKey:@"post_content"];
+                    // postListData.postContent =[postListDict objectForKey:@"post_content"];
+                     NSString *goodValue = [postListDict objectForKey:@"post_content"];
+                     NSData *newdata=[goodValue dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+                     NSString *mystring=[[NSString alloc] initWithData:newdata encoding:NSNonLossyASCIIStringEncoding];
+                     postListData.postContent =mystring;
                      postListData.postedDay =[postListDict objectForKey:@"posted"];
                      postListData.postID =[postListDict objectForKey:@"post_id"];
                      postListData.creatorOfPost=[postListDict objectForKey:@"createOfPost"];
@@ -689,11 +693,13 @@
 -(void)registerDeviceForPushNotification:(NSString *)deviceId deviceType:(NSString *)deviceType success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"],@"deviceId":deviceId,@"deviceType":deviceType};
+    NSLog(@"request for push notification %@",requestDict);
     [self post:kUrlRegisterDevice parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
          if([self isStatusOK:responseObject])
          {
+             NSLog(@"response for push notification %@",responseObject);
              success(responseObject);
          }
          else
@@ -816,7 +822,11 @@
                  {
                      NotificationDataModel *notificationData = [[NotificationDataModel alloc]init];
                      NSDictionary * notificationDict =[notificationDataArray objectAtIndex:i];
-                     notificationData.notificationString =[notificationDict objectForKey:@"notification_text"];
+                     //notificationData.notificationString =[notificationDict objectForKey:@"notification_text"];
+                     NSString *goodValue = [notificationDict objectForKey:@"notification_text"];
+                     NSData *newdata=[goodValue dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
+                     NSString *mystring=[[NSString alloc] initWithData:newdata encoding:NSNonLossyASCIIStringEncoding];
+                     notificationData.notificationString =mystring;
                      notificationData.userImageUrl =[notificationDict objectForKey:@"user_image"];
                      notificationData.photoLiked =[notificationDict objectForKey:@"image"];
                      notificationData.username =[notificationDict objectForKey:@"username"];

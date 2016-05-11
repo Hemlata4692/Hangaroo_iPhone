@@ -8,6 +8,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <mutableArray key="HelveticaNeue.ttc">
+            <string>HelveticaNeue-Medium</string>
+            <string>HelveticaNeue</string>
+        </mutableArray>
         <mutableArray key="Roboto-Light.ttf">
             <string>Roboto-Light</string>
             <string>Roboto-Light</string>
@@ -1683,7 +1687,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0t2-G2-dxD" sceneMemberID="viewController">
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <tabBarItem key="tabBarItem" title="" image="SharePost" selectedImage="SharePost" id="JUu-z4-g8e">
-                        <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="0.0"/>
+                        <inset key="imageInsets" minX="0.0" minY="10" maxX="0.0" maxY="-10"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="-7" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>

@@ -55,12 +55,12 @@
         sharePostBtn.enabled=NO;
         checker=1;
         Count=140;
-        textCount.text=[NSString stringWithFormat:@"%lu",Count - postTextView.text.length];
+        textCount.text=[NSString stringWithFormat:@"%d",Count - postTextView.text.length];
     }
     else
     {
         sharePostBtn.enabled=YES;
-        textCount.text=[NSString stringWithFormat:@"%lu", Count - postTextView.text.length];
+        textCount.text=[NSString stringWithFormat:@"%d", Count - postTextView.text.length];
     }
 }
 #pragma mark - end
@@ -131,7 +131,7 @@
         checker=1;
     }
     
-    textCount.text = [NSString stringWithFormat:@"%lu",Count - textView.text.length];
+    textCount.text = [NSString stringWithFormat:@"%d",Count - textView.text.length];
 }
 
 #pragma mark - end

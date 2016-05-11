@@ -135,7 +135,7 @@
     
     [tabBarItem3 setImage:[[UIImage imageNamed:@"SharePost.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [tabBarItem3 setSelectedImage:[[UIImage imageNamed:@"SharePost.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    tabBarItem3.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
+    tabBarItem3.imageInsets = UIEdgeInsetsMake(10, 0, -10, 0);
     
     [tabBarItem4 setImage:[[UIImage imageNamed:@"Discover.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [tabBarItem4 setSelectedImage:[[UIImage imageNamed:@"Discover_selected.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
