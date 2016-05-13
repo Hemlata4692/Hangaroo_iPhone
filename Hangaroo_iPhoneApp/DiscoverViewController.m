@@ -24,6 +24,7 @@
     int btnTag;
     UIView *footerView;
     int pagination;
+     UIRefreshControl *refreshControl;
 }
 @property (weak, nonatomic) IBOutlet UISearchBar *serachBar;
 @property (weak, nonatomic) IBOutlet UITableView *discoverTableView;
@@ -45,6 +46,14 @@
     pagination=0;
     friendRequestArray=[[NSMutableArray alloc]init];
     friendSuggestionArray=[[NSMutableArray alloc]init];
+    // Pull To Refresh
+    refreshControl = [[UIRefreshControl alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2, 0, 10, 10)];
+    [self.discoverTableView addSubview:refreshControl];
+    NSMutableAttributedString *refreshString = [[NSMutableAttributedString alloc] initWithString:@""];
+    [refreshString addAttributes:@{NSForegroundColorAttributeName : [UIColor grayColor]} range:NSMakeRange(0, refreshString.length)];
+    refreshControl.attributedTitle = refreshString;
+    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+    self.discoverTableView.alwaysBounceVertical = YES;
     [myDelegate showIndicator];
     [self performSelector:@selector(suggestedFriendList) withObject:nil afterDelay:.1];
 }
@@ -63,6 +72,22 @@
     // Dispose of any resources that can be recreated.
 }
 #pragma mark - end
+
+#pragma mark - Refresh Table
+//Pull to refresh implementation on my submission data
+- (void)refreshTable
+{
+    [friendSuggestionArray removeAllObjects];
+    [friendRequestArray removeAllObjects];
+    Offset=@"0";
+    suggestionOffset=@"0";
+    [self performSelector:@selector(suggestedFriendList) withObject:nil afterDelay:0.1];
+    [refreshControl endRefreshing];
+    [self.discoverTableView reloadData];
+}
+#pragma mark - end
+
+
 #pragma mark - Table view delegate methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -379,10 +404,11 @@
 {
     [[WebService sharedManager]suggestedFriendList:suggestionOffset success:^(id suggestionListDataArray)
      {
-         if (pagination==0) {
+         if (pagination==0)
+         {
              [self requestFriendList];
          }
-         if (friendSuggestionArray.count<=0) {
+         if (friendSuggestionArray.count<1) {
              friendSuggestionArray=[suggestionListDataArray mutableCopy];
          }
          else
