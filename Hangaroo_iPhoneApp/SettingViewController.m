@@ -197,7 +197,7 @@
         myDelegate.navigationController = [storyboard instantiateViewControllerWithIdentifier:@"mainNavController"];
         myDelegate.window.rootViewController = myDelegate.navigationController;
         [myDelegate disconnect];
-        [UserDefaultManager setValue:@"Hema13245@52.74.174.129" key:@"LoginCred"];
+        [UserDefaultManager setValue:@"zebra@52.74.174.129" key:@"LoginCred"];
         [UserDefaultManager setValue:@"password" key:@"PassCred"];
         [myDelegate connect];
         [UserDefaultManager removeValue:@"userId"];
