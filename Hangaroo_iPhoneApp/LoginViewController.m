@@ -181,7 +181,8 @@
         if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@52.74.174.129@%@",userName,joiningYear] error:&error])
         {
             [myDelegate stopIndicator];
-        }else{
+        }
+        else {
             [myDelegate stopIndicator];
             if ([UserDefaultManager getValue:@"CountData"] == nil) {
                 NSMutableDictionary* countData = [NSMutableDictionary new];
