@@ -215,9 +215,11 @@
 - (void)userLogin:(NSString *)email password:(NSString *)password success:(void (^)(id))success failure:(void (^)(NSError *))failure {
     
     NSDictionary *requestDict = @{@"username":email,@"password":password};
+     NSLog(@"request login %@",requestDict);
     [self post:kUrlLogin parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];
+          NSLog(@"response login %@",responseObject);
          if([self isStatusOK:responseObject])
          {
              success(responseObject);
@@ -317,6 +319,7 @@
 -(void)postListing:(void (^)(id data))success failure:(void (^)(NSError *error))failure
 {
     NSDictionary *requestDict = @{@"user_id":[UserDefaultManager getValue:@"userId"]};
+    NSLog(@"request home %@",requestDict);
     [self post:kUrlPostListing parameters:requestDict success:^(id responseObject)
      {
          responseObject=(NSMutableDictionary *)[NullValueChecker checkDictionaryForNullValue:[responseObject mutableCopy]];

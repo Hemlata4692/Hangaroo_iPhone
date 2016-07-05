@@ -148,6 +148,12 @@
         userName = [responseDict objectForKey:@"username"];
         userImage = [responseDict objectForKey:@"userImage"];
         joiningYear = [responseDict objectForKey:@"joining_year"];
+//         [UserDefaultManager setValue:userId key:@"userId"];
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
+//        [myDelegate.window setRootViewController:homeView];
+//        [myDelegate.window makeKeyAndVisible];
+
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userImage]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                                   timeoutInterval:60];
@@ -172,13 +178,13 @@
 -(void)registerUserToOpenfire
 {
     myDelegate.userProfileImageDataValue = UIImageJPEGRepresentation(userImageview.image, 1.0);
-    NSString *username = [NSString stringWithFormat:@"%@@52.74.174.129",userName]; // OR
+    NSString *username = [NSString stringWithFormat:@"%@@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com",userName]; // OR
     NSString *password = passwordField.text;
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     del.xmppStream.myJID = [XMPPJID jidWithString:username];
     if (del.xmppStream.supportsInBandRegistration) {
         NSError *error = nil;
-        if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@52.74.174.129@%@",userName,joiningYear] error:&error])
+        if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com@%@",userName,joiningYear] error:&error])
         {
             [myDelegate stopIndicator];
         }

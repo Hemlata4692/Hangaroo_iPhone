@@ -104,7 +104,7 @@ id<GAITracker> tracker;
     userHistoryArr = [NSMutableArray new];
     userProfileImage = [NSMutableDictionary new];
     if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
-        [UserDefaultManager setValue:@"zebra@52.74.174.129" key:@"LoginCred"];
+        [UserDefaultManager setValue:@"zebra@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com" key:@"LoginCred"];
         [UserDefaultManager setValue:@"password" key:@"PassCred"];
     }
     xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
@@ -294,7 +294,7 @@ id<GAITracker> tracker;
     [xmppCapabilities      activate:xmppStream];
     [xmppStream addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [xmppRoster addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    [xmppStream setHostName:@"52.74.174.129"];
+    [xmppStream setHostName:@"ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com"];
     [xmppStream setHostPort:5222];
     customCertEvaluation = YES;
 }
@@ -327,7 +327,7 @@ id<GAITracker> tracker;
     //Google set their presence priority to 24, so we do the same to be compatible.
     if([domain isEqualToString:@"gmail.com"]
        || [domain isEqualToString:@"gtalk.com"]
-       || [domain isEqualToString:@"talk.google.com"]  || [domain isEqualToString:@"52.74.174.129"])
+       || [domain isEqualToString:@"talk.google.com"]  || [domain isEqualToString:@"ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com"])
     {
         NSXMLElement *priority = [NSXMLElement elementWithName:@"priority" stringValue:@"24"];
         [presence addChild:priority];
@@ -649,7 +649,7 @@ id<GAITracker> tracker;
     XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[presence from]
                                                              xmppStream:xmppStream
                                                    managedObjectContext:[self managedObjectContext_roster]];
-    NSString *displayName = [[[user displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0];
+    NSString *displayName = [[[user displayName] componentsSeparatedByString:@"@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com@"] objectAtIndex:0];
     NSString *jidStrBare = [presence fromStr];
     NSString *body = nil;
     if (![displayName isEqualToString:jidStrBare])

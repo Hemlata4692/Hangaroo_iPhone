@@ -104,7 +104,7 @@
         myDelegate.chatUser = [userXmlDetail attributeStringValueForName:@"to"];
     }
     else{
-        NSArray* fromUser = [userDetail.jidStr componentsSeparatedByString:@"@52.74.174.129"];
+        NSArray* fromUser = [userDetail.jidStr componentsSeparatedByString:@"@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com"];
         self.title = [fromUser objectAtIndex:0];
         myDelegate.chatUser = [[userDetail.jidStr componentsSeparatedByString:@"/"] objectAtIndex:0];
     }
@@ -359,7 +359,7 @@
         [message addAttributeWithName:@"Name" stringValue:[UserDefaultManager getValue:@"userName"]];
         [message addAttributeWithName:@"Date" stringValue:formattedDate];
         [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",userDetail.streamBareJidStr,userDetail.jidStr]];
-        [message addAttributeWithName:@"ToName" stringValue:[[[userDetail displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0]];
+        [message addAttributeWithName:@"ToName" stringValue:[[[userDetail displayName] componentsSeparatedByString:@"@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com@"] objectAtIndex:0]];
         [message addAttributeWithName:@"senderUserId" stringValue:[UserDefaultManager getValue:@"userId"]];
     }
     [message addChild:body];
