@@ -100,12 +100,12 @@
 {
     [super viewDidAppear:YES];
     if ([lastView isEqualToString:@"ChatViewController"] || [lastView isEqualToString:@"MeTooUserProfile"]) {
-        self.title = [userXmlDetail attributeStringValueForName:@"ToName"];
+        self.navigationItem.title = [userXmlDetail attributeStringValueForName:@"ToName"];
         myDelegate.chatUser = [userXmlDetail attributeStringValueForName:@"to"];
     }
-    else{
-        NSArray* fromUser = [userDetail.jidStr componentsSeparatedByString:@"@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com"];
-        self.title = [fromUser objectAtIndex:0];
+    else {
+        NSArray* fromUser = [userDetail.jidStr componentsSeparatedByString:@"@52.74.174.129"];
+        self.navigationItem.title = [fromUser objectAtIndex:0];
         myDelegate.chatUser = [[userDetail.jidStr componentsSeparatedByString:@"/"] objectAtIndex:0];
     }
     [userData removeAllObjects];
@@ -359,7 +359,7 @@
         [message addAttributeWithName:@"Name" stringValue:[UserDefaultManager getValue:@"userName"]];
         [message addAttributeWithName:@"Date" stringValue:formattedDate];
         [message addAttributeWithName:@"fromTo" stringValue:[NSString stringWithFormat:@"%@-%@",userDetail.streamBareJidStr,userDetail.jidStr]];
-        [message addAttributeWithName:@"ToName" stringValue:[[[userDetail displayName] componentsSeparatedByString:@"@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com@"] objectAtIndex:0]];
+        [message addAttributeWithName:@"ToName" stringValue:[[[userDetail displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0]];
         [message addAttributeWithName:@"senderUserId" stringValue:[UserDefaultManager getValue:@"userId"]];
     }
     [message addChild:body];

@@ -156,8 +156,8 @@
         for (int j = 0; j<[[sections objectAtIndex:i] numberOfObjects]; j++) {
             if (([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != nil) && ![[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] isEqualToString:@""] && ([[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] != NULL)) {
                 
-                if ([[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] containsString:@"ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com"]) {
-                    NSString *myName = [[[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] componentsSeparatedByString:@"@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com@"] objectAtIndex:1];
+                if ([[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] containsString:@"52.74.174.129"]) {
+                    NSString *myName = [[[[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]] displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:1];
                     
                     if (!([myName intValue] <= [yearValue intValue] - 3) || ((([yearValue intValue] - 3) == [myName intValue]) && [checkCompare isEqualToString:@"L"])) {
                         [sortArrSet addObject:[[self fetchedResultsController] objectAtIndexPath:[NSIndexPath indexPathForRow:j inSection:i]]];
@@ -247,7 +247,7 @@
         }
     }
     
-    nameLabel.text = [[[user displayName] componentsSeparatedByString:@"@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com@"] objectAtIndex:0];
+    nameLabel.text = [[[user displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0];
     [self configurePhotoForCell:cell user:user];
     return cell;
 }

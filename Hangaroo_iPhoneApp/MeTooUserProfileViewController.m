@@ -268,9 +268,9 @@
     NSXMLElement *msg = [NSXMLElement elementWithName:@"message"];
     [msg addAttributeWithName:@"type" stringValue:@"chat"];
     
-    [msg addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com",[[[userDataArray objectAtIndex:selectedIndex] joinedUserName] lowercaseString]]];
+    [msg addAttributeWithName:@"to" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[[[userDataArray objectAtIndex:selectedIndex] joinedUserName] lowercaseString]]];
     
-    [msg addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com",[[UserDefaultManager getValue:@"userName"] lowercaseString]]];
+    [msg addAttributeWithName:@"from" stringValue:[NSString stringWithFormat:@"%@@52.74.174.129",[[UserDefaultManager getValue:@"userName"] lowercaseString]]];
     
     [msg addAttributeWithName:@"ToName" stringValue:[[userDataArray objectAtIndex:selectedIndex] joinedUserName]];
     otherUserProfile.userXmlDetail = msg;

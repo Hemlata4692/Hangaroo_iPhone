@@ -177,14 +177,15 @@
 //User registration to openfire
 -(void)registerUserToOpenfire
 {
+    NSLog(@"hdgvjer vjjvikj jb bjikbj k...........................................");
     myDelegate.userProfileImageDataValue = UIImageJPEGRepresentation(userImageview.image, 1.0);
-    NSString *username = [NSString stringWithFormat:@"%@@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com",userName]; // OR
+    NSString *username = [NSString stringWithFormat:@"%@@52.74.174.129",userName]; // OR
     NSString *password = passwordField.text;
     AppDelegate *del = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     del.xmppStream.myJID = [XMPPJID jidWithString:username];
     if (del.xmppStream.supportsInBandRegistration) {
         NSError *error = nil;
-        if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com@%@",userName,joiningYear] error:&error])
+        if (![del.xmppStream registerWithPassword:password name:[NSString stringWithFormat:@"%@@52.74.174.129@%@",userName,joiningYear] error:&error])
         {
             [myDelegate stopIndicator];
         }

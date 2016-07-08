@@ -104,7 +104,7 @@ id<GAITracker> tracker;
     userHistoryArr = [NSMutableArray new];
     userProfileImage = [NSMutableDictionary new];
     if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
-        [UserDefaultManager setValue:@"zebra@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com" key:@"LoginCred"];
+        [UserDefaultManager setValue:@"zebra@52.74.174.129" key:@"LoginCred"];
         [UserDefaultManager setValue:@"password" key:@"PassCred"];
     }
     xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];
@@ -649,7 +649,7 @@ id<GAITracker> tracker;
     XMPPUserCoreDataStorageObject *user = [xmppRosterStorage userForJID:[presence from]
                                                              xmppStream:xmppStream
                                                    managedObjectContext:[self managedObjectContext_roster]];
-    NSString *displayName = [[[user displayName] componentsSeparatedByString:@"@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com@"] objectAtIndex:0];
+    NSString *displayName = [[[user displayName] componentsSeparatedByString:@"@52.74.174.129@"] objectAtIndex:0];
     NSString *jidStrBare = [presence fromStr];
     NSString *body = nil;
     if (![displayName isEqualToString:jidStrBare])

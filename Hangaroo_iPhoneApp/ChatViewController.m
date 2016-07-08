@@ -185,7 +185,7 @@
     }
     return cell;
 }
-
+//52.74.174.129
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PersonalChatViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"PersonalChatViewController"];
     NSXMLElement *msg = [historyArray objectAtIndex:indexPath.row];
@@ -193,6 +193,7 @@
     NSString* toString = [[[msg attributeStringValueForName:@"from"] componentsSeparatedByString:@"/"] objectAtIndex:0];
     
     vc.lastView = @"ChatViewController";
+    NSLog(@"%@",[UserDefaultManager getValue:@"LoginCred"]);
     if ( [[UserDefaultManager getValue:@"LoginCred"] caseInsensitiveCompare:[[[msg attributeStringValueForName:@"to"] componentsSeparatedByString:@"/"] objectAtIndex:0]] == NSOrderedSame) {
         if ([myDelegate.userProfileImage objectForKey:toString] == nil) {
             vc.friendProfileImageView = [UIImage imageNamed:@"user_thumbnail.png"];
