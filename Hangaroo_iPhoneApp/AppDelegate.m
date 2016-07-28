@@ -104,7 +104,7 @@ id<GAITracker> tracker;
     userHistoryArr = [NSMutableArray new];
     userProfileImage = [NSMutableDictionary new];
     if ([UserDefaultManager getValue:@"LoginCred"] == nil) {
-        [UserDefaultManager setValue:@"zebra@52.74.174.129" key:@"LoginCred"];
+        [UserDefaultManager setValue:@"zebra@ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com" key:@"LoginCred"];
         [UserDefaultManager setValue:@"password" key:@"PassCred"];
     }
     xmppMessageArchivingCoreDataStorage = [XMPPMessageArchivingCoreDataStorage sharedInstance];

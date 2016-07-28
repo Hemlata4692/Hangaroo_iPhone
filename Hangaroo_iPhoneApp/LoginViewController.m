@@ -148,11 +148,6 @@
         userName = [responseDict objectForKey:@"username"];
         userImage = [responseDict objectForKey:@"userImage"];
         joiningYear = [responseDict objectForKey:@"joining_year"];
-//         [UserDefaultManager setValue:userId key:@"userId"];
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        HomeViewController * homeView = [storyboard instantiateViewControllerWithIdentifier:@"tabBar"];
-//        [myDelegate.window setRootViewController:homeView];
-//        [myDelegate.window makeKeyAndVisible];
 
         NSURLRequest *imageRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:userImage]
                                                       cachePolicy:NSURLRequestReturnCacheDataElseLoad
@@ -177,7 +172,6 @@
 //User registration to openfire
 -(void)registerUserToOpenfire
 {
-    NSLog(@"hdgvjer vjjvikj jb bjikbj k...........................................");
     myDelegate.userProfileImageDataValue = UIImageJPEGRepresentation(userImageview.image, 1.0);
     NSString *username = [NSString stringWithFormat:@"%@@52.74.174.129",userName]; // OR
     NSString *password = passwordField.text;
