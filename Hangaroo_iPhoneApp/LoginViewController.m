@@ -208,6 +208,9 @@
             [myDelegate.window makeKeyAndVisible];
         }
     }
+    else {
+        NSLog(@"Inband registration failed.");
+    }
 }
 #pragma mark - end
 @end

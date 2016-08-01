@@ -466,7 +466,7 @@
               context:nil];
     userChat.numberOfLines = 0;
     if (userData.count == 1 || indexPath.row == 0) {
-        userChat.frame = CGRectMake(82,  userName.frame.origin.y + userNameHeight + 15, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
+        userChat.frame = CGRectMake(82,  userName.frame.origin.y + userNameHeight + 9, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
         userImage.hidden = NO;
         userName.hidden = NO;
         nameButton.hidden=NO;
@@ -476,14 +476,14 @@
         NSXMLElement* message1;
         message1 = [userData objectAtIndex:(int)indexPath.row - 1];
         if ([[message attributeStringValueForName:@"Name"] isEqualToString:[message1 attributeStringValueForName:@"Name"]]) {
-            userChat.frame = CGRectMake(82, 10, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
+            userChat.frame = CGRectMake(82, 5, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
             userImage.hidden = YES;
             userName.hidden = YES;
             nameButton.hidden=YES;
             userImageBtn.hidden=YES;
         }
         else{
-            userChat.frame = CGRectMake(82,  userName.frame.origin.y + userNameHeight + 15, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
+            userChat.frame = CGRectMake(82,  userName.frame.origin.y + userNameHeight + 9, userTableView.frame.size.width - (10+50+20+10), textRect.size.height);
             userImage.hidden = NO;
             userName.hidden = NO;
             nameButton.hidden=NO;
@@ -533,26 +533,26 @@
               boundingRectWithSize:size
               options:NSStringDrawingUsesLineFragmentOrigin
               attributes:@{NSFontAttributeName:[UIFont fontWithName:@"Roboto-Regular" size:14]}
-              context:nil];\
+              context:nil];
     if (userData.count==1 || indexPath.row == 0) {
         if (textRect.size.height > 20) {
-            return textRect.size.height + 25 + userNameHeight + 10 + 16 + 20;
+            return textRect.size.height + 25 + userNameHeight  + 16 + 18;
         }
         else{
-            return 106;
+            return 95;
         }
     }
     else{
         NSXMLElement* message1 = [userData objectAtIndex:(int)indexPath.row - 1];
         if ([[message attributeStringValueForName:@"Name"] isEqualToString:[message1 attributeStringValueForName:@"Name"]]) {
-            return textRect.size.height + 20 + 16 + 5;
+            return textRect.size.height + 20  + 5;
         }
         else{
             if (textRect.size.height > 20) {
-                return textRect.size.height + 25 + userNameHeight + 10 + 16 + 20;
+                return textRect.size.height + 25 + userNameHeight  + 16 + 20;
             }
             else{
-                return 106;
+                return 95;
             }
         }
     }

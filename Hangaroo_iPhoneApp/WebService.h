@@ -9,8 +9,7 @@
 #import "AFNetworking.h"
 //client link
 #define BASE_URL                                  @"http://ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com/admin/api/"
-//ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com
-//testing link
+
 //#define BASE_URL                                 @"http://ec2-52-74-174-129.ap-southeast-1.compute.amazonaws.com/beta/admin/api"
 //@"http://52.74.174.129/beta/admin/api"
 //ranosys link
